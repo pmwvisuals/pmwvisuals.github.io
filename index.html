@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633082836143342"
-     crossorigin="anonymous"></script>
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633082836143342" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PMW Visuals — Free Assets for Video Editors</title>
+    <title>PMW Visuals â€” Free Assets for Video Editors</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -393,11 +392,11 @@
             animation: fadeInUp 0.8s 0.5s both;
         }
 
-        
+
             to { opacity: 1; transform: translateY(0); }
         }
 
-        
+
         /* ===== 3D TILT FIX ===== */
         .hero-card, .category-card, .asset-card, .editz-card {
             --tilt-x: 0deg;
@@ -691,7 +690,7 @@
             letter-spacing: 0.08em;
         }
 
-        /* ===== ASSETS GRID — 9:16 VERTICAL ===== */
+        /* ===== ASSETS GRID â€” 9:16 VERTICAL ===== */
         .assets-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -907,7 +906,17 @@
         .asset-meta {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .asset-tags {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            min-width: 0;
+            flex: 1 1 auto;
         }
 
         .asset-tag {
@@ -920,6 +929,7 @@
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.06);
             border-radius: 100px;
+            flex-shrink: 0;
         }
 
         .download-btn {
@@ -938,6 +948,8 @@
             text-decoration: none;
             font-family: inherit;
             letter-spacing: 0.02em;
+            margin-left: auto;
+            flex-shrink: 0;
         }
 
         .download-btn:hover {
@@ -1347,7 +1359,7 @@
             .asset-info { padding: 14px; }
             .asset-title { font-size: 0.875rem; }
             .asset-desc { display: none; }
-            .asset-meta { flex-direction: column; gap: 10px; align-items: flex-start; }
+            .asset-meta { flex-direction: column; gap: 10px; align-items: flex-start; } .asset-meta .download-btn { margin-left: 0; }
             .editz-grid { grid-template-columns: 1fr; }
         }
 
@@ -1386,7 +1398,7 @@
                 transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
             }
         }
-    
+
         /* ===== CONTACT SECTION ===== */
         .contact-container {
             max-width: 1300px;
@@ -1782,7 +1794,283 @@
             }
         }
 
-</style>
+
+        /* ===== SEARCH & FILTER ENGINE ===== */
+        .search-filter-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px 40px;
+        }
+
+        .search-bar-wrapper {
+            margin-bottom: 28px;
+        }
+
+        .search-input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-xl);
+            padding: 4px 6px 4px 20px;
+            transition: var(--transition-base);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-input-group:focus-within {
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.3);
+            background: linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+        }
+
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            margin-right: 14px;
+            transition: var(--transition-fast);
+        }
+
+        .search-input-group:focus-within .search-icon {
+            color: var(--text-secondary);
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            padding: 14px 0;
+            outline: none;
+            letter-spacing: -0.01em;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .search-clear {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+
+        .search-clear:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+        }
+
+        .search-stats {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            font-weight: 500;
+            min-height: 20px;
+            letter-spacing: 0.02em;
+        }
+
+        .search-stats .highlight {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .filters-row {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .filter-label {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-chip {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 100px;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            letter-spacing: 0.01em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-chip::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.06);
+            border-radius: 100px;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: var(--transition-fast);
+        }
+
+        .filter-chip:hover {
+            border-color: rgba(255,255,255,0.12);
+            color: var(--text-primary);
+        }
+
+        .filter-chip:hover::before {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .filter-chip.active {
+            background: rgba(255,255,255,0.9);
+            color: #000;
+            border-color: rgba(255,255,255,0.9);
+            font-weight: 700;
+        }
+
+        .filter-chip.active:hover {
+            background: #fff;
+            box-shadow: 0 4px 16px rgba(255,255,255,0.2);
+        }
+
+        .filter-chip.active::before {
+            display: none;
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .filter-reset {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 100px;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            letter-spacing: 0.01em;
+        }
+
+        .filter-reset:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+        }
+
+        .filter-reset svg {
+            transition: transform 0.3s ease;
+        }
+
+        .filter-reset:hover svg {
+            transform: rotate(-180deg);
+        }
+
+        /* No results state */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 24px;
+            color: var(--text-muted);
+        }
+
+        .no-results-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .no-results-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--text-muted);
+        }
+
+        .no-results-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .no-results-text {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            max-width: 400px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .search-filter-container {
+                padding: 0 16px 32px;
+            }
+            .search-input {
+                font-size: 0.875rem;
+            }
+            .filter-chips {
+                gap: 6px;
+            }
+            .filter-chip {
+                padding: 6px 14px;
+                font-size: 0.75rem;
+            }
+            .filter-actions {
+                justify-content: center;
+            }
+        }
+
+    </style>
 </head>
 <body>
     <canvas id="canvas-bg"></canvas>
@@ -1803,7 +2091,7 @@
             <div class="nav-links">
                 <button class="nav-link active" data-section="home" onclick="navigateTo('home')"><span>Home</span></button>
                 <button class="nav-link" data-section="studio" onclick="navigateTo('studio')"><span>PMW Studio</span></button>
-                <button class="nav-link" data-section="editz" onclick="navigateTo('editz')"><span>PMW Editz</span></button>
+                
             </div>
             <button class="nav-link" data-section="about" onclick="navigateTo('about')"><span>About</span></button>
                 <button class="nav-link" data-section="contact" onclick="navigateTo('contact')"><span>Contact</span></button>
@@ -1820,10 +2108,9 @@
     <div class="mobile-menu" id="mobileMenu">
         <button class="nav-link" onclick="navigateTo('home'); toggleMobileMenu();">Home</button>
         <button class="nav-link" onclick="navigateTo('studio'); toggleMobileMenu();">PMW Studio</button>
-        <button class="nav-link" onclick="navigateTo('editz'); toggleMobileMenu();">PMW Editz</button>
-    
         <button class="nav-link" onclick="navigateTo('about'); toggleMobileMenu();">About</button>
-        <button class="nav-link" onclick="navigateTo('contact'); toggleMobileMenu();">Contact</button></div>
+        <button class="nav-link" onclick="navigateTo('contact'); toggleMobileMenu();">Contact</button>
+    </div>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -1839,10 +2126,10 @@
                     <h1 class="hero-title">PMW Visuals</h1>
                     <p class="hero-subtitle">Free assets and creative clips for video editors</p>
                     <p class="hero-description">
-                        A curated collection of high-quality background scenes and edited clips designed to elevate your video projects. 
-                        Explore original generated visuals and creative edits — all free for personal and commercial use.
+                        A curated collection of high-quality background scenes designed to elevate your video projects. 
+                        Explore original AI-generated visuals â€” all free for personal and commercial use.
                     </p>
-                    <div class="hero-cards">
+                    <div class="hero-cards" style="grid-template-columns: 1fr; max-width: 400px;">
                         <div class="hero-card" onclick="navigateTo('studio')">
                             <div class="hero-card-icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1854,30 +2141,10 @@
                             <h2 class="hero-card-title">PMW Studio</h2>
                             <p class="hero-card-desc">
                                 A collection of original, AI-generated and designed background scenes for video editing. 
-                                Categorized by mood and style to help creators find the perfect visual.
+                                All assets in one place â€” browse and download freely.
                             </p>
                             <span class="hero-card-arrow">
-                                Explore Assets
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </span>
-                        </div>
-                        <div class="hero-card" onclick="navigateTo('editz')">
-                            <div class="hero-card-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                                </svg>
-                            </div>
-                            <h2 class="hero-card-title">PMW Editz</h2>
-                            <p class="hero-card-desc">
-                                A showcase of edited clips including lyrics edits, cinematic sequences, and creative video projects 
-                                created for inspiration and editing practice.
-                            </p>
-                            <span class="hero-card-arrow">
-                                View Editz
+                                Explore All Assets
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                     <polyline points="12 5 19 12 12 19"></polyline>
@@ -1895,54 +2162,73 @@
                 <div class="breadcrumb">
                     <a href="javascript:void(0)" onclick="navigateTo('home')">Home</a>
                     <span class="breadcrumb-separator">/</span>
-                    <span class="breadcrumb-current">PMW Studio</span>
+                    <span class="breadcrumb-current">All Assets</span>
                 </div>
-                <h1 class="section-title">PMW Studio</h1>
+        <!-- SEARCH & FILTER ENGINE -->
+        <div class="search-filter-container">
+            <div class="search-bar-wrapper">
+                <div class="search-input-group">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search videos by title..." autocomplete="off">
+                    <button class="search-clear" id="searchClear" onclick="clearSearch()" style="display:none;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="search-stats" id="searchStats"></div>
+            </div>
+
+            <div class="filters-row">
+                <div class="filter-group">
+                    <span class="filter-label">Category</span>
+                    <div class="filter-chips" id="categoryFilters">
+                        <button class="filter-chip active" data-filter="all" onclick="setCategoryFilter('all')">All</button>
+                        <button class="filter-chip" data-filter="aesthetic" onclick="setCategoryFilter('aesthetic')">Aesthetic</button>
+                        <button class="filter-chip" data-filter="romantic" onclick="setCategoryFilter('romantic')">Romantic</button>
+                        <button class="filter-chip" data-filter="dancing" onclick="setCategoryFilter('dancing')">City</button>
+                        <button class="filter-chip" data-filter="cinematic" onclick="setCategoryFilter('cinematic')">Cinematic</button>
+                        <button class="filter-chip" data-filter="emotional" onclick="setCategoryFilter('emotional')">Black & White</button>
+                        <button class="filter-chip" data-filter="blackwhite" onclick="setCategoryFilter('blackwhite')">Solitude</button>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <span class="filter-label">Tag</span>
+                    <div class="filter-chips" id="tagFilters">
+                        <button class="filter-chip active" data-tag="all" onclick="setTagFilter('all')">All</button>
+                        <button class="filter-chip" data-tag="Dramatic" onclick="setTagFilter('Dramatic')">Dramatic</button>
+                        <button class="filter-chip" data-tag="Motion" onclick="setTagFilter('Motion')">Motion</button>
+                        <button class="filter-chip" data-tag="Static" onclick="setTagFilter('Static')">Static</button>
+                        <button class="filter-chip" data-tag="Montague" onclick="setTagFilter('Montague')">Montague</button>
+                    </div>
+                </div>
+
+                <div class="filter-actions">
+                    <button class="filter-reset" onclick="resetAllFilters()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="1 4 1 10 7 10"></polyline>
+                            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                        </svg>
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+                <h1 class="section-title">All Assets</h1>
                 <p class="section-subtitle">
-                    Browse original background scenes organized by mood and style. 
-                    Each category contains high-quality vertical loops and static scenes ready for your edits.
+                    Browse our complete collection of original background scenes. 
+                    All high-quality vertical loops and static scenes in one place â€” ready for your edits.
                 </p>
             </div>
-            <div class="categories-grid" id="studioCategories"></div>
+            <div class="assets-grid" id="allAssetsGrid"></div>
         </section>
 
-        <!-- CATEGORY ASSETS -->
-        <section id="category" class="section">
-            <div class="section-header">
-                <div class="breadcrumb">
-                    <a href="javascript:void(0)" onclick="navigateTo('home')">Home</a>
-                    <span class="breadcrumb-separator">/</span>
-                    <a href="javascript:void(0)" onclick="navigateTo('studio')">PMW Studio</a>
-                    <span class="breadcrumb-separator">/</span>
-                    <span class="breadcrumb-current" id="categoryBreadcrumb">Category</span>
-                </div>
-                <h1 class="section-title" id="categoryTitle">Category</h1>
-                <p class="section-subtitle" id="categoryDesc">Description</p>
-            </div>
-            <div class="assets-grid" id="assetsGrid"></div>
-        </section>
-
-        <!-- EDITZ -->
-        <section id="editz" class="section">
-            <div class="section-header">
-                <div class="breadcrumb">
-                    <a href="javascript:void(0)" onclick="navigateTo('home')">Home</a>
-                    <span class="breadcrumb-separator">/</span>
-                    <span class="breadcrumb-current">PMW Editz</span>
-                </div>
-                <h1 class="section-title">PMW Editz</h1>
-                <p class="section-subtitle">
-                    This section features edited video clips, including lyrics edits, cinematic edits, and experimental visual projects. 
-                    These clips are intended for inspiration and showcasing editing styles.
-                </p>
-                <div class="coming-soon-badge">
-                    <span class="coming-soon-dot"></span>
-                    Coming Soon — New Edits Dropping Weekly
-                </div>
-            </div>
-            <div class="editz-grid" id="editzGrid"></div>
-        </section>
-    
         <!-- ABOUT US -->
         <section id="about" class="section">
             <div class="section-header">
@@ -2210,7 +2496,7 @@
                 { title: 'A Lonely Man', desc: 'a man stading alone in a vast grassy land', thumbnail: 'https://drive.google.com/thumbnail?id=1QVnMgoFI6OHR5c-gqUatMbcoLq1yb07F&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1QVnMgoFI6OHR5c-gqUatMbcoLq1yb07F', tag: 'Dramatic'},
                 { title: 'Lonely Boy in a City', desc: 'a boy watching stars from a rooftop', thumbnail: 'https://drive.google.com/thumbnail?id=1202OoD_3JtC7IoABFG2w7FFhYslv-9Bd&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1202OoD_3JtC7IoABFG2w7FFhYslv-9Bd', tag: 'Motion'},
                 { title: 'A Pinky Rose', desc: 'a close view of a beautiful rose flower', thumbnail: 'https://drive.google.com/thumbnail?id=1CVWYD36vl8eIavRIOEezmaOMTv44Z4h9&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1CVWYD36vl8eIavRIOEezmaOMTv44Z4h9', tag: 'Motion'},
-                { title: 'A Tearful Eye', desc: 'a closed view of a girl\'s eye', thumbnail: 'https://drive.google.com/thumbnail?id=10qfLu_xcvguCaacKrKo99eC9kbhtXH-m&sz=w800', video: 'https://drive.google.com/uc?export=download&id=10qfLu_xcvguCaacKrKo99eC9kbhtXH-m', tag: 'Montague'},
+                { title: 'A Tearful Eye', desc: 'a closed view of a girl eye', thumbnail: 'https://drive.google.com/thumbnail?id=10qfLu_xcvguCaacKrKo99eC9kbhtXH-m&sz=w800', video: 'https://drive.google.com/uc?export=download&id=10qfLu_xcvguCaacKrKo99eC9kbhtXH-m', tag: 'Montague'},
                 { title: 'Dark Misty Forest', desc: 'a dark misty forest video', thumbnail: 'https://drive.google.com/thumbnail?id=1BQrrbDcu-IRstento-14ufRRE5TT4jR7&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1BQrrbDcu-IRstento-14ufRRE5TT4jR7', tag: 'Montague'},
                 { title: 'A Misty Night', desc: 'a dark scary forest with mist', thumbnail: 'https://drive.google.com/thumbnail?id=1eNQCSfz_xGKDyvcM_RfL4DzfdHVz9UJV&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1eNQCSfz_xGKDyvcM_RfL4DzfdHVz9UJV', tag: 'Motion'},
                 { title: 'Brighty Night', desc: 'a bright night in a fairytale jungle', thumbnail: 'https://drive.google.com/thumbnail?id=1DbQ9neOQKt90jSkZXW8MfkabyRI4U0Sb&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1DbQ9neOQKt90jSkZXW8MfkabyRI4U0Sb', tag: 'Dramatic'},
@@ -2285,7 +2571,7 @@
                 { title:  'Path of Petals', desc: 'a couple walking in a flower rain', thumbnail: 'https://drive.google.com/thumbnail?id=10Kgub9veLoM4dVRAY6jHBFomEz3rJv5O&sz=w800', video: 'https://drive.google.com/uc?export=download&id=10Kgub9veLoM4dVRAY6jHBFomEz3rJv5O', tag: 'Dramatic'},
                 { title: 'Alone in World', desc: 'a couple walks in a forest holding hands', thumbnail: 'https://drive.google.com/thumbnail?id=10qTPDnhsKOkcvTrzjexNG7IdisXB2O6N&sz=w800', video: 'https://drive.google.com/uc?export=download&id=10qTPDnhsKOkcvTrzjexNG7IdisXB2O6N', tag: 'Dramatic'},
                 { title: 'Calm as Sea', desc: 'a couple under a cloudy sky near the sea', thumbnail: 'https://drive.google.com/thumbnail?id=1v745mFFaQQJV1LoxZJ_pn_Te-f5nVhCJ&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1v745mFFaQQJV1LoxZJ_pn_Te-f5nVhCJ', tag: 'Dramatic'},
-                { title: 'Together for Forever', desc: 'a couple\'s hands making a heart together', thumbnail: 'https://drive.google.com/thumbnail?id=1DZWcRf1K2PQOr03VZWBvOPwHuOqxOSNZ&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1DZWcRf1K2PQOr03VZWBvOPwHuOqxOSNZ', tag: 'Dramatic'},
+                { title: 'Together for Forever', desc: 'a couples hands making a heart together', thumbnail: 'https://drive.google.com/thumbnail?id=1DZWcRf1K2PQOr03VZWBvOPwHuOqxOSNZ&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1DZWcRf1K2PQOr03VZWBvOPwHuOqxOSNZ', tag: 'Dramatic'},
                 { title:'Polaroid Memories', desc: 'a couple watching night sky', thumbnail: 'https://drive.google.com/thumbnail?id=1_5OHX2IqeuW0ni4mJgxwfXIsXTX7H6k5&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1_5OHX2IqeuW0ni4mJgxwfXIsXTX7H6k5', tag: 'Montague'},
                 { title: 'Swing at Sunset', desc: 'a couple walking under golden sunrise', thumbnail: 'https://drive.google.com/thumbnail?id=1Kc8Ud_Ps6vfvRzMy6relIEoHcmZaDU7f&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1Kc8Ud_Ps6vfvRzMy6relIEoHcmZaDU7f', tag: 'Static'},
                 { title: 'Bright as Love', desc: 'a couple watching the nothern lights', thumbnail: 'https://drive.google.com/thumbnail?id=1AjQnBElG9aSGKX5Ya5luLlhX_oE6DFvK&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1AjQnBElG9aSGKX5Ya5luLlhX_oE6DFvK', tag: 'Motion'},
@@ -2327,7 +2613,7 @@ cinematic: [
                 { title: 'Sorrows of Past', desc: 'a man crying while closing his face', thumbnail: 'https://drive.google.com/thumbnail?id=1uKmm5EElrbOwzm3AlLRmcRdxl3H6iGR4&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1uKmm5EElrbOwzm3AlLRmcRdxl3H6iGR4', tag: 'Montague'},
                 { title: 'Abandoned Love', desc: 'a couple separated by a wall', thumbnail: 'https://drive.google.com/thumbnail?id=1gCn2PlgR-mMID2bO4_cQ9_PmrgLrAGXe&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1gCn2PlgR-mMID2bO4_cQ9_PmrgLrAGXe', tag: 'Static'},
                 { title: 'Club of Rizz', desc: 'a young lady entering into a night club', thumbnail: 'https://drive.google.com/thumbnail?id=1-a50AH_tWR3INZRhxdz5s5c-DzA6DF0a&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1-a50AH_tWR3INZRhxdz5s5c-DzA6DF0a', tag: 'Dramatic'},
-                { title: 'Flower Path', desc: 'a girl running in a yelllow flower\'s jungle', thumbnail: 'https://drive.google.com/thumbnail?id=1qVjom6w7FmXbWlCuZoqVU7vfwy-0SLL4&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1qVjom6w7FmXbWlCuZoqVU7vfwy-0SLL4', tag: 'Dramatic'},
+                { title: 'Flower Path', desc: 'a girl running in a yelllow flowers jungle', thumbnail: 'https://drive.google.com/thumbnail?id=1qVjom6w7FmXbWlCuZoqVU7vfwy-0SLL4&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1qVjom6w7FmXbWlCuZoqVU7vfwy-0SLL4', tag: 'Dramatic'},
                 { title: 'Dandelion Valley', desc: "a girl running in a field of dandelion", thumbnail: 'https://drive.google.com/thumbnail?id=1qJPGAK8q6eaRsx4i1IjvYtuN7e5ZZdMa&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1qJPGAK8q6eaRsx4i1IjvYtuN7e5ZZdMa', tag: 'Dramatic'},
                 { title: 'Lake of Dawn', desc: 'an art of girl reading a book near a river bank', thumbnail: 'https://drive.google.com/thumbnail?id=1Uzfk6XljW-IdiY56jIyXWXFObqHISWuc&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1Uzfk6XljW-IdiY56jIyXWXFObqHISWuc', tag: 'Montague'},
                 { title: 'Story of Books', desc: 'a girl reading a book near a river bank', thumbnail: 'https://drive.google.com/thumbnail?id=1NxcT1uS9iBeyV6HUgKX5Di-RUvMObMld&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1NxcT1uS9iBeyV6HUgKX5Di-RUvMObMld', tag: 'Motion'},
@@ -2401,14 +2687,7 @@ cinematic: [
                 { title: 'Bench by the Sea', desc: 'a lady sitting in a bench looking at vast sea', thumbnail: 'https://drive.google.com/thumbnail?id=15smZR8Gr8RkLITeW0a5H4JYM-_Qs6cc8&sz=w800', video: 'https://drive.google.com/uc?export=download&id=15smZR8Gr8RkLITeW0a5H4JYM-_Qs6cc8', tag: 'Motion'}
             ]};
 
-        const editzData = [
-            { title: 'Midnight City — Lyrics Edit', desc: 'A fast-paced lyrics edit featuring neon city visuals synced to an upbeat track. Uses heavy color grading and motion graphics.', image: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=800&h=450&fit=crop', badge: 'Lyrics Edit' },
-            { title: 'Ethereal Dreams — Cinematic', desc: 'Slow-motion nature sequences blended with ambient sound design. Showcases smooth transitions and film emulation color grading.', image: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&h=450&fit=crop', badge: 'Cinematic' },
-            { title: 'Lost in Time — Experimental', desc: 'Abstract visual manipulation using time-remapping and glitch effects. Pushes the boundaries of conventional editing styles.', image: 'https://images.unsplash.com/photo-1550684848-86a5d8727436?w=800&h=450&fit=crop', badge: 'Experimental' },
-            { title: 'Summer Haze — Mood Edit', desc: 'Warm, sun-drenched clips with soft focus and light leak overlays. Perfect example of aesthetic-driven storytelling.', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=450&fit=crop', badge: 'Mood Edit' },
-            { title: 'Shadows Fall — Dark Cinematic', desc: 'High contrast black and white sequences with dramatic pacing. Emphasizes shadow play and negative space.', image: 'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=800&h=450&fit=crop', badge: 'Cinematic' },
-            { title: 'Velocity — Action Montage', desc: 'Rapid cuts synced to percussion beats with speed ramping effects. Demonstrates advanced timing and rhythm editing.', image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&h=450&fit=crop', badge: 'Action' }
-        ];
+        
 
         const termsText = `<h2>Terms of Use & License Agreement</h2>
         <p>Welcome to <strong>PMW Visuals</strong>. These Terms of Use and License Agreement ("Terms") govern your access to and use of the content provided on this website.</p>
@@ -2632,8 +2911,7 @@ cinematic: [
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
-            if (section === 'studio') renderCategories();
-            else if (section === 'editz') renderEditz();
+            if (section === 'studio') renderAllAssets();
             else if (section === 'category' && param) renderCategoryAssets(param);
             else if (section === 'about') initAboutSection();
             else if (section === 'contact') initContactForm();
@@ -2646,21 +2924,81 @@ cinematic: [
         }
 
         // ===== RENDER FUNCTIONS =====
-        function renderCategories() {
-            const container = document.getElementById('studioCategories');
-            container.innerHTML = categories.map((cat, i) => `
-                <div class="category-card reveal" style="transition-delay: ${i * 0.08}s" onclick="navigateTo('category', '${cat.id}')">
-                    <div class="category-image-wrap">
-                        <img src="${cat.image}" alt="${cat.name}" class="category-image" loading="lazy">
+        function renderAllAssets() {
+            const container = document.getElementById('allAssetsGrid');
+            let html = '';
+            let globalIndex = 0;
+
+            // Iterate through all categories and their assets
+            categories.forEach((cat) => {
+                const assets = assetsData[cat.id] || [];
+
+                assets.forEach((asset, i) => {
+                    const hasVideo = asset.video !== null && asset.video !== undefined;
+                    const downloadHtml = hasVideo 
+                        ? `<button class="download-btn" onclick="startDownload('${asset.video}', '${asset.title.replace(/'/g, "\'")}')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Download
+                           </button>`
+                        : `<button class="download-btn" style="opacity:0.4;cursor:not-allowed;" disabled>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Soon
+                           </button>`;
+
+                    html += `
+                    <div class="asset-card reveal" data-category="${cat.id}" style="transition-delay: ${(globalIndex % 20) * 0.04}s">
+                        <div class="asset-thumbnail">
+                            <img src="${asset.thumbnail}" alt="${asset.title}" loading="lazy">
+                            <div class="asset-overlay"></div>
+                            ${hasVideo ? `<span class="asset-hd">HD</span>` : ''}
+                            ${hasVideo ? `<div class="asset-play" style="pointer-events: none;">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                            </div>` : ''}
+                        </div>
+                        <div class="asset-info">
+                            <h3 class="asset-title">${asset.title}</h3>
+                            <p class="asset-desc">${asset.desc}</p>
+                            <div class="asset-meta">
+                                <span class="asset-tag">${cat.name}</span>
+                                ${downloadHtml}
+                            </div>
+                        </div>
                     </div>
-                    <div class="category-content">
-                        <h3 class="category-name">${cat.name}</h3>
-                        <p class="category-desc">${cat.description}</p>
-                        <span class="category-count">${cat.count} Assets</span>
+                    `;
+
+                    // Insert ad slot after every 10 assets
+                    if ((globalIndex + 1) % 10 === 0) {
+                        html += `
+                    <div class="ad-slot reveal" style="transition-delay: ${(globalIndex % 20) * 0.04}s">
+                        <div class="ad-slot-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="3" y1="9" x2="21" y2="9"></line>
+                                <line x1="9" y1="21" x2="9" y2="9"></line>
+                            </svg>
+                        </div>
+                        <span class="ad-slot-label">Ad Space</span>
                     </div>
-                </div>
-            `).join('');
+                        `;
+                    }
+
+                    globalIndex++;
+                });
+            });
+
+            container.innerHTML = html;
             setTimeout(initReveal, 100);
+            setTimeout(addTiltEffect, 300);
         }
 
         function renderCategoryAssets(categoryId) {
@@ -2677,7 +3015,7 @@ cinematic: [
             assets.forEach((asset, i) => {
                 const hasVideo = asset.video !== null && asset.video !== undefined;
                 const downloadHtml = hasVideo 
-                    ? `<button class="download-btn" onclick="startDownload('${asset.video}', '${asset.title.replace(/'/g, "\'")}')">
+                    ? `<button class="download-btn" onclick="startDownload('${asset.video}', '${asset.title.replace(/'/g, "'")}')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="7 10 12 15 17 10"></polyline>
@@ -2705,7 +3043,7 @@ cinematic: [
                                 <polygon points="5 3 19 12 5 21 5 3"></polygon>
                             </svg>
                         </div>` : ''}
-                        
+
                     </div>
                     <div class="asset-info">
                         <h3 class="asset-title">${asset.title}</h3>
@@ -2787,30 +3125,7 @@ cinematic: [
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); }, { once: true });
         }
 
-        function renderEditz() {
-            const container = document.getElementById('editzGrid');
-            container.innerHTML = editzData.map((edit, i) => `
-                <div class="editz-card reveal" style="transition-delay: ${i * 0.08}s">
-                    <div class="editz-thumbnail">
-                        <img src="${edit.image}" alt="${edit.title}" loading="lazy">
-                        <span class="editz-badge">${edit.badge}</span>
-                        <div class="editz-play">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                            </svg>
-                        </div>
-                        <div class="coming-soon-overlay">
-                            <span class="coming-soon-label">Coming Soon</span>
-                        </div>
-                    </div>
-                    <div class="editz-info">
-                        <h3 class="editz-title">${edit.title}</h3>
-                        <p class="editz-desc">${edit.desc}</p>
-                    </div>
-                </div>
-            `).join('');
-            setTimeout(initReveal, 100);
-        }
+        
 
         // ===== DRIVE TITLE FETCHER =====
         // Note: Google Drive requires authentication to get file metadata via API.
@@ -2884,8 +3199,8 @@ cinematic: [
                     actionBtn.disabled = false;
                     actionBtn.classList.remove('frozen');
                     actionBtn.classList.add('ready');
-                    countdownLabel.textContent = 'Ready — click below';
-                    countdownEl.textContent = '✓';
+                    countdownLabel.textContent = 'Ready â€” click below';
+                    countdownEl.textContent = 'âœ“';
                     countdownEl.style.color = '#4ade80';
                 }
             }, 1000);
@@ -3024,23 +3339,23 @@ cinematic: [
             });
         }
 
-        const originalRenderCategories = renderCategories;
-        renderCategories = function() {
-            originalRenderCategories();
-            setTimeout(addTiltEffect, 200);
-        };
+        if (typeof renderCategories === 'function') {
+            const originalRenderCategories = renderCategories;
+            renderCategories = function() {
+                originalRenderCategories();
+                setTimeout(addTiltEffect, 200);
+            };
+        }
 
-        const originalRenderAssets = renderCategoryAssets;
-        renderCategoryAssets = function(id) {
-            originalRenderAssets(id);
-            setTimeout(addTiltEffect, 200);
-        };
+        if (typeof renderCategoryAssets === 'function') {
+            const originalRenderAssets = renderCategoryAssets;
+            renderCategoryAssets = function(id) {
+                originalRenderAssets(id);
+                setTimeout(addTiltEffect, 200);
+            };
+        }
 
-        const originalRenderEditz = renderEditz;
-        renderEditz = function() {
-            originalRenderEditz();
-            setTimeout(addTiltEffect, 200);
-        };
+        
 
         setTimeout(addTiltEffect, 500);
 
@@ -3063,9 +3378,9 @@ cinematic: [
         document.addEventListener('DOMContentLoaded', () => {
             categories.forEach(cat => { const img = new Image(); img.src = cat.image; });
         });
-    
-        
-        
+
+
+
         function initAboutSection() {
             // Trigger reveal animations for about cards
             setTimeout(() => {
@@ -3140,7 +3455,264 @@ function initContactForm() {
             });
         }
 
-</script>
+
+                // ===== SEARCH & FILTER ENGINE (FIXED) =====
+        let currentCategoryFilter = 'all';
+        let currentTagFilter = 'all';
+        let currentSearchQuery = '';
+        let allAssetsFlat = [];
+        let searchEngineInitialized = false;
+
+        function normalizeText(value) {
+            return String(value || '').toLowerCase().replace(/\s+/g, ' ').trim();
+        }
+
+        function splitTerms(query) {
+            const q = normalizeText(query);
+            return q ? q.split(' ') : [];
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function () {
+                const args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(function () {
+                    func.apply(null, args);
+                }, wait);
+            };
+        }
+
+        function buildSearchIndex() {
+            allAssetsFlat = [];
+            categories.forEach(function (cat) {
+                const assets = assetsData[cat.id] || [];
+                assets.forEach(function (asset) {
+                    allAssetsFlat.push({
+                        ...asset,
+                        categoryId: cat.id,
+                        categoryName: cat.name,
+                        _tagValue: normalizeText(asset.tag),
+                        _searchText: normalizeText(asset.title)
+                    });
+                });
+            });
+        }
+
+        function ensureSearchData() {
+            if (!allAssetsFlat.length) {
+                buildSearchIndex();
+            }
+        }
+
+        function initSearchEngine() {
+            if (searchEngineInitialized) return;
+            searchEngineInitialized = true;
+
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', debounce(function (e) {
+                    currentSearchQuery = e.target.value || '';
+                    updateSearchClear();
+                    renderFilteredAssets();
+                }, 180));
+
+                searchInput.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape') clearSearch();
+                });
+            }
+        }
+
+        function updateSearchClear() {
+            const clearBtn = document.getElementById('searchClear');
+            if (clearBtn) {
+                clearBtn.style.display = normalizeText(currentSearchQuery) ? 'flex' : 'none';
+            }
+        }
+
+        function clearSearch() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.value = '';
+                currentSearchQuery = '';
+                updateSearchClear();
+                renderFilteredAssets();
+                searchInput.focus();
+            }
+        }
+
+        function setCategoryFilter(category) {
+            currentCategoryFilter = category;
+
+            document.querySelectorAll('#categoryFilters .filter-chip').forEach(function (chip) {
+                chip.classList.toggle('active', chip.dataset.filter === category);
+            });
+
+            renderFilteredAssets();
+        }
+
+        function setTagFilter(tag) {
+            currentTagFilter = tag;
+
+            const selected = normalizeText(tag);
+            document.querySelectorAll('#tagFilters .filter-chip').forEach(function (chip) {
+                chip.classList.toggle('active', normalizeText(chip.dataset.tag) === selected);
+            });
+
+            renderFilteredAssets();
+        }
+
+        function resetAllFilters() {
+            currentCategoryFilter = 'all';
+            currentTagFilter = 'all';
+            currentSearchQuery = '';
+
+            document.querySelectorAll('#categoryFilters .filter-chip').forEach(function (chip) {
+                chip.classList.toggle('active', chip.dataset.filter === 'all');
+            });
+            document.querySelectorAll('#tagFilters .filter-chip').forEach(function (chip) {
+                chip.classList.toggle('active', normalizeText(chip.dataset.tag) === 'all');
+            });
+
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+            updateSearchClear();
+
+            renderFilteredAssets();
+            showToast('Filters reset');
+        }
+
+        function renderFilteredAssets() {
+            const container = document.getElementById('allAssetsGrid');
+            if (!container) return;
+
+            ensureSearchData();
+
+            const queryTerms = splitTerms(currentSearchQuery);
+            const normalizedTagFilter = normalizeText(currentTagFilter);
+
+            const filtered = allAssetsFlat.filter(function (asset) {
+                if (currentCategoryFilter !== 'all' && asset.categoryId !== currentCategoryFilter) {
+                    return false;
+                }
+
+                if (currentTagFilter !== 'all' && asset._tagValue !== normalizedTagFilter) {
+                    return false;
+                }
+
+                if (queryTerms.length > 0) {
+                    return queryTerms.every(function (term) {
+                        return asset._searchText.includes(term);
+                    });
+                }
+
+                return true;
+            });
+
+            const statsEl = document.getElementById('searchStats');
+            if (statsEl) {
+                if (queryTerms.length || currentCategoryFilter !== 'all' || currentTagFilter !== 'all') {
+                    statsEl.innerHTML = `Showing <span class="highlight">${filtered.length}</span> of ${allAssetsFlat.length} assets`;
+                } else {
+                    statsEl.innerHTML = `<span class="highlight">${allAssetsFlat.length}</span> assets available`;
+                }
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </div>
+                        <h3 class="no-results-title">No results found</h3>
+                        <p class="no-results-text">Try adjusting your search or filters.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            filtered.forEach(function (asset, i) {
+                const hasVideo = asset.video !== null && asset.video !== undefined;
+                const safeTitle = String(asset.title || '')
+                    .replace(/\\/g, '\\\\')
+                    .replace(/'/g, "\\'");
+
+                const downloadHtml = hasVideo
+                    ? `<button class="download-btn" onclick="startDownload('${asset.video}', '${safeTitle}')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download
+                   </button>`
+                    : `<button class="download-btn" style="opacity:0.4;cursor:not-allowed;" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Soon
+                   </button>`;
+
+                html += `
+                <div class="asset-card reveal" data-category="${asset.categoryId}" style="transition-delay: ${(i % 20) * 0.04}s">
+                    <div class="asset-thumbnail">
+                        <img src="${asset.thumbnail}" alt="${asset.title}" loading="lazy">
+                        <div class="asset-overlay"></div>
+                        ${hasVideo ? `<span class="asset-hd">HD</span>` : ''}
+                        ${hasVideo ? `<div class="asset-play" style="pointer-events: none;">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </div>` : ''}
+                    </div>
+                    <div class="asset-info">
+                        <h3 class="asset-title">${asset.title}</h3>
+                        <p class="asset-desc">${asset.desc}</p>
+                        <div class="asset-meta">
+                            <span class="asset-tag">${asset.categoryName}</span>
+                            <span class="asset-tag">${asset.tag || 'Untagged'}</span>
+                            ${downloadHtml}
+                        </div>
+                    </div>
+                </div>
+                `;
+
+                if ((i + 1) % 10 === 0 && i !== filtered.length - 1) {
+                    html += `
+                <div class="ad-slot reveal" style="transition-delay: ${(i % 20) * 0.04}s">
+                    <div class="ad-slot-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="3" y1="9" x2="21" y2="9"></line>
+                            <line x1="9" y1="21" x2="9" y2="9"></line>
+                        </svg>
+                    </div>
+                    <span class="ad-slot-label">Ad Space</span>
+                </div>
+                    `;
+                }
+            });
+
+            container.innerHTML = html;
+            setTimeout(initReveal, 100);
+            setTimeout(addTiltEffect, 300);
+        }
+
+        // Override the original renderAllAssets to use our search engine
+        const originalRenderAllAssets = renderAllAssets;
+        renderAllAssets = function() {
+            buildSearchIndex();
+            initSearchEngine();
+            renderFilteredAssets();
+        };
+
+    </script>
     <style>
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
@@ -3376,7 +3948,7 @@ function initContactForm() {
                 border-radius: 12px;
             }
         }
-    
+
         /* ===== COMING SOON BADGE ===== */
         .coming-soon-badge {
             display: inline-flex;
@@ -3432,7 +4004,283 @@ function initContactForm() {
             border-radius: 100px;
             backdrop-filter: blur(12px);
         }
-</style>
+
+        /* ===== SEARCH & FILTER ENGINE ===== */
+        .search-filter-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px 40px;
+        }
+
+        .search-bar-wrapper {
+            margin-bottom: 28px;
+        }
+
+        .search-input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-xl);
+            padding: 4px 6px 4px 20px;
+            transition: var(--transition-base);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-input-group:focus-within {
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.3);
+            background: linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+        }
+
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            margin-right: 14px;
+            transition: var(--transition-fast);
+        }
+
+        .search-input-group:focus-within .search-icon {
+            color: var(--text-secondary);
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            padding: 14px 0;
+            outline: none;
+            letter-spacing: -0.01em;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .search-clear {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+
+        .search-clear:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+        }
+
+        .search-stats {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            font-weight: 500;
+            min-height: 20px;
+            letter-spacing: 0.02em;
+        }
+
+        .search-stats .highlight {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .filters-row {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .filter-label {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-chip {
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 100px;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            letter-spacing: 0.01em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-chip::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.06);
+            border-radius: 100px;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: var(--transition-fast);
+        }
+
+        .filter-chip:hover {
+            border-color: rgba(255,255,255,0.12);
+            color: var(--text-primary);
+        }
+
+        .filter-chip:hover::before {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .filter-chip.active {
+            background: rgba(255,255,255,0.9);
+            color: #000;
+            border-color: rgba(255,255,255,0.9);
+            font-weight: 700;
+        }
+
+        .filter-chip.active:hover {
+            background: #fff;
+            box-shadow: 0 4px 16px rgba(255,255,255,0.2);
+        }
+
+        .filter-chip.active::before {
+            display: none;
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .filter-reset {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 100px;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            letter-spacing: 0.01em;
+        }
+
+        .filter-reset:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+        }
+
+        .filter-reset svg {
+            transition: transform 0.3s ease;
+        }
+
+        .filter-reset:hover svg {
+            transform: rotate(-180deg);
+        }
+
+        /* No results state */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 24px;
+            color: var(--text-muted);
+        }
+
+        .no-results-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .no-results-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--text-muted);
+        }
+
+        .no-results-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .no-results-text {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            max-width: 400px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .search-filter-container {
+                padding: 0 16px 32px;
+            }
+            .search-input {
+                font-size: 0.875rem;
+            }
+            .filter-chips {
+                gap: 6px;
+            }
+            .filter-chip {
+                padding: 6px 14px;
+                font-size: 0.75rem;
+            }
+            .filter-actions {
+                justify-content: center;
+            }
+        }
+
+    </style>
 
     <!-- Legal Modal -->
     <div class="legal-modal" id="legalModal">
@@ -3462,3 +4310,8 @@ function initContactForm() {
 
 </body>
 </html>
+
+
+
+
+
