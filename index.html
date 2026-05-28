@@ -4,7 +4,7 @@
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633082836143342" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PMW Visuals â€” Free Assets for Video Editors</title>
+    <title>PMW Visuals - Free Assets for Video Editors</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -690,7 +690,7 @@
             letter-spacing: 0.08em;
         }
 
-        /* ===== ASSETS GRID â€” 9:16 VERTICAL ===== */
+        /* ===== ASSETS GRID - 9:16 VERTICAL ===== */
         .assets-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -1345,6 +1345,8 @@
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
@@ -1408,39 +1410,57 @@
 
         .contact-grid {
             display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 48px;
+            grid-template-columns: 360px 1fr;
+            gap: 36px;
             align-items: start;
         }
 
         .contact-info {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
+        }
+
+        .contact-info-card,
+        .contact-mini-note {
+            background: linear-gradient(160deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
         }
 
         .contact-info-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: var(--radius-lg);
-            padding: 28px;
             display: flex;
             align-items: flex-start;
-            gap: 18px;
-            transition: var(--transition-slow);
+            gap: 16px;
+            transition: var(--transition-base);
+        }
+
+        .contact-info-card::before,
+        .contact-mini-note::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 18px;
+            right: 18px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent);
         }
 
         .contact-info-card:hover {
-            border-color: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.16);
             transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 20px 44px rgba(0,0,0,0.4);
         }
 
         .contact-info-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
-            border: 1px solid rgba(255,255,255,0.08);
+            width: 46px;
+            height: 46px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.14);
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -1449,8 +1469,8 @@
         }
 
         .contact-info-icon svg {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             color: var(--text-primary);
         }
 
@@ -1460,31 +1480,87 @@
 
         .contact-info-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1rem;
+            font-size: 0.98rem;
             font-weight: 700;
-            color: var(--text-primary);
             margin-bottom: 6px;
             letter-spacing: -0.01em;
+            color: var(--text-primary);
         }
 
         .contact-info-text {
             font-size: 0.875rem;
             color: var(--text-secondary);
-            line-height: 1.5;
+            line-height: 1.55;
+        }
+
+        .contact-info-link {
+            color: #d4d4d4;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            transition: var(--transition-fast);
+        }
+
+        .contact-info-link:hover {
+            color: #ffffff;
+            border-bottom-color: rgba(255,255,255,0.5);
+        }
+
+        .contact-mini-note h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.05rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .contact-mini-note p {
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
         }
 
         .contact-form-wrapper {
-            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
-            border: 1px solid rgba(255,255,255,0.05);
+            background:
+                radial-gradient(circle at 0% 0%, rgba(255,255,255,0.08), transparent 38%),
+                linear-gradient(160deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: var(--radius-xl);
-            padding: 40px;
-            backdrop-filter: blur(10px);
+            padding: 38px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.34);
+        }
+
+        .contact-form-head {
+            margin-bottom: 26px;
+        }
+
+        .contact-form-kicker {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #e5e5e5;
+            margin-bottom: 8px;
+        }
+
+        .contact-form-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 10px;
+        }
+
+        .contact-form-note {
+            max-width: 540px;
+            color: var(--text-secondary);
+            font-size: 0.93rem;
+            line-height: 1.6;
         }
 
         .contact-form {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
         }
 
         .form-group {
@@ -1496,13 +1572,13 @@
         .form-label {
             font-size: 0.8125rem;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: #d4d4d4;
             letter-spacing: 0.02em;
         }
 
         .form-input {
             background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: var(--radius-md);
             padding: 14px 18px;
             color: var(--text-primary);
@@ -1514,30 +1590,30 @@
         }
 
         .form-input::placeholder {
-            color: var(--text-muted);
+            color: #666;
         }
 
         .form-input:hover {
-            border-color: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.2);
             background: rgba(255,255,255,0.04);
         }
 
         .form-input:focus {
-            border-color: rgba(255,255,255,0.25);
-            background: rgba(255,255,255,0.05);
-            box-shadow: 0 0 0 3px rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.32);
+            background: rgba(255,255,255,0.06);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.05);
         }
 
         .form-textarea {
             resize: vertical;
-            min-height: 120px;
+            min-height: 132px;
             line-height: 1.6;
         }
 
         .form-select {
             cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23525252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236d6d6d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 16px center;
             padding-right: 44px;
@@ -1554,26 +1630,25 @@
             justify-content: center;
             gap: 12px;
             padding: 16px 32px;
-            background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 50%, #a8a8a8 100%);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 100px;
-            color: #1a1a1a;
+            background: linear-gradient(140deg, #f5f5f5 0%, #d6d6d6 55%, #b4b4b4 100%);
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 999px;
+            color: #161616;
             font-size: 0.9375rem;
             font-weight: 700;
+            letter-spacing: 0.03em;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.28s ease;
             font-family: inherit;
-            letter-spacing: 0.02em;
-            box-shadow: 0 4px 16px rgba(192, 192, 192, 0.2);
-            margin-top: 8px;
+            box-shadow: 0 8px 20px rgba(180,180,180,0.24);
+            margin-top: 6px;
             position: relative;
             overflow: hidden;
         }
 
         .form-submit:hover:not(:disabled) {
-            background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 50%, #b8b8b8 100%);
             transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(192, 192, 192, 0.3);
+            box-shadow: 0 12px 28px rgba(210,210,210,0.25);
         }
 
         .form-submit:active:not(:disabled) {
@@ -1620,177 +1695,240 @@
             transform: translateX(3px) translateY(-2px);
         }
 
-        @media (max-width: 968px) {
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            .contact-info {
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-            .contact-info-card {
-                flex: 1;
-                min-width: 260px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .contact-container {
-                padding: 0 16px 60px;
-            }
-            .contact-form-wrapper {
-                padding: 28px 24px;
-            }
-            .contact-info {
-                flex-direction: column;
-            }
-            .contact-info-card {
-                min-width: auto;
-            }
-        }
-
-
-        /* ===== ABOUT US SECTION ===== */
+        /* ===== ABOUT SECTION ===== */
         .about-container {
             max-width: 1300px;
             margin: 0 auto;
             padding: 0 24px 80px;
         }
 
+        .about-intro {
+            background:
+                radial-gradient(circle at 88% 12%, rgba(255,255,255,0.14) 0%, transparent 38%),
+                linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.015) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-xl);
+            padding: 34px 34px 30px;
+            margin-bottom: 22px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-intro::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 28px;
+            right: 28px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+        }
+
+        .about-kicker {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #e5e5e5;
+            margin-bottom: 8px;
+        }
+
+        .about-lead {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.5rem, 2vw + 1rem, 2.3rem);
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+            max-width: 920px;
+            margin-bottom: 20px;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .about-stat {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-md);
+            padding: 16px 18px;
+        }
+
+        .about-stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            margin-bottom: 6px;
+        }
+
+        .about-stat-label {
+            font-size: 0.81rem;
+            color: var(--text-secondary);
+        }
+
         .about-content {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
         }
 
         .about-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: linear-gradient(150deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: var(--radius-xl);
-            padding: 40px 32px;
-            transition: var(--transition-slow);
+            padding: 34px 28px;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
+            transition: var(--transition-base);
+            opacity: 0;
+            transform: translateY(18px);
+        }
+
+        .about-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .about-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 20px;
+            right: 20px;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            opacity: 0;
-            transition: var(--transition-base);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent);
         }
 
         .about-card:hover {
-            border-color: rgba(255,255,255,0.12);
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
-        }
-
-        .about-card:hover::before {
-            opacity: 1;
+            border-color: rgba(255,255,255,0.17);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 46px rgba(0,0,0,0.42);
         }
 
         .about-icon {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
+            width: 52px;
+            height: 52px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.13);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 28px;
-            transition: var(--transition-base);
-        }
-
-        .about-card:hover .about-icon {
-            background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 100%);
-            transform: scale(1.08) rotate(-3deg);
-            border-color: rgba(255,255,255,0.15);
+            margin-bottom: 20px;
+            transition: var(--transition-fast);
         }
 
         .about-icon svg {
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             color: var(--text-primary);
         }
 
         .about-heading {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.35rem;
-            font-weight: 700;
-            margin-bottom: 14px;
+            font-size: 1.28rem;
+            margin-bottom: 10px;
             letter-spacing: -0.02em;
-            color: var(--text-primary);
         }
 
         .about-text {
-            font-size: 0.9375rem;
+            font-size: 0.92rem;
+            line-height: 1.65;
             color: var(--text-secondary);
-            line-height: 1.7;
+        }
+
+        .about-points {
+            margin-top: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .about-point {
+            font-size: 0.85rem;
+            color: #d4d4d4;
+            padding-left: 12px;
+            position: relative;
+        }
+
+        .about-point::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.7);
+            position: absolute;
+            left: 0;
+            top: 0.55em;
         }
 
         .about-credit-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%);
-            border-color: rgba(255,255,255,0.08);
+            border-color: rgba(86, 255, 139, 0.24);
+            background: linear-gradient(150deg, rgba(86,255,139,0.12) 0%, rgba(255,255,255,0.01) 100%);
         }
 
         .about-credit-icon {
-            background: linear-gradient(135deg, rgba(74, 222, 128, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%);
-            border-color: rgba(74, 222, 128, 0.2);
+            border-color: rgba(86,255,139,0.28);
+            background: rgba(86,255,139,0.1);
         }
 
         .about-credit-icon svg {
-            color: #4ade80;
+            color: #78ffa8;
         }
 
         .credit-badge {
-            margin-top: 20px;
-            padding: 14px 18px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: var(--radius-md);
+            margin-top: 18px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            padding: 12px 14px;
+            background: rgba(0,0,0,0.22);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 12px;
         }
 
         .credit-label {
-            font-size: 0.8125rem;
-            font-weight: 600;
-            color: var(--text-muted);
+            font-size: 0.79rem;
+            color: #cfcfcf;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
         }
 
         .credit-handle {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.9375rem;
-            font-weight: 700;
-            color: #4ade80;
-            background: rgba(74, 222, 128, 0.08);
-            padding: 6px 14px;
+            font-size: 0.91rem;
+            color: #9dffc2;
+            background: rgba(86,255,139,0.12);
+            border: 1px solid rgba(86,255,139,0.25);
+            padding: 5px 10px;
             border-radius: 8px;
-            border: 1px solid rgba(74, 222, 128, 0.15);
         }
 
-        @media (max-width: 968px) {
+        @media (max-width: 1100px) {
             .about-content {
                 grid-template-columns: 1fr;
-                max-width: 600px;
-                margin: 0 auto;
             }
-            .about-card {
-                padding: 32px 28px;
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .about-stats {
+                grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
-            .about-container {
+            .about-container,
+            .contact-container {
                 padding: 0 16px 60px;
+            }
+            .about-intro,
+            .contact-form-wrapper {
+                padding: 26px 22px;
+            }
+            .about-card {
+                padding: 28px 22px;
             }
         }
 
@@ -2127,7 +2265,7 @@
                     <p class="hero-subtitle">Free assets and creative clips for video editors</p>
                     <p class="hero-description">
                         A curated collection of high-quality background scenes designed to elevate your video projects. 
-                        Explore original AI-generated visuals â€” all free for personal and commercial use.
+                    Explore original AI-generated visuals - all free for personal and commercial use.
                     </p>
                     <div class="hero-cards" style="grid-template-columns: 1fr; max-width: 400px;">
                         <div class="hero-card" onclick="navigateTo('studio')">
@@ -2141,7 +2279,7 @@
                             <h2 class="hero-card-title">PMW Studio</h2>
                             <p class="hero-card-desc">
                                 A collection of original, AI-generated and designed background scenes for video editing. 
-                                All assets in one place â€” browse and download freely.
+                    All assets in one place - browse and download freely.
                             </p>
                             <span class="hero-card-arrow">
                                 Explore All Assets
@@ -2223,7 +2361,7 @@
                 <h1 class="section-title">All Assets</h1>
                 <p class="section-subtitle">
                     Browse our complete collection of original background scenes. 
-                    All high-quality vertical loops and static scenes in one place â€” ready for your edits.
+                    All high-quality vertical loops and static scenes in one place - ready for your edits.
                 </p>
             </div>
             <div class="assets-grid" id="allAssetsGrid"></div>
@@ -2239,50 +2377,78 @@
                 </div>
                 <h1 class="section-title">About Us</h1>
                 <p class="section-subtitle">
-                    Learn more about PMW Visuals and our mission to empower creators worldwide.
+                    PMW Visuals is built to give editors fast, cinematic, ready-to-use visuals without the usual hunt.
                 </p>
             </div>
             <div class="about-container">
+                <div class="about-intro">
+                    <p class="about-kicker">Creator First Platform</p>
+                    <h2 class="about-lead">We design premium-looking visual packs that help short-form creators publish faster and look more original.</h2>
+                    <div class="about-stats">
+                        <div class="about-stat">
+                            <p class="about-stat-value">50+</p>
+                            <p class="about-stat-label">Aesthetic assets currently live</p>
+                        </div>
+                        <div class="about-stat">
+                            <p class="about-stat-value">24-48h</p>
+                            <p class="about-stat-label">Typical support response window</p>
+                        </div>
+                        <div class="about-stat">
+                            <p class="about-stat-value">Global</p>
+                            <p class="about-stat-label">Used by creators across multiple regions</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="about-content">
                     <div class="about-card">
                         <div class="about-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                                <polyline points="21 15 16 10 5 21"></polyline>
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <polyline points="7.5 4.2 12 6.8 16.5 4.2"></polyline>
+                                <polyline points="7.5 19.8 7.5 14.2 3 11.6"></polyline>
                             </svg>
                         </div>
-                        <h2 class="about-heading">Our Mission</h2>
+                        <h2 class="about-heading">What We Create</h2>
                         <p class="about-text">
-                            PMW Visuals is a creative platform focused on providing cinematic visuals, AI-generated scenes, aesthetic backgrounds, and editing resources for creators.
+                            Every pack is curated for social-first storytelling: clean loops, textured stills, and scenes that drop directly into reels, edits, and promos.
                         </p>
+                        <div class="about-points">
+                            <p class="about-point">Vertical-friendly formats for modern editing workflows</p>
+                            <p class="about-point">Visual direction focused on mood, tone, and cinematic clarity</p>
+                        </div>
                     </div>
                     <div class="about-card">
                         <div class="about-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                                <path d="M12 20v-6"></path>
+                                <path d="M6 20V10"></path>
+                                <path d="M18 20V4"></path>
+                                <path d="M2 20h20"></path>
                             </svg>
                         </div>
-                        <h2 class="about-heading">Built For Creators</h2>
+                        <h2 class="about-heading">How We Work</h2>
                         <p class="about-text">
-                            Built for editors, designers, and content creators, our goal is to offer unique visual assets that help bring creative projects to life. From dreamy loops and atmospheric scenes to stylized motion visuals, PMW Resources is designed to support modern digital creativity.
+                            We mix trend awareness with timeless design choices so your projects feel current without looking copied. New content is selected for usefulness, not just volume.
                         </p>
+                        <div class="about-points">
+                            <p class="about-point">Asset quality checks before publishing</p>
+                            <p class="about-point">Focus on reusable, edit-friendly scenes</p>
+                        </div>
                     </div>
                     <div class="about-card about-credit-card">
                         <div class="about-icon about-credit-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M12 16v-4"></path>
-                                <path d="M12 8h.01"></path>
+                                <path d="M8 12h8"></path>
+                                <path d="M12 8v8"></path>
                             </svg>
                         </div>
-                        <h2 class="about-heading">Usage & Credits</h2>
+                        <h2 class="about-heading">Usage & Credit</h2>
                         <p class="about-text">
-                            Free to use in creative projects with proper credit to PMW Visuals.
+                            You can use PMW Visuals assets in personal and commercial creative projects. A visible credit helps us keep releasing more free packs.
                         </p>
                         <div class="credit-badge">
-                            <span class="credit-label">Credit as:</span>
+                            <span class="credit-label">Credit</span>
                             <code class="credit-handle">@pmw_studio</code>
                         </div>
                     </div>
@@ -2300,7 +2466,7 @@
                 </div>
                 <h1 class="section-title">Get in Touch</h1>
                 <p class="section-subtitle">
-                    Have a question, suggestion, or just want to say hello? Drop us a message and we will get back to you.
+                    Questions, feedback, or collab ideas. Send us a message and we will reply as soon as possible.
                 </p>
             </div>
             <div class="contact-container">
@@ -2315,7 +2481,9 @@
                             </div>
                             <div class="contact-info-content">
                                 <h3 class="contact-info-title">Email</h3>
-                                <p class="contact-info-text">manvirupemitha@gmail.com</p>
+                                <p class="contact-info-text">
+                                    <a class="contact-info-link" href="mailto:manvirupemitha@gmail.com">manvirupemitha@gmail.com</a>
+                                </p>
                             </div>
                         </div>
                         <div class="contact-info-card">
@@ -2326,8 +2494,8 @@
                                 </svg>
                             </div>
                             <div class="contact-info-content">
-                                <h3 class="contact-info-title">Location</h3>
-                                <p class="contact-info-text">Available Worldwide</p>
+                                <h3 class="contact-info-title">Best For</h3>
+                                <p class="contact-info-text">Support requests, custom suggestions, partnerships, and creator inquiries.</p>
                             </div>
                         </div>
                         <div class="contact-info-card">
@@ -2339,11 +2507,22 @@
                             </div>
                             <div class="contact-info-content">
                                 <h3 class="contact-info-title">Response Time</h3>
-                                <p class="contact-info-text">Usually within 24-48 hours</p>
+                                <p class="contact-info-text">Usually within 24 to 48 hours, Monday through Saturday.</p>
                             </div>
+                        </div>
+                        <div class="contact-mini-note">
+                            <h3>Before You Send</h3>
+                            <p>Include your project type and what you need. A little detail helps us reply faster and more accurately.</p>
                         </div>
                     </div>
                     <div class="contact-form-wrapper">
+                        <div class="contact-form-head">
+                            <p class="contact-form-kicker">Start A Conversation</p>
+                            <h2 class="contact-form-title">Tell us what you are building</h2>
+                            <p class="contact-form-note">
+                                Whether you are reporting an issue or pitching a collaboration, share the basics below and we will follow up with next steps.
+                            </p>
+                        </div>
                         <form class="contact-form" id="contactForm" action="https://formspree.io/f/xredawdw" method="POST">
                             <div class="form-group">
                                 <label class="form-label" for="contactName">Name</label>
@@ -2366,7 +2545,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="contactMessage">Message</label>
-                                <textarea id="contactMessage" name="message" class="form-input form-textarea" placeholder="Tell us what's on your mind..." required rows="5"></textarea>
+                                <textarea id="contactMessage" name="message" class="form-input form-textarea" placeholder="Share your question, project, or request..." required rows="5"></textarea>
                             </div>
                             <button type="submit" class="form-submit" id="submitBtn">
                                 <span class="form-submit-text">Send Message</span>
@@ -3199,8 +3378,8 @@ cinematic: [
                     actionBtn.disabled = false;
                     actionBtn.classList.remove('frozen');
                     actionBtn.classList.add('ready');
-                    countdownLabel.textContent = 'Ready â€” click below';
-                    countdownEl.textContent = 'âœ“';
+                    countdownLabel.textContent = 'Ready - click below';
+                    countdownEl.textContent = 'OK';
                     countdownEl.style.color = '#4ade80';
                 }
             }, 1000);
