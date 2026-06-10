@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-S52R7FL169"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-S52R7FL169"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -13,7 +12,7 @@
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633082836143342" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PMW Visuals - Free Assets for Video Editors</title>
+    <title>PMW Visuals - Free Creative Assets</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -307,13 +306,13 @@
 
         /* ===== HERO ===== */
         .hero {
-            min-height: 100vh;
+            min-height: auto;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 120px 24px 80px;
+            padding: 120px 24px 48px;
             position: relative;
             overflow: hidden;
         }
@@ -400,11 +399,6 @@
             line-height: 1.7;
             animation: fadeInUp 0.8s 0.5s both;
         }
-
-
-            to { opacity: 1; transform: translateY(0); }
-        }
-
 
         /* ===== 3D TILT FIX ===== */
         .hero-card, .category-card, .asset-card, .editz-card {
@@ -507,6 +501,14 @@
             color: var(--text-primary);
         }
 
+        .hero-card-logo {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            object-fit: cover;
+            display: block;
+        }
+
         .hero-card-title {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.35rem;
@@ -546,6 +548,112 @@
 
         .hero-card:hover .hero-card-arrow svg {
             transform: translateX(4px);
+        }
+
+        .home-showcase {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px 96px;
+        }
+
+        .home-section {
+            margin-top: 28px;
+        }
+
+        .home-section-head {
+            max-width: 760px;
+            margin-bottom: 24px;
+        }
+
+        .home-kicker {
+            color: #e5e5e5;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .home-heading {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.55rem, 2.2vw, 2.15rem);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.16;
+            margin-bottom: 14px;
+        }
+
+        .home-copy {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.8;
+            max-width: 820px;
+        }
+
+        .home-social-card {
+            background: linear-gradient(150deg, rgba(255,255,255,0.048), rgba(255,255,255,0.012));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            color: inherit;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition-base);
+        }
+
+        .home-social-card:hover {
+            border-color: rgba(255,255,255,0.18);
+            transform: translateY(-5px);
+            box-shadow: 0 24px 54px rgba(0,0,0,0.35);
+        }
+
+        .home-social-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .home-social-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            min-height: 92px;
+        }
+
+        .home-social-name {
+            display: block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+        }
+
+        .home-social-handle {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.76rem;
+            font-weight: 700;
+        }
+
+        .home-social-icon {
+            width: 42px;
+            height: 42px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            color: #f5f5f5;
+            background: linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.03));
+            flex-shrink: 0;
+        }
+
+        .home-social-icon svg {
+            width: 20px;
+            height: 20px;
+            display: block;
         }
 
         /* ===== SECTION HEADER ===== */
@@ -1361,9 +1469,13 @@
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .mobile-menu-btn { display: block; }
-            .hero { padding: 100px 20px 60px; }
+            .hero { padding: 100px 20px 36px; }
             .hero-cards { grid-template-columns: 1fr; }
             .hero-card { padding: 28px 22px; }
+            .home-showcase { padding: 0 16px 68px; }
+            .home-social-grid { grid-template-columns: 1fr; }
+            .home-section { margin-top: 20px; }
+            .home-social-card { min-height: 82px; }
             .categories-grid, .editz-grid { grid-template-columns: 1fr; padding: 0 16px 60px; }
             .assets-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 0 16px 60px; }
             .section-header { padding: 100px 16px 36px; }
@@ -1377,6 +1489,7 @@
         @media (max-width: 480px) {
             .assets-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
             .asset-thumbnail { aspect-ratio: 9/14; }
+            .home-social-card { padding: 18px; }
         }
 
         /* ===== SCROLL REVEAL ===== */
@@ -2237,7 +2350,8 @@
             </a>
             <div class="nav-links">
                 <button class="nav-link active" data-section="home" onclick="navigateTo('home')"><span>Home</span></button>
-                <button class="nav-link" data-section="studio" onclick="navigateTo('studio')"><span>PMW Studio</span></button>
+                <button class="nav-link" data-section="studio" onclick="window.location.href='pmw-studio.html'"><span>PMW Studio</span></button>
+                <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html'"><span>PMW Wallpapers</span></button>
                 
             </div>
             <button class="nav-link" data-section="about" onclick="navigateTo('about')"><span>About</span></button>
@@ -2254,7 +2368,8 @@
 
     <div class="mobile-menu" id="mobileMenu">
         <button class="nav-link" onclick="navigateTo('home'); toggleMobileMenu();">Home</button>
-        <button class="nav-link" onclick="navigateTo('studio'); toggleMobileMenu();">PMW Studio</button>
+        <button class="nav-link" onclick="window.location.href='pmw-studio.html';">PMW Studio</button>
+        <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html';">PMW Wallpapers</button>
         <button class="nav-link" onclick="navigateTo('about'); toggleMobileMenu();">About</button>
         <button class="nav-link" onclick="navigateTo('contact'); toggleMobileMenu();">Contact</button>
     </div>
@@ -2271,27 +2386,37 @@
                         Free Creative Assets
                     </div>
                     <h1 class="hero-title">PMW Visuals</h1>
-                    <p class="hero-subtitle">Free assets and creative clips for video editors</p>
+                    <p class="hero-subtitle">Wallpapers, visual assets, and original media projects</p>
                     <p class="hero-description">
-                        A curated collection of high-quality background scenes designed to elevate your video projects. 
-                    Explore original AI-generated visuals - all free for personal and commercial use.
+                        A creative digital hub for beautiful, useful, and accessible content made for creators, students, and visual enthusiasts.
                     </p>
-                    <div class="hero-cards" style="grid-template-columns: 1fr; max-width: 400px;">
-                        <div class="hero-card" onclick="navigateTo('studio')">
+                    <div class="hero-cards">
+                        <div class="hero-card" onclick="window.location.href='pmw-wallpapers.html'">
                             <div class="hero-card-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                                    <polyline points="21 15 16 10 5 21"></polyline>
+                                <img class="hero-card-logo" src="https://drive.google.com/thumbnail?id=1bZJ73l8h7RyfurTegpEwmvxtigjltNEZ&sz=w120" alt="PMW Wallpapers logo">
+                            </div>
+                            <h2 class="hero-card-title">PMW Wallpapers</h2>
+                            <p class="hero-card-desc">
+                                The main collection with 1000+ mobile wallpapers across AMOLED, anime, celestial samurai, dark aesthetic, dark fantasy, nature, romantic, space, and galaxy styles.
+                            </p>
+                            <span class="hero-card-arrow">
+                                Browse Wallpapers
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
                                 </svg>
+                            </span>
+                        </div>
+                        <div class="hero-card" onclick="window.location.href='pmw-studio.html'">
+                            <div class="hero-card-icon">
+                                <img class="hero-card-logo" src="https://drive.google.com/thumbnail?id=1F1XWcStO9atxONRMI0t5mB2XMt_e7OS-&sz=w120" alt="PMW Studio logo">
                             </div>
                             <h2 class="hero-card-title">PMW Studio</h2>
                             <p class="hero-card-desc">
-                                A collection of original, AI-generated and designed background scenes for video editing. 
-                    All assets in one place - browse and download freely.
+                                Original visual assets and background scenes for edits, reels, promos, and creative projects.
                             </p>
                             <span class="hero-card-arrow">
-                                Explore All Assets
+                                Explore Studio
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
                                     <polyline points="12 5 19 12 12 19"></polyline>
@@ -2301,80 +2426,66 @@
                     </div>
                 </div>
             </div>
+
+            <div class="home-showcase">
+                <section class="home-section" aria-labelledby="homeSocialTitle">
+                    <div class="home-section-head">
+                        <p class="home-kicker">Social Media</p>
+                        <h2 class="home-heading" id="homeSocialTitle">Connect With PMW Visuals</h2>
+                    </div>
+                    <div class="home-social-grid">
+                        <a class="home-social-card" href="https://www.instagram.com/pmw_wallpapers/" target="_blank" rel="noopener noreferrer">
+                            <span>
+                                <span class="home-social-name">Instagram</span>
+                                <span class="home-social-handle">Follow updates</span>
+                            </span>
+                            <span class="home-social-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                                    <circle cx="12" cy="12" r="4"></circle>
+                                    <circle cx="17.5" cy="6.5" r="1"></circle>
+                                </svg>
+                            </span>
+                        </a>
+                        <a class="home-social-card" href="https://uk.pinterest.com/pmw_wallpapers/" target="_blank" rel="noopener noreferrer">
+                            <span>
+                                <span class="home-social-name">Pinterest</span>
+                                <span class="home-social-handle">Wallpaper boards</span>
+                            </span>
+                            <span class="home-social-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12.1 2.3C6.7 2.3 3 5.8 3 10.3c0 3 1.7 4.8 2.7 4.8.4 0 .6-1.1.6-1.4 0-.4-1-.9-1-2.8 0-3.8 2.9-6.5 6.6-6.5 3.2 0 5.6 1.8 5.6 5.1 0 2.5-1 7.2-4.3 7.2-1.2 0-2.2-.9-1.9-2.1.4-1.4 1.1-2.9 1.1-4 0-.9-.5-1.7-1.5-1.7-1.2 0-2.1 1.2-2.1 2.8 0 1 .3 1.7.3 1.7s-1.1 4.5-1.3 5.3c-.4 1.6-.1 3.6 0 3.8.1.2.3.2.4.1.2-.2 2.4-3 2.8-4.6.1-.5.7-2.7.7-2.7.4.7 1.4 1.3 2.5 1.3 3.3 0 5.5-3 5.5-7 .1-3.1-2.6-6.3-7.2-6.3Z"></path>
+                                </svg>
+                            </span>
+                        </a>
+                        <a class="home-social-card" href="https://www.facebook.com/people/Apollo-Sounds/61579450350429/?sk=about" target="_blank" rel="noopener noreferrer">
+                            <span>
+                                <span class="home-social-name">Facebook</span>
+                                <span class="home-social-handle">Community posts</span>
+                            </span>
+                            <span class="home-social-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M14 8.3V6.7c0-.8.5-1 1-1h2V2.4c-.9-.1-1.8-.2-2.7-.2-2.7 0-4.5 1.6-4.5 4.6v2.5h-3v3.7h3V22h4.2v-9h3l.5-3.7H14Z"></path>
+                                </svg>
+                            </span>
+                        </a>
+                        <a class="home-social-card" href="https://www.youtube.com/@PMW_Studio" target="_blank" rel="noopener noreferrer">
+                            <span>
+                                <span class="home-social-name">YouTube</span>
+                                <span class="home-social-handle">Media projects</span>
+                            </span>
+                            <span class="home-social-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M21.6 7.1c-.2-.9-.9-1.5-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4c-.9.2-1.5.9-1.8 1.8C2 8.7 2 12 2 12s0 3.3.4 4.9c.2.9.9 1.5 1.8 1.8 1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4c.9-.2 1.5-.9 1.8-1.8.4-1.6.4-4.9.4-4.9s0-3.3-.4-4.9ZM10 15.2V8.8l5.5 3.2-5.5 3.2Z"></path>
+                                </svg>
+                            </span>
+                        </a>
+                    </div>
+                </section>
+            </div>
         </section>
 
-        <!-- STUDIO -->
-        <section id="studio" class="section">
-            <div class="section-header">
-                <div class="breadcrumb">
-                    <a href="javascript:void(0)" onclick="navigateTo('home')">Home</a>
-                    <span class="breadcrumb-separator">/</span>
-                    <span class="breadcrumb-current">All Assets</span>
-                </div>
-        <!-- SEARCH & FILTER ENGINE -->
-        <div class="search-filter-container">
-            <div class="search-bar-wrapper">
-                <div class="search-input-group">
-                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Search videos by title..." autocomplete="off">
-                    <button class="search-clear" id="searchClear" onclick="clearSearch()" style="display:none;">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
-                <div class="search-stats" id="searchStats"></div>
-            </div>
-
-            <div class="filters-row">
-                <div class="filter-group">
-                    <span class="filter-label">Category</span>
-                    <div class="filter-chips" id="categoryFilters">
-                        <button class="filter-chip active" data-filter="all" onclick="setCategoryFilter('all')">All</button>
-                        <button class="filter-chip" data-filter="aesthetic" onclick="setCategoryFilter('aesthetic')">Aesthetic</button>
-                        <button class="filter-chip" data-filter="romantic" onclick="setCategoryFilter('romantic')">Romantic</button>
-                        <button class="filter-chip" data-filter="dancing" onclick="setCategoryFilter('dancing')">City</button>
-                        <button class="filter-chip" data-filter="cinematic" onclick="setCategoryFilter('cinematic')">Cinematic</button>
-                        <button class="filter-chip" data-filter="emotional" onclick="setCategoryFilter('emotional')">Black & White</button>
-                        <button class="filter-chip" data-filter="blackwhite" onclick="setCategoryFilter('blackwhite')">Solitude</button>
-                    </div>
-                </div>
-
-                <div class="filter-group">
-                    <span class="filter-label">Tag</span>
-                    <div class="filter-chips" id="tagFilters">
-                        <button class="filter-chip active" data-tag="all" onclick="setTagFilter('all')">All</button>
-                        <button class="filter-chip" data-tag="Dramatic" onclick="setTagFilter('Dramatic')">Dramatic</button>
-                        <button class="filter-chip" data-tag="Motion" onclick="setTagFilter('Motion')">Motion</button>
-                        <button class="filter-chip" data-tag="Static" onclick="setTagFilter('Static')">Static</button>
-                        <button class="filter-chip" data-tag="Montague" onclick="setTagFilter('Montague')">Montague</button>
-                    </div>
-                </div>
-
-                <div class="filter-actions">
-                    <button class="filter-reset" onclick="resetAllFilters()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="1 4 1 10 7 10"></polyline>
-                            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-                        </svg>
-                        Reset
-                    </button>
-                </div>
-            </div>
-        </div>
-
-                <h1 class="section-title">All Assets</h1>
-                <p class="section-subtitle">
-                    Browse our complete collection of original background scenes. 
-                    All high-quality vertical loops and static scenes in one place - ready for your edits.
-                </p>
-            </div>
-            <div class="assets-grid" id="allAssetsGrid"></div>
-        </section>
+        
 
         <!-- ABOUT US -->
         <section id="about" class="section">
@@ -2386,25 +2497,25 @@
                 </div>
                 <h1 class="section-title">About Us</h1>
                 <p class="section-subtitle">
-                    PMW Visuals is built to give editors fast, cinematic, ready-to-use visuals without the usual hunt.
+                    PMW Visuals is a creative digital hub focused on wallpapers, studio assets, and original media projects.
                 </p>
             </div>
             <div class="about-container">
                 <div class="about-intro">
-                    <p class="about-kicker">Creator First Platform</p>
-                    <h2 class="about-lead">We design premium-looking visual packs that help short-form creators publish faster and look more original.</h2>
+                    <p class="about-kicker">Creative Asset Hub</p>
+                    <h2 class="about-lead">Our goal is to build beautiful, useful, and accessible digital content for creators, students, and visual enthusiasts.</h2>
                     <div class="about-stats">
                         <div class="about-stat">
-                            <p class="about-stat-value">50+</p>
-                            <p class="about-stat-label">Aesthetic assets currently live</p>
+                            <p class="about-stat-value">1000+</p>
+                            <p class="about-stat-label">Wallpapers currently available and growing</p>
                         </div>
                         <div class="about-stat">
-                            <p class="about-stat-value">24-48h</p>
-                            <p class="about-stat-label">Typical support response window</p>
+                            <p class="about-stat-value">Daily</p>
+                            <p class="about-stat-label">Fresh wallpapers and visual assets added over time</p>
                         </div>
                         <div class="about-stat">
-                            <p class="about-stat-value">Global</p>
-                            <p class="about-stat-label">Used by creators across multiple regions</p>
+                            <p class="about-stat-value">100%</p>
+                            <p class="about-stat-label">Downloads for personal and commercial creative use</p>
                         </div>
                     </div>
                 </div>
@@ -2419,11 +2530,11 @@
                         </div>
                         <h2 class="about-heading">What We Create</h2>
                         <p class="about-text">
-                            Every pack is curated for social-first storytelling: clean loops, textured stills, and scenes that drop directly into reels, edits, and promos.
+                            PMW Studio focuses on editable background clips and cinematic scenes, while PMW Wallpapers collects mobile-first images for AMOLED, anime, celestial samurai, dark aesthetic, romantic, and future wallpaper categories.
                         </p>
                         <div class="about-points">
-                            <p class="about-point">Vertical-friendly formats for modern editing workflows</p>
-                            <p class="about-point">Visual direction focused on mood, tone, and cinematic clarity</p>
+                            <p class="about-point">Video assets for reels, edits, promos, and creative projects</p>
+                            <p class="about-point">Wallpaper panels with titles, descriptions, resolutions, tags, and direct downloads</p>
                         </div>
                     </div>
                     <div class="about-card">
@@ -2437,11 +2548,11 @@
                         </div>
                         <h2 class="about-heading">How We Work</h2>
                         <p class="about-text">
-                            We mix trend awareness with timeless design choices so your projects feel current without looking copied. New content is selected for usefulness, not just volume.
+                            We separate each asset type into its own page so the website can keep growing without becoming messy. New wallpapers and visuals are organized by category, searchable metadata, and clear download paths.
                         </p>
                         <div class="about-points">
-                            <p class="about-point">Asset quality checks before publishing</p>
-                            <p class="about-point">Focus on reusable, edit-friendly scenes</p>
+                            <p class="about-point">Separate data files make large wallpaper uploads easier to maintain</p>
+                            <p class="about-point">Categories and metadata are kept visible so users can find the right asset faster</p>
                         </div>
                     </div>
                     <div class="about-card about-credit-card">
@@ -2454,7 +2565,7 @@
                         </div>
                         <h2 class="about-heading">Usage & Credit</h2>
                         <p class="about-text">
-                            You can use PMW Visuals assets in personal and commercial creative projects. A visible credit helps us keep releasing more free packs.
+                            You can use PMW Visuals assets in personal and commercial creative projects. A visible credit helps keep new PMW Studio packs and PMW Wallpapers collections coming.
                         </p>
                         <div class="credit-badge">
                             <span class="credit-label">Credit</span>
@@ -2606,7 +2717,7 @@
             </div>
             <h3 class="download-modal-title">Preparing Download</h3>
             <p class="download-modal-filename" id="downloadFilename">Your file is getting ready...</p>
-            <p class="download-modal-credits">We really appreciate mentioning credits as @PMW Studios</p>
+            <p class="download-modal-credits">We really appreciate mentioning credits as @PMW Visuals</p>
             <p class="download-modal-ai-note" style="color: #ff4444; font-size: 0.75rem; margin-top: 8px; font-weight: 600;">Some clips are AI-generated and may include stylized or non-realistic motion.</p>
             <div class="download-progress-ring">
                 <svg width="120" height="120" viewBox="0 0 120 120">
@@ -2634,248 +2745,8 @@
         // All 52 aesthetic videos linked directly in assetsData below
 
         // ===== DATA =====
-        const categories = [
-            {
-                id: 'aesthetic',
-                name: 'Aesthetic',
-                description: 'Soft tones, dreamy lighting, and visually pleasing scenes perfect for mood edits and lifestyle content.',
-                image: 'https://drive.google.com/thumbnail?id=1NjPycGSYCKw6klyQIcFdT7HMBYF_1In2&sz=w800',
-                count: 52
-            },
-            {
-                id: 'romantic',
-                name: 'Romantic',
-                description: 'Warm hues, intimate settings, and emotional backdrops designed for love stories and heartfelt moments.',
-                image: 'https://drive.google.com/thumbnail?id=1kNoNog8bRezP52FffJ_ebHsAzXuoZQOo&sz=w800',
-                count: 30
-            },
-            {
-                id: 'dancing',
-                name: 'City',
-                description: 'Urban landscapes, street scenes, and metropolitan vibes perfect for city-life edits and modern storytelling.',
-                image: 'https://drive.google.com/thumbnail?id=1Byjb2HYDw7N6My7XJil3Qc0pNFCtxpIC&sz=w800',
-                count: 26
-            },
-            {
-                id: 'cinematic',
-                name: 'Cinematic',
-                description: 'Dramatic compositions, film grain aesthetics, and wide-angle scenes for movie-like visual storytelling.',
-                image: 'https://drive.google.com/thumbnail?id=1CnCuWTIw74fx1zQWUKEEScRpiw-ssUcP&sz=w800',
-                count: 29
-            },
-            {
-                id: 'emotional',
-                name: 'Black and White',
-                description: 'Monochrome scenes, dramatic shadows, and timeless grayscale visuals for classic and moody storytelling.',
-                image: 'https://drive.google.com/thumbnail?id=1vBGTQ7hrK8n_JXv6NMIyr4a6z6NZvWN4&sz=w800',
-                count: 14
-            },
-            {
-                id: 'blackwhite',
-                name: 'Solitude',
-                description: 'Quiet, introspective scenes capturing solitude, stillness, and the beauty of being alone with your thoughts.',
-                image: 'https://drive.google.com/thumbnail?id=1uGExIyEbrTkArJ6TZA9lGUFFExeOGzCv&sz=w800',
-                count: 31
-            }
-        ];
-
-        const assetsData = {
-            aesthetic: [
-                { title: 'A Lonely Man', desc: 'a man stading alone in a vast grassy land', thumbnail: 'https://drive.google.com/thumbnail?id=1QVnMgoFI6OHR5c-gqUatMbcoLq1yb07F&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1QVnMgoFI6OHR5c-gqUatMbcoLq1yb07F', tag: 'Dramatic'},
-                { title: 'Lonely Boy in a City', desc: 'a boy watching stars from a rooftop', thumbnail: 'https://drive.google.com/thumbnail?id=1202OoD_3JtC7IoABFG2w7FFhYslv-9Bd&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1202OoD_3JtC7IoABFG2w7FFhYslv-9Bd', tag: 'Motion'},
-                { title: 'A Pinky Rose', desc: 'a close view of a beautiful rose flower', thumbnail: 'https://drive.google.com/thumbnail?id=1CVWYD36vl8eIavRIOEezmaOMTv44Z4h9&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1CVWYD36vl8eIavRIOEezmaOMTv44Z4h9', tag: 'Motion'},
-                { title: 'A Tearful Eye', desc: 'a closed view of a girl eye', thumbnail: 'https://drive.google.com/thumbnail?id=10qfLu_xcvguCaacKrKo99eC9kbhtXH-m&sz=w800', video: 'https://drive.google.com/uc?export=download&id=10qfLu_xcvguCaacKrKo99eC9kbhtXH-m', tag: 'Montague'},
-                { title: 'Dark Misty Forest', desc: 'a dark misty forest video', thumbnail: 'https://drive.google.com/thumbnail?id=1BQrrbDcu-IRstento-14ufRRE5TT4jR7&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1BQrrbDcu-IRstento-14ufRRE5TT4jR7', tag: 'Montague'},
-                { title: 'A Misty Night', desc: 'a dark scary forest with mist', thumbnail: 'https://drive.google.com/thumbnail?id=1eNQCSfz_xGKDyvcM_RfL4DzfdHVz9UJV&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1eNQCSfz_xGKDyvcM_RfL4DzfdHVz9UJV', tag: 'Motion'},
-                { title: 'Brighty Night', desc: 'a bright night in a fairytale jungle', thumbnail: 'https://drive.google.com/thumbnail?id=1DbQ9neOQKt90jSkZXW8MfkabyRI4U0Sb&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1DbQ9neOQKt90jSkZXW8MfkabyRI4U0Sb', tag: 'Dramatic'},
-                { title: 'Soft Blue Morning', desc: 'a fairytale jungle with everything glittering', thumbnail: 'https://drive.google.com/thumbnail?id=12VEsW6d2etZrFGk1ecHgQTUEakSaGKXr&sz=w800', video: 'https://drive.google.com/uc?export=download&id=12VEsW6d2etZrFGk1ecHgQTUEakSaGKXr', tag: 'Motion'},
-                { title: 'FairyLand Night', desc: 'a beautiful fairyland forest with fireflies everywhere', thumbnail: 'https://drive.google.com/thumbnail?id=1U1ckj2SVEFF0brq2rvXXSwx3fBsjJMqt&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1U1ckj2SVEFF0brq2rvXXSwx3fBsjJMqt', tag: 'Motion'},
-                { title: 'Misty Forest', desc: 'a misty forest in daylight', thumbnail: 'https://drive.google.com/thumbnail?id=1FTuRyWaJ0na0_vlCj7G3A1l-ipp-Ve1T&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1FTuRyWaJ0na0_vlCj7G3A1l-ipp-Ve1T', tag: 'Static'},
-                { title: 'Ethereal Mist Walk', desc: 'Misty atmospheric walk through ethereal fog', thumbnail: 'https://drive.google.com/thumbnail?id=106CW9yq69uZFNNVkdMlggEfvsdcqCRlP&sz=w800', video: 'https://drive.google.com/uc?export=download&id=106CW9yq69uZFNNVkdMlggEfvsdcqCRlP', tag: 'Montague'},
-                { title: 'Grassy Land', desc: 'a grassland near forest', thumbnail: 'https://drive.google.com/thumbnail?id=1JI7B6dUN3P02Oin0PMXI8Ids2OjsLpyH&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1JI7B6dUN3P02Oin0PMXI8Ids2OjsLpyH', tag: 'Motion'},
-                { title: 'Bright Grassland', desc: 'a grassland near forest', thumbnail: 'https://drive.google.com/thumbnail?id=1aDkv2QIGoIPRhp9qjuj0A47uASJR8czO&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1aDkv2QIGoIPRhp9qjuj0A47uASJR8czO', tag: 'Static'},
-                { title: 'Hot Air Baloon', desc: 'a hot air ballon goes up in', thumbnail: 'https://drive.google.com/thumbnail?id=1pBHecqH4t21US2eQK7tkJXlLk9RS7if7&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1pBHecqH4t21US2eQK7tkJXlLk9RS7if7', tag: 'Static'},
-                { title: 'Rural House', desc: 'a lantern glowing softly outside a rural area', thumbnail: 'https://drive.google.com/thumbnail?id=16nQUB3MOEPoM_yFsaVIjcLOhIC-DD6V2&sz=w800', video: 'https://drive.google.com/uc?export=download&id=16nQUB3MOEPoM_yFsaVIjcLOhIC-DD6V2', tag: 'Dramatic'},
-                { title: 'Mountain View-Point', desc: 'a misty mountain viewpoint for a man', thumbnail: 'https://drive.google.com/thumbnail?id=1h5lu-CakIDR0rc__nzGrBGua6MYAXGbp&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1h5lu-CakIDR0rc__nzGrBGua6MYAXGbp', tag: 'Dramatic'},
-                { title: 'A Leaf Floating', desc: 'a single leaf floating in water', thumbnail: 'https://drive.google.com/thumbnail?id=1sH1vLjh0Hx9o76BhwEH4AIzYXewX9iga&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1sH1vLjh0Hx9o76BhwEH4AIzYXewX9iga', tag: 'Static'},
-                { title: 'Lonely Tree', desc: 'a single tree standing on a hill', thumbnail: 'https://drive.google.com/thumbnail?id=1295SzInkJjaqkSlUQtIIjVR1DJPzZoID&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1295SzInkJjaqkSlUQtIIjVR1DJPzZoID', tag: 'Montague'},
-                { title: 'Candle Light', desc: 'a slow motion shot of a candle flame', thumbnail: 'https://drive.google.com/thumbnail?id=10nnJ1rJWhTNI4cPtSj-yHZnjX0FObtki&sz=w800', video: 'https://drive.google.com/uc?export=download&id=10nnJ1rJWhTNI4cPtSj-yHZnjX0FObtki', tag: 'Montague'},
-                { title: 'Rainy Window', desc: 'a candle near a rainy window', thumbnail: 'https://drive.google.com/thumbnail?id=1aYBAeOsUCgg39etnN6IvDzHAOWoSPGsi&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1aYBAeOsUCgg39etnN6IvDzHAOWoSPGsi', tag: 'Motion'},
-                { title: 'Bird on a Branch', desc: 'a small bird sitting on a branch', thumbnail: 'https://drive.google.com/thumbnail?id=1YOpE1Tbn_4mCdrUpQu31xAbxdjSiAnkb&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1YOpE1Tbn_4mCdrUpQu31xAbxdjSiAnkb', tag: 'Dramatic'},
-                { title: 'Rain Day for a Bird', desc: 'a bird in a rainy outside', thumbnail: 'https://drive.google.com/thumbnail?id=1ILxlDPMcL9QzKUtQu5EbY8l0HeVNwxAN&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1ILxlDPMcL9QzKUtQu5EbY8l0HeVNwxAN', tag: 'Motion'},
-                { title: 'Black Hoarse Running', desc: 'a black horse running along a grassy mountain', thumbnail: 'https://drive.google.com/thumbnail?id=1Ew3WrCMZiXmTc71fD4tSocRJHhuQJNqf&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1Ew3WrCMZiXmTc71fD4tSocRJHhuQJNqf', tag: 'Static'},
-                { title: 'Red Sky', desc: 'a cloudy red sky with the moon visible', thumbnail: 'https://drive.google.com/thumbnail?id=1mhA-zc5xBR5JZ8dU9mySORSSUk0q386k&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1mhA-zc5xBR5JZ8dU9mySORSSUk0q386k', tag: 'Dramatic'},
-                { title: 'Autumn Road', desc: 'an abandoned road covered in fallen autumn', thumbnail: 'https://drive.google.com/thumbnail?id=1rH3z_C0xxG_3oQ8wYzbf5PGdY5uwF1vM&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1rH3z_C0xxG_3oQ8wYzbf5PGdY5uwF1vM', tag: 'Static'},
-                { title: 'Leafy Road', desc: 'a road with many fallen leaves', thumbnail: 'https://drive.google.com/thumbnail?id=1rvdUi_kHS7C6g0zhnF5SjC79PlECPH-B&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1rvdUi_kHS7C6g0zhnF5SjC79PlECPH-B', tag: 'Dramatic'},
-                { title: 'Brihgt Moon Sea', desc: 'a moon has set on hirizon above the sea', thumbnail: 'https://drive.google.com/thumbnail?id=1JYnHqfzBEsafJMU467dGERTejUi2tWnp&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1JYnHqfzBEsafJMU467dGERTejUi2tWnp', tag: 'Montague'},
-                { title: 'A Narrow River', desc: 'a narrow river floating among two mountains', thumbnail: 'https://drive.google.com/thumbnail?id=1qaOC2S71XW2_Naz9xTbNj3DqDZyIH0Ut&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1qaOC2S71XW2_Naz9xTbNj3DqDZyIH0Ut', tag: 'Dramatic'},
-                { title: 'Calm Water', desc: 'a view glides over a calm river', thumbnail: 'https://drive.google.com/thumbnail?id=1ctdEQgXY9QJKxGCgg3hNfZWDQojWosSB&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1ctdEQgXY9QJKxGCgg3hNfZWDQojWosSB', tag: 'Dramatic'},
-                { title: 'Soft Light River', desc: 'a soft light on a rural river', thumbnail: 'https://drive.google.com/thumbnail?id=1FGC3v2PhqrncRrGtpfJLft1_TcH4QnTM&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1FGC3v2PhqrncRrGtpfJLft1_TcH4QnTM', tag: 'Static'},
-                { title: 'Gentle Fog Roll', desc: 'Gentle fog rolling over mountains', thumbnail: 'https://drive.google.com/thumbnail?id=1ejmtB_sRTQvwwUy4A1rRfAwhBZ59kKOx&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1ejmtB_sRTQvwwUy4A1rRfAwhBZ59kKOx', tag: 'Dramatic'},
-                { title: 'Misty Mountains', desc: 'fog slowly lifting over a mountain valley', thumbnail: 'https://drive.google.com/thumbnail?id=1nqoME9Jam6E4EEtMBt23k8ANCscnNcAH&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1nqoME9Jam6E4EEtMBt23k8ANCscnNcAH', tag: 'Motion'},
-                { title: 'Soft Mist Rolls', desc: 'a gentle mist among mountains', thumbnail: 'https://drive.google.com/thumbnail?id=1NnqwRV1ljk86r6IGXhOml176dWyH3FPg&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1NnqwRV1ljk86r6IGXhOml176dWyH3FPg', tag: 'Static'},
-                { title: 'Soft Cloud Form', desc: 'a hilly area covered with mist', thumbnail: 'https://drive.google.com/thumbnail?id=1xsF8mGPUK7Ah15jtrh3e__kmYGttRTGb&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1xsF8mGPUK7Ah15jtrh3e__kmYGttRTGb', tag: 'Dramatic'},
-                { title: 'Scary Dark Forest', desc: 'moon comes to the dark forest scary', thumbnail: 'https://drive.google.com/thumbnail?id=11Kw3GvipDXA3DM0GDiE_SZgc6C4BbElg&sz=w800', video: 'https://drive.google.com/uc?export=download&id=11Kw3GvipDXA3DM0GDiE_SZgc6C4BbElg', tag: 'Motion'},
-                { title: 'A Dark Lake', desc: 'moonlight reflecting on a still lake surrounded by trees', thumbnail: 'https://drive.google.com/thumbnail?id=1dIPjxaR_2CFNJ9ckwkfgo3uW9nHPMZdo&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1dIPjxaR_2CFNJ9ckwkfgo3uW9nHPMZdo', tag: 'Motion'},
-                { title: 'Solitary Man', desc: 'a man standing between foggy mountains', thumbnail: 'https://drive.google.com/thumbnail?id=1FsIwMYdp-eCkPTKwXoeXOgZ57VkP9zqo&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1FsIwMYdp-eCkPTKwXoeXOgZ57VkP9zqo', tag: 'Motion'},
-                { title: 'Lonely Figure Standing', desc: 'a man standing on a mountain cliff', thumbnail: 'https://drive.google.com/thumbnail?id=1lkOeJzByhCWwJ87X5TUeEKQ1C62MjD3V&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1lkOeJzByhCWwJ87X5TUeEKQ1C62MjD3V', tag: 'Montague'},
-                { title: 'Foggy Ember Glow', desc: 'a lonely man stands in a misty area', thumbnail: 'https://drive.google.com/thumbnail?id=10DyMtg5vfeYUCJNGDuPOKp1XQ817NE_l&sz=w800', video: 'https://drive.google.com/uc?export=download&id=10DyMtg5vfeYUCJNGDuPOKp1XQ817NE_l', tag: 'Static'},
-                { title: 'Cloudy Sea Sky', desc: 'a cloudy sky in a sea area', thumbnail: 'https://drive.google.com/thumbnail?id=1EeklkVi0ExlNfcekVV9kWGFsT91GV7aH&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1EeklkVi0ExlNfcekVV9kWGFsT91GV7aH', tag: 'Dramatic'},
-                { title: 'Bright Sea Area', desc: 'sea waves glistening with sunlight', thumbnail: 'https://drive.google.com/thumbnail?id=1qMs28sSZJwCWbg3rOo0DxrdZwXN-WeTt&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1qMs28sSZJwCWbg3rOo0DxrdZwXN-WeTt', tag: 'Static'},
-                { title: 'Evening on Sea', desc: 'Waves gently touching the sea shore', thumbnail: 'https://drive.google.com/thumbnail?id=13_aoSjnrGWHUP7MPl0Bx9XbOccY4SBSw&sz=w800', video: 'https://drive.google.com/uc?export=download&id=13_aoSjnrGWHUP7MPl0Bx9XbOccY4SBSw', tag: 'Montague'},
-                { title: 'Bright Night Sea', desc: 'a sea view at night under moonlight', thumbnail: 'https://drive.google.com/thumbnail?id=19-dBOBV-WpaRjl3hA2RhbLHd7NBlBlyQ&sz=w800', video: 'https://drive.google.com/uc?export=download&id=19-dBOBV-WpaRjl3hA2RhbLHd7NBlBlyQ', tag: 'Montague'},
-                { title: 'Dark Night Sea', desc: 'a sea view in a dark night', thumbnail: 'https://drive.google.com/thumbnail?id=1P-7ZM2HtrTaBRxhE1zBbhbnM7zKjDOLO&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1P-7ZM2HtrTaBRxhE1zBbhbnM7zKjDOLO', tag: 'Motion'},
-                { title: 'Gentle Waves', desc: 'gentle waves rushing to the sea shore', thumbnail: 'https://drive.google.com/thumbnail?id=1NyzVMAdEiu_Nk28xy5YLrP3HYFymRcGS&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1NyzVMAdEiu_Nk28xy5YLrP3HYFymRcGS', tag: 'Montague'},
-                { title: 'Soft Water Ripple', desc: 'Soft water ripples on calm surface', thumbnail: 'https://drive.google.com/thumbnail?id=1a0uJgcPks1qs30J26k5yiVPeFMUte7Ry&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1a0uJgcPks1qs30J26k5yiVPeFMUte7Ry', tag: 'Montague'},
-                { title: 'Freedom among clouds', desc: 'standing above clouds at dawn feeling', thumbnail: 'https://drive.google.com/thumbnail?id=1E3XEELpbWiYEPeK0IkkQw2jPHesUsDQ9&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1E3XEELpbWiYEPeK0IkkQw2jPHesUsDQ9', tag: 'Static'},
-                { title: 'Wet Sea Shore', desc: 'sunset reflecting on wet sand', thumbnail: 'https://drive.google.com/thumbnail?id=1xeVtaNRbT1AGuEt2T27z3Qv7pWTUAKEj&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1xeVtaNRbT1AGuEt2T27z3Qv7pWTUAKEj', tag: 'Montague'},
-                { title: 'Footseps of Memory', desc: 'footsteps on beach erased by waves', thumbnail: 'https://drive.google.com/thumbnail?id=1X8GWrawrD4w4581DGP5SLvfX9M3b5vAP&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1X8GWrawrD4w4581DGP5SLvfX9M3b5vAP', tag: 'Montague'},
-                { title: 'Tear Drop Window', desc: 'Raindrops on a window like tears', thumbnail: 'https://drive.google.com/thumbnail?id=10TqjBR7qSckDkvh2gUpqYs_9qQt4VozO&sz=w800', video: 'https://drive.google.com/uc?export=download&id=10TqjBR7qSckDkvh2gUpqYs_9qQt4VozO', tag: 'Motion'},
-                { title: 'A Warm Welcome', desc: 'gentle sea waves glistening by sunlight', thumbnail: 'https://drive.google.com/thumbnail?id=1GsBD2Taos29SEFCW7F74-lSVH0xqwDcV&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1GsBD2Taos29SEFCW7F74-lSVH0xqwDcV', tag: 'Static'},
-                { title: 'Soft Shadow Stretch', desc: 'an evening on a sea shore', thumbnail: 'https://drive.google.com/thumbnail?id=1N5-W8fyjUTixKwMl2ddDiFKNiW24CpQT&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1N5-W8fyjUTixKwMl2ddDiFKNiW24CpQT', tag: 'Motion'}
-            ],
-            romantic: [
-                { title: 'A Lonely Moment', desc: 'a couple walking slowly along a road', thumbnail: 'https://drive.google.com/thumbnail?id=1X4dz7lEdoW-fOyiFckvbNnwieB3xGkmQ&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1X4dz7lEdoW-fOyiFckvbNnwieB3xGkmQ', tag: 'Dramatic'},
-                { title: 'Butterfly Garden', desc: 'a couple running on a grassyland', thumbnail: 'https://drive.google.com/thumbnail?id=1tWfEthGGMqE6086e8pLk2Hw6FHBWLEnT&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1tWfEthGGMqE6086e8pLk2Hw6FHBWLEnT', tag: 'Dramatic'},
-                { title: 'Broken Romance', desc: 'a couple walking away from each other', thumbnail: 'https://drive.google.com/thumbnail?id=1FJAOBjOHpvwekIZuYwvV7amRwRMLVBHC&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1FJAOBjOHpvwekIZuYwvV7amRwRMLVBHC', tag: 'Static'},
-                { title: 'Sunlight Sadness', desc: 'a couple walks away with sun above them', thumbnail: 'https://drive.google.com/thumbnail?id=1i8TN5UZlN92QY7yJmumOZZVuMkHZeKwE&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1i8TN5UZlN92QY7yJmumOZZVuMkHZeKwE', tag: 'Static'},
-                { title: 'A Broken Love', desc: 'a couple walking away from each other', thumbnail: 'https://drive.google.com/thumbnail?id=14EiKQjVeoCG5wh1QOM6Kb46KeQgDuGQ4&sz=w800', video: 'https://drive.google.com/uc?export=download&id=14EiKQjVeoCG5wh1QOM6Kb46KeQgDuGQ4', tag: 'Static'},
-                { title: 'Sunset City Walk', desc: 'a couple walking in a busy city road', thumbnail: 'https://drive.google.com/thumbnail?id=1I3aCu464DWqqLEkPLXPvSRaiTxn8uM5W&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1I3aCu464DWqqLEkPLXPvSRaiTxn8uM5W', tag: 'Motion'},
-                { title: 'Brighten Sky', desc: 'a couple sitting on a mountain', thumbnail: 'https://drive.google.com/thumbnail?id=1cCQfhpb5S1_asH0DJvoDtDmgEtVgn_sR&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1cCQfhpb5S1_asH0DJvoDtDmgEtVgn_sR', tag: 'Static'},
-                { title: 'Heart Boken Lights', desc: 'a couple watching fireworks in sky', thumbnail: 'https://drive.google.com/thumbnail?id=15VMu9xFCmSoBNTKu2j7s2jl2LjKAVw1s&sz=w800', video: 'https://drive.google.com/uc?export=download&id=15VMu9xFCmSoBNTKu2j7s2jl2LjKAVw1s', tag: 'Dramatic'},
-                { title: 'Moment Under Sea', desc: 'a view of a romantic couple from behind', thumbnail: 'https://drive.google.com/thumbnail?id=14zAcwTnYuZK-MqHYlmGRbBTTQUWMYpqA&sz=w800', video: 'https://drive.google.com/uc?export=download&id=14zAcwTnYuZK-MqHYlmGRbBTTQUWMYpqA', tag: 'Dramatic'},
-                { title: 'Tulip Field Sunset', desc: 'a knight and a princess walking in a vast land', thumbnail: 'https://drive.google.com/thumbnail?id=1-ANB0_NnfHt_moNnlqcS5ApxETBoUvzo&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1-ANB0_NnfHt_moNnlqcS5ApxETBoUvzo', tag: 'Dramatic'},
-                { title: 'Land of Love', desc: 'a couple walking holding hands', thumbnail: 'https://drive.google.com/thumbnail?id=1ygvfiqQ3nleNm7XWm7LeVxeOW8MjVHoL&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1ygvfiqQ3nleNm7XWm7LeVxeOW8MjVHoL', tag: 'Montague'},
-                { title: 'Ring on Finger', desc: 'a slow embrace on a rooftop wind', thumbnail: 'https://drive.google.com/thumbnail?id=1fdOo-lnVnn43bLvXMABKHObkmoroUdsr&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1fdOo-lnVnn43bLvXMABKHObkmoroUdsr', tag: 'Motion'},
-                { title: 'Embrace On Balcony', desc: 'Warm fire glow with silhouetted couple', thumbnail: 'https://drive.google.com/thumbnail?id=1BWzHxfWPw9h18__OOEFVPDAD7oia0YxP&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1BWzHxfWPw9h18__OOEFVPDAD7oia0YxP', tag: 'Static'},
-                { title: 'Moonlit Balcony', desc: 'a couple hugging each other on balcony', thumbnail: 'https://drive.google.com/thumbnail?id=1yl6J5ZhW8blGAQfmxvsrDT4moDlOaZiv&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1yl6J5ZhW8blGAQfmxvsrDT4moDlOaZiv', tag: 'Motion'},
-                { title: 'Love Dance', desc: 'a couple dancing in a party', thumbnail: 'https://drive.google.com/thumbnail?id=1KphZM3hhr8pMmuzJcqUPgXgCPU7VIQ_b&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1KphZM3hhr8pMmuzJcqUPgXgCPU7VIQ_b', tag: 'Montague'},
-                { title: 'Flow of Love', desc: 'a japanese couple watching a river', thumbnail: 'https://drive.google.com/thumbnail?id=1m_CeZJCNtvfy6zmnYd9RhSm_jVqslqS9&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1m_CeZJCNtvfy6zmnYd9RhSm_jVqslqS9', tag: 'Dramatic'},
-                { title: 'Eternal Walk', desc: 'a japanese couple walking side by side',thumbnail: 'https://drive.google.com/thumbnail?id=1OzPy8A2wtUcAZ8jROZDcZxWYa8Uvkyd9&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1OzPy8A2wtUcAZ8jROZDcZxWYa8Uvkyd9', tag: 'Motion'},
-                { title: 'Kiss in Dark', desc: 'a couple hugging eache other in a dark room', thumbnail: 'https://drive.google.com/thumbnail?id=1HY3AMjZVQzUx68tItgbCN6w0Z5NQdVa1&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1HY3AMjZVQzUx68tItgbCN6w0Z5NQdVa1', tag: 'Static'},
-                { title: 'Dancing Dark', desc: 'a couple dancing in a dark room',  thumbnail: 'https://drive.google.com/thumbnail?id=1YO34TAZ3fikqttQ0H8rxPC8Y30WvAmZj&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1YO34TAZ3fikqttQ0H8rxPC8Y30WvAmZj', tag: 'Dramatic'},
-                { title: 'Religious Love', desc: 'a chinese couple walking in temple', thumbnail: 'https://drive.google.com/thumbnail?id=1E_Yn0yM97USWNcrUASHkf-ej0DBLxvbf&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1E_Yn0yM97USWNcrUASHkf-ej0DBLxvbf', tag: 'Motion'},
-                { title: 'Floating Romance', desc: 'a japanese couple in a middle of a lake', thumbnail: 'https://drive.google.com/thumbnail?id=1aGBVwU00LZjrazBtBWbgW12dyNrCLu8r&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1aGBVwU00LZjrazBtBWbgW12dyNrCLu8r', tag: 'Montague'},
-                { title:  'Path of Petals', desc: 'a couple walking in a flower rain', thumbnail: 'https://drive.google.com/thumbnail?id=10Kgub9veLoM4dVRAY6jHBFomEz3rJv5O&sz=w800', video: 'https://drive.google.com/uc?export=download&id=10Kgub9veLoM4dVRAY6jHBFomEz3rJv5O', tag: 'Dramatic'},
-                { title: 'Alone in World', desc: 'a couple walks in a forest holding hands', thumbnail: 'https://drive.google.com/thumbnail?id=10qTPDnhsKOkcvTrzjexNG7IdisXB2O6N&sz=w800', video: 'https://drive.google.com/uc?export=download&id=10qTPDnhsKOkcvTrzjexNG7IdisXB2O6N', tag: 'Dramatic'},
-                { title: 'Calm as Sea', desc: 'a couple under a cloudy sky near the sea', thumbnail: 'https://drive.google.com/thumbnail?id=1v745mFFaQQJV1LoxZJ_pn_Te-f5nVhCJ&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1v745mFFaQQJV1LoxZJ_pn_Te-f5nVhCJ', tag: 'Dramatic'},
-                { title: 'Together for Forever', desc: 'a couples hands making a heart together', thumbnail: 'https://drive.google.com/thumbnail?id=1DZWcRf1K2PQOr03VZWBvOPwHuOqxOSNZ&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1DZWcRf1K2PQOr03VZWBvOPwHuOqxOSNZ', tag: 'Dramatic'},
-                { title:'Polaroid Memories', desc: 'a couple watching night sky', thumbnail: 'https://drive.google.com/thumbnail?id=1_5OHX2IqeuW0ni4mJgxwfXIsXTX7H6k5&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1_5OHX2IqeuW0ni4mJgxwfXIsXTX7H6k5', tag: 'Montague'},
-                { title: 'Swing at Sunset', desc: 'a couple walking under golden sunrise', thumbnail: 'https://drive.google.com/thumbnail?id=1Kc8Ud_Ps6vfvRzMy6relIEoHcmZaDU7f&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1Kc8Ud_Ps6vfvRzMy6relIEoHcmZaDU7f', tag: 'Static'},
-                { title: 'Bright as Love', desc: 'a couple watching the nothern lights', thumbnail: 'https://drive.google.com/thumbnail?id=1AjQnBElG9aSGKX5Ya5luLlhX_oE6DFvK&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1AjQnBElG9aSGKX5Ya5luLlhX_oE6DFvK', tag: 'Motion'},
-                { title: 'Embrace under sky', desc: 'a couple holding hands under nothern light', thumbnail: 'https://drive.google.com/thumbnail?id=1ymoY38trtD5pZByiNNvftbN4TSAU3824&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1ymoY38trtD5pZByiNNvftbN4TSAU3824', tag: 'Montague'},
-                { title: 'Loving Sky', desc: 'a couple watched fireworks from balcony', thumbnail: 'https://drive.google.com/thumbnail?id=1a7CCVKKUmoRzGcOND09fniDPD4KEQW8i&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1a7CCVKKUmoRzGcOND09fniDPD4KEQW8i', tag: 'Montague'}
-            ],
-                        dancing: [
-                { title: 'City Scene 1', desc: 'Cars streaming through illuminated downtown streets', thumbnail: 'https://drive.google.com/thumbnail?id=1uunEnA9PHxPVS8U5CQ6RKscZEel4a-pP&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1uunEnA9PHxPVS8U5CQ6RKscZEel4a-pP', tag: 'Dramatic'},
-                { title: 'City Scene 2', desc: 'Panoramic view of skyscrapers at golden hour', thumbnail: 'https://drive.google.com/thumbnail?id=1KZv796ndItg4IWImqdyO91J_RjoTHDp8&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1KZv796ndItg4IWImqdyO91J_RjoTHDp8', tag: 'Dramatic'},
-                { title: 'City Scene 3', desc: 'Train pulling into underground station with commuters', thumbnail: 'https://drive.google.com/thumbnail?id=1NZ0s_luIR9adaVa5U4a5lz_CHXym3b6M&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1NZ0s_luIR9adaVa5U4a5lz_CHXym3b6M', tag: 'Motion'},
-                { title: 'City Scene 4', desc: 'Neon signs mirrored on wet pavement', thumbnail: 'https://drive.google.com/thumbnail?id=10vX70TxRnlkONnd7UT8sc_VBxys40Ekq&sz=w800', video: 'https://drive.google.com/uc?export=download&id=10vX70TxRnlkONnd7UT8sc_VBxys40Ekq', tag: 'Montague'},
-                { title: 'City Scene 5', desc: 'Steam rising inside with busy street outside', thumbnail: 'https://drive.google.com/thumbnail?id=1VgdnfsA3rHpbWCS1vUCDwkH_aIZ8iJcj&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1VgdnfsA3rHpbWCS1vUCDwkH_aIZ8iJcj', tag: 'Static'},
-                { title: 'City Scene 6', desc: 'Tower crane against blue sky with clouds', thumbnail: 'https://drive.google.com/thumbnail?id=11Soh96IALhf9IJC-ey3LMlmbdQCEwaW9&sz=w800', video: 'https://drive.google.com/uc?export=download&id=11Soh96IALhf9IJC-ey3LMlmbdQCEwaW9', tag: 'Motion'},
-                { title: 'City Scene 7', desc: 'Cyclists in dedicated lane at morning commute', thumbnail: 'https://drive.google.com/thumbnail?id=1u0aejT3DoAFcnk_W2gdf66bemTMsV4GN&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1u0aejT3DoAFcnk_W2gdf66bemTMsV4GN', tag: 'Static'},
-                { title: 'City Scene 8', desc: 'Narrow passage with hanging lanterns and vendors', thumbnail: 'https://drive.google.com/thumbnail?id=1vIMJnpbGVK8gWqgJQPdJ1zKQZFqNcxqT&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1vIMJnpbGVK8gWqgJQPdJ1zKQZFqNcxqT', tag: 'Montague'},
-                { title: 'City Scene 9', desc: 'Overhead view of vehicles crossing suspension bridge', thumbnail: 'https://drive.google.com/thumbnail?id=15P5oq_9kJerywajAaneJhIqVnn-Hkm2x&sz=w800', video: 'https://drive.google.com/uc?export=download&id=15P5oq_9kJerywajAaneJhIqVnn-Hkm2x', tag: 'Montague'},
-                { title: 'City Scene 10', desc: 'Colorful mural with pedestrians walking past', thumbnail: 'https://drive.google.com/thumbnail?id=1oX7mM3GBTxWm0cO2GyicMlV9Vt-tmXms&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1oX7mM3GBTxWm0cO2GyicMlV9Vt-tmXms', tag: 'Montague'},
-                { title: 'City Scene 11', desc: 'Boats docking with city skyline backdrop', thumbnail: 'https://drive.google.com/thumbnail?id=1u_xPrOCMMOx-9GC6ReOfYePKNBY_fsLV&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1u_xPrOCMMOx-9GC6ReOfYePKNBY_fsLV', tag: 'Montague'},
-                { title: 'City Scene 12', desc: 'Multi-level interchange with flowing traffic', thumbnail: 'https://drive.google.com/thumbnail?id=1AQ5uYRVRqCJwxvBDRTWOZDH23qPNhDBF&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1AQ5uYRVRqCJwxvBDRTWOZDH23qPNhDBF', tag: 'Static'},
-                { title: 'City Scene 13', desc: 'Tree-lined boulevard with taxis and walkers', thumbnail: 'https://drive.google.com/thumbnail?id=1c8zdTsMtKuRoOBIlDQ4oBDo1Kp6WySQF&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1c8zdTsMtKuRoOBIlDQ4oBDo1Kp6WySQF', tag: 'Motion'},
-                { title: 'City Scene 14', desc: 'Crowd crossing at busy intersection', thumbnail: 'https://drive.google.com/thumbnail?id=13U72xEAghyE2SsfhoAxKivKW7zSjr7mo&sz=w800', video: 'https://drive.google.com/uc?export=download&id=13U72xEAghyE2SsfhoAxKivKW7zSjr7mo', tag: 'Motion'},
-                { title: 'City Scene 15', desc: 'Infinity pool overlooking urban landscape', thumbnail: 'https://drive.google.com/thumbnail?id=1XBqli6OL9g9f6MMUFP44Z-p_KrBiH_ui&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1XBqli6OL9g9f6MMUFP44Z-p_KrBiH_ui', tag: 'Dramatic'},
-                { title: 'City Scene 16', desc: 'Food cart with steam and city lights', thumbnail: 'https://drive.google.com/thumbnail?id=1dzAoHO83mkGqUYiPL0DAgS9pbVO91qdu&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1dzAoHO83mkGqUYiPL0DAgS9pbVO91qdu', tag: 'Dramatic'},
-                { title: 'City Scene 17', desc: 'Passengers walking through modern glass hall', thumbnail: 'https://drive.google.com/thumbnail?id=1vMbOM6oRwlsx4M8HNDWldsicr8zC5QYe&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1vMbOM6oRwlsx4M8HNDWldsicr8zC5QYe', tag: 'Montague'},
-                { title: 'City Scene 18', desc: 'Water jets with skyline in background', thumbnail: 'https://drive.google.com/thumbnail?id=1BxDeqgBVJsbtSTO3qMiB6qNlvu4d1uic&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1BxDeqgBVJsbtSTO3qMiB6qNlvu4d1uic', tag: 'Motion'},
-                { title: 'City Scene 19', desc: 'Cars on curved ramp with concrete walls', thumbnail: 'https://drive.google.com/thumbnail?id=1deKx8H1WXIqCXRfm3MqjkNyKwxStb2vB&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1deKx8H1WXIqCXRfm3MqjkNyKwxStb2vB', tag: 'Montague'},
-                { title: 'City Scene 20', desc: 'Passengers silhouetted against street lights', thumbnail: 'https://drive.google.com/thumbnail?id=1smRRyjNAFpqKO6Llw2XJoPqEQj9b1sLe&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1smRRyjNAFpqKO6Llw2XJoPqEQj9b1sLe', tag: 'Montague'},
-                { title: 'City Scene 21', desc: 'People strolling along harbor at dusk', thumbnail: 'https://drive.google.com/thumbnail?id=1AesmaLwx6_VAal6ZU1SLuD8a7PgXjler&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1AesmaLwx6_VAal6ZU1SLuD8a7PgXjler', tag: 'Static'},
-                { title: 'City Scene 22', desc: 'Metal stairs with brick wall backdrop', thumbnail: 'https://drive.google.com/thumbnail?id=1psXtdr6tDNdNE-GytZGXzkfrgdo5P-M9&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1psXtdr6tDNdNE-GytZGXzkfrgdo5P-M9', tag: 'Montague'},
-                { title: 'City Scene 23', desc: 'Classical architecture with modern city behind', thumbnail: 'https://drive.google.com/thumbnail?id=1w1L0paw6MHMdXrgYn7BbiJzqxGqrnD1R&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1w1L0paw6MHMdXrgYn7BbiJzqxGqrnD1R', tag: 'Dramatic'},
-		{ title: 'City Scene 24', desc: 'God rays piercing through misty trees', thumbnail: 'https://drive.google.com/thumbnail?id=16jMA3KLQH3wD7luJ_NAymjXrZQ2lem3B&sz=w800', video: 'https://drive.google.com/uc?export=download&id=16jMA3KLQH3wD7luJ_NAymjXrZQ2lem3B', tag: 'Montague'},
-		{ title: 'City Scene 25', desc: 'Silk cloth rippling in breeze', thumbnail: 'https://drive.google.com/thumbnail?id=1_QCOXJ89UMtsSdnipYka9jVmk_JwOT5i&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1_QCOXJ89UMtsSdnipYka9jVmk_JwOT5i', tag: 'Static'},
-                { title: 'City Scene 26', desc: 'Single light source in dense fog', thumbnail: 'https://drive.google.com/thumbnail?id=1PmtkAQwhL95IevTNUsLexQPhOy4shgFC&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1PmtkAQwhL95IevTNUsLexQPhOy4shgFC', tag: 'Motion'},
-            ],
-
-cinematic: [
-                { title: 'For the Freedom', desc: 'a girl running in a field of flowers', thumbnail: 'https://drive.google.com/thumbnail?id=1YnypyOZz4GlpAMk4zepf3balYBffKi9w&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1YnypyOZz4GlpAMk4zepf3balYBffKi9w', tag: 'Static'},
-                { title: 'Rainy Cyberpunk Stree', desc: 'a lady in black walking in a dark city alone', thumbnail: 'https://drive.google.com/thumbnail?id=13bFLyVBEXft3XscaIVP6lXr_e_hexGTI&sz=w800', video: 'https://drive.google.com/uc?export=download&id=13bFLyVBEXft3XscaIVP6lXr_e_hexGTI', tag: 'Dramatic'},
-                { title: 'Sorrows of Past', desc: 'a man crying while closing his face', thumbnail: 'https://drive.google.com/thumbnail?id=1uKmm5EElrbOwzm3AlLRmcRdxl3H6iGR4&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1uKmm5EElrbOwzm3AlLRmcRdxl3H6iGR4', tag: 'Montague'},
-                { title: 'Abandoned Love', desc: 'a couple separated by a wall', thumbnail: 'https://drive.google.com/thumbnail?id=1gCn2PlgR-mMID2bO4_cQ9_PmrgLrAGXe&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1gCn2PlgR-mMID2bO4_cQ9_PmrgLrAGXe', tag: 'Static'},
-                { title: 'Club of Rizz', desc: 'a young lady entering into a night club', thumbnail: 'https://drive.google.com/thumbnail?id=1-a50AH_tWR3INZRhxdz5s5c-DzA6DF0a&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1-a50AH_tWR3INZRhxdz5s5c-DzA6DF0a', tag: 'Dramatic'},
-                { title: 'Flower Path', desc: 'a girl running in a yelllow flowers jungle', thumbnail: 'https://drive.google.com/thumbnail?id=1qVjom6w7FmXbWlCuZoqVU7vfwy-0SLL4&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1qVjom6w7FmXbWlCuZoqVU7vfwy-0SLL4', tag: 'Dramatic'},
-                { title: 'Dandelion Valley', desc: "a girl running in a field of dandelion", thumbnail: 'https://drive.google.com/thumbnail?id=1qJPGAK8q6eaRsx4i1IjvYtuN7e5ZZdMa&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1qJPGAK8q6eaRsx4i1IjvYtuN7e5ZZdMa', tag: 'Dramatic'},
-                { title: 'Lake of Dawn', desc: 'an art of girl reading a book near a river bank', thumbnail: 'https://drive.google.com/thumbnail?id=1Uzfk6XljW-IdiY56jIyXWXFObqHISWuc&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1Uzfk6XljW-IdiY56jIyXWXFObqHISWuc', tag: 'Montague'},
-                { title: 'Story of Books', desc: 'a girl reading a book near a river bank', thumbnail: 'https://drive.google.com/thumbnail?id=1NxcT1uS9iBeyV6HUgKX5Di-RUvMObMld&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1NxcT1uS9iBeyV6HUgKX5Di-RUvMObMld', tag: 'Motion'},
-                { title:  'Angels in ABove', desc: 'a girl standing in an open field', thumbnail: 'https://drive.google.com/thumbnail?id=1a12nAST6q_yHja3w_q8S5h6pbz-T_Ioc&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1a12nAST6q_yHja3w_q8S5h6pbz-T_Ioc', tag: 'Motion'},
-                { title: 'Mist of Dawn', desc: 'a girl walking barefoot on morning mist', thumbnail: 'https://drive.google.com/thumbnail?id=1Pv05So5_mkTGvUNJqeOQ0trac9PaOJ4D&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1Pv05So5_mkTGvUNJqeOQ0trac9PaOJ4D', tag: 'Montague'},
-                { title: 'Soften Touch', desc: 'a girl walking barefoot on grass', thumbnail: 'https://drive.google.com/thumbnail?id=1eRPu7RADE3i5WV_rlW2cMccAsmJjo9Xs&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1eRPu7RADE3i5WV_rlW2cMccAsmJjo9Xs', tag: 'Motion'},
-                { title: 'Girls Taking Steps', desc: 'a girl walking barefoot on ground', thumbnail: 'https://drive.google.com/thumbnail?id=1zsVY9ctX3DoCPusFceR15tH5thvwpctU&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1zsVY9ctX3DoCPusFceR15tH5thvwpctU', tag: 'Montague'},
-                { title: 'A Dry Wind', desc: 'a hand reaching out of the car', thumbnail: 'https://drive.google.com/thumbnail?id=1pJrIhAt98YheAmzPH3Mv2rpMHAtS3X8g&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1pJrIhAt98YheAmzPH3Mv2rpMHAtS3X8g', tag: 'Montague'},
-                { title: 'Hard Times', desc: 'a sandy dry view out of the car', thumbnail: 'https://drive.google.com/thumbnail?id=1IsbUvfdWd5Jzn9pLo5eNme6WLM7niCEN&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1IsbUvfdWd5Jzn9pLo5eNme6WLM7niCEN', tag: 'Montague'},
-                { title: 'A Broken Heart', desc: 'a heart made of glass shattering into pieces', thumbnail: 'https://drive.google.com/thumbnail?id=1PPGQ8D1x1tY7d_gKWoZQKoDaefUJwA_G&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1PPGQ8D1x1tY7d_gKWoZQKoDaefUJwA_G', tag: 'Motion'},
-                { title: 'Canyon Depths', desc: 'a man staring at burning city', thumbnail: 'https://drive.google.com/thumbnail?id=1BeZa-hT-qgcCKFyjTO2v21pgGmG7-9wI&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1BeZa-hT-qgcCKFyjTO2v21pgGmG7-9wI', tag: 'Static'},
-                { title: 'Majestic Bird', desc: 'an eagle stands with all his majesty', thumbnail: 'https://drive.google.com/thumbnail?id=1niqSpdu2VUxtc3RBaqX2QOdhDiHeScU9&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1niqSpdu2VUxtc3RBaqX2QOdhDiHeScU9', tag: 'Static'},
-                { title: 'Crowd Pulse', desc: 'a crowd of people dancing in a club', thumbnail: 'https://drive.google.com/thumbnail?id=1JiP_9A9H-JFHIQ8U3hUgoV0EFbdPAUvK&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1JiP_9A9H-JFHIQ8U3hUgoV0EFbdPAUvK', tag: 'Montague'},
-                { title: 'Mist Veil', desc: 'a young beautiful lady covered in fog', thumbnail: 'https://drive.google.com/thumbnail?id=17wPNIDo8RvG-og4-nw3WyraXAdeyBNP-&sz=w800', video: 'https://drive.google.com/uc?export=download&id=17wPNIDo8RvG-og4-nw3WyraXAdeyBNP-', tag: 'Dramatic'},
-                { title: 'Heart Formation', desc: 'a flock of birds flying in a heart shape', thumbnail: 'https://drive.google.com/thumbnail?id=1gJJyjqzbqHeDyushCeNkn9XVIJZX95du&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1gJJyjqzbqHeDyushCeNkn9XVIJZX95du', tag: 'Static'},
-                { title: 'Neon Spotlight', desc: 'a beautiful lady in a club', thumbnail: 'https://drive.google.com/thumbnail?id=1bU6yn-vdRf7lqGPIqfjotBzYiyJTmks2&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1bU6yn-vdRf7lqGPIqfjotBzYiyJTmks2', tag: 'Static'},
-                { title: 'Endless Horizon', desc: 'a long road in the middle of a grassland', thumbnail: 'https://drive.google.com/thumbnail?id=1b4OyYMIby19qvqEsVDc5pA77hPP_-R1O&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1b4OyYMIby19qvqEsVDc5pA77hPP_-R1O', tag: 'Motion'},
-                { title: 'Dark Gallop', desc: 'a black horse running along a grassy mountain', thumbnail: 'https://drive.google.com/thumbnail?id=1CzfqGh1-iuAqMZt_HeJZtpO73t5h-5X7&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1CzfqGh1-iuAqMZt_HeJZtpO73t5h-5X7', tag: 'Dramatic'},
-                { title: 'Window Journey', desc: 'a view of a countryside from a train window', thumbnail: 'https://drive.google.com/thumbnail?id=1DhYelnRpVfq3pa6rIwOh8DMJAsmaYFJc&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1DhYelnRpVfq3pa6rIwOh8DMJAsmaYFJc', tag: 'Dramatic'},
-                { title: 'Heavenly Rays', desc: 'the light of heaven comes through', thumbnail: 'https://drive.google.com/thumbnail?id=1kjux4L5GlSjvOiygjde6C7_-eFNQqcXl&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1kjux4L5GlSjvOiygjde6C7_-eFNQqcXl', tag: 'Static'},
-                { title: 'Lantern Ascent', desc: 'paper lanterns released into the night sky', thumbnail: 'https://drive.google.com/thumbnail?id=1y_YDexdjdz89p-wsb5kM0Cw7EvYneBz7&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1y_YDexdjdz89p-wsb5kM0Cw7EvYneBz7', tag: 'Static'},
-                { title: 'Lantern Sky', desc: 'a sky full of paper lanterns', thumbnail: 'https://drive.google.com/thumbnail?id=1Sdbc2e4j5C5uQ5UlbEfSqtqFhd41UR7u&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1Sdbc2e4j5C5uQ5UlbEfSqtqFhd41UR7u', tag: 'Motion'},
-                { title: 'Winters Touch', desc: 'snowflakes landing on eyelashes of a girl', thumbnail: 'https://drive.google.com/thumbnail?id=1mfk0-lYuwZUiEOUbuzOy4TpI7ZvAZv3k&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1mfk0-lYuwZUiEOUbuzOy4TpI7ZvAZv3k', tag: 'Dramatic'},
-                { title: 'A Grand Entrance', desc: 'vast big luxury majestic iron gate opening', thumbnail: 'https://drive.google.com/thumbnail?id=1DdIG_N8HKYoCCqu651ujgioUgpWn4XIo&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1DdIG_N8HKYoCCqu651ujgioUgpWn4XIo', tag: 'Motion'},
-		{ title: 'Radiance of Heaver', desc: 'a lonely figure in a dark room', thumbnail: 'https://drive.google.com/thumbnail?id=175p6hGtiK72r7WcVLQxx3FgulRVvH4o5&sz=w800', video: 'https://drive.google.com/uc?export=download&id=175p6hGtiK72r7WcVLQxx3FgulRVvH4o5', tag: 'Motion'},
-            ],
-            emotional: [
-                { title: 'Helping Hand Reaches', desc: 'a lady giving a hand to a fallen man as a help', thumbnail: 'https://drive.google.com/thumbnail?id=1R0A-qUS14dEScRMak4MO5w7SNa6EvGCA&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1R0A-qUS14dEScRMak4MO5w7SNa6EvGCA', tag: 'Motion'},
-                { title: 'Silhouette in Motion', desc: 'a lone figure moving smoothly with flowing', thumbnail: 'https://drive.google.com/thumbnail?id=1_j2F1ZrW4zYJaunlYYAXwG4o_iP1ej92&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1_j2F1ZrW4zYJaunlYYAXwG4o_iP1ej92', tag: 'Static'},
-                { title: 'Watching Her Leave', desc: 'a man staring at a woman walking', thumbnail: 'https://drive.google.com/thumbnail?id=1b0SN0a5oqlM-PHIZlK-DXwnZyh3vngsf&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1b0SN0a5oqlM-PHIZlK-DXwnZyh3vngsf', tag: 'Montague'},
-                { title: 'Barefoot on Glass', desc: 'a man walking barefoot on broken glass', thumbnail: 'https://drive.google.com/thumbnail?id=144-SyN-a_I4WMF3bnT00UlxQLnt6xyR7&sz=w800', video: 'https://drive.google.com/uc?export=download&id=144-SyN-a_I4WMF3bnT00UlxQLnt6xyR7', tag: 'Montague'},
-                { title: 'Parting in Pain', desc: 'a sad departure of a couple', thumbnail: 'https://drive.google.com/thumbnail?id=1ECZ8FUKVaXo-8_TmY1v8WYrILqUbYuqR&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1ECZ8FUKVaXo-8_TmY1v8WYrILqUbYuqR', tag: 'Dramatic'},
-                { title: 'Moonset in Forest', desc: 'moon has setted to a dark forest', thumbnail: 'https://drive.google.com/thumbnail?id=1wL16jRGrACaQQpWgI5zO-kRr6_7auCON&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1wL16jRGrACaQQpWgI5zO-kRr6_7auCON', tag: 'Static'},
-                { title: 'Her Final Walk', desc: 'a women departure from a man', thumbnail: 'https://drive.google.com/thumbnail?id=1Sn8cfJ_P6Gi3EE1ERW7W4hofKsv_t5Ow&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1Sn8cfJ_P6Gi3EE1ERW7W4hofKsv_t5Ow', tag: 'Motion'},
-                { title: 'Young Hearts Split', desc: 'a young couple getting separated ', thumbnail: 'https://drive.google.com/thumbnail?id=1fK7n9sCzCbwpWttIvINeuiL2nQyK-AoF&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1fK7n9sCzCbwpWttIvINeuiL2nQyK-AoF', tag: 'Motion'},
-                { title: 'Forest of Shadows', desc: 'a dark scary forest in shadows', thumbnail: 'https://drive.google.com/thumbnail?id=1XW7mnSABNZbSNZMmiQ70YwZcKBXYkCER&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1XW7mnSABNZbSNZMmiQ70YwZcKBXYkCER', tag: 'Montague'},
-                { title: 'Moon Over Darkness', desc: 'moon comes to the dark forest scary', thumbnail: 'https://drive.google.com/thumbnail?id=1tNsxzdYLX_QLJ8E1Tf62orxqB_JhpmHp&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1tNsxzdYLX_QLJ8E1Tf62orxqB_JhpmHp', tag: 'Motion'},
-                { title: 'Lanterns of Hope', desc: 'people sending paper lanterns to the sky', thumbnail: 'https://drive.google.com/thumbnail?id=1HaIk9_xjpLWz93TJbnJ9dVgYKLlDwmRo&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1HaIk9_xjpLWz93TJbnJ9dVgYKLlDwmRo', tag: 'Motion'},
-		 { title: 'Alone on Road', desc: 'a sad man standing alone in a road', thumbnail: 'https://drive.google.com/thumbnail?id=1MpWucN38NFyFDpLrx1ApG-eLxe0GJY3O&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1MpWucN38NFyFDpLrx1ApG-eLxe0GJY3O', tag: 'Motion'},
-                { title: 'Walking in Shame', desc: 'a man walking with his face downward', thumbnail: 'https://drive.google.com/thumbnail?id=1h-eO7MT9--Cig5HEjAAyFdN77cGBSNMM&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1h-eO7MT9--Cig5HEjAAyFdN77cGBSNMM', tag: 'Dramatic'},
-            ],
-            blackwhite: [
-                { title: 'Balloon Rising Up', desc: 'a balloon rise ups in sky', thumbnail: 'https://drive.google.com/thumbnail?id=1AcSaGJVO9Hxh7hp3F3MiEnncG_-ysR6z&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1AcSaGJVO9Hxh7hp3F3MiEnncG_-ysR6z', tag: 'Montague'},
-                { title: 'Running Through Flowers', desc: 'a lady running across a flower garden', thumbnail: 'https://drive.google.com/thumbnail?id=1GSnlN5hlnZRMIBPQUA6EhA_pjnBt8TIA&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1GSnlN5hlnZRMIBPQUA6EhA_pjnBt8TIA', tag: 'Static'},
-                { title: 'Lone Desert Walker', desc: 'a lone traveler walking across golden dunes', thumbnail: 'https://drive.google.com/thumbnail?id=1vl4t02oKYZH3OWYuWXMqrQNtX_1bAFk2&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1vl4t02oKYZH3OWYuWXMqrQNtX_1bAFk2', tag: 'Montague'},
-                { title: 'Valley of Solitude', desc: 'a lonely figure standing in a dry valley', thumbnail: 'https://drive.google.com/thumbnail?id=1-bODuPFq56NdF696OMMkQLpTDIlQEwWB&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1-bODuPFq56NdF696OMMkQLpTDIlQEwWB', tag: 'Dramatic'},
-                { title: 'Forest Sky Gazer', desc: 'a man in a dark forest looking the sky', thumbnail: 'https://drive.google.com/thumbnail?id=1ue9qCVS79BC-Fe1tvCSGBhHuN-p5Jz4u&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1ue9qCVS79BC-Fe1tvCSGBhHuN-p5Jz4u', tag: 'Motion'},
-                { title: 'Sitting on Peak', desc: 'a sitting on a mountain peak', thumbnail: 'https://drive.google.com/thumbnail?id=1TrauybC6i8jUjN7hSNSq6mTJT38hm13O&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1TrauybC6i8jUjN7hSNSq6mTJT38hm13O', tag: 'Motion'},
-                { title: 'Staring at Sea', desc: 'a man staring at the vast sea', thumbnail: 'https://drive.google.com/thumbnail?id=1GYlWje7PmQ2CplhDDzug4Ie5_I7-GxDc&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1GYlWje7PmQ2CplhDDzug4Ie5_I7-GxDc', tag: 'Montague'},
-                { title: 'Lightning Sky Watcher', desc: 'a man observing lightning sky', thumbnail: 'https://drive.google.com/thumbnail?id=19-gKQsF57mwti3iGjvRe0sSEK9Qxgr9M&sz=w800', video: 'https://drive.google.com/uc?export=download&id=19-gKQsF57mwti3iGjvRe0sSEK9Qxgr9M', tag: 'Montague'},
-                { title: 'Man on Peak', desc: 'a man sitting in a mountain peak', thumbnail: 'https://drive.google.com/thumbnail?id=1neMs5VvX-mjyFgHYi3qDyvao4YtNqIii&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1neMs5VvX-mjyFgHYi3qDyvao4YtNqIii', tag: 'Motion'},
-                { title: 'Staring at Sky', desc: 'a lonely man staring at the sky ', thumbnail: 'https://drive.google.com/thumbnail?id=1gsZuPmoAqSauDGJoYLr_ZyFENfmIn9eR&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1gsZuPmoAqSauDGJoYLr_ZyFENfmIn9eR', tag: 'Montague'},
-                { title: 'Petal Filled Road', desc: 'a road filled with cherry blossom petals', thumbnail: 'https://drive.google.com/thumbnail?id=1gziG7Rji7408OU3zlbau5CTayC6vKlK3&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1gziG7Rji7408OU3zlbau5CTayC6vKlK3', tag: 'Dramatic'},
-                { title: 'Walking Petal Road', desc: 'a man walking in a flower petal road', thumbnail: 'https://drive.google.com/thumbnail?id=15hiudSxFZyhy61h-Kas7ctU9tuTqh_XG&sz=w800', video: 'https://drive.google.com/uc?export=download&id=15hiudSxFZyhy61h-Kas7ctU9tuTqh_XG', tag: 'Montague'},
-                { title: 'Dandelion Garden Alone', desc: 'a lonely man in a dandelion flower garden', thumbnail: 'https://drive.google.com/thumbnail?id=1z6kt_ST83CUr4LXHKJaUxBZzY051JuSH&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1z6kt_ST83CUr4LXHKJaUxBZzY051JuSH', tag: 'Motion'},
-                { title: 'Sending Balloon Away', desc: 'a man in a flower garden sending an balloon', thumbnail: 'https://drive.google.com/thumbnail?id=1_0KORlO_3ENPGjaYIQXKnJc_CsNhxXkq&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1_0KORlO_3ENPGjaYIQXKnJc_CsNhxXkq', tag: 'Dramatic'},
-                { title: 'Silhouette Hill Gazer', desc: 'a silhouette on a hill staring at sky', thumbnail: 'https://drive.google.com/thumbnail?id=1UJMpPEvGXEHFvb-jrNLhIKwUYOVOgpzk&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1UJMpPEvGXEHFvb-jrNLhIKwUYOVOgpzk', tag: 'Static'},
-                { title: 'Lamp in Alley', desc: 'a street lamp glow in a dark alley', thumbnail: 'https://drive.google.com/thumbnail?id=14HN0i3gUlL7OJV0yddUE2_F1HZ2_9mJz&sz=w800', video: 'https://drive.google.com/uc?export=download&id=14HN0i3gUlL7OJV0yddUE2_F1HZ2_9mJz', tag: 'Motion'},
-                { title: 'Dark Street Walker', desc: 'a man comes forward in a dark street', thumbnail: 'https://drive.google.com/thumbnail?id=1CK-N7-fuZCDz55waNpwQEg9yMedM9OMw&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1CK-N7-fuZCDz55waNpwQEg9yMedM9OMw', tag: 'Static'},
-                { title: 'White Frock Dancer', desc: 'a girl wearing a long white frock dancing', thumbnail: 'https://drive.google.com/thumbnail?id=1ROGZlmf2ZFyRYGEvFRYu-nC-MPREhr6R&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1ROGZlmf2ZFyRYGEvFRYu-nC-MPREhr6R', tag: 'Montague'},
-                { title: 'Observing Night Sky', desc: 'a man calmly observing the night sky', thumbnail: 'https://drive.google.com/thumbnail?id=1Nu6g4E87JMskHulMBkHJyp3uD5T9MqSA&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1Nu6g4E87JMskHulMBkHJyp3uD5T9MqSA', tag: 'Dramatic'},
-                { title: 'Red Frock Walker', desc: 'a lady in a red frock walking down a hill', thumbnail: 'https://drive.google.com/thumbnail?id=1Re2t3ldIJW7RmXJAJgUdY9IYcX4gXwhf&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1Re2t3ldIJW7RmXJAJgUdY9IYcX4gXwhf', tag: 'Dramatic'},
-                { title: 'Mountain Range View', desc: 'a view of a mountain range from above', thumbnail: 'https://drive.google.com/thumbnail?id=1B3lELoVsLzjAnedPsNYbX-EqUrFObgQO&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1B3lELoVsLzjAnedPsNYbX-EqUrFObgQO', tag: 'Dramatic'},
-                { title: 'Running Through Dandelions', desc: 'a girl running in a dandelion field', thumbnail: 'https://drive.google.com/thumbnail?id=1_KpVoaq_0Pl_8c_dtx_88E7QCj0sKldu&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1_KpVoaq_0Pl_8c_dtx_88E7QCj0sKldu', tag: 'Static'},
-                { title: 'Girl in Dandelions', desc: 'a girl in a dandelion field', thumbnail: 'https://drive.google.com/thumbnail?id=1twiF-KsbeuLAsh4l13Hw5KxLTUU0XQOn&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1twiF-KsbeuLAsh4l13Hw5KxLTUU0XQOn', tag: 'Motion'},
-                { title: 'Vast Dandelion Field', desc: 'a vast dandelion filed', thumbnail: 'https://drive.google.com/thumbnail?id=15JFfXlhshXF4i9wQWc47mdAkCO3HzQkb&sz=w800', video: 'https://drive.google.com/uc?export=download&id=15JFfXlhshXF4i9wQWc47mdAkCO3HzQkb', tag: 'Dramatic'},
-                { title: 'Staring at Rain', desc: 'a man staring at the raining sky', thumbnail: 'https://drive.google.com/thumbnail?id=1Bm83WWyxH9dyZDgBpibcVG3LApf7mEFu&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1Bm83WWyxH9dyZDgBpibcVG3LApf7mEFu', tag: 'Static'},
-                { title: 'Reading Under Tree', desc: 'a girl reads a book sitting under a tree', thumbnail: 'https://drive.google.com/thumbnail?id=1GSQ2GyjCqgvs7EGWywF4tGpuiZkFcpCz&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1GSQ2GyjCqgvs7EGWywF4tGpuiZkFcpCz', tag: 'Montague'},
-                { title: 'Dancing Under Sunset', desc: 'a man dancing under a red sky in beach', thumbnail: 'https://drive.google.com/thumbnail?id=1ZZKpi50hS2HPEv1hPJTAPQmF__ZXqdVT&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1ZZKpi50hS2HPEv1hPJTAPQmF__ZXqdVT', tag: 'Dramatic'},
-                { title: 'Lake Near House', desc: 'a view of a lake near a house', thumbnail: 'https://drive.google.com/thumbnail?id=1UDtGZDIY95zh2It9vcO8ihIsMmzVciKR&sz=w800', video: 'https://drive.google.com/uc?export=download&id=1UDtGZDIY95zh2It9vcO8ihIsMmzVciKR', tag: 'Montague'},
-                { title: 'Bench by the Sea', desc: 'a lady sitting in a bench looking at vast sea', thumbnail: 'https://drive.google.com/thumbnail?id=15smZR8Gr8RkLITeW0a5H4JYM-_Qs6cc8&sz=w800', video: 'https://drive.google.com/uc?export=download&id=15smZR8Gr8RkLITeW0a5H4JYM-_Qs6cc8', tag: 'Motion'}
-            ]};
-
-        
+        const categories = [];
+        const assetsData = {};
 
         const termsText = `<h2>Terms of Use & License Agreement</h2>
         <p>Welcome to <strong>PMW Visuals</strong>. These Terms of Use and License Agreement ("Terms") govern your access to and use of the content provided on this website.</p>
@@ -3081,6 +2952,10 @@ cinematic: [
 
         // ===== NAVIGATION =====
         function navigateTo(section, param = null) {
+            if (section === 'studio') {
+                window.location.href = 'pmw-studio.html';
+                return;
+            }
             document.querySelectorAll('.section').forEach(s => {
                 s.classList.remove('active');
                 s.style.opacity = '0';
@@ -3235,9 +3110,9 @@ cinematic: [
                     </div>
                     <div class="asset-info">
                         <h3 class="asset-title">${asset.title}</h3>
-                        ${categoryId === 'dancing' ? '' : `<p class="asset-desc">${asset.desc}</p>`}
+                        ${categoryId === 'city' ? '' : `<p class="asset-desc">${asset.desc}</p>`}
                         <div class="asset-meta">
-                            ${categoryId === 'dancing' ? '' : `<span class="asset-tag">${asset.tag}</span>`}
+                            ${categoryId === 'city' ? '' : `<span class="asset-tag">${asset.tag}</span>`}
                             ${downloadHtml}
                         </div>
                     </div>
@@ -3900,6 +3775,14 @@ function initContactForm() {
             renderFilteredAssets();
         };
 
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const requestedSection = new URLSearchParams(window.location.search).get('section') || window.location.hash.replace('#', '');
+            if (['home', 'about', 'contact'].includes(requestedSection)) {
+                navigateTo(requestedSection);
+            }
+        });
     </script>
     <style>
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -4498,7 +4381,6 @@ function initContactForm() {
 
 </body>
 </html>
-
 
 
 
