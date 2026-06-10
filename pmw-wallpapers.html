@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633082836143342" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMW Wallpapers - Mobile Wallpapers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #050505;
+            --bg-secondary: #0a0a0a;
+            --bg-card: #0d0d0d;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --text-muted: #5f5f5f;
+            --border: rgba(255,255,255,0.08);
+            --border-hover: rgba(255,255,255,0.18);
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        body.panel-open { overflow: hidden; }
+
+        ::selection { background: rgba(255,255,255,0.14); color: #fff; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
+
+        #canvas-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.52;
+        }
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 256px 256px;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: var(--transition-base);
+        }
+        .navbar.scrolled { padding: 10px 0; }
+        .navbar.scrolled .nav-inner {
+            background: rgba(5,5,5,0.82);
+            backdrop-filter: blur(24px) saturate(1.4);
+            border-color: rgba(255,255,255,0.08);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+        }
+        .nav-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 16px;
+            border: 1px solid transparent;
+            border-radius: 100px;
+            transition: var(--transition-base);
+        }
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.03em;
+        }
+        .nav-logo-mark {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, #fff 0%, #888 100%);
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-logo-mark::before {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: var(--bg-primary);
+            border-radius: 6px;
+        }
+        .nav-logo-mark svg { position: relative; z-index: 1; width: 16px; height: 16px; }
+        .nav-logo-image {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            object-fit: cover;
+            display: block;
+            box-shadow: 0 0 18px rgba(255,255,255,0.16);
+            background: #111;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            justify-self: center;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 100px;
+            padding: 4px;
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            justify-self: end;
+        }
+        .nav-link {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 100px;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.06);
+        }
+
+        .page {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            padding: 124px 24px 80px;
+        }
+        .page-inner {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        .breadcrumb {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 28px;
+            font-size: 0.8125rem;
+        }
+        .breadcrumb a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+        .breadcrumb a:hover { color: var(--text-secondary); }
+        .breadcrumb span { color: var(--text-muted); }
+
+        .wallpaper-header {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 24px;
+            align-items: end;
+            margin-bottom: 36px;
+        }
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.8rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1.04;
+            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.45) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 14px;
+        }
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.0625rem;
+            max-width: 620px;
+            line-height: 1.7;
+        }
+        .wallpaper-count {
+            min-width: 160px;
+            padding: 18px 20px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+            text-align: right;
+        }
+        .wallpaper-count strong {
+            display: block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.7rem;
+            line-height: 1;
+        }
+        .wallpaper-count span {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: minmax(240px, 1fr) auto;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+            padding: 0 18px;
+        }
+        .search-box svg { width: 19px; height: 19px; color: var(--text-muted); flex-shrink: 0; }
+        .search-box input {
+            width: 100%;
+            padding: 16px 0;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            background: transparent;
+            font: inherit;
+            font-size: 0.9375rem;
+        }
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        .filter-chip {
+            padding: 9px 18px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            background: rgba(255,255,255,0.03);
+            color: var(--text-secondary);
+            font: inherit;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        .filter-chip:hover { color: var(--text-primary); border-color: var(--border-hover); }
+        .filter-chip.active {
+            color: #000;
+            background: #fff;
+            border-color: #fff;
+        }
+
+        .wallpapers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 18px;
+        }
+        .wallpaper-card {
+            position: relative;
+            display: block;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--transition-base);
+            min-height: 0;
+            color: inherit;
+            text-align: left;
+            font: inherit;
+        }
+        .wallpaper-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--border-hover);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.48);
+        }
+        .wallpaper-thumb {
+            aspect-ratio: 9 / 16;
+            overflow: hidden;
+            background: #111;
+            position: relative;
+        }
+        .wallpaper-thumb img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .wallpaper-card:hover img { transform: scale(1.06); }
+        .wallpaper-hd-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 2;
+            padding: 5px 8px;
+            border: 1px solid rgba(245,245,245,0.46);
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(172,172,172,0.9));
+            color: #101010;
+            font-size: 0.62rem;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: 0.08em;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.36);
+            backdrop-filter: blur(12px);
+            box-shadow:
+                0 0 18px rgba(235,235,235,0.28),
+                0 8px 24px rgba(0,0,0,0.48),
+                inset 0 1px 0 rgba(255,255,255,0.58);
+        }
+        .wallpaper-card-info {
+            padding: 14px;
+        }
+        .wallpaper-card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 7px;
+        }
+        .wallpaper-card-meta {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .mini-tag {
+            padding: 4px 8px;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 100px;
+            color: var(--text-muted);
+            font-size: 0.6875rem;
+            font-weight: 700;
+        }
+
+        .panel-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 22px;
+            background: rgba(0,0,0,0.82);
+            backdrop-filter: blur(20px);
+        }
+        .panel-overlay.active { display: flex; }
+        .wallpaper-panel {
+            width: min(980px, 100%);
+            max-height: min(88vh, 920px);
+            display: grid;
+            grid-template-columns: minmax(240px, 390px) minmax(0, 1fr);
+            gap: 0;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-xl);
+            background: linear-gradient(145deg, rgba(20,20,20,0.97), rgba(8,8,8,0.98));
+            overflow: hidden;
+            box-shadow: 0 40px 90px rgba(0,0,0,0.65);
+        }
+        .panel-preview {
+            min-height: 0;
+            background: #080808;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+        }
+        .panel-preview img {
+            display: block;
+            max-width: 100%;
+            max-height: calc(88vh - 36px);
+            aspect-ratio: 9 / 16;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+        }
+        .panel-details {
+            position: relative;
+            padding: 34px;
+            overflow-y: auto;
+        }
+        .panel-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.05);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: var(--transition-fast);
+        }
+        .panel-close:hover { color: var(--text-primary); background: rgba(255,255,255,0.1); }
+        .panel-kicker {
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            padding-right: 48px;
+        }
+        .panel-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            margin-bottom: 16px;
+            padding-right: 36px;
+        }
+        .panel-description {
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            line-height: 1.75;
+            margin-bottom: 24px;
+            max-width: 520px;
+        }
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .detail-item {
+            padding: 14px;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: var(--radius-sm);
+            background: rgba(255,255,255,0.03);
+        }
+        .detail-label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .detail-value {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        .hashtags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .hashtag {
+            padding: 8px 12px;
+            border-radius: 100px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-secondary);
+            font-size: 0.8125rem;
+            font-weight: 700;
+        }
+        .download-btn {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 14px;
+            background: #fff;
+            color: #000;
+            font: inherit;
+            font-size: 0.9375rem;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(255,255,255,0.14);
+        }
+        .download-btn svg { width: 18px; height: 18px; }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            padding: 70px 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 900px) {
+            .wallpaper-header, .toolbar { grid-template-columns: 1fr; }
+            .filter-chips { justify-content: flex-start; }
+            .wallpaper-count { text-align: left; }
+            .wallpaper-panel {
+                grid-template-columns: 1fr;
+                overflow-y: auto;
+            }
+            .panel-preview { max-height: 48vh; }
+            .panel-preview img { max-height: 44vh; }
+        }
+        @media (max-width: 768px) {
+            .page { padding: 104px 16px 56px; }
+            .nav-inner { grid-template-columns: 1fr; }
+            .nav-logo { justify-self: start; }
+            .nav-links, .nav-actions { display: none; }
+            .wallpapers-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+            .panel-overlay { padding: 12px; align-items: center; }
+            .panel-details { padding: 26px 20px 22px; }
+            .detail-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas-bg"></canvas>
+    <div class="noise-overlay"></div>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <img class="nav-logo-image" src="https://drive.google.com/thumbnail?id=1bZJ73l8h7RyfurTegpEwmvxtigjltNEZ&sz=w120" alt="PMW Wallpapers logo">
+                PMW Visuals
+            </a>
+            <div class="nav-links">
+                <button class="nav-link" onclick="window.location.href='index.html'">Home</button>
+                <button class="nav-link" onclick="window.location.href='pmw-studio.html'">PMW Studio</button>
+                <button class="nav-link active">PMW Wallpapers</button>
+            </div>
+            <div class="nav-actions">
+                <button class="nav-link" onclick="window.location.href='index.html?section=about'">About</button>
+                <button class="nav-link" onclick="window.location.href='index.html?section=contact'">Contact</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page">
+        <div class="page-inner">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>/</span>
+                <span>PMW Wallpapers</span>
+            </div>
+
+            <header class="wallpaper-header">
+                <div>
+                    <h1 class="section-title">PMW Wallpapers</h1>
+                    <p class="section-subtitle">A growing collection of mobile wallpapers for AMOLED, anime, celestial samurai, dark aesthetic, dark fantasy, nature, romantic, space, and galaxy phone screens.</p>
+                </div>
+                <div class="wallpaper-count">
+                    <strong id="wallpaperCount">0</strong>
+                    <span>Wallpapers</span>
+                </div>
+            </header>
+
+            <div class="toolbar">
+                <label class="search-box" for="wallpaperSearch">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input id="wallpaperSearch" type="text" placeholder="Search wallpapers..." autocomplete="off">
+                </label>
+                <div class="filter-chips" id="categoryFilters"></div>
+            </div>
+
+            <section class="wallpapers-grid" id="wallpapersGrid" aria-live="polite"></section>
+        </div>
+    </main>
+
+    <div class="panel-overlay" id="wallpaperPanel" role="dialog" aria-modal="true" aria-labelledby="panelTitle">
+        <div class="wallpaper-panel">
+            <div class="panel-preview">
+                <img id="panelImage" src="" alt="">
+            </div>
+            <div class="panel-details">
+                <button class="panel-close" id="panelClose" aria-label="Close">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                <p class="panel-kicker" id="panelCategory">Category</p>
+                <h2 class="panel-title" id="panelTitle">Wallpaper Title</h2>
+                <p class="panel-description" id="panelDescription">Description</p>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Resolution</span>
+                        <span class="detail-value" id="panelResolution">Mobile</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Format</span>
+                        <span class="detail-value" id="panelFormat">PNG</span>
+                    </div>
+                </div>
+                <div class="hashtags" id="panelTags"></div>
+                <button class="download-btn" id="panelDownload" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download Wallpaper
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="wallpapers-data.js"></script>
+    <script>
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        const mouse = { x: null, y: null };
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            createParticles();
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.25;
+                this.vy = (Math.random() - 0.5) * 0.25;
+                this.size = Math.random() * 1.6 + 0.4;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,255,255,0.28)';
+                ctx.fill();
+            }
+        }
+
+        function createParticles() {
+            particles = [];
+            const count = Math.min(70, Math.floor((canvas.width * canvas.height) / 18000));
+            for (let i = 0; i < count; i++) particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('mousemove', e => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        resizeCanvas();
+        animateParticles();
+
+        const configuredCategories = window.PMW_WALLPAPER_CATEGORIES || [];
+        const wallpapers = window.PMW_WALLPAPERS || [];
+        const randomizedWallpapers = shuffleWallpapers(wallpapers);
+        let activeCategory = 'All';
+        let searchQuery = '';
+
+        const grid = document.getElementById('wallpapersGrid');
+        const filters = document.getElementById('categoryFilters');
+        const count = document.getElementById('wallpaperCount');
+        const search = document.getElementById('wallpaperSearch');
+        const panel = document.getElementById('wallpaperPanel');
+        const panelClose = document.getElementById('panelClose');
+        const panelDownload = document.getElementById('panelDownload');
+        let selectedWallpaper = null;
+
+        const categoryDisplayLabels = {
+            All: 'All Wallpapers',
+            AMOLED: 'AMOLED Wallpapers',
+            Anime: 'Anime Wallpapers',
+            Nature: 'Nature Wallpapers',
+            Romantic: 'Romantic Wallpapers'
+        };
+
+        function getCategoryLabel(category) {
+            return categoryDisplayLabels[category] || category;
+        }
+
+        function normalize(value) {
+            return String(value || '').toLowerCase().trim();
+        }
+
+        function shuffleWallpapers(items) {
+            const shuffled = [...items];
+            for (let index = shuffled.length - 1; index > 0; index -= 1) {
+                const randomIndex = Math.floor(Math.random() * (index + 1));
+                [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+            }
+            return shuffled;
+        }
+
+        function renderFilters() {
+            const categories = [
+                'All',
+                ...Array.from(new Set([
+                    ...configuredCategories,
+                    ...randomizedWallpapers.map(item => item.category).filter(Boolean)
+                ])).sort()
+            ];
+            filters.innerHTML = categories.map(category => `
+                <button class="filter-chip ${category === activeCategory ? 'active' : ''}" data-category="${category}">${getCategoryLabel(category)}</button>
+            `).join('');
+        }
+
+        function getFilteredWallpapers() {
+            const q = normalize(searchQuery);
+            return randomizedWallpapers.filter(item => {
+                const categoryMatch = activeCategory === 'All' || item.category === activeCategory;
+                const searchText = normalize([item.title, item.description, item.category, ...(item.tags || [])].join(' '));
+                return categoryMatch && (!q || searchText.includes(q));
+            });
+        }
+
+        function renderWallpapers() {
+            const items = getFilteredWallpapers();
+            count.textContent = items.length;
+            if (!items.length) {
+                const message = wallpapers.length
+                    ? 'No wallpapers found. Try another search or category.'
+                    : 'No wallpapers loaded yet. Add Cloudinary assets to wallpapers-data.js to populate this page.';
+                grid.innerHTML = `<div class="empty-state">${message}</div>`;
+                return;
+            }
+            grid.innerHTML = items.map(item => `
+                <button class="wallpaper-card" data-id="${item.id}" type="button">
+                    <div class="wallpaper-thumb">
+                        <img src="${item.thumbnail}" alt="${item.title}" loading="lazy">
+                        <span class="wallpaper-hd-badge">HD</span>
+                    </div>
+                    <div class="wallpaper-card-info">
+                        <h3 class="wallpaper-card-title">${item.title}</h3>
+                        <div class="wallpaper-card-meta">
+                            <span class="mini-tag">${getCategoryLabel(item.category)}</span>
+                            <span class="mini-tag">9:16</span>
+                        </div>
+                    </div>
+                </button>
+            `).join('');
+        }
+
+        function openPanel(id) {
+            const item = randomizedWallpapers.find(wallpaper => wallpaper.id === id);
+            if (!item) return;
+            selectedWallpaper = item;
+            document.getElementById('panelImage').src = item.preview;
+            document.getElementById('panelImage').alt = item.title;
+            document.getElementById('panelCategory').textContent = getCategoryLabel(item.category);
+            document.getElementById('panelTitle').textContent = item.title;
+            document.getElementById('panelDescription').textContent = item.description;
+            document.getElementById('panelResolution').textContent = item.resolution;
+            document.getElementById('panelFormat').textContent = item.format || 'Image';
+            document.getElementById('panelTags').innerHTML = (item.tags || []).map(tag => `<span class="hashtag">#${tag}</span>`).join('');
+            panel.classList.add('active');
+            document.body.classList.add('panel-open');
+        }
+
+        function closePanel() {
+            panel.classList.remove('active');
+            document.body.classList.remove('panel-open');
+            selectedWallpaper = null;
+        }
+
+        filters.addEventListener('click', event => {
+            const button = event.target.closest('.filter-chip');
+            if (!button) return;
+            activeCategory = button.dataset.category;
+            renderFilters();
+            renderWallpapers();
+        });
+
+        grid.addEventListener('click', event => {
+            const card = event.target.closest('.wallpaper-card');
+            if (!card) return;
+            openPanel(card.dataset.id);
+        });
+
+        search.addEventListener('input', event => {
+            searchQuery = event.target.value;
+            renderWallpapers();
+        });
+
+        panelDownload.addEventListener('click', () => {
+            if (!selectedWallpaper) return;
+            window.location.href = selectedWallpaper.download;
+        });
+
+        panelClose.addEventListener('click', closePanel);
+        panel.addEventListener('click', event => {
+            if (event.target === panel) closePanel();
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') closePanel();
+        });
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+        });
+
+        renderFilters();
+        renderWallpapers();
+    </script>
+</body>
+</html>
