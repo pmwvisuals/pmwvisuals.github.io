@@ -715,53 +715,6 @@
             backdrop-filter: blur(10px);
         }
 
-        .ad-slot {
-            background: linear-gradient(145deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.005) 100%);
-            border: 2px dashed rgba(255,255,255,0.08);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            transition: var(--transition-slow);
-            position: relative;
-            backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100%;
-            aspect-ratio: 9/16;
-        }
-
-        .ad-slot:hover {
-            border-color: rgba(255,255,255,0.15);
-            background: linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
-        }
-
-        .ad-slot-label {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            padding: 8px 16px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 100px;
-        }
-
-        .ad-slot-icon {
-            width: 40px;
-            height: 40px;
-            margin-bottom: 16px;
-            opacity: 0.15;
-        }
-
-        .ad-slot-icon svg {
-            width: 100%;
-            height: 100%;
-            color: var(--text-muted);
-        }
-
         .asset-card::before {
             content: '';
             position: absolute;
@@ -1110,208 +1063,6 @@
             font-size: 0.8125rem;
             color: var(--text-muted);
             opacity: 0.6;
-        }
-
-        /* ===== DOWNLOAD MODAL ===== */
-        .download-modal {
-            position: fixed;
-            inset: 0;
-            z-index: 3000;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(20px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .download-modal.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .download-modal-box {
-            background: linear-gradient(145deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: var(--radius-xl);
-            padding: 48px 56px;
-            text-align: center;
-            max-width: 420px;
-            width: 100%;
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-            transform: scale(0.9) translateY(20px);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .download-modal.active .download-modal-box {
-            transform: scale(1) translateY(0);
-        }
-
-        .download-modal-icon {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 28px;
-        }
-
-        .download-modal-icon svg {
-            width: 28px;
-            height: 28px;
-            color: var(--text-primary);
-        }
-
-        .download-modal-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 8px;
-            background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.6) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .download-modal-filename {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 32px;
-            line-height: 1.5;
-            word-break: break-word;
-        }
-
-        .download-countdown {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 4rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            line-height: 1;
-            margin-bottom: 8px;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .download-countdown.pulse {
-            transform: scale(1.2);
-            color: #4ade80;
-        }
-
-        .download-countdown-label {
-            font-size: 0.8125rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .download-progress-ring {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 24px;
-            position: relative;
-        }
-
-        .download-progress-ring svg {
-            transform: rotate(-90deg);
-        }
-
-        .download-progress-ring-bg {
-            fill: none;
-            stroke: rgba(255, 255, 255, 0.06);
-            stroke-width: 4;
-        }
-
-        .download-progress-ring-fill {
-            fill: none;
-            stroke: url(#silverGradient);
-            stroke-width: 4;
-            stroke-linecap: round;
-            stroke-dasharray: 339.2920066;
-            stroke-dashoffset: 339.292;
-            transition: stroke-dashoffset 1s linear;
-        }
-
-        .download-countdown-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .download-modal-credits {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-            line-height: 1.5;
-            font-style: italic;
-            opacity: 0.8;
-        }
-
-        .download-modal-action {
-            margin-top: 32px;
-            padding: 12px 32px;
-            background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 50%, #a8a8a8 100%);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 100px;
-            color: #1a1a1a;
-            font-size: 0.875rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: inherit;
-            letter-spacing: 0.02em;
-            box-shadow: 0 4px 16px rgba(192, 192, 192, 0.2);
-            min-width: 160px;
-        }
-
-        .download-modal-action:hover:not(:disabled) {
-            background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 50%, #b8b8b8 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(192, 192, 192, 0.3);
-        }
-
-        .download-modal-action:active:not(:disabled) {
-            transform: translateY(0);
-            box-shadow: 0 2px 8px rgba(192, 192, 192, 0.2);
-        }
-
-        .download-modal-action:disabled,
-        .download-modal-action.frozen {
-            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-            border-color: rgba(255, 255, 255, 0.06);
-            color: var(--text-muted);
-            cursor: not-allowed;
-            box-shadow: none;
-            opacity: 0.6;
-        }
-
-        .download-modal-action.ready {
-            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
-            border-color: rgba(74, 222, 128, 0.3);
-            color: #052e16;
-            box-shadow: 0 4px 20px rgba(74, 222, 128, 0.3);
-            animation: readyPulse 1.5s ease-in-out infinite;
-        }
-
-        .download-modal-action.ready:hover {
-            background: linear-gradient(135deg, #86efac 0%, #4ade80 100%);
-            box-shadow: 0 6px 28px rgba(74, 222, 128, 0.4);
-        }
-
-        @keyframes readyPulse {
-            0%, 100% { box-shadow: 0 4px 20px rgba(74, 222, 128, 0.3); }
-            50% { box-shadow: 0 4px 28px rgba(74, 222, 128, 0.5); }
         }
 
         /* ===== TOAST ===== */
@@ -2342,41 +2093,6 @@
         </div>
     </footer>
 
-    <!-- Download Modal -->
-    <div class="download-modal" id="downloadModal">
-        <div class="download-modal-box">
-            <svg width="0" height="0" style="position:absolute;">
-                <defs>
-                    <linearGradient id="silverGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#e8e8e8"/>
-                        <stop offset="50%" style="stop-color:#c0c0c0"/>
-                        <stop offset="100%" style="stop-color:#a8a8a8"/>
-                    </linearGradient>
-                </defs>
-            </svg>
-            <div class="download-modal-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-            </div>
-            <h3 class="download-modal-title">Preparing Download</h3>
-            <p class="download-modal-filename" id="downloadFilename">Your file is getting ready...</p>
-            <p class="download-modal-credits">We really appreciate mentioning credits as @PMW Studio</p>
-            <p class="download-modal-ai-note" style="color: #ff4444; font-size: 0.75rem; margin-top: 8px; font-weight: 600;">Some clips are AI-generated and may include stylized or non-realistic motion.</p>
-            <div class="download-progress-ring">
-                <svg width="120" height="120" viewBox="0 0 120 120">
-                    <circle class="download-progress-ring-bg" cx="60" cy="60" r="54"></circle>
-                    <circle class="download-progress-ring-fill" id="progressRing" cx="60" cy="60" r="54"></circle>
-                </svg>
-                <div class="download-countdown-center" id="countdownNumber"></div>
-            </div>
-            <p class="download-countdown-label">Starting download in</p>
-            <button class="download-modal-action" id="downloadActionBtn" onclick="performDownload()">Please wait...</button>
-        </div>
-    </div>
-
     <!-- Toast -->
     <div class="toast" id="toast">
         <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -2881,7 +2597,7 @@ cinematic: [
                 assets.forEach((asset, i) => {
                     const hasVideo = asset.video !== null && asset.video !== undefined;
                     const downloadHtml = hasVideo 
-                        ? `<button class="download-btn" onclick="startDownload('${asset.video}', '${asset.title.replace(/'/g, "\'")}')">
+                        ? `<button class="download-btn" onclick="downloadDirect('${asset.video}')">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
@@ -2921,22 +2637,6 @@ cinematic: [
                     </div>
                     `;
 
-                    // Insert ad slot after every 10 assets
-                    if ((globalIndex + 1) % 10 === 0) {
-                        html += `
-                    <div class="ad-slot reveal" style="transition-delay: ${(globalIndex % 20) * 0.04}s">
-                        <div class="ad-slot-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="3" y1="9" x2="21" y2="9"></line>
-                                <line x1="9" y1="21" x2="9" y2="9"></line>
-                            </svg>
-                        </div>
-                        <span class="ad-slot-label">Ad Space</span>
-                    </div>
-                        `;
-                    }
-
                     globalIndex++;
                 });
             });
@@ -2960,7 +2660,7 @@ cinematic: [
             assets.forEach((asset, i) => {
                 const hasVideo = asset.video !== null && asset.video !== undefined;
                 const downloadHtml = hasVideo 
-                    ? `<button class="download-btn" onclick="startDownload('${asset.video}', '${asset.title.replace(/'/g, "'")}')">
+                    ? `<button class="download-btn" onclick="downloadDirect('${asset.video}')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="7 10 12 15 17 10"></polyline>
@@ -3000,22 +2700,6 @@ cinematic: [
                     </div>
                 </div>
                 `;
-
-                // Insert ad slot after every 5 videos for ALL categories
-                if ((i + 1) % 5 === 0 && i !== assets.length - 1) {
-                    html += `
-                <div class="ad-slot reveal" style="transition-delay: ${(i + 1) * 0.06}s">
-                    <div class="ad-slot-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="3" y1="9" x2="21" y2="9"></line>
-                            <line x1="9" y1="21" x2="9" y2="9"></line>
-                        </svg>
-                    </div>
-                    <span class="ad-slot-label">Ad Space</span>
-                </div>
-                    `;
-                }
             });
 
             container.innerHTML = html;
@@ -3091,128 +2775,18 @@ cinematic: [
             }
         }
 
-        // ===== DOWNLOAD MODAL =====
-        let downloadTimer = null;
-        let currentDownloadUrl = null;
-
-        function startDownload(url, filename) {
-            currentDownloadUrl = url;
-            const modal = document.getElementById('downloadModal');
-            const filenameEl = document.getElementById('downloadFilename');
-            const countdownEl = document.getElementById('countdownNumber');
-            const progressRing = document.getElementById('progressRing');
-            const actionBtn = document.getElementById('downloadActionBtn');
-            const countdownLabel = document.querySelector('.download-countdown-label');
-
-            // Reset state
-            filenameEl.textContent = filename || 'Your video file';
-            countdownEl.textContent = '3';
-            progressRing.style.strokeDashoffset = '339.292';
-            actionBtn.textContent = 'Please wait...';
-            actionBtn.disabled = true;
-            actionBtn.classList.add('frozen');
-            countdownLabel.textContent = 'Preparing your download';
-
-            // Show modal
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-
-            let count = 3;
-            const circumference = 339.292;
-
-            // Start countdown
-            downloadTimer = setInterval(() => {
-                count--;
-                countdownEl.textContent = count;
-
-                // Animate progress ring (full circle in 3 seconds)
-                const offsetPerSecond = circumference / 3;
-                const newOffset = circumference - (offsetPerSecond * (3 - count));
-                progressRing.style.strokeDashoffset = newOffset;
-
-                // Pulse animation on number
-                countdownEl.style.transform = 'translate(-50%, -50%) scale(1.3)';
-                setTimeout(() => {
-                    countdownEl.style.transform = 'translate(-50%, -50%) scale(1)';
-                }, 150);
-
-                if (count <= 0) {
-                    clearInterval(downloadTimer);
-                    downloadTimer = null;
-                    // Enable the download button for second click
-                    actionBtn.textContent = 'Click to Download';
-                    actionBtn.disabled = false;
-                    actionBtn.classList.remove('frozen');
-                    actionBtn.classList.add('ready');
-                    countdownLabel.textContent = 'Ready - click below';
-                    countdownEl.textContent = 'OK';
-                    countdownEl.style.color = '#4ade80';
-                }
-            }, 1000);
+        function downloadDirect(url) {
+            if (!url) return;
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = '';
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('Download started!');
         }
-
-        function performDownload() {
-            // Only download if countdown is finished (timer is null)
-            if (downloadTimer) {
-                return; // Still counting down, ignore click
-            }
-            if (currentDownloadUrl) {
-                // Create temporary link and trigger download
-                const link = document.createElement('a');
-                link.href = currentDownloadUrl;
-                link.download = '';
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-
-                showToast('Download started!');
-            }
-            closeDownloadModal();
-        }
-
-        function cancelDownload() {
-            if (downloadTimer) {
-                clearInterval(downloadTimer);
-                downloadTimer = null;
-            }
-            closeDownloadModal();
-            showToast('Download cancelled');
-        }
-
-        function resetDownloadState() {
-            const countdownEl = document.getElementById('countdownNumber');
-            const actionBtn = document.getElementById('downloadActionBtn');
-            const progressRing = document.getElementById('progressRing');
-            countdownEl.style.color = '';
-            progressRing.style.strokeDashoffset = '339.292';
-            actionBtn.classList.remove('ready');
-        }
-
-        function closeDownloadModal() {
-            const modal = document.getElementById('downloadModal');
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-            currentDownloadUrl = null;
-            resetDownloadState();
-        }
-
-        // Close modal on backdrop click
-        document.addEventListener('click', (e) => {
-            const modal = document.getElementById('downloadModal');
-            if (e.target === modal) {
-                cancelDownload();
-            }
-        });
-
-        // Close modal on Escape key
-        document.addEventListener('keydown', (e) => {
-            const modal = document.getElementById('downloadModal');
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                cancelDownload();
-            }
-        });
 
         // ===== TOAST =====
         function showToast(message) {
@@ -3587,7 +3161,7 @@ function initContactForm() {
                     .replace(/'/g, "\\'");
 
                 const downloadHtml = hasVideo
-                    ? `<button class="download-btn" onclick="startDownload('${asset.video}', '${safeTitle}')">
+                    ? `<button class="download-btn" onclick="downloadDirect('${asset.video}')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="7 10 12 15 17 10"></polyline>
@@ -3627,21 +3201,6 @@ function initContactForm() {
                     </div>
                 </div>
                 `;
-
-                if ((i + 1) % 10 === 0 && i !== filtered.length - 1) {
-                    html += `
-                <div class="ad-slot reveal" style="transition-delay: ${(i % 20) * 0.04}s">
-                    <div class="ad-slot-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="3" y1="9" x2="21" y2="9"></line>
-                            <line x1="9" y1="21" x2="9" y2="9"></line>
-                        </svg>
-                    </div>
-                    <span class="ad-slot-label">Ad Space</span>
-                </div>
-                    `;
-                }
             });
 
             container.innerHTML = html;
