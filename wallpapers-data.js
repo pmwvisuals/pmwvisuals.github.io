@@ -12872,32 +12872,6 @@ window.PMW_WALLPAPERS = [
     "download": "https://res.cloudinary.com/dlmjetz3s/image/upload/fl_attachment/v1780556699/ChatGPT_Image_Jun_2_2026_10_09_01_PM_1_rcqrbk.png"
   },
   {
-    "id": "main-sample",
-    "title": "Jagged Mountain Reflection in Clear Lake",
-    "description": "A vertical nature mobile wallpaper featuring jagged mountain reflection in clear lake, with scenic detail, rich color, and a clean phone-screen composition.",
-    "category": "Nature",
-    "resolution": "1248x832",
-    "width": 1248,
-    "height": 832,
-    "format": "PNG",
-    "bytes": 1868954,
-    "tags": [
-      "nature wallpaper",
-      "landscape wallpaper",
-      "scenic wallpaper",
-      "mobile wallpaper",
-      "phone wallpaper",
-      "jagged",
-      "mountain",
-      "reflection",
-      "clear",
-      "lake"
-    ],
-    "thumbnail": "https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_420,h_746,q_auto,f_auto/v1780574897/main-sample.png",
-    "preview": "https://res.cloudinary.com/dlmjetz3s/image/upload/q_auto,f_auto/v1780574897/main-sample.png",
-    "download": "https://res.cloudinary.com/dlmjetz3s/image/upload/fl_attachment/v1780574897/main-sample.png"
-  },
-  {
     "id": "chatgpt-image-jun-2-2026-10-09-12-pm-fpxdf4",
     "title": "Alpine Valley Stream and Flowers",
     "description": "A vertical nature mobile wallpaper featuring alpine valley stream and flowers, with scenic detail, rich color, and a clean phone-screen composition.",
