@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Download Analytics - PMW Visuals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #050505;
+            --card: rgba(255,255,255,0.045);
+            --card-strong: rgba(255,255,255,0.075);
+            --text: #fff;
+            --muted: #9f9f9f;
+            --border: rgba(255,255,255,0.12);
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, system-ui, sans-serif;
+            background:
+                radial-gradient(circle at 20% 0%, rgba(255,255,255,0.07), transparent 28rem),
+                radial-gradient(circle at 90% 20%, rgba(255,255,255,0.05), transparent 22rem),
+                var(--bg);
+            color: var(--text);
+        }
+        main {
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 48px 0;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            gap: 24px;
+            align-items: flex-start;
+            margin-bottom: 28px;
+        }
+        .eyebrow {
+            margin: 0 0 10px;
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+        }
+        h1 {
+            margin: 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            line-height: 0.95;
+        }
+        .summary {
+            max-width: 620px;
+            margin-top: 18px;
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        .button-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        button,
+        .link-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 11px 15px;
+            background: var(--card);
+            color: var(--text);
+            font: inherit;
+            font-weight: 850;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .primary {
+            border: 0;
+            background: #fff;
+            color: #000;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            margin: 30px 0;
+        }
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--card);
+            padding: 22px;
+        }
+        .metric {
+            display: block;
+            margin-bottom: 8px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 800;
+        }
+        .label {
+            color: var(--muted);
+            font-weight: 750;
+        }
+        section {
+            margin-top: 18px;
+        }
+        h2 {
+            margin: 0 0 14px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.45rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: var(--card);
+        }
+        th,
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        tr:last-child td { border-bottom: 0; }
+        .empty {
+            border: 1px dashed var(--border);
+            border-radius: 18px;
+            padding: 22px;
+            color: var(--muted);
+            background: rgba(255,255,255,0.025);
+        }
+        .note {
+            margin-top: 24px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 18px;
+            color: var(--muted);
+            background: var(--card-strong);
+            line-height: 1.65;
+        }
+        @media (max-width: 780px) {
+            header { display: block; }
+            .button-row { justify-content: flex-start; margin-top: 18px; }
+            .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            th:nth-child(3),
+            td:nth-child(3) { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <div>
+                <p class="eyebrow">Private Helper</p>
+                <h1>Download Analytics</h1>
+                <p class="summary">This page shows download clicks saved in this browser and prepares the same events for Google Analytics when GA is installed on the site.</p>
+            </div>
+            <div class="button-row">
+                <button class="primary" id="exportCsv" type="button">Export CSV</button>
+                <button id="refreshStats" type="button">Refresh</button>
+                <button id="clearStats" type="button">Clear Local Data</button>
+            </div>
+        </header>
+
+        <div class="grid" aria-label="Download summary">
+            <div class="card"><span class="metric" id="totalDownloads">0</span><span class="label">Total Downloads</span></div>
+            <div class="card"><span class="metric" id="uniqueWallpapers">0</span><span class="label">Unique Wallpapers</span></div>
+            <div class="card"><span class="metric" id="topCategory">-</span><span class="label">Top Category</span></div>
+            <div class="card"><span class="metric" id="lastDownload">-</span><span class="label">Last Download</span></div>
+        </div>
+
+        <section>
+            <h2>Top Wallpapers</h2>
+            <div id="topWallpapers"></div>
+        </section>
+
+        <section>
+            <h2>Category Downloads</h2>
+            <div id="categoryDownloads"></div>
+        </section>
+
+        <section>
+            <h2>Recent Downloads</h2>
+            <div id="recentDownloads"></div>
+        </section>
+
+        <div class="note">
+            Static GitHub Pages cannot store global download totals by itself. These local numbers are useful for testing on your browser. For real worldwide totals, add Google Analytics 4 to the site; the download buttons already send a <strong>wallpaper_download</strong> event when <strong>gtag</strong> is available, and only your GA account can see those reports.
+        </div>
+    </main>
+
+    <script src="download-tracking.js"></script>
+    <script>
+        function groupCounts(events, keyFn) {
+            return events.reduce((map, event) => {
+                const key = keyFn(event) || 'Unknown';
+                const item = map.get(key) || { key, count: 0, event };
+                item.count += 1;
+                item.event = event;
+                map.set(key, item);
+                return map;
+            }, new Map());
+        }
+
+        function renderTable(targetId, headers, rows) {
+            const target = document.getElementById(targetId);
+            if (!rows.length) {
+                target.innerHTML = '<div class="empty">No download data yet.</div>';
+                return;
+            }
+            target.innerHTML = `
+                <table>
+                    <thead><tr>${headers.map(header => `<th>${header}</th>`).join('')}</tr></thead>
+                    <tbody>${rows.join('')}</tbody>
+                </table>
+            `;
+        }
+
+        function formatDate(value) {
+            if (!value) return '-';
+            return new Date(value).toLocaleString();
+        }
+
+        function refreshStats() {
+            const events = (window.PMW_DOWNLOAD_TRACKING?.getDownloadEvents() || []).reverse();
+            const byWallpaper = [...groupCounts(events, event => event.title).values()].sort((a, b) => b.count - a.count);
+            const byCategory = [...groupCounts(events, event => event.category).values()].sort((a, b) => b.count - a.count);
+
+            document.getElementById('totalDownloads').textContent = events.length;
+            document.getElementById('uniqueWallpapers').textContent = byWallpaper.length;
+            document.getElementById('topCategory').textContent = byCategory[0]?.key || '-';
+            document.getElementById('lastDownload').textContent = events[0] ? new Date(events[0].time).toLocaleDateString() : '-';
+
+            renderTable('topWallpapers', ['Wallpaper', 'Category', 'Downloads', 'Page'], byWallpaper.slice(0, 25).map(item => `
+                <tr>
+                    <td>${item.key}</td>
+                    <td>${item.event.category || '-'}</td>
+                    <td>${item.count}</td>
+                    <td><a href="${item.event.url}" target="_blank" rel="noopener">Open</a></td>
+                </tr>
+            `));
+
+            renderTable('categoryDownloads', ['Category', 'Downloads'], byCategory.map(item => `
+                <tr>
+                    <td>${item.key}</td>
+                    <td>${item.count}</td>
+                </tr>
+            `));
+
+            renderTable('recentDownloads', ['Wallpaper', 'Category', 'Time', 'Page'], events.slice(0, 50).map(event => `
+                <tr>
+                    <td>${event.title || '-'}</td>
+                    <td>${event.category || '-'}</td>
+                    <td>${formatDate(event.time)}</td>
+                    <td><a href="${event.url}" target="_blank" rel="noopener">Open</a></td>
+                </tr>
+            `));
+        }
+
+        function exportCsv() {
+            const events = window.PMW_DOWNLOAD_TRACKING?.getDownloadEvents() || [];
+            const rows = [
+                ['time', 'type', 'id', 'title', 'category', 'url'],
+                ...events.map(event => [event.time, event.type, event.id, event.title, event.category, event.url])
+            ];
+            const csv = rows.map(row => row.map(value => `"${String(value || '').replace(/"/g, '""')}"`).join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'pmw-downloads.csv';
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        document.getElementById('refreshStats').addEventListener('click', refreshStats);
+        document.getElementById('exportCsv').addEventListener('click', exportCsv);
+        document.getElementById('clearStats').addEventListener('click', () => {
+            if (!confirm('Clear download data saved in this browser?')) return;
+            window.PMW_DOWNLOAD_TRACKING?.clearDownloadEvents();
+            refreshStats();
+        });
+
+        refreshStats();
+    </script>
+</body>
+</html>
