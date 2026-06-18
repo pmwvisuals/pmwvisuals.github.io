@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <sitemap>
-    <loc>https://pmwvisuals.github.io/sitemap-main.xml</loc>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://pmwvisuals.github.io/</loc>
     <lastmod>2026-06-18</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://pmwvisuals.github.io/sitemap-wallpapers-01.xml</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://pmwvisuals.github.io/pmw-wallpapers.html</loc>
     <lastmod>2026-06-18</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://pmwvisuals.github.io/sitemap-wallpapers-02.xml</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://pmwvisuals.github.io/pmw-studio.html</loc>
     <lastmod>2026-06-18</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://pmwvisuals.github.io/sitemap-wallpapers-03.xml</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pmwvisuals.github.io/privacy-policy.html</loc>
     <lastmod>2026-06-18</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://pmwvisuals.github.io/sitemap-wallpapers-04.xml</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pmwvisuals.github.io/wallpapers/</loc>
     <lastmod>2026-06-18</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://pmwvisuals.github.io/sitemap-wallpapers-05.xml</loc>
-    <lastmod>2026-06-18</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://pmwvisuals.github.io/sitemap-wallpapers-06.xml</loc>
-    <lastmod>2026-06-18</lastmod>
-  </sitemap>
-</sitemapindex>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

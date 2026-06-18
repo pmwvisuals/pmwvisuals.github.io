@@ -2,3 +2,9 @@ User-agent: *
 Allow: /
 
 Sitemap: https://pmwvisuals.github.io/sitemap.xml
+Sitemap: https://pmwvisuals.github.io/sitemap-wallpapers-01.xml
+Sitemap: https://pmwvisuals.github.io/sitemap-wallpapers-02.xml
+Sitemap: https://pmwvisuals.github.io/sitemap-wallpapers-03.xml
+Sitemap: https://pmwvisuals.github.io/sitemap-wallpapers-04.xml
+Sitemap: https://pmwvisuals.github.io/sitemap-wallpapers-05.xml
+Sitemap: https://pmwvisuals.github.io/sitemap-wallpapers-06.xml
