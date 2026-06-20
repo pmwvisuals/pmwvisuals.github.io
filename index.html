@@ -561,6 +561,24 @@
             margin-top: 28px;
         }
 
+        .home-about .about-container {
+            max-width: none;
+            padding: 0;
+        }
+
+        .home-about .about-intro {
+            margin-bottom: 18px;
+        }
+
+        .home-about .about-lead {
+            font-size: clamp(1.35rem, 1.7vw + 0.9rem, 1.95rem);
+        }
+
+        .home-about .about-card {
+            opacity: 1;
+            transform: none;
+        }
+
         .home-section-head {
             max-width: 760px;
             margin-bottom: 24px;
@@ -2429,6 +2447,90 @@
             </div>
 
             <div class="home-showcase">
+                <section class="home-section home-about" aria-labelledby="homeAboutTitle">
+                    <div class="home-section-head">
+                        <p class="home-kicker">About Us</p>
+                        <h2 class="home-heading" id="homeAboutTitle">A growing creative hub</h2>
+                        <p class="home-copy">
+                            PMW Visuals is a creative digital hub focused on wallpapers, studio assets, and original media projects.
+                        </p>
+                    </div>
+                    <div class="about-container">
+                        <div class="about-intro">
+                            <p class="about-kicker">Creative Asset Hub</p>
+                            <h2 class="about-lead">Our goal is to build beautiful, useful, and accessible digital content for creators, students, and visual enthusiasts.</h2>
+                            <div class="about-stats">
+                                <div class="about-stat">
+                                    <p class="about-stat-value">1000+</p>
+                                    <p class="about-stat-label">Wallpapers currently available and growing</p>
+                                </div>
+                                <div class="about-stat">
+                                    <p class="about-stat-value">Daily</p>
+                                    <p class="about-stat-label">Fresh wallpapers and visual assets added over time</p>
+                                </div>
+                                <div class="about-stat">
+                                    <p class="about-stat-value">100%</p>
+                                    <p class="about-stat-label">Downloads for personal and commercial creative use</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="about-content">
+                            <div class="about-card">
+                                <div class="about-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                        <polyline points="7.5 4.2 12 6.8 16.5 4.2"></polyline>
+                                        <polyline points="7.5 19.8 7.5 14.2 3 11.6"></polyline>
+                                    </svg>
+                                </div>
+                                <h3 class="about-heading">What We Create</h3>
+                                <p class="about-text">
+                                    PMW Studio focuses on editable background clips and cinematic scenes, while PMW Wallpapers collects mobile-first images for AMOLED, anime, celestial samurai, dark aesthetic, romantic, and future wallpaper categories.
+                                </p>
+                                <div class="about-points">
+                                    <p class="about-point">Video assets for reels, edits, promos, and creative projects</p>
+                                    <p class="about-point">Wallpaper panels with titles, descriptions, resolutions, tags, and direct downloads</p>
+                                </div>
+                            </div>
+                            <div class="about-card">
+                                <div class="about-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 20v-6"></path>
+                                        <path d="M6 20V10"></path>
+                                        <path d="M18 20V4"></path>
+                                        <path d="M2 20h20"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="about-heading">How We Work</h3>
+                                <p class="about-text">
+                                    We separate each asset type into its own page so the website can keep growing without becoming messy. New wallpapers and visuals are organized by category, searchable metadata, and clear download paths.
+                                </p>
+                                <div class="about-points">
+                                    <p class="about-point">Separate data files make large wallpaper uploads easier to maintain</p>
+                                    <p class="about-point">Categories and metadata are kept visible so users can find the right asset faster</p>
+                                </div>
+                            </div>
+                            <div class="about-card about-credit-card">
+                                <div class="about-icon about-credit-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <path d="M8 12h8"></path>
+                                        <path d="M12 8v8"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="about-heading">Usage & Credit</h3>
+                                <p class="about-text">
+                                    You can use PMW Visuals assets in personal and commercial creative projects. A visible credit helps keep new PMW Studio packs and PMW Wallpapers collections coming.
+                                </p>
+                                <div class="credit-badge">
+                                    <span class="credit-label">Credit</span>
+                                    <code class="credit-handle">@pmw_studio</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <section class="home-section" aria-labelledby="homeSocialTitle">
                     <div class="home-section-head">
                         <p class="home-kicker">Social Media</p>
