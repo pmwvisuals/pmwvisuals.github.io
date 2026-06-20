@@ -919,54 +919,6 @@
             width: 14px; height: 14px;
         }
 
-        .pmw-ad {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            margin: 22px auto;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 14px;
-            background: rgba(255,255,255,0.025);
-        }
-        .pmw-ad-top { min-height: 90px; max-width: 760px; }
-        .pmw-ad-rectangle { min-height: 250px; max-width: 320px; }
-        .pmw-ad-native {
-            min-height: 120px;
-            max-width: 980px;
-            padding: 10px;
-        }
-        .pmw-ad-grid-asset {
-            align-self: start;
-            min-height: 250px;
-            max-width: 300px;
-            width: 100%;
-            margin: 0 auto;
-            border-radius: var(--radius-lg);
-        }
-        .pmw-ad-rail {
-            position: fixed;
-            top: 128px;
-            width: 160px;
-            z-index: 20;
-            display: none;
-        }
-        .pmw-ad-rail-left { left: 18px; min-height: 600px; }
-        .pmw-ad-rail-right { right: 18px; min-height: 300px; }
-
-        @media (min-width: 1720px) {
-            .pmw-ad-rail { display: flex; }
-        }
-        @media (max-width: 900px) {
-            .pmw-ad-top { min-height: 60px; }
-        }
-        @media (max-width: 520px) {
-            .pmw-ad-top { min-height: 50px; max-width: 320px; }
-        }
-
         /* ===== EDITZ GRID ===== */
         .editz-grid {
             display: grid;
@@ -2016,8 +1968,6 @@
 <body>
     <canvas id="canvas-bg"></canvas>
     <div class="noise-overlay"></div>
-    <aside class="pmw-ad pmw-ad-rail pmw-ad-rail-left" data-adsterra-zone="rail-tall" aria-label="Advertisement"></aside>
-    <aside class="pmw-ad pmw-ad-rail pmw-ad-rail-right" data-adsterra-zone="rail-small" aria-label="Advertisement"></aside>
 
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
@@ -2118,20 +2068,13 @@
             </div>
         </div>
 
-                <div class="pmw-ad pmw-ad-top" data-adsterra-zone="top-responsive" aria-label="Advertisement"></div>
-
                 <h1 class="section-title">PMW Studio Assets</h1>
                 <p class="section-subtitle">
                     Browse the complete PMW Studio collection of original background scenes. 
                     All high-quality vertical loops and static scenes in one place - ready for your edits.
                 </p>
             </div>
-            <div class="pmw-ad pmw-ad-rectangle" data-adsterra-zone="rectangle" aria-label="Advertisement"></div>
             <div class="assets-grid" id="allAssetsGrid"></div>
-            <div class="pmw-ad pmw-ad-native" aria-label="Advertisement">
-                <script async="async" data-cfasync="false" src="https://pl29715218.effectivecpmnetwork.com/77cd398c68b5a559c59d74c2927eeb16/invoke.js"></script>
-                <div id="container-77cd398c68b5a559c59d74c2927eeb16"></div>
-            </div>
         </section>
 </main>
 
@@ -2158,66 +2101,6 @@
     </div>
 
     <script>
-        (function () {
-            const adZones = {
-                mobile: { key: '99a48135c41dbfcce406819c707cef58', width: 320, height: 50 },
-                tablet: { key: 'b18b9fb7bff9b23037472dcc644f1d4c', width: 468, height: 60 },
-                desktop: { key: '10860a2e9e71a619e04e1c936a2a730b', width: 728, height: 90 },
-                rectangle: { key: '5bd7cfb80b66e4d6ce69380fa529d5c4', width: 300, height: 250 },
-                railTall: { key: 'a573470cca4857b8eed59122f3bc390f', width: 160, height: 600 },
-                railSmall: { key: '1794c0e9253d972f219e772cf96b0980', width: 160, height: 300 }
-            };
-
-            function getTopZone() {
-                if (window.innerWidth <= 520) return adZones.mobile;
-                if (window.innerWidth <= 900) return adZones.tablet;
-                return adZones.desktop;
-            }
-
-            function loadAd(container, zone) {
-                if (!container || !zone || container.dataset.loaded === 'true') return Promise.resolve();
-                container.dataset.loaded = 'true';
-                container.style.minHeight = `${zone.height}px`;
-                container.style.maxWidth = `${zone.width}px`;
-                window.atOptions = {
-                    key: zone.key,
-                    format: 'iframe',
-                    height: zone.height,
-                    width: zone.width,
-                    params: {}
-                };
-                return new Promise(resolve => {
-                    const script = document.createElement('script');
-                    script.src = `https://www.highperformanceformat.com/${zone.key}/invoke.js`;
-                    script.async = false;
-                    script.onload = resolve;
-                    script.onerror = resolve;
-                    container.appendChild(script);
-                });
-            }
-
-            window.PMW_ADSTERRA_ZONES = adZones;
-            window.PMW_LOAD_ADSTERRA = loadAd;
-
-            document.addEventListener('DOMContentLoaded', async () => {
-                const queue = [
-                    [document.querySelector('[data-adsterra-zone="top-responsive"]'), getTopZone()],
-                    [document.querySelector('[data-adsterra-zone="rectangle"]'), adZones.rectangle]
-                ];
-
-                if (window.innerWidth >= 1720) {
-                    queue.push(
-                        [document.querySelector('[data-adsterra-zone="rail-tall"]'), adZones.railTall],
-                        [document.querySelector('[data-adsterra-zone="rail-small"]'), adZones.railSmall]
-                    );
-                }
-
-                for (const [container, zone] of queue) {
-                    await loadAd(container, zone);
-                }
-            });
-        })();
-
         // ===== GOOGLE DRIVE DIRECT DOWNLOAD LINKS =====
         // Format: https://drive.google.com/uc?export=download&id=FILE_ID
         // All 52 aesthetic videos linked directly in assetsData below
@@ -3270,7 +3153,6 @@ function initContactForm() {
             }
 
             let html = '';
-            let inlineAdCount = 0;
             filtered.forEach(function (asset, i) {
                 const hasVideo = asset.video !== null && asset.video !== undefined;
                 const safeTitle = String(asset.title || '')
@@ -3319,26 +3201,11 @@ function initContactForm() {
                 </div>
                 `;
 
-                const shouldInsertAd = (i + 1) % 24 === 0 && i !== filtered.length - 1 && inlineAdCount < 2;
-                if (shouldInsertAd) {
-                    inlineAdCount += 1;
-                    html += `<div class="pmw-ad pmw-ad-grid-asset" data-adsterra-inline="asset" aria-label="Advertisement"></div>`;
-                }
             });
 
             container.innerHTML = html;
-            loadInlineAds();
             setTimeout(initReveal, 100);
             setTimeout(addTiltEffect, 300);
-        }
-
-        function loadInlineAds() {
-            const loader = window.PMW_LOAD_ADSTERRA;
-            const zone = window.PMW_ADSTERRA_ZONES && window.PMW_ADSTERRA_ZONES.rectangle;
-            if (!loader || !zone) return;
-            document.querySelectorAll('[data-adsterra-inline="asset"]').forEach(container => {
-                loader(container, zone);
-            });
         }
 
         // Override the original renderAllAssets to use our search engine
@@ -3956,7 +3823,6 @@ function initContactForm() {
         </svg>
     </button>
 
-    <script src="https://pl29715219.effectivecpmnetwork.com/b7/64/5f/b7645f26629ceb7efd055e88cefa4660.js"></script>
 </body>
 </html>
 
