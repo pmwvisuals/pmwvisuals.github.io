@@ -30,24 +30,6 @@
         const events = readEvents();
         events.push(event);
         writeEvents(events);
-
-        if (typeof window.gtag === 'function') {
-            window.gtag('event', `${event.type}_download`, {
-                item_id: event.id,
-                item_name: event.title,
-                item_category: event.category,
-                page_location: event.url
-            });
-        }
-
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-            event: `${event.type}_download`,
-            item_id: event.id,
-            item_name: event.title,
-            item_category: event.category,
-            page_location: event.url
-        });
     }
 
     function getDownloadEvents() {
