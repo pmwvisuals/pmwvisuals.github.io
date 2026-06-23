@@ -713,7 +713,14 @@
         const configuredCategories = window.PMW_WALLPAPER_CATEGORIES || [];
         const wallpapers = window.PMW_WALLPAPERS || [];
         const randomizedWallpapers = shuffleWallpapers(wallpapers);
-        let activeCategory = 'All';
+        const requestedCategory = new URLSearchParams(window.location.search).get('category');
+        const availableCategories = new Set([
+            ...configuredCategories,
+            ...wallpapers.map(item => item.category).filter(Boolean)
+        ]);
+        let activeCategory = requestedCategory && availableCategories.has(requestedCategory)
+            ? requestedCategory
+            : 'All';
         let searchQuery = '';
 
         const grid = document.getElementById('wallpapersGrid');

@@ -677,6 +677,575 @@
             display: block;
         }
 
+        /* ===== WALLPAPER-FIRST HOME ===== */
+        .wallpaper-hero {
+            min-height: min(840px, calc(100svh - 24px));
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            padding: 118px max(24px, calc((100vw - 1300px) / 2)) 68px;
+            isolation: isolate;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .wallpaper-hero-backdrop {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 42%;
+            z-index: -3;
+            opacity: 0.48;
+            filter: saturate(1.12) contrast(1.06);
+        }
+
+        .wallpaper-hero-shade {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background: rgba(0,0,0,0.58);
+        }
+
+        .wallpaper-hero-shade::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .wallpaper-hero-copy {
+            width: min(620px, 48vw);
+            position: relative;
+            z-index: 5;
+            padding-bottom: 20px;
+        }
+
+        .wallpaper-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 22px;
+            color: rgba(255,255,255,0.82);
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0;
+            text-transform: uppercase;
+        }
+
+        .wallpaper-eyebrow::before {
+            content: '';
+            width: 28px;
+            height: 1px;
+            background: #ff4b4b;
+            box-shadow: 0 0 12px rgba(255,75,75,0.75);
+        }
+
+        .wallpaper-hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3.2rem, 7vw, 6.8rem);
+            line-height: 0.94;
+            letter-spacing: 0;
+            margin-bottom: 24px;
+            max-width: 720px;
+        }
+
+        .wallpaper-hero-title span {
+            color: rgba(255,255,255,0.48);
+            display: block;
+        }
+
+        .wallpaper-hero-copy > p {
+            max-width: 560px;
+            color: rgba(255,255,255,0.72);
+            font-size: 1.02rem;
+            line-height: 1.72;
+            margin-bottom: 30px;
+        }
+
+        .wallpaper-hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 36px;
+        }
+
+        .wallpaper-action {
+            min-height: 48px;
+            padding: 0 20px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.86rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(14px);
+            transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+        }
+
+        .wallpaper-action.primary {
+            color: #080808;
+            background: #fff;
+            border-color: #fff;
+        }
+
+        .wallpaper-action:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.54);
+        }
+
+        .wallpaper-action svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .wallpaper-hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+        }
+
+        .wallpaper-hero-stat strong {
+            display: block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.35rem;
+            letter-spacing: 0;
+            margin-bottom: 3px;
+        }
+
+        .wallpaper-hero-stat span {
+            color: rgba(255,255,255,0.48);
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .phone-stage {
+            position: absolute;
+            z-index: 2;
+            right: max(10px, calc((100vw - 1320px) / 2));
+            top: 98px;
+            bottom: 34px;
+            width: min(660px, 51vw);
+            pointer-events: none;
+        }
+
+        .phone {
+            position: absolute;
+            aspect-ratio: 9 / 18.8;
+            padding: 7px;
+            border: 1px solid rgba(255,255,255,0.38);
+            border-radius: 34px;
+            background: #050505;
+            box-shadow: 0 34px 90px rgba(0,0,0,0.72), inset 0 0 0 2px rgba(255,255,255,0.05);
+            overflow: hidden;
+            transform-origin: center bottom;
+        }
+
+        .phone::before {
+            content: '';
+            position: absolute;
+            top: 13px;
+            left: 50%;
+            width: 30%;
+            height: 14px;
+            border-radius: 20px;
+            background: #050505;
+            transform: translateX(-50%);
+            z-index: 3;
+        }
+
+        .phone img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 27px;
+            display: block;
+        }
+
+        .phone-main {
+            width: clamp(210px, 18vw, 274px);
+            right: 29%;
+            top: 0;
+            z-index: 3;
+            animation: phoneFloat 7s ease-in-out infinite;
+        }
+
+        .phone-left {
+            width: clamp(174px, 15vw, 226px);
+            left: 3%;
+            bottom: 2%;
+            z-index: 1;
+            transform: rotate(-8deg) translateY(8px);
+            opacity: 0.88;
+        }
+
+        .phone-right {
+            width: clamp(174px, 15vw, 226px);
+            right: 0;
+            bottom: 1%;
+            z-index: 2;
+            transform: rotate(8deg) translateY(6px);
+            opacity: 0.92;
+        }
+
+        @keyframes phoneFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .home-catalog {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 82px 24px 96px;
+        }
+
+        .catalog-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 30px;
+            margin-bottom: 28px;
+        }
+
+        .catalog-head > div {
+            max-width: 740px;
+        }
+
+        .catalog-kicker {
+            color: #ff7777;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0;
+            margin-bottom: 10px;
+        }
+
+        .catalog-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.45rem);
+            line-height: 1.04;
+            letter-spacing: 0;
+            margin-bottom: 12px;
+        }
+
+        .catalog-copy {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 650px;
+        }
+
+        .catalog-link {
+            color: #fff;
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .collection-tile {
+            min-height: 320px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #fff;
+            text-decoration: none;
+            background: #0a0a0a;
+        }
+
+        .collection-tile img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            inset: 0;
+            object-fit: cover;
+            transition: transform 600ms cubic-bezier(0.16,1,0.3,1), filter 300ms ease;
+        }
+
+        .collection-tile::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.05) 35%, rgba(0,0,0,0.92) 100%);
+        }
+
+        .collection-tile:hover img {
+            transform: scale(1.055);
+            filter: saturate(1.12);
+        }
+
+        .collection-label {
+            position: absolute;
+            z-index: 2;
+            left: 18px;
+            right: 18px;
+            bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        .collection-label strong {
+            display: block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.02rem;
+            letter-spacing: 0;
+            margin-bottom: 3px;
+        }
+
+        .collection-label span {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.69rem;
+            font-weight: 700;
+        }
+
+        .collection-arrow {
+            width: 30px;
+            height: 30px;
+            flex: 0 0 30px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.36);
+            display: grid;
+            place-items: center;
+        }
+
+        .collection-arrow svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .featured-wallpaper {
+            color: #fff;
+            text-decoration: none;
+            min-width: 0;
+        }
+
+        .featured-image {
+            aspect-ratio: 9 / 16;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: #090909;
+            margin-bottom: 12px;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 500ms cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .featured-wallpaper:hover .featured-image img {
+            transform: scale(1.045);
+        }
+
+        .featured-hd {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            border: 1px solid rgba(255,255,255,0.45);
+            background: rgba(5,5,5,0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 4px;
+            padding: 4px 6px;
+            font-size: 0.58rem;
+            font-weight: 900;
+            letter-spacing: 0;
+        }
+
+        .featured-wallpaper h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.87rem;
+            line-height: 1.35;
+            letter-spacing: 0;
+            margin-bottom: 5px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .featured-wallpaper p {
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            font-weight: 700;
+        }
+
+        .studio-strip {
+            margin-top: 94px;
+            padding: 38px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .studio-strip h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.6rem, 3vw, 2.6rem);
+            letter-spacing: 0;
+            margin-bottom: 8px;
+        }
+
+        .studio-strip p {
+            color: var(--text-secondary);
+            line-height: 1.65;
+            max-width: 680px;
+        }
+
+        .home-about-band {
+            margin-top: 94px;
+            padding: 48px 0;
+            display: grid;
+            grid-template-columns: 1.25fr 1fr;
+            gap: 70px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .home-about-band h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.4rem);
+            line-height: 1.05;
+            letter-spacing: 0;
+            margin-bottom: 18px;
+        }
+
+        .home-about-band > div > p {
+            color: var(--text-secondary);
+            line-height: 1.75;
+            max-width: 670px;
+        }
+
+        .about-number-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            align-self: end;
+        }
+
+        .about-number {
+            padding-top: 14px;
+            border-top: 2px solid rgba(255,255,255,0.18);
+        }
+
+        .about-number strong {
+            display: block;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 0;
+            margin-bottom: 5px;
+        }
+
+        .about-number span {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .home-social-section {
+            margin-top: 50px;
+        }
+
+        @media (max-width: 1100px) {
+            .wallpaper-hero-copy { width: 54vw; }
+            .phone-stage { width: 48vw; right: -18px; }
+            .phone-left { display: none; }
+            .phone-main { right: 33%; }
+            .collection-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .featured-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 28px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-inner > .nav-link { display: none; }
+            .nav-inner { width: calc(100% - 24px); }
+            .wallpaper-hero {
+                min-height: auto;
+                display: block;
+                align-items: flex-start;
+                padding: 108px 18px 28px;
+            }
+            .wallpaper-hero-backdrop { opacity: 0.28; }
+            .wallpaper-hero-shade { background: rgba(0,0,0,0.68); }
+            .wallpaper-hero-shade::after { background: rgba(0,0,0,0.18); }
+            .wallpaper-hero-copy { width: 100%; max-width: 100%; min-width: 0; padding: 0; }
+            .wallpaper-hero-title { font-size: 3.35rem; max-width: 520px; }
+            .wallpaper-hero-copy > p { font-size: 0.92rem; max-width: 470px; }
+            .wallpaper-hero-actions { margin-bottom: 24px; }
+            .wallpaper-hero-stats { gap: 20px; }
+            .phone-stage {
+                position: relative;
+                width: calc(100% + 36px);
+                height: 220px;
+                top: auto;
+                bottom: auto;
+                right: auto;
+                margin: 28px -18px -28px;
+            }
+            .phone-main { width: 116px; right: calc(50% - 58px); }
+            .phone-left { display: block; width: 92px; left: calc(50% - 116px); bottom: -16px; }
+            .phone-right { width: 92px; right: calc(50% - 116px); bottom: -16px; }
+            .home-catalog { padding: 64px 16px 72px; }
+            .catalog-head { align-items: flex-start; flex-direction: column; gap: 16px; }
+            .collection-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+            .collection-tile { min-height: 260px; }
+            .featured-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; }
+            .featured-wallpaper { min-width: 166px; width: 166px; scroll-snap-align: start; }
+            .studio-strip { grid-template-columns: 1fr; }
+            .home-about-band { grid-template-columns: 1fr; gap: 30px; }
+            .home-social-section { margin-top: 34px; }
+        }
+
+        @media (max-width: 480px) {
+            .wallpaper-hero-title { font-size: 2.4rem; }
+            .wallpaper-hero-actions { flex-direction: column; gap: 8px; }
+            .wallpaper-action { width: 100%; flex: 0 0 100%; }
+            .wallpaper-hero-stats { justify-content: space-between; gap: 10px; }
+            .wallpaper-hero-stat strong { font-size: 1.08rem; }
+            .wallpaper-hero-stat span { font-size: 0.63rem; }
+            .collection-tile { min-height: 228px; }
+            .collection-label { left: 12px; right: 12px; bottom: 12px; }
+            .collection-label strong { font-size: 0.88rem; }
+            .collection-arrow { display: none; }
+            .about-number-list { grid-template-columns: 1fr; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .phone-main { animation: none; }
+            .collection-tile img,
+            .featured-image img { transition: none; }
+        }
+
         /* ===== SECTION HEADER ===== */
         .section-header {
             padding: 120px 24px 48px;
@@ -2399,198 +2968,197 @@
     <main class="main-content">
         <!-- HOME -->
         <section id="home" class="section active">
-            <div class="hero">
-                <div class="hero-glow"></div>
-                <div class="hero-content">
-                    <div class="hero-badge">
-                        <span class="hero-badge-dot"></span>
-                        Free Creative Assets
-                    </div>
-                    <h1 class="hero-title">PMW Visuals</h1>
-                    <p class="hero-subtitle">Wallpapers, visual assets, and original media projects</p>
-                    <p class="hero-description">
-                        A creative digital hub for beautiful, useful, and accessible content made for creators, students, and visual enthusiasts.
+            <section class="wallpaper-hero" aria-labelledby="wallpaperHeroTitle">
+                <img
+                    class="wallpaper-hero-backdrop"
+                    src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_1800,h_1000,q_auto,f_auto/v1780664533/ChatGPT_Image_Jun_1_2026_10_11_25_PM_qxdmxa.png"
+                    alt=""
+                    fetchpriority="high">
+                <div class="wallpaper-hero-shade" aria-hidden="true"></div>
+
+                <div class="wallpaper-hero-copy">
+                    <span class="wallpaper-eyebrow">Curated for mobile</span>
+                    <h1 class="wallpaper-hero-title" id="wallpaperHeroTitle">PMW Visuals <span>Made for every screen.</span></h1>
+                    <p>
+                        Discover high-detail mobile wallpapers across AMOLED, anime, nature, romance, dark fantasy, celestial art, and deep space.
                     </p>
-                    <div class="hero-cards">
-                        <div class="hero-card" onclick="window.location.href='pmw-wallpapers.html'">
-                            <div class="hero-card-icon">
-                                <img class="hero-card-logo" src="https://drive.google.com/thumbnail?id=1bZJ73l8h7RyfurTegpEwmvxtigjltNEZ&sz=w120" alt="PMW Wallpapers logo">
-                            </div>
-                            <h2 class="hero-card-title">PMW Wallpapers</h2>
-                            <p class="hero-card-desc">
-                                The main collection with 1000+ mobile wallpapers across AMOLED, anime, celestial samurai, dark aesthetic, dark fantasy, nature, romantic, space, and galaxy styles.
-                            </p>
-                            <span class="hero-card-arrow">
-                                Browse Wallpapers
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </span>
+                    <div class="wallpaper-hero-actions">
+                        <a class="wallpaper-action primary" href="pmw-wallpapers.html">
+                            Browse wallpapers
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M5 12h14"></path>
+                                <path d="m13 6 6 6-6 6"></path>
+                            </svg>
+                        </a>
+                        <a class="wallpaper-action" href="#homeCategories">
+                            Explore collections
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="m6 9 6 6 6-6"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="wallpaper-hero-stats" aria-label="Collection statistics">
+                        <div class="wallpaper-hero-stat">
+                            <strong>1,103</strong>
+                            <span>Mobile wallpapers</span>
                         </div>
-                        <div class="hero-card" onclick="window.location.href='pmw-studio.html'">
-                            <div class="hero-card-icon">
-                                <img class="hero-card-logo" src="https://drive.google.com/thumbnail?id=1F1XWcStO9atxONRMI0t5mB2XMt_e7OS-&sz=w120" alt="PMW Studio logo">
-                            </div>
-                            <h2 class="hero-card-title">PMW Studio</h2>
-                            <p class="hero-card-desc">
-                                Original visual assets and background scenes for edits, reels, promos, and creative projects.
-                            </p>
-                            <span class="hero-card-arrow">
-                                Explore Studio
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </span>
+                        <div class="wallpaper-hero-stat">
+                            <strong>8</strong>
+                            <span>Curated collections</span>
+                        </div>
+                        <div class="wallpaper-hero-stat">
+                            <strong>Free</strong>
+                            <span>Direct downloads</span>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="home-showcase">
-                <section class="home-section home-about" aria-labelledby="homeAboutTitle">
-                    <div class="home-section-head">
-                        <p class="home-kicker">About Us</p>
-                        <h2 class="home-heading" id="homeAboutTitle">A growing creative hub</h2>
-                        <p class="home-copy">
-                            PMW Visuals is a creative digital hub focused on wallpapers, studio assets, and original media projects.
-                        </p>
+                <div class="phone-stage" aria-label="Featured mobile wallpapers">
+                    <div class="phone phone-left">
+                        <img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_420,h_746,q_auto,f_auto/v1780555836/ChatGPT_Image_Jun_2_2026_10_08_01_PM_pq5uk0.png" alt="Sun rays over a green mountain valley wallpaper">
                     </div>
-                    <div class="about-container">
-                        <div class="about-intro">
-                            <p class="about-kicker">Creative Asset Hub</p>
-                            <h2 class="about-lead">Our goal is to build beautiful, useful, and accessible digital content for creators, students, and visual enthusiasts.</h2>
-                            <div class="about-stats">
-                                <div class="about-stat">
-                                    <p class="about-stat-value">1000+</p>
-                                    <p class="about-stat-label">Wallpapers currently available and growing</p>
-                                </div>
-                                <div class="about-stat">
-                                    <p class="about-stat-value">Daily</p>
-                                    <p class="about-stat-label">Fresh wallpapers and visual assets added over time</p>
-                                </div>
-                                <div class="about-stat">
-                                    <p class="about-stat-value">100%</p>
-                                    <p class="about-stat-label">Downloads for personal and commercial creative use</p>
-                                </div>
-                            </div>
+                    <div class="phone phone-main">
+                        <img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_924,q_auto,f_auto/v1780373712/ChatGPT_Image_Jun_1_2026_03_39_05_PM_vlxhic.png" alt="Cosmic lion, dragon and lotus mobile wallpaper">
+                    </div>
+                    <div class="phone phone-right">
+                        <img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_420,h_746,q_auto,f_auto/v1780771055/ChatGPT_Image_Jun_6_2026_10_39_55_PM_ujmjne.png" alt="Celestial samurai beneath violet wisteria wallpaper">
+                    </div>
+                </div>
+            </section>
+
+            <div class="home-catalog">
+                <section id="homeCategories" aria-labelledby="homeCategoriesTitle">
+                    <div class="catalog-head">
+                        <div>
+                            <p class="catalog-kicker">Featured collections</p>
+                            <h2 class="catalog-title" id="homeCategoriesTitle">Find your atmosphere.</h2>
+                            <p class="catalog-copy">Eight distinct worlds, organized for quick browsing and designed around the vertical mobile canvas.</p>
                         </div>
-                        <div class="about-content">
-                            <div class="about-card">
-                                <div class="about-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                        <polyline points="7.5 4.2 12 6.8 16.5 4.2"></polyline>
-                                        <polyline points="7.5 19.8 7.5 14.2 3 11.6"></polyline>
-                                    </svg>
-                                </div>
-                                <h3 class="about-heading">What We Create</h3>
-                                <p class="about-text">
-                                    PMW Studio focuses on editable background clips and cinematic scenes, while PMW Wallpapers collects mobile-first images for AMOLED, anime, celestial samurai, dark aesthetic, romantic, and future wallpaper categories.
-                                </p>
-                                <div class="about-points">
-                                    <p class="about-point">Video assets for reels, edits, promos, and creative projects</p>
-                                    <p class="about-point">Wallpaper panels with titles, descriptions, resolutions, tags, and direct downloads</p>
-                                </div>
-                            </div>
-                            <div class="about-card">
-                                <div class="about-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M12 20v-6"></path>
-                                        <path d="M6 20V10"></path>
-                                        <path d="M18 20V4"></path>
-                                        <path d="M2 20h20"></path>
-                                    </svg>
-                                </div>
-                                <h3 class="about-heading">How We Work</h3>
-                                <p class="about-text">
-                                    We separate each asset type into its own page so the website can keep growing without becoming messy. New wallpapers and visuals are organized by category, searchable metadata, and clear download paths.
-                                </p>
-                                <div class="about-points">
-                                    <p class="about-point">Separate data files make large wallpaper uploads easier to maintain</p>
-                                    <p class="about-point">Categories and metadata are kept visible so users can find the right asset faster</p>
-                                </div>
-                            </div>
-                            <div class="about-card about-credit-card">
-                                <div class="about-icon about-credit-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <path d="M8 12h8"></path>
-                                        <path d="M12 8v8"></path>
-                                    </svg>
-                                </div>
-                                <h3 class="about-heading">Usage & Credit</h3>
-                                <p class="about-text">
-                                    You can use PMW Visuals assets in personal and commercial creative projects. A visible credit helps keep new PMW Studio packs and PMW Wallpapers collections coming.
-                                </p>
-                                <div class="credit-badge">
-                                    <span class="credit-label">Credit</span>
-                                    <code class="credit-handle">@pmw_studio</code>
-                                </div>
-                            </div>
-                        </div>
+                        <a class="catalog-link" href="pmw-wallpapers.html">View all wallpapers <span aria-hidden="true">→</span></a>
+                    </div>
+
+                    <div class="collection-grid">
+                        <a class="collection-tile" href="pmw-wallpapers.html?category=AMOLED">
+                            <img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780373712/ChatGPT_Image_Jun_1_2026_03_39_05_PM_vlxhic.png" alt="" loading="lazy">
+                            <span class="collection-label"><span><strong>AMOLED</strong><span>164 wallpapers</span></span><span class="collection-arrow" aria-hidden="true">→</span></span>
+                        </a>
+                        <a class="collection-tile" href="pmw-wallpapers.html?category=Anime">
+                            <img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1781100545/ChatGPT_Image_Jun_10_2026_07_33_24_PM_qqonbv.png" alt="" loading="lazy">
+                            <span class="collection-label"><span><strong>Anime</strong><span>103 wallpapers</span></span><span class="collection-arrow" aria-hidden="true">→</span></span>
+                        </a>
+                        <a class="collection-tile" href="pmw-wallpapers.html?category=Celestial%20Samurai">
+                            <img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780771055/ChatGPT_Image_Jun_6_2026_10_39_55_PM_ujmjne.png" alt="" loading="lazy">
+                            <span class="collection-label"><span><strong>Celestial Samurai</strong><span>103 wallpapers</span></span><span class="collection-arrow" aria-hidden="true">→</span></span>
+                        </a>
+                        <a class="collection-tile" href="pmw-wallpapers.html?category=Dark%20Aesthetic">
+                            <img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780373386/ChatGPT_Image_May_30_2026_06_35_10_PM_xulaok.png" alt="" loading="lazy">
+                            <span class="collection-label"><span><strong>Dark Aesthetic</strong><span>161 wallpapers</span></span><span class="collection-arrow" aria-hidden="true">→</span></span>
+                        </a>
+                        <a class="collection-tile" href="pmw-wallpapers.html?category=Dark%20Fantasy">
+                            <img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780664533/ChatGPT_Image_Jun_1_2026_10_11_25_PM_qxdmxa.png" alt="" loading="lazy">
+                            <span class="collection-label"><span><strong>Dark Fantasy</strong><span>163 wallpapers</span></span><span class="collection-arrow" aria-hidden="true">→</span></span>
+                        </a>
+                        <a class="collection-tile" href="pmw-wallpapers.html?category=Nature">
+                            <img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780555836/ChatGPT_Image_Jun_2_2026_10_08_01_PM_pq5uk0.png" alt="" loading="lazy">
+                            <span class="collection-label"><span><strong>Nature</strong><span>154 wallpapers</span></span><span class="collection-arrow" aria-hidden="true">→</span></span>
+                        </a>
+                        <a class="collection-tile" href="pmw-wallpapers.html?category=Romantic">
+                            <img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780229693/R.D.W_1_es47sx.webp" alt="" loading="lazy">
+                            <span class="collection-label"><span><strong>Romantic</strong><span>155 wallpapers</span></span><span class="collection-arrow" aria-hidden="true">→</span></span>
+                        </a>
+                        <a class="collection-tile" href="pmw-wallpapers.html?category=Space%20and%20Galaxy">
+                            <img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780663834/ChatGPT_Image_Jun_4_2026_06_08_53_PM_wyockh.png" alt="" loading="lazy">
+                            <span class="collection-label"><span><strong>Space &amp; Galaxy</strong><span>100 wallpapers</span></span><span class="collection-arrow" aria-hidden="true">→</span></span>
+                        </a>
                     </div>
                 </section>
 
-                <section class="home-section" aria-labelledby="homeSocialTitle">
+                <section class="home-section" aria-labelledby="featuredWallpapersTitle">
+                    <div class="catalog-head">
+                        <div>
+                            <p class="catalog-kicker">Editor's selection</p>
+                            <h2 class="catalog-title" id="featuredWallpapersTitle">Made to stop the scroll.</h2>
+                            <p class="catalog-copy">A cross-section of the collection, from deep black AMOLED art to vivid natural worlds.</p>
+                        </div>
+                        <a class="catalog-link" href="pmw-wallpapers.html">Open gallery <span aria-hidden="true">→</span></a>
+                    </div>
+
+                    <div class="featured-grid">
+                        <a class="featured-wallpaper" href="wallpapers/amoled/01/cosmic-lion-dragon-and-lotus-bowl.html">
+                            <div class="featured-image"><img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_420,h_746,q_auto,f_auto/v1780373712/ChatGPT_Image_Jun_1_2026_03_39_05_PM_vlxhic.png" alt="Cosmic lion, dragon and lotus bowl wallpaper" loading="lazy"><span class="featured-hd">HD</span></div>
+                            <h3>Cosmic Lion, Dragon and Lotus Bowl</h3><p>AMOLED</p>
+                        </a>
+                        <a class="featured-wallpaper" href="wallpapers/anime/01/anime-boy-in-glowing-enchanted-forest.html">
+                            <div class="featured-image"><img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_420,h_746,q_auto,f_auto/v1781100545/ChatGPT_Image_Jun_10_2026_07_33_24_PM_qqonbv.png" alt="Anime boy in a glowing enchanted forest wallpaper" loading="lazy"><span class="featured-hd">HD</span></div>
+                            <h3>Anime Boy in Glowing Enchanted Forest</h3><p>Anime</p>
+                        </a>
+                        <a class="featured-wallpaper" href="wallpapers/celestial-samurai/01/samurai-beneath-violet-wisteria-and-lanterns.html">
+                            <div class="featured-image"><img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_420,h_746,q_auto,f_auto/v1780771055/ChatGPT_Image_Jun_6_2026_10_39_55_PM_ujmjne.png" alt="Samurai beneath violet wisteria and lanterns wallpaper" loading="lazy"><span class="featured-hd">HD</span></div>
+                            <h3>Samurai Beneath Violet Wisteria and Lanterns</h3><p>Celestial Samurai</p>
+                        </a>
+                        <a class="featured-wallpaper" href="wallpapers/dark-fantasy/01/black-phoenix-under-moonlight.html">
+                            <div class="featured-image"><img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_420,h_746,q_auto,f_auto/v1780664533/ChatGPT_Image_Jun_1_2026_10_11_25_PM_qxdmxa.png" alt="Black phoenix under moonlight wallpaper" loading="lazy"><span class="featured-hd">HD</span></div>
+                            <h3>Black Phoenix under Moonlight</h3><p>Dark Fantasy</p>
+                        </a>
+                        <a class="featured-wallpaper" href="wallpapers/nature/01/sun-rays-over-green-mountain-valley.html">
+                            <div class="featured-image"><img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_420,h_746,q_auto,f_auto/v1780555836/ChatGPT_Image_Jun_2_2026_10_08_01_PM_pq5uk0.png" alt="Sun rays over a green mountain valley wallpaper" loading="lazy"><span class="featured-hd">HD</span></div>
+                            <h3>Sun Rays over Green Mountain Valley</h3><p>Nature</p>
+                        </a>
+                        <a class="featured-wallpaper" href="wallpapers/space-and-galaxy/01/white-cosmic-dragon-among-galaxies.html">
+                            <div class="featured-image"><img src="https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_420,h_746,q_auto,f_auto/v1780663834/ChatGPT_Image_Jun_4_2026_06_08_53_PM_wyockh.png" alt="White cosmic dragon among galaxies wallpaper" loading="lazy"><span class="featured-hd">HD</span></div>
+                            <h3>White Cosmic Dragon among Galaxies</h3><p>Space &amp; Galaxy</p>
+                        </a>
+                    </div>
+                </section>
+
+                <section class="studio-strip" aria-labelledby="studioStripTitle">
+                    <div>
+                        <p class="catalog-kicker">Beyond wallpapers</p>
+                        <h2 id="studioStripTitle">Motion assets for visual storytellers.</h2>
+                        <p>Explore PMW Studio for cinematic vertical loops, atmospheric scenes, and creative backgrounds built for edits, reels, and promos.</p>
+                    </div>
+                    <a class="wallpaper-action" href="pmw-studio.html">Explore PMW Studio <span aria-hidden="true">→</span></a>
+                </section>
+
+                <section class="home-about-band" aria-labelledby="homeAboutTitle">
+                    <div>
+                        <p class="catalog-kicker">About PMW Visuals</p>
+                        <h2 id="homeAboutTitle">A growing library of visual worlds.</h2>
+                        <p>PMW Visuals brings mobile wallpapers and original media assets together in one focused creative hub. Every collection is organized to be easy to explore, inspect, and download.</p>
+                    </div>
+                    <div class="about-number-list" aria-label="PMW Visuals highlights">
+                        <div class="about-number"><strong>1,103</strong><span>Mobile-first wallpapers</span></div>
+                        <div class="about-number"><strong>8</strong><span>Distinct visual collections</span></div>
+                        <div class="about-number"><strong>100%</strong><span>Free direct downloads</span></div>
+                    </div>
+                </section>
+
+                <section class="home-social-section" aria-labelledby="homeSocialTitle">
                     <div class="home-section-head">
                         <p class="home-kicker">Social Media</p>
                         <h2 class="home-heading" id="homeSocialTitle">Connect With PMW Visuals</h2>
                     </div>
                     <div class="home-social-grid">
                         <a class="home-social-card" href="https://www.instagram.com/pmw_wallpapers/" target="_blank" rel="noopener noreferrer">
-                            <span>
-                                <span class="home-social-name">Instagram</span>
-                                <span class="home-social-handle">Follow updates</span>
-                            </span>
-                            <span class="home-social-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="3" width="18" height="18" rx="5"></rect>
-                                    <circle cx="12" cy="12" r="4"></circle>
-                                    <circle cx="17.5" cy="6.5" r="1"></circle>
-                                </svg>
-                            </span>
+                            <span><span class="home-social-name">Instagram</span><span class="home-social-handle">Follow updates</span></span>
+                            <span class="home-social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1"></circle></svg></span>
                         </a>
                         <a class="home-social-card" href="https://uk.pinterest.com/pmw_wallpapers/" target="_blank" rel="noopener noreferrer">
-                            <span>
-                                <span class="home-social-name">Pinterest</span>
-                                <span class="home-social-handle">Wallpaper boards</span>
-                            </span>
-                            <span class="home-social-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12.1 2.3C6.7 2.3 3 5.8 3 10.3c0 3 1.7 4.8 2.7 4.8.4 0 .6-1.1.6-1.4 0-.4-1-.9-1-2.8 0-3.8 2.9-6.5 6.6-6.5 3.2 0 5.6 1.8 5.6 5.1 0 2.5-1 7.2-4.3 7.2-1.2 0-2.2-.9-1.9-2.1.4-1.4 1.1-2.9 1.1-4 0-.9-.5-1.7-1.5-1.7-1.2 0-2.1 1.2-2.1 2.8 0 1 .3 1.7.3 1.7s-1.1 4.5-1.3 5.3c-.4 1.6-.1 3.6 0 3.8.1.2.3.2.4.1.2-.2 2.4-3 2.8-4.6.1-.5.7-2.7.7-2.7.4.7 1.4 1.3 2.5 1.3 3.3 0 5.5-3 5.5-7 .1-3.1-2.6-6.3-7.2-6.3Z"></path>
-                                </svg>
-                            </span>
+                            <span><span class="home-social-name">Pinterest</span><span class="home-social-handle">Wallpaper boards</span></span>
+                            <span class="home-social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.1 2.3C6.7 2.3 3 5.8 3 10.3c0 3 1.7 4.8 2.7 4.8.4 0 .6-1.1.6-1.4 0-.4-1-.9-1-2.8 0-3.8 2.9-6.5 6.6-6.5 3.2 0 5.6 1.8 5.6 5.1 0 2.5-1 7.2-4.3 7.2-1.2 0-2.2-.9-1.9-2.1.4-1.4 1.1-2.9 1.1-4 0-.9-.5-1.7-1.5-1.7-1.2 0-2.1 1.2-2.1 2.8 0 1 .3 1.7.3 1.7s-1.1 4.5-1.3 5.3c-.4 1.6-.1 3.6 0 3.8.1.2.3.2.4.1.2-.2 2.4-3 2.8-4.6.1-.5.7-2.7.7-2.7.4.7 1.4 1.3 2.5 1.3 3.3 0 5.5-3 5.5-7 .1-3.1-2.6-6.3-7.2-6.3Z"></path></svg></span>
                         </a>
                         <a class="home-social-card" href="https://www.facebook.com/people/Apollo-Sounds/61579450350429/?sk=about" target="_blank" rel="noopener noreferrer">
-                            <span>
-                                <span class="home-social-name">Facebook</span>
-                                <span class="home-social-handle">Community posts</span>
-                            </span>
-                            <span class="home-social-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M14 8.3V6.7c0-.8.5-1 1-1h2V2.4c-.9-.1-1.8-.2-2.7-.2-2.7 0-4.5 1.6-4.5 4.6v2.5h-3v3.7h3V22h4.2v-9h3l.5-3.7H14Z"></path>
-                                </svg>
-                            </span>
+                            <span><span class="home-social-name">Facebook</span><span class="home-social-handle">Community posts</span></span>
+                            <span class="home-social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 8.3V6.7c0-.8.5-1 1-1h2V2.4c-.9-.1-1.8-.2-2.7-.2-2.7 0-4.5 1.6-4.5 4.6v2.5h-3v3.7h3V22h4.2v-9h3l.5-3.7H14Z"></path></svg></span>
                         </a>
                         <a class="home-social-card" href="https://www.youtube.com/@PMW_Studio" target="_blank" rel="noopener noreferrer">
-                            <span>
-                                <span class="home-social-name">YouTube</span>
-                                <span class="home-social-handle">Media projects</span>
-                            </span>
-                            <span class="home-social-icon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M21.6 7.1c-.2-.9-.9-1.5-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4c-.9.2-1.5.9-1.8 1.8C2 8.7 2 12 2 12s0 3.3.4 4.9c.2.9.9 1.5 1.8 1.8 1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4c.9-.2 1.5-.9 1.8-1.8.4-1.6.4-4.9.4-4.9s0-3.3-.4-4.9ZM10 15.2V8.8l5.5 3.2-5.5 3.2Z"></path>
-                                </svg>
-                            </span>
+                            <span><span class="home-social-name">YouTube</span><span class="home-social-handle">Media projects</span></span>
+                            <span class="home-social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.1c-.2-.9-.9-1.5-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4c-.9.2-1.5.9-1.8 1.8C2 8.7 2 12 2 12s0 3.3.4 4.9c.2.9.9 1.5 1.8 1.8 1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4c.9-.2 1.5-.9 1.8-1.8.4-1.6.4-4.9.4-4.9s0-3.3-.4-4.9ZM10 15.2V8.8l5.5 3.2-5.5 3.2Z"></path></svg></span>
                         </a>
                     </div>
                 </section>
             </div>
         </section>
-
-        
 
         <!-- ABOUT US -->
         <section id="about" class="section">
