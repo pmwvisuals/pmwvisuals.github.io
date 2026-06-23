@@ -867,6 +867,14 @@
             object-fit: cover;
             border-radius: 27px;
             display: block;
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 320ms ease, transform 700ms ease;
+        }
+
+        .phone img.is-changing {
+            opacity: 0;
+            transform: scale(1.025);
         }
 
         .phone-main {
@@ -1242,6 +1250,7 @@
 
         @media (prefers-reduced-motion: reduce) {
             .phone-main { animation: none; }
+            .phone img { transition: none; }
             .collection-tile img,
             .featured-image img { transition: none; }
         }
@@ -4110,9 +4119,92 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        const heroWallpaperPool = [
+            {
+                src: 'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_924,q_auto,f_auto/v1780373712/ChatGPT_Image_Jun_1_2026_03_39_05_PM_vlxhic.png',
+                alt: 'Cosmic lion, dragon and lotus mobile wallpaper'
+            },
+            {
+                src: 'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_924,q_auto,f_auto/v1781100545/ChatGPT_Image_Jun_10_2026_07_33_24_PM_qqonbv.png',
+                alt: 'Anime boy in a glowing enchanted forest wallpaper'
+            },
+            {
+                src: 'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_924,q_auto,f_auto/v1780771055/ChatGPT_Image_Jun_6_2026_10_39_55_PM_ujmjne.png',
+                alt: 'Celestial samurai beneath violet wisteria wallpaper'
+            },
+            {
+                src: 'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_924,q_auto,f_auto/v1780664533/ChatGPT_Image_Jun_1_2026_10_11_25_PM_qxdmxa.png',
+                alt: 'Black phoenix beneath moonlight wallpaper'
+            },
+            {
+                src: 'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_924,q_auto,f_auto/v1780555836/ChatGPT_Image_Jun_2_2026_10_08_01_PM_pq5uk0.png',
+                alt: 'Sun rays over a green mountain valley wallpaper'
+            },
+            {
+                src: 'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_924,q_auto,f_auto/v1780373386/ChatGPT_Image_May_30_2026_06_35_10_PM_xulaok.png',
+                alt: 'Dark aesthetic mobile wallpaper'
+            },
+            {
+                src: 'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_924,q_auto,f_auto/v1780229693/R.D.W_1_es47sx.webp',
+                alt: 'Romantic mobile wallpaper'
+            },
+            {
+                src: 'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_924,q_auto,f_auto/v1780663834/ChatGPT_Image_Jun_4_2026_06_08_53_PM_wyockh.png',
+                alt: 'White cosmic dragon among galaxies wallpaper'
+            }
+        ];
+
+        function initDynamicHeroWallpapers() {
+            const phoneImages = Array.from(document.querySelectorAll('.phone-stage .phone img'));
+            if (phoneImages.length !== 3 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            let poolOffset = 0;
+            let rotationTimer = null;
+
+            function rotateHeroWallpapers() {
+                poolOffset = (poolOffset + 3) % heroWallpaperPool.length;
+                const nextWallpapers = phoneImages.map((_, index) => (
+                    heroWallpaperPool[(poolOffset + index) % heroWallpaperPool.length]
+                ));
+
+                phoneImages.forEach(image => image.classList.add('is-changing'));
+                window.setTimeout(() => {
+                    phoneImages.forEach((image, index) => {
+                        image.src = nextWallpapers[index].src;
+                        image.alt = nextWallpapers[index].alt;
+                        image.classList.remove('is-changing');
+                    });
+                }, 320);
+            }
+
+            function startRotation() {
+                if (!rotationTimer) {
+                    rotationTimer = window.setInterval(rotateHeroWallpapers, 5200);
+                }
+            }
+
+            function stopRotation() {
+                window.clearInterval(rotationTimer);
+                rotationTimer = null;
+            }
+
+            Promise.allSettled(heroWallpaperPool.map(item => new Promise(resolve => {
+                const image = new Image();
+                image.onload = resolve;
+                image.onerror = resolve;
+                image.src = item.src;
+            }))).then(startRotation);
+
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) stopRotation();
+                else startRotation();
+            });
+        }
+
         // Preload images
         document.addEventListener('DOMContentLoaded', () => {
             categories.forEach(cat => { const img = new Image(); img.src = cat.image; });
+            initDynamicHeroWallpapers();
         });
 
 
