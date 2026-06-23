@@ -985,12 +985,19 @@
             position: absolute;
             inset: 0;
             object-fit: cover;
-            opacity: 1;
-            transition: opacity 280ms ease, transform 600ms cubic-bezier(0.16,1,0.3,1), filter 300ms ease;
+            transition: transform 600ms cubic-bezier(0.16,1,0.3,1), filter 300ms ease;
         }
 
-        .collection-tile img.is-changing {
-            opacity: 0;
+        .collection-tile > img.collection-slide-in {
+            transform: translateX(100%);
+        }
+
+        .collection-tile.is-sliding > img:not(.collection-slide-in) {
+            transform: translateX(-100%);
+        }
+
+        .collection-tile.is-sliding > img.collection-slide-in {
+            transform: translateX(0);
         }
 
         .collection-tile::after {
@@ -1136,6 +1143,106 @@
             max-width: 680px;
         }
 
+        .home-motion {
+            margin-top: 94px;
+        }
+
+        .home-motion-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .home-motion-card {
+            min-width: 0;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 8px;
+            background: #090909;
+            color: #fff;
+            text-decoration: none;
+            transition: transform 180ms ease, border-color 180ms ease;
+        }
+
+        .home-motion-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,255,255,0.28);
+        }
+
+        .home-motion-media {
+            position: relative;
+            aspect-ratio: 9 / 14;
+            overflow: hidden;
+            background: #050505;
+        }
+
+        .home-motion-media video,
+        .home-motion-poster {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .home-motion-media video {
+            transition: transform 700ms cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .home-motion-poster {
+            z-index: 1;
+            transition: opacity 260ms ease;
+        }
+
+        .home-motion-media.is-playing .home-motion-poster {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .home-motion-card:hover video {
+            transform: scale(1.035);
+        }
+
+        .home-motion-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 3;
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: #080808;
+            background: rgba(255,255,255,0.92);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+        }
+
+        .home-motion-badge svg {
+            width: 14px;
+            height: 14px;
+            margin-left: 2px;
+        }
+
+        .home-motion-copy {
+            padding: 14px 15px 16px;
+        }
+
+        .home-motion-copy h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.92rem;
+            line-height: 1.35;
+            letter-spacing: 0;
+            margin-bottom: 5px;
+        }
+
+        .home-motion-copy p {
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            font-weight: 700;
+        }
+
         .home-about-band {
             margin-top: 94px;
             padding: 48px 0;
@@ -1234,6 +1341,8 @@
             .collection-tile { min-height: 260px; }
             .featured-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; }
             .featured-wallpaper { min-width: 166px; width: 166px; scroll-snap-align: start; }
+            .home-motion-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; }
+            .home-motion-card { min-width: 210px; width: 210px; scroll-snap-align: start; }
             .studio-strip { grid-template-columns: 1fr; }
             .home-about-band { grid-template-columns: 1fr; gap: 30px; }
             .home-social-section { margin-top: 34px; }
@@ -3125,13 +3234,50 @@
                     </div>
                 </section>
 
-                <section class="studio-strip" aria-labelledby="studioStripTitle">
-                    <div>
-                        <p class="catalog-kicker">Beyond wallpapers</p>
-                        <h2 id="studioStripTitle">Motion assets for visual storytellers.</h2>
-                        <p>Explore PMW Studio for cinematic vertical loops, atmospheric scenes, and creative backgrounds built for edits, reels, and promos.</p>
+                <section class="home-motion" aria-labelledby="homeMotionTitle">
+                    <div class="catalog-head">
+                        <div>
+                            <p class="catalog-kicker">PMW Studio motion</p>
+                            <h2 class="catalog-title" id="homeMotionTitle">Atmosphere, now in motion.</h2>
+                            <p class="catalog-copy">Cinematic vertical loops and background scenes for edits, reels, promos, and visual storytelling.</p>
+                        </div>
+                        <a class="catalog-link" href="pmw-studio.html">Explore PMW Studio <span aria-hidden="true">&rarr;</span></a>
                     </div>
-                    <a class="wallpaper-action" href="pmw-studio.html">Explore PMW Studio <span aria-hidden="true">→</span></a>
+
+                    <div class="home-motion-grid">
+                        <a class="home-motion-card" href="pmw-studio.html" aria-label="Explore Dark Misty Forest in PMW Studio">
+                            <div class="home-motion-media">
+                                <img class="home-motion-poster" src="https://drive.google.com/thumbnail?id=1BQrrbDcu-IRstento-14ufRRE5TT4jR7&sz=w800" alt="Dark misty forest motion preview" loading="lazy">
+                                <video muted loop playsinline preload="none" poster="https://drive.google.com/thumbnail?id=1BQrrbDcu-IRstento-14ufRRE5TT4jR7&sz=w800" data-src="https://drive.google.com/uc?export=download&id=1BQrrbDcu-IRstento-14ufRRE5TT4jR7"></video>
+                                <span class="home-motion-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></span>
+                            </div>
+                            <div class="home-motion-copy"><h3>Dark Misty Forest</h3><p>Atmospheric motion</p></div>
+                        </a>
+                        <a class="home-motion-card" href="pmw-studio.html" aria-label="Explore Rainy Window in PMW Studio">
+                            <div class="home-motion-media">
+                                <img class="home-motion-poster" src="https://drive.google.com/thumbnail?id=1aYBAeOsUCgg39etnN6IvDzHAOWoSPGsi&sz=w800" alt="Rainy window motion preview" loading="lazy">
+                                <video muted loop playsinline preload="none" poster="https://drive.google.com/thumbnail?id=1aYBAeOsUCgg39etnN6IvDzHAOWoSPGsi&sz=w800" data-src="https://drive.google.com/uc?export=download&id=1aYBAeOsUCgg39etnN6IvDzHAOWoSPGsi"></video>
+                                <span class="home-motion-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></span>
+                            </div>
+                            <div class="home-motion-copy"><h3>Rainy Window</h3><p>Reflective motion</p></div>
+                        </a>
+                        <a class="home-motion-card" href="pmw-studio.html" aria-label="Explore Lantern Sky in PMW Studio">
+                            <div class="home-motion-media">
+                                <img class="home-motion-poster" src="https://drive.google.com/thumbnail?id=1Sdbc2e4j5C5uQ5UlbEfSqtqFhd41UR7u&sz=w800" alt="Lantern sky motion preview" loading="lazy">
+                                <video muted loop playsinline preload="none" poster="https://drive.google.com/thumbnail?id=1Sdbc2e4j5C5uQ5UlbEfSqtqFhd41UR7u&sz=w800" data-src="https://drive.google.com/uc?export=download&id=1Sdbc2e4j5C5uQ5UlbEfSqtqFhd41UR7u"></video>
+                                <span class="home-motion-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></span>
+                            </div>
+                            <div class="home-motion-copy"><h3>Lantern Sky</h3><p>Cinematic motion</p></div>
+                        </a>
+                        <a class="home-motion-card" href="pmw-studio.html" aria-label="Explore Black Horse Running in PMW Studio">
+                            <div class="home-motion-media">
+                                <img class="home-motion-poster" src="https://drive.google.com/thumbnail?id=1Ew3WrCMZiXmTc71fD4tSocRJHhuQJNqf&sz=w800" alt="Black horse running motion preview" loading="lazy">
+                                <video muted loop playsinline preload="none" poster="https://drive.google.com/thumbnail?id=1Ew3WrCMZiXmTc71fD4tSocRJHhuQJNqf&sz=w800" data-src="https://drive.google.com/uc?export=download&id=1Ew3WrCMZiXmTc71fD4tSocRJHhuQJNqf"></video>
+                                <span class="home-motion-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></span>
+                            </div>
+                            <div class="home-motion-copy"><h3>Black Horse Running</h3><p>Dramatic motion</p></div>
+                        </a>
+                    </div>
                 </section>
 
                 <section class="home-about-band" aria-labelledby="homeAboutTitle">
@@ -4269,11 +4415,25 @@
                     const loader = new Image();
                     loader.onload = () => {
                         if (tile.dataset.rotationRequest !== String(requestIndex)) return;
-                        image.classList.add('is-changing');
+
+                        const nextImage = image.cloneNode(false);
+                        nextImage.src = nextSource;
+                        nextImage.classList.add('collection-slide-in');
+                        image.after(nextImage);
+                        nextImage.getBoundingClientRect();
+
+                        window.requestAnimationFrame(() => tile.classList.add('is-sliding'));
                         window.setTimeout(() => {
-                            image.src = nextSource;
-                            image.classList.remove('is-changing');
-                        }, 280);
+                            nextImage.style.transition = 'none';
+                            nextImage.style.transform = 'translateX(0)';
+                            image.remove();
+                            tile.classList.remove('is-sliding');
+                            nextImage.classList.remove('collection-slide-in');
+                            window.requestAnimationFrame(() => {
+                                nextImage.style.removeProperty('transition');
+                                nextImage.style.removeProperty('transform');
+                            });
+                        }, 620);
                     };
                     loader.src = nextSource;
                 });
@@ -4297,11 +4457,36 @@
             });
         }
 
+        function initHomeMotionVideos() {
+            const videos = Array.from(document.querySelectorAll('.home-motion-video, .home-motion-media video'));
+            if (!videos.length) return;
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const video = entry.target;
+                    if (entry.isIntersecting) {
+                        if (!video.src) video.src = video.dataset.src;
+                        video.play().catch(() => {});
+                    } else {
+                        video.pause();
+                    }
+                });
+            }, { rootMargin: '240px 0px', threshold: 0.1 });
+
+            videos.forEach(video => {
+                video.addEventListener('playing', () => {
+                    video.closest('.home-motion-media')?.classList.add('is-playing');
+                });
+                observer.observe(video);
+            });
+        }
+
         // Preload images
         document.addEventListener('DOMContentLoaded', () => {
             categories.forEach(cat => { const img = new Image(); img.src = cat.image; });
             initDynamicHeroWallpapers();
             initDynamicCategoryWallpapers();
+            initHomeMotionVideos();
         });
 
 
