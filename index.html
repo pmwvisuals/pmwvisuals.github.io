@@ -985,7 +985,12 @@
             position: absolute;
             inset: 0;
             object-fit: cover;
-            transition: transform 600ms cubic-bezier(0.16,1,0.3,1), filter 300ms ease;
+            opacity: 1;
+            transition: opacity 280ms ease, transform 600ms cubic-bezier(0.16,1,0.3,1), filter 300ms ease;
+        }
+
+        .collection-tile img.is-changing {
+            opacity: 0;
         }
 
         .collection-tile::after {
@@ -4154,6 +4159,49 @@
             }
         ];
 
+        const categoryWallpaperPools = {
+            AMOLED: [
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780373712/ChatGPT_Image_Jun_1_2026_03_39_05_PM_vlxhic.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780373716/ChatGPT_Image_Jun_1_2026_03_39_08_PM_wrwbd8.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780373746/ChatGPT_Image_Jun_1_2026_03_39_11_PM_figmjk.png'
+            ],
+            Anime: [
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1781100545/ChatGPT_Image_Jun_10_2026_07_33_24_PM_qqonbv.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1781100544/ChatGPT_Image_Jun_10_2026_07_33_48_PM_qrqyv6.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1781100544/ChatGPT_Image_Jun_10_2026_07_37_44_PM_da69i0.png'
+            ],
+            'Celestial Samurai': [
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780771055/ChatGPT_Image_Jun_6_2026_10_39_55_PM_ujmjne.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780771107/ChatGPT_Image_Jun_6_2026_10_46_34_PM_wx1gek.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780771054/ChatGPT_Image_Jun_6_2026_10_48_39_PM_betyej.png'
+            ],
+            'Dark Aesthetic': [
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780373386/ChatGPT_Image_May_30_2026_06_35_10_PM_xulaok.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780373549/ChatGPT_Image_May_30_2026_06_35_03_PM_wg9jku.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780373424/ChatGPT_Image_May_30_2026_06_35_17_PM_xw4zdl.png'
+            ],
+            'Dark Fantasy': [
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780664533/ChatGPT_Image_Jun_1_2026_10_11_25_PM_qxdmxa.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780664539/ChatGPT_Image_Jun_1_2026_10_11_27_PM_hxhgf7.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780664570/ChatGPT_Image_Jun_1_2026_10_11_30_PM_tbnudu.png'
+            ],
+            Nature: [
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780555836/ChatGPT_Image_Jun_2_2026_10_08_01_PM_pq5uk0.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780555836/ChatGPT_Image_Jun_2_2026_10_08_04_PM_1_thdh97.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780555836/ChatGPT_Image_Jun_2_2026_10_08_05_PM_2_wmwejh.png'
+            ],
+            Romantic: [
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780229693/R.D.W_1_es47sx.webp',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780229689/R.D.W_2_uzgbxw.webp',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780229700/R.D.W_3_qgk6w5.webp'
+            ],
+            'Space and Galaxy': [
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780663834/ChatGPT_Image_Jun_4_2026_06_08_53_PM_wyockh.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780663834/ChatGPT_Image_Jun_4_2026_06_08_56_PM_vtrf6t.png',
+                'https://res.cloudinary.com/dlmjetz3s/image/upload/c_fill,g_auto,w_520,h_640,q_auto,f_auto/v1780663836/ChatGPT_Image_Jun_4_2026_06_08_49_PM_bhlpux.png'
+            ]
+        };
+
         function initDynamicHeroWallpapers() {
             const phoneImages = Array.from(document.querySelectorAll('.phone-stage .phone img'));
             if (phoneImages.length !== 3 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -4179,7 +4227,7 @@
 
             function startRotation() {
                 if (!rotationTimer) {
-                    rotationTimer = window.setInterval(rotateHeroWallpapers, 5200);
+                    rotationTimer = window.setInterval(rotateHeroWallpapers, 3000);
                 }
             }
 
@@ -4201,10 +4249,59 @@
             });
         }
 
+        function initDynamicCategoryWallpapers() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            const categoryTiles = Array.from(document.querySelectorAll('.collection-tile'));
+            let imageIndex = 0;
+            let rotationTimer = null;
+
+            function rotateCategoryWallpapers() {
+                imageIndex = (imageIndex + 1) % 3;
+                categoryTiles.forEach(tile => {
+                    const category = new URL(tile.href, window.location.href).searchParams.get('category');
+                    const image = tile.querySelector('img');
+                    const nextSource = categoryWallpaperPools[category]?.[imageIndex];
+                    if (!image || !nextSource) return;
+
+                    const requestIndex = imageIndex;
+                    tile.dataset.rotationRequest = String(requestIndex);
+                    const loader = new Image();
+                    loader.onload = () => {
+                        if (tile.dataset.rotationRequest !== String(requestIndex)) return;
+                        image.classList.add('is-changing');
+                        window.setTimeout(() => {
+                            image.src = nextSource;
+                            image.classList.remove('is-changing');
+                        }, 280);
+                    };
+                    loader.src = nextSource;
+                });
+            }
+
+            function startRotation() {
+                if (!rotationTimer) {
+                    rotationTimer = window.setInterval(rotateCategoryWallpapers, 3000);
+                }
+            }
+
+            function stopRotation() {
+                window.clearInterval(rotationTimer);
+                rotationTimer = null;
+            }
+
+            startRotation();
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) stopRotation();
+                else startRotation();
+            });
+        }
+
         // Preload images
         document.addEventListener('DOMContentLoaded', () => {
             categories.forEach(cat => { const img = new Image(); img.src = cat.image; });
             initDynamicHeroWallpapers();
+            initDynamicCategoryWallpapers();
         });
 
 
