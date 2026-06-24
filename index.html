@@ -161,28 +161,21 @@
         .nav-logo:hover::after { width: 100%; }
 
         .nav-logo-mark {
-            width: 32px; height: 32px;
-            background: linear-gradient(135deg, #fff 0%, #888 100%);
+            width: 40px; height: 40px;
+            background: #030303 url('pmw-logo.png') center 31% / 210% auto no-repeat;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(224, 177, 68, 0.45);
+            box-shadow: 0 0 18px rgba(214, 158, 36, 0.12), inset 0 0 14px rgba(255, 210, 91, 0.05);
         }
 
         .nav-logo-mark::before {
-            content: '';
-            position: absolute;
-            inset: 2px;
-            background: var(--bg-primary);
-            border-radius: 6px;
+            display: none;
         }
 
         .nav-logo-mark svg {
-            position: relative;
-            z-index: 1;
-            width: 16px; height: 16px;
+            display: none;
         }
 
         .nav-links {
@@ -1907,10 +1900,9 @@
 
         /* ===== FOOTER ===== */
         .footer {
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding: 60px 24px;
-            text-align: center;
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 70px 24px 24px;
+            background: #070707;
             position: relative;
             z-index: 2;
         }
@@ -1920,29 +1912,112 @@
             margin: 0 auto;
         }
 
-        .footer-logo {
+        .footer-grid {
+            display: grid;
+            grid-template-columns: minmax(280px, 1.7fr) repeat(3, minmax(140px, 0.75fr));
+            gap: clamp(36px, 5vw, 76px);
+            padding-bottom: 52px;
+        }
+
+        .footer-brand-image {
+            width: 150px;
+            height: 150px;
+            display: block;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .footer-brand-name {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.25rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            margin-bottom: 12px;
-            letter-spacing: -0.02em;
-            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.5) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 10px;
         }
 
-        .footer-text {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            font-weight: 500;
+        .footer-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.75;
+            max-width: 390px;
         }
 
-        .footer-copy {
-            font-size: 0.8125rem;
+        .footer-socials {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .footer-social-link {
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            color: #d8d8d8;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 7px;
+            background: rgba(255,255,255,0.025);
+            transition: var(--transition-fast);
+        }
+
+        .footer-social-link:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .footer-social-link svg { width: 18px; height: 18px; }
+
+        .footer-column h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .footer-column a {
+            display: block;
+            width: fit-content;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.88rem;
+            margin-bottom: 13px;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-column a:hover { color: #fff; }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .footer-copy,
+        .footer-credit {
+            font-size: 0.78rem;
             color: var(--text-muted);
-            opacity: 0.6;
+        }
+
+        @media (max-width: 900px) {
+            .footer-grid { grid-template-columns: 1.4fr 1fr 1fr; }
+            .footer-column:last-child { grid-column: 2; }
+        }
+
+        @media (max-width: 620px) {
+            .footer { padding: 52px 20px 22px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 38px 24px; }
+            .footer-brand { grid-column: 1 / -1; }
+            .footer-column:last-child { grid-column: auto; }
+            .footer-brand-image { width: 118px; height: 118px; }
+            .footer-bottom { align-items: flex-start; flex-direction: column; }
         }
 
         /* ===== DOWNLOAD MODAL ===== */
@@ -3061,12 +3136,7 @@
     <nav class="navbar" id="navbar">
         <div class="nav-inner">
             <a href="javascript:void(0)" class="nav-logo" onclick="navigateTo('home')">
-                <div class="nav-logo-mark">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="7" height="18" rx="1.5"/>
-                        <rect x="14" y="7" width="7" height="10" rx="1.5"/>
-                    </svg>
-                </div>
+                <span class="nav-logo-mark" role="img" aria-label="PMW Visuals logo"></span>
                 PMW Visuals
             </a>
             <div class="nav-links">
@@ -3526,14 +3596,55 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <div class="footer-logo">PMW Visuals</div>
-            <p class="footer-text">Made for editors and creators</p>
-            <div class="footer-links">
-                <a href="javascript:void(0)" onclick="showTerms()">Terms of Use</a>
-                <span class="footer-dot"></span>
-                <a href="privacy-policy.html">Privacy Policy</a>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img class="footer-brand-image" src="pmw-logo.png" alt="PMW Visuals logo">
+                    <div class="footer-brand-name">PMW Visuals</div>
+                    <p class="footer-description">High-quality mobile wallpapers and creative visual assets, made for personal screens, editors, and visual storytellers.</p>
+                    <div class="footer-socials" aria-label="PMW Visuals social media">
+                        <a class="footer-social-link" href="https://www.instagram.com/pmw_wallpapers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                        </a>
+                        <a class="footer-social-link" href="https://uk.pinterest.com/pmw_wallpapers/" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.65 19.31c-.09-1.58-.02-3.47.4-5.26l1.29-5.45s-.32-.65-.32-1.61c0-1.51.87-2.64 1.96-2.64.93 0 1.37.7 1.37 1.53 0 .93-.59 2.32-.9 3.61-.26 1.08.54 1.96 1.61 1.96 1.93 0 3.41-2.03 3.41-4.97 0-2.6-1.87-4.42-4.54-4.42-3.09 0-4.91 2.32-4.91 4.72 0 .94.36 1.94.81 2.49.09.11.1.2.08.31l-.3 1.23c-.05.2-.16.24-.37.15-1.39-.65-2.26-2.68-2.26-4.31 0-3.51 2.55-6.73 7.35-6.73 3.86 0 6.86 2.75 6.86 6.43 0 3.84-2.42 6.93-5.78 6.93-1.13 0-2.19-.59-2.55-1.28l-.69 2.64c-.25.97-.93 2.18-1.38 2.92.84.26 1.71.4 2.62.4A10 10 0 0 0 12 2z"/></svg>
+                        </a>
+                        <a class="footer-social-link" href="https://www.facebook.com/people/Apollo-Sounds/61579450350429/?sk=about" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-9h3l.45-3.5H13.5V7.26c0-1.01.28-1.7 1.73-1.7H17V2.43c-.31-.04-1.37-.13-2.61-.13-2.58 0-4.35 1.58-4.35 4.47V9.5H7.12V13h2.92v9h3.46z"/></svg>
+                        </a>
+                        <a class="footer-social-link" href="https://www.youtube.com/@PMW_Studio" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.81 3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Explore</h3>
+                    <a href="javascript:void(0)" onclick="navigateTo('home')">Home</a>
+                    <a href="pmw-wallpapers.html">PMW Wallpapers</a>
+                    <a href="pmw-studio.html">PMW Studio</a>
+                    <a href="javascript:void(0)" onclick="navigateTo('about')">About Us</a>
+                    <a href="javascript:void(0)" onclick="navigateTo('contact')">Contact</a>
+                </div>
+                <div class="footer-column">
+                    <h3>Collections</h3>
+                    <a href="pmw-wallpapers.html?category=AMOLED">AMOLED</a>
+                    <a href="pmw-wallpapers.html?category=Anime">Anime</a>
+                    <a href="pmw-wallpapers.html?category=Dark%20Aesthetic">Dark Aesthetic</a>
+                    <a href="pmw-wallpapers.html?category=Nature">Nature</a>
+                    <a href="pmw-wallpapers.html?category=Romantic">Romantic</a>
+                    <a href="pmw-wallpapers.html?category=Space%20and%20Galaxy">Space &amp; Galaxy</a>
+                </div>
+                <div class="footer-column">
+                    <h3>Information</h3>
+                    <a href="license.html">Image License</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="javascript:void(0)" onclick="showTerms()">Terms of Use</a>
+                    <a href="sitemap.xml">Sitemap</a>
+                </div>
             </div>
-            <p class="footer-copy">&copy; PMW Visuals. All rights reserved.</p>
+            <div class="footer-bottom">
+                <p class="footer-copy">&copy; PMW Visuals. All rights reserved.</p>
+                <p class="footer-credit">Wallpapers, assets, and inspiration for every screen.</p>
+            </div>
         </div>
     </footer>
 

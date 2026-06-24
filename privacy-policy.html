@@ -69,6 +69,18 @@
             font-weight: 850;
             text-decoration: none;
         }
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand-logo {
+            width: 38px;
+            height: 38px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(220, 173, 63, 0.35);
+        }
         .nav-links {
             display: flex;
             gap: 18px;
@@ -146,7 +158,7 @@
 <body>
     <nav class="navbar">
         <div class="nav-inner">
-            <a class="brand" href="index.html">PMW Visuals</a>
+            <a class="brand" href="index.html"><img class="brand-logo" src="pmw-logo.png" alt="">PMW Visuals</a>
             <div class="nav-links">
                 <a href="pmw-wallpapers.html">PMW Wallpapers</a>
                 <a href="pmw-studio.html">PMW Studio</a>
