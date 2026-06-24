@@ -17,6 +17,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PMW Wallpapers - Mobile Wallpapers</title>
+    <meta name="description" content="Download high-quality PMW Visuals wallpapers for mobile and desktop. Explore every category and get free HD wallpapers from PMW Visuals.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -743,6 +744,23 @@
         function getCategoryLabel(category) {
             return categoryDisplayLabels[category] || category;
         }
+
+        function updateCategorySeo(category) {
+            const subject = category === 'All' ? 'PMW Visuals' : category;
+            const pageTitle = category === 'All'
+                ? 'PMW Wallpapers - Mobile Wallpapers'
+                : `${category} Wallpapers - Free HD Downloads | PMW Visuals`;
+            let description = `Download high-quality ${subject} wallpapers for mobile and desktop. Free HD wallpaper from PMW Visuals.`;
+
+            if (description.length < 120) {
+                description += ' Free to download and enjoy.';
+            }
+
+            document.title = pageTitle;
+            document.querySelector('meta[name="description"]').setAttribute('content', description);
+        }
+
+        updateCategorySeo(activeCategory);
 
         function normalize(value) {
             return String(value || '').toLowerCase().trim();
