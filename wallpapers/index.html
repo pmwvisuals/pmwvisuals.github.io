@@ -48,6 +48,35 @@
         section { margin: 34px 0; }
         ul { columns: 280px; line-height: 1.8; }
         li { break-inside: avoid; margin-bottom: 4px; }
+    
+        .brand img.pmw-brand-wordmark,
+        .nav-logo img.pmw-brand-wordmark,
+        .pmw-brand-wordmark {
+            display: inline-block;
+            width: clamp(52px, 5.2vw, 76px);
+            height: auto;
+            object-fit: contain;
+            flex: 0 0 auto;
+            filter: drop-shadow(0 0 10px rgba(224,177,68,0.24));
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+        }
+        .pmw-brand-text {
+            font-weight: 900;
+            color: inherit;
+            letter-spacing: -0.04em;
+            white-space: nowrap;
+        }
+        .nav-logo,
+        .brand {
+            gap: 8px;
+        }
+        .nav-logo-mark,
+        .nav-logo-image,
+        .brand-logo {
+            display: none !important;
+        }
     </style>
 </head>
 <body>

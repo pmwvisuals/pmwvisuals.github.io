@@ -577,6 +577,35 @@
             .panel-details { padding: 26px 20px 22px; }
             .detail-grid { grid-template-columns: 1fr; }
         }
+    
+        .brand img.pmw-brand-wordmark,
+        .nav-logo img.pmw-brand-wordmark,
+        .pmw-brand-wordmark {
+            display: inline-block;
+            width: clamp(52px, 5.2vw, 76px);
+            height: auto;
+            object-fit: contain;
+            flex: 0 0 auto;
+            filter: drop-shadow(0 0 10px rgba(224,177,68,0.24));
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+        }
+        .pmw-brand-text {
+            font-weight: 900;
+            color: inherit;
+            letter-spacing: -0.04em;
+            white-space: nowrap;
+        }
+        .nav-logo,
+        .brand {
+            gap: 8px;
+        }
+        .nav-logo-mark,
+        .nav-logo-image,
+        .brand-logo {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -586,8 +615,7 @@
     <nav class="navbar" id="navbar">
         <div class="nav-inner">
             <a href="index.html" class="nav-logo">
-                    <img class="nav-logo-image" src="pmw-logo.png" alt="PMW Visuals logo">
-                PMW Visuals
+                    <img class="pmw-brand-wordmark" src="pmw-wordmark.png" alt="PMW"><span class="pmw-brand-text">Visuals</span>
             </a>
             <div class="nav-links">
                 <button class="nav-link" onclick="window.location.href='index.html'">Home</button>

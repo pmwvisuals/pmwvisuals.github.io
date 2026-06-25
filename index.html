@@ -33,12 +33,12 @@
     <meta property="og:title" content="PMW Visuals - Free Mobile Wallpapers and Creative Assets">
     <meta property="og:description" content="Explore free mobile wallpapers, visual assets, and creative media from PMW Visuals. Download HD wallpapers for AMOLED, anime, nature, and more.">
     <meta property="og:url" content="https://pmwvisuals.github.io/">
-    <meta property="og:image" content="https://pmwvisuals.github.io/pmw-logo.png">
+    <meta property="og:image" content="https://pmwvisuals.github.io/pmw-wordmark.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="PMW Visuals - Free Mobile Wallpapers and Creative Assets">
     <meta name="twitter:description" content="Explore free mobile wallpapers, visual assets, and creative media from PMW Visuals. Download HD wallpapers for AMOLED, anime, nature, and more.">
-    <meta name="twitter:image" content="https://pmwvisuals.github.io/pmw-logo.png">
-    <script type="application/ld+json" data-seo-schema>{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://pmwvisuals.github.io/#organization","name":"PMW Visuals","url":"https://pmwvisuals.github.io/","logo":"https://pmwvisuals.github.io/pmw-logo.png","sameAs":["https://uk.pinterest.com/pmw_wallpapers/","https://www.instagram.com/pmw_wallpapers/","https://www.youtube.com/@PMW_Studio","https://www.facebook.com/people/Apollo-Sounds/61579450350429/"]},{"@type":"WebSite","@id":"https://pmwvisuals.github.io/#website","name":"PMW Visuals","url":"https://pmwvisuals.github.io/","publisher":{"@id":"https://pmwvisuals.github.io/#organization"},"potentialAction":{"@type":"SearchAction","target":"https://pmwvisuals.github.io/pmw-wallpapers.html?q={search_term_string}","query-input":"required name=search_term_string"}},{"@type":"WebPage","@id":"https://pmwvisuals.github.io/#webpage","url":"https://pmwvisuals.github.io/","name":"PMW Visuals - Free Mobile Wallpapers and Creative Assets","isPartOf":{"@id":"https://pmwvisuals.github.io/#website"},"about":{"@id":"https://pmwvisuals.github.io/#organization"}}]}</script>
+    <meta name="twitter:image" content="https://pmwvisuals.github.io/pmw-wordmark.png">
+    <script type="application/ld+json" data-seo-schema>{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://pmwvisuals.github.io/#organization","name":"PMW Visuals","url":"https://pmwvisuals.github.io/","logo":"https://pmwvisuals.github.io/pmw-wordmark.png","sameAs":["https://uk.pinterest.com/pmw_wallpapers/","https://www.instagram.com/pmw_wallpapers/","https://www.youtube.com/@PMW_Studio","https://www.facebook.com/people/Apollo-Sounds/61579450350429/"]},{"@type":"WebSite","@id":"https://pmwvisuals.github.io/#website","name":"PMW Visuals","url":"https://pmwvisuals.github.io/","publisher":{"@id":"https://pmwvisuals.github.io/#organization"},"potentialAction":{"@type":"SearchAction","target":"https://pmwvisuals.github.io/pmw-wallpapers.html?q={search_term_string}","query-input":"required name=search_term_string"}},{"@type":"WebPage","@id":"https://pmwvisuals.github.io/#webpage","url":"https://pmwvisuals.github.io/","name":"PMW Visuals - Free Mobile Wallpapers and Creative Assets","isPartOf":{"@id":"https://pmwvisuals.github.io/#website"},"about":{"@id":"https://pmwvisuals.github.io/#organization"}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1943,12 +1943,13 @@
         }
 
         .footer-brand-image {
-            width: 150px;
-            height: 150px;
+            width: clamp(96px, 9vw, 138px);
+            height: auto;
             display: block;
             object-fit: contain;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            border-radius: 0;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 16px rgba(245, 184, 64, 0.34));
         }
 
         .footer-brand-name {
@@ -2039,7 +2040,7 @@
             .footer-grid { grid-template-columns: 1fr 1fr; gap: 38px 24px; }
             .footer-brand { grid-column: 1 / -1; }
             .footer-column:last-child { grid-column: auto; }
-            .footer-brand-image { width: 118px; height: 118px; }
+            .footer-brand-image { width: 108px; height: auto; }
             .footer-bottom { align-items: flex-start; flex-direction: column; }
         }
 
@@ -3149,6 +3150,35 @@
             }
         }
 
+    
+        .brand img.pmw-brand-wordmark,
+        .nav-logo img.pmw-brand-wordmark,
+        .pmw-brand-wordmark {
+            display: inline-block;
+            width: clamp(52px, 5.2vw, 76px);
+            height: auto;
+            object-fit: contain;
+            flex: 0 0 auto;
+            filter: drop-shadow(0 0 10px rgba(224,177,68,0.24));
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+        }
+        .pmw-brand-text {
+            font-weight: 900;
+            color: inherit;
+            letter-spacing: -0.04em;
+            white-space: nowrap;
+        }
+        .nav-logo,
+        .brand {
+            gap: 8px;
+        }
+        .nav-logo-mark,
+        .nav-logo-image,
+        .brand-logo {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -3159,8 +3189,7 @@
     <nav class="navbar" id="navbar">
         <div class="nav-inner">
             <a href="javascript:void(0)" class="nav-logo" onclick="navigateTo('home')">
-                <span class="nav-logo-mark" role="img" aria-label="PMW Visuals logo"></span>
-                PMW Visuals
+                <img class="pmw-brand-wordmark" src="pmw-wordmark.png" alt="PMW"><span class="pmw-brand-text">Visuals</span>
             </a>
             <div class="nav-links">
                 <button class="nav-link active" data-section="home" onclick="navigateTo('home')"><span>Home</span></button>
@@ -3202,7 +3231,7 @@
 
                 <div class="wallpaper-hero-copy">
                     <span class="wallpaper-eyebrow">Curated for mobile</span>
-                    <h1 class="wallpaper-hero-title" id="wallpaperHeroTitle">PMW Visuals <span>Made for every screen.</span></h1>
+                    <h1 class="wallpaper-hero-title" id="wallpaperHeroTitle"><span class="wallpaper-hero-brand"><img src="pmw-wordmark.png" alt="PMW"><em>Visuals</em></span><span>Made for every screen.</span></h1>
                     <p>
                         Discover high-detail mobile wallpapers across AMOLED, anime, nature, romance, dark fantasy, celestial art, and deep space.
                     </p>
@@ -3621,8 +3650,8 @@
         <div class="footer-content">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <img class="footer-brand-image" src="pmw-logo.png" alt="PMW Visuals logo">
-                    <div class="footer-brand-name">PMW Visuals</div>
+                    <img class="footer-brand-image" src="pmw-wordmark.png" alt="PMW">
+                    <div class="footer-brand-name">Visuals</div>
                     <p class="footer-description">High-quality mobile wallpapers and creative visual assets, made for personal screens, editors, and visual storytellers.</p>
                     <div class="footer-socials" aria-label="PMW Visuals social media">
                         <a class="footer-social-link" href="https://www.instagram.com/pmw_wallpapers/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
