@@ -20,49 +20,55 @@
   style.textContent = `
     .pmw-cookie-banner {
       position: fixed;
-      left: 16px;
-      right: 16px;
-      bottom: 16px;
+      left: 0;
+      right: 0;
+      bottom: 0;
       z-index: 100000;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
+      display: flex;
+      justify-content: center;
       align-items: center;
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 16px;
-      border: 1px solid rgba(255,255,255,.16);
-      border-radius: 18px;
-      background: rgba(5,5,5,.92);
+      gap: 14px;
+      min-height: 46px;
+      padding: 8px 16px;
+      border-top: 1px solid rgba(255,255,255,.12);
+      background: rgba(5,5,5,.94);
       color: #fff;
-      box-shadow: 0 18px 60px rgba(0,0,0,.45);
+      box-shadow: 0 -10px 34px rgba(0,0,0,.28);
       backdrop-filter: blur(18px);
       font-family: Inter, system-ui, sans-serif;
     }
     .pmw-cookie-banner p {
       margin: 0;
-      color: rgba(255,255,255,.72);
-      font-size: .92rem;
-      line-height: 1.5;
+      color: rgba(255,255,255,.78);
+      font-size: .84rem;
+      line-height: 1.35;
     }
-    .pmw-cookie-banner strong { color: #fff; }
     .pmw-cookie-banner a { color: #fff; font-weight: 800; }
-    .pmw-cookie-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .pmw-cookie-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
     .pmw-cookie-actions button {
-      min-height: 42px;
+      min-height: 30px;
       border: 1px solid rgba(255,255,255,.18);
       border-radius: 999px;
-      padding: 0 18px;
+      padding: 0 13px;
       color: #fff;
       background: rgba(255,255,255,.08);
-      font: 800 .9rem Inter, system-ui, sans-serif;
+      font: 800 .78rem Inter, system-ui, sans-serif;
       cursor: pointer;
     }
     .pmw-cookie-actions [data-choice="accepted"] { background: #fff; color: #050505; }
     @media (max-width: 680px) {
-      .pmw-cookie-banner { grid-template-columns: 1fr; }
-      .pmw-cookie-actions { justify-content: stretch; }
-      .pmw-cookie-actions button { flex: 1; }
+      .pmw-cookie-banner {
+        justify-content: space-between;
+        gap: 10px;
+        padding: 8px 10px;
+      }
+      .pmw-cookie-banner p { font-size: .76rem; }
+      .pmw-cookie-actions { gap: 6px; }
+      .pmw-cookie-actions button {
+        min-height: 28px;
+        padding: 0 10px;
+        font-size: .72rem;
+      }
     }
   `;
 
@@ -71,7 +77,7 @@
   banner.setAttribute('role', 'dialog');
   banner.setAttribute('aria-label', 'Cookie choices');
   banner.innerHTML = `
-    <p><strong>Cookie choices.</strong> PMW Visuals uses Google Analytics and Google AdSense to improve the site and support free downloads. You can accept or keep non-essential storage off. <a href="/cookie-policy.html">Cookie Policy</a></p>
+    <p>PMW Visuals uses cookies to improve your experience and analyze website traffic. <a href="/cookie-policy.html">Learn more</a></p>
     <div class="pmw-cookie-actions">
       <button type="button" data-choice="declined">Decline</button>
       <button type="button" data-choice="accepted">Accept</button>
