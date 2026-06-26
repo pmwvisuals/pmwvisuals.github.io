@@ -3,7 +3,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$licenseUrl = 'https://pmwvisuals.github.io/license.html'
+$licenseUrl = 'https://pmwvisuals.com/license.html'
 $scriptPattern = [regex]::new('<script\s+type=["'']application/ld\+json["''][^>]*>(.*?)</script>', 'IgnoreCase,Singleline')
 $requiredFields = @('creditText', 'copyrightNotice', 'acquireLicensePage', 'license')
 $imageObjects = [Collections.Generic.List[object]]::new()
