@@ -387,23 +387,6 @@ a {
   line-height: 1.55;
 }
 
-.pmw-premium-lock {
-  opacity: 0.72;
-  filter: grayscale(0.25);
-}
-
-.pmw-premium-only {
-  display: none;
-}
-
-.is-premium .pmw-premium-only {
-  display: block;
-}
-
-.is-premium .pmw-free-only {
-  display: none;
-}
-
 @media (max-width: 900px) {
   .pmw-auth-shell {
     grid-template-columns: 1fr;

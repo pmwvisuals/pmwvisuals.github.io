@@ -19,13 +19,9 @@ onAuthStateChanged(auth, async (user) => {
 
   const snap = await getDoc(doc(db, "users", user.uid));
   const data = snap.exists() ? snap.data() : {};
-  const isPremium = data.premium === true || data.role === "premium";
 
-  document.body.classList.toggle("is-premium", isPremium);
-  planEl.textContent = isPremium ? "Premium" : "Free";
-  msg.textContent = isPremium
-    ? "Premium access is active."
-    : "Free account active. Premium access can be enabled later from Firestore.";
+  planEl.textContent = data.role === "member" ? "PMW Member" : "PMW Account";
+  msg.textContent = "Account active.";
 });
 
 logoutBtn.addEventListener("click", async () => {

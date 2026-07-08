@@ -20,8 +20,7 @@ form.addEventListener("submit", async (e) => {
     await setDoc(doc(db, "users", userCredential.user.uid), {
       name,
       email,
-      role: "free",
-      premium: false,
+      role: "member",
       createdAt: serverTimestamp()
     });
     msg.textContent = "Account created. Redirecting...";
