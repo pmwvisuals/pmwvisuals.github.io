@@ -164,6 +164,26 @@
             font-size: 0.78rem;
         }
 
+        .auth-profile-link {
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-profile-link svg {
+            width: 18px;
+            height: 18px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-link-hidden {
+            display: none !important;
+        }
+
         .nav-logo {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.15rem;
@@ -3241,10 +3261,13 @@
             <div class="nav-links nav-links-right">
                 <button class="nav-link" data-section="about" onclick="navigateTo('about')"><span>About</span></button>
                 <button class="nav-link" data-section="contact" onclick="navigateTo('contact')"><span>Contact</span></button>
-                <button class="nav-link" onclick="window.location.href='login.html'"><span>Login</span></button>
-                <button class="nav-link" onclick="window.location.href='signup.html'"><span>Sign Up</span></button>
-                <button class="nav-link" onclick="window.location.href='account.html'"><span>Account</span></button>
-                <button class="nav-link" onclick="window.location.href='premium.html'"><span>Premium</span></button>
+                <button class="nav-link auth-signed-out" onclick="window.location.href='login.html'"><span>Sign In / Up</span></button>
+                <button class="nav-link auth-profile-link auth-signed-in auth-link-hidden" onclick="window.location.href='account.html'" aria-label="Open account">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M20 21a8 8 0 0 0-16 0"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </button>
             </div>
                 <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -3262,10 +3285,8 @@
         <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html';">PMW Wallpapers</button>
         <button class="nav-link" onclick="navigateTo('about'); toggleMobileMenu();">About</button>
         <button class="nav-link" onclick="navigateTo('contact'); toggleMobileMenu();">Contact</button>
-        <button class="nav-link" onclick="window.location.href='login.html';">Login</button>
-        <button class="nav-link" onclick="window.location.href='signup.html';">Sign Up</button>
-        <button class="nav-link" onclick="window.location.href='account.html';">Account</button>
-        <button class="nav-link" onclick="window.location.href='premium.html';">Premium</button>
+        <button class="nav-link auth-signed-out" onclick="window.location.href='login.html';">Sign In / Up</button>
+        <button class="nav-link auth-signed-in auth-link-hidden" onclick="window.location.href='account.html';">Account</button>
     </div>
 
     <!-- Main Content -->
@@ -5652,6 +5673,19 @@ function initContactForm() {
         </svg>
     </button>
 
+    <script type="module">
+        import { auth } from './js/firebase.js';
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js';
+
+        onAuthStateChanged(auth, (user) => {
+            document.querySelectorAll('.auth-signed-out').forEach((el) => {
+                el.classList.toggle('auth-link-hidden', Boolean(user));
+            });
+            document.querySelectorAll('.auth-signed-in').forEach((el) => {
+                el.classList.toggle('auth-link-hidden', !user);
+            });
+        });
+    </script>
     <script src="consent.js" defer></script>
 </body>
 </html>
