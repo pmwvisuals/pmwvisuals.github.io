@@ -158,6 +158,12 @@
             flex-shrink: 0;
         }
 
+        .nav-links-right .nav-link {
+            padding-left: 12px;
+            padding-right: 12px;
+            font-size: 0.78rem;
+        }
+
         .nav-logo {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.15rem;
@@ -1345,6 +1351,18 @@
         }
 
         @media (max-width: 1100px) {
+            .nav-inner {
+                max-width: calc(100% - 24px);
+                gap: 8px;
+            }
+            .nav-link {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+            .nav-links-right .nav-link {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
             .wallpaper-hero-copy { width: 54vw; }
             .phone-stage { width: 48vw; right: -18px; }
             .phone-left { display: none; }
@@ -3220,8 +3238,14 @@
                 <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html'"><span>PMW Wallpapers</span></button>
                 
             </div>
-            <button class="nav-link" data-section="about" onclick="navigateTo('about')"><span>About</span></button>
+            <div class="nav-links nav-links-right">
+                <button class="nav-link" data-section="about" onclick="navigateTo('about')"><span>About</span></button>
                 <button class="nav-link" data-section="contact" onclick="navigateTo('contact')"><span>Contact</span></button>
+                <button class="nav-link" onclick="window.location.href='login.html'"><span>Login</span></button>
+                <button class="nav-link" onclick="window.location.href='signup.html'"><span>Sign Up</span></button>
+                <button class="nav-link" onclick="window.location.href='account.html'"><span>Account</span></button>
+                <button class="nav-link" onclick="window.location.href='premium.html'"><span>Premium</span></button>
+            </div>
                 <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                     <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -3238,6 +3262,10 @@
         <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html';">PMW Wallpapers</button>
         <button class="nav-link" onclick="navigateTo('about'); toggleMobileMenu();">About</button>
         <button class="nav-link" onclick="navigateTo('contact'); toggleMobileMenu();">Contact</button>
+        <button class="nav-link" onclick="window.location.href='login.html';">Login</button>
+        <button class="nav-link" onclick="window.location.href='signup.html';">Sign Up</button>
+        <button class="nav-link" onclick="window.location.href='account.html';">Account</button>
+        <button class="nav-link" onclick="window.location.href='premium.html';">Premium</button>
     </div>
 
     <!-- Main Content -->
