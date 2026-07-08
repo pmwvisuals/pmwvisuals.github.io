@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up - PMW Visuals</title>
+  <link rel="stylesheet" href="css/pmw-auth.css" />
+</head>
+<body class="pmw-auth-page">
+  <nav class="pmw-auth-nav">
+    <a class="pmw-brand" href="index.html"><span class="pmw-mark">PMW</span><span>PMW Visuals</span></a>
+    <div class="pmw-nav-links"><a href="index.html">Home</a><a href="wallpapers.html">Wallpapers</a><a href="pmw-studio.html">Studio</a><a href="login.html">Login</a></div>
+  </nav>
+  <main class="pmw-auth-shell">
+    <section class="pmw-hero-card">
+      <div><div class="pmw-kicker">Create Account</div><h1>Join PMW Visuals.</h1><p>Create a free account now. Later, the same account can be upgraded to premium access for exclusive packs, 4K/8K bundles, and studio assets.</p></div>
+      <div class="pmw-stats"><div class="pmw-stat"><strong>Free</strong><span>starting plan</span></div><div class="pmw-stat"><strong>Fast</strong><span>Firebase login</span></div><div class="pmw-stat"><strong>Future</strong><span>premium-ready</span></div></div>
+    </section>
+    <section class="pmw-form-card">
+      <span class="pmw-badge">Start Free</span>
+      <h2>Create account</h2><p class="pmw-sub">Your account will be created as a free member first.</p>
+      <form id="signupForm"><div class="pmw-field"><label for="name">Display name</label><input id="name" type="text" required autocomplete="name"></div><div class="pmw-field"><label for="email">Email</label><input id="email" type="email" required autocomplete="email"></div><div class="pmw-field"><label for="password">Password</label><input id="password" type="password" required minlength="6" autocomplete="new-password"></div><button class="pmw-btn" type="submit">Create Account</button><p id="authMessage" class="pmw-message"></p></form>
+      <p class="pmw-switch">Already have an account? <a href="login.html">Login</a></p>
+    </section>
+  </main>
+  <script type="module" src="js/signup.js"></script>
+</body>
+</html>
