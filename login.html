@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - PMW Visuals</title>
+  <link rel="stylesheet" href="css/pmw-auth.css" />
+</head>
+<body class="pmw-auth-page">
+  <nav class="pmw-auth-nav">
+    <a class="pmw-brand" href="index.html"><span class="pmw-mark">PMW</span><span>PMW Visuals</span></a>
+    <div class="pmw-nav-links"><a href="index.html">Home</a><a href="wallpapers.html">Wallpapers</a><a href="pmw-studio.html">Studio</a><a href="signup.html">Sign Up</a></div>
+  </nav>
+  <main class="pmw-auth-shell">
+    <section class="pmw-hero-card">
+      <div><div class="pmw-kicker">Member Access</div><h1>Welcome back to your visual world.</h1><p>Sign in to manage your PMW Visuals account, check your membership status, and prepare for premium wallpapers and studio assets.</p></div>
+      <div class="pmw-stats"><div class="pmw-stat"><strong>1,103</strong><span>wallpapers</span></div><div class="pmw-stat"><strong>8</strong><span>collections</span></div><div class="pmw-stat"><strong>HD</strong><span>creative assets</span></div></div>
+    </section>
+    <section class="pmw-form-card">
+      <span class="pmw-badge">PMW Account</span>
+      <h2>Sign in</h2><p class="pmw-sub">Use the email and password you created for PMW Visuals.</p>
+      <form id="loginForm"><div class="pmw-field"><label for="email">Email</label><input id="email" type="email" required autocomplete="email"></div><div class="pmw-field"><label for="password">Password</label><input id="password" type="password" required autocomplete="current-password"></div><button class="pmw-btn" type="submit">Login</button><p id="authMessage" class="pmw-message"></p></form>
+      <p class="pmw-switch">New here? <a href="signup.html">Create an account</a></p>
+    </section>
+  </main>
+  <script type="module" src="js/login.js"></script>
+</body>
+</html>
