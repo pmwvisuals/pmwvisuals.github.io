@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Account - PMW Visuals</title>
+  <link rel="stylesheet" href="css/pmw-auth.css" />
+</head>
+<body class="pmw-auth-page">
+  <nav class="pmw-auth-nav"><a class="pmw-brand" href="index.html"><span class="pmw-mark">PMW</span><span>PMW Visuals</span></a><div class="pmw-nav-links"><a href="index.html">Home</a><a href="premium.html">Premium</a><a href="wallpapers.html">Wallpapers</a></div></nav>
+  <main class="pmw-auth-shell">
+    <section class="pmw-account-card">
+      <span class="pmw-badge">My Account</span><h2 id="accountName">Loading...</h2><p class="pmw-sub" id="accountEmail">Checking account...</p>
+      <div class="pmw-grid"><div class="pmw-mini-card"><h3>Plan</h3><p id="accountPlan">Loading...</p></div><div class="pmw-mini-card"><h3>Status</h3><p id="accountMessage">Please wait...</p></div></div>
+      <div class="pmw-btn-row"><a class="pmw-btn secondary" href="premium.html">View Premium</a><button class="pmw-btn" id="logoutBtn">Logout</button></div>
+    </section>
+    <section class="pmw-hero-card"><div><div class="pmw-kicker">Dashboard</div><h1>Your PMW space.</h1><p class="pmw-free-only">You are currently on the free plan. Premium access can be added later when payment is ready.</p><p class="pmw-premium-only">Premium features are unlocked for this account.</p></div><div class="pmw-stats"><div class="pmw-stat"><strong>Free</strong><span class="pmw-free-only">current access</span><span class="pmw-premium-only">base access</span></div><div class="pmw-stat"><strong>Premium</strong><span>role ready</span></div><div class="pmw-stat"><strong>Secure</strong><span>Firebase auth</span></div></div></section>
+  </main>
+  <script type="module" src="js/account.js"></script>
+</body>
+</html>
