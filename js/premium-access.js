@@ -9,7 +9,6 @@ export async function isPremiumUser(user) {
     const claims = token.claims || {};
     if (
       claims.premium === true ||
-      claims.stripeRole === "premium" ||
       claims.role === "premium"
     ) {
       return true;
@@ -27,4 +26,3 @@ export async function isPremiumUser(user) {
     return false;
   }
 }
-

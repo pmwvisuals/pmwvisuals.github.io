@@ -1,26 +1,34 @@
 # PMW Visuals Premium Phase 2 Setup
 
-This website uses the Firebase Stripe Payments extension pattern.
+This website now uses Firebase account status with a PayHere checkout entry point.
 
-## Required Firebase/Stripe Setup
+## Required PayHere Setup
 
-1. Create a Stripe product for PMW Visuals Premium.
-2. Create a one-time price or subscription price in Stripe.
-3. Install the Firebase extension `stripe/firestore-stripe-payments`.
-4. Configure the extension to use the same Firebase project as the website.
-5. Copy the public Stripe price ID, for example `price_123...`.
-6. Put that value in `js/stripe-config.js`.
+1. Create a PayHere merchant account.
+2. Get the PayHere merchant ID.
+3. Build a backend endpoint, preferably Firebase Functions, that creates a PayHere payment object and signs it with your PayHere merchant secret.
+4. Put the public merchant ID and backend endpoint in `js/payhere-config.js`.
 
 ```js
-export const STRIPE_PRICE_ID = "price_your_real_id_here";
-export const STRIPE_MODE = "payment";
+export const PAYHERE_CONFIG = {
+  merchantId: "your_payhere_merchant_id",
+  amount: "1000.00",
+  currency: "LKR",
+  itemName: "PMW Visuals Premium",
+  createPaymentEndpoint: "https://your-function-url/createPayHerePayment"
+};
 ```
 
-Use `payment` for a one-time purchase or `subscription` for monthly/yearly access.
+## Backend Requirement
 
-## Important
+Do not put the PayHere merchant secret in this repository. GitHub Pages is public.
 
-Do not put Stripe secret keys in this repository. GitHub Pages is public, so only public configuration such as a Stripe price ID belongs in frontend files.
+The backend endpoint should:
+
+1. Verify the Firebase user ID token from the `Authorization` header.
+2. Create an order ID.
+3. Generate the PayHere hash using the merchant secret.
+4. Return the signed PayHere payment object to the browser.
+5. Handle the PayHere notify URL and mark the user as premium in Firestore after a successful verified payment.
 
 Premium download protection still needs Phase 3 with Firebase Storage rules or signed Cloudinary delivery.
-

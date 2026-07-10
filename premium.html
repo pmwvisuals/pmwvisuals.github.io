@@ -19,25 +19,26 @@
       <div>
         <div class="pmw-kicker">Premium Access</div>
         <h1>Unlock the private collection.</h1>
-        <p>Premium gives signed-in members access to exclusive mobile wallpapers. Stripe Checkout is wired through Firebase so payments stay secure.</p>
+        <p>Premium gives signed-in members access to exclusive mobile wallpapers. PayHere checkout is wired through a secure backend so payments stay protected.</p>
       </div>
       <div class="pmw-stats"><div class="pmw-stat"><strong>Private</strong><span>wallpapers</span></div><div class="pmw-stat"><strong>HD</strong><span>mobile files</span></div><div class="pmw-stat"><strong>Secure</strong><span>member access</span></div></div>
     </section>
     <section class="pmw-form-card">
-      <span class="pmw-badge">Stripe Checkout</span>
+      <span class="pmw-badge">PayHere Checkout</span>
       <h2>Upgrade your account.</h2>
       <p id="premiumStatus" class="pmw-sub">Checking your account status...</p>
       <div class="pmw-grid">
-        <div class="pmw-mini-card"><h3>Secure Checkout</h3><p>Payment opens in Stripe Checkout through Firebase.</p></div>
+        <div class="pmw-mini-card"><h3>Secure Checkout</h3><p>Payment opens through PayHere after your order is signed.</p></div>
         <div class="pmw-mini-card"><h3>Premium Access</h3><p>Paid members unlock private wallpaper downloads.</p></div>
       </div>
       <div class="pmw-btn-row">
         <button class="pmw-btn" id="checkoutBtn" type="button" disabled>Checking Account</button>
         <a class="pmw-btn secondary" href="premium-wallpapers.html">View Premium Area</a>
       </div>
-      <p class="pmw-message" id="premiumMessage">Checkout will activate after your Stripe price ID is added.</p>
+      <p class="pmw-message" id="premiumMessage">Checkout will activate after your PayHere merchant details and backend endpoint are added.</p>
     </section>
   </main>
+  <script src="https://www.payhere.lk/lib/payhere.js"></script>
   <script type="module" src="js/premium.js"></script>
 </body>
 </html>

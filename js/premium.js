@@ -1,14 +1,11 @@
 import { auth } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-import { addDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
-import { db } from "./firebase.js";
 import { isPremiumUser } from "./premium-access.js";
-import { STRIPE_MODE, STRIPE_PRICE_ID } from "./stripe-config.js";
+import { PAYHERE_CONFIG } from "./payhere-config.js";
 
 const statusBox = document.querySelector("#premiumStatus");
 const checkoutBtn = document.querySelector("#checkoutBtn");
 const message = document.querySelector("#premiumMessage");
-let activeCheckoutListener = null;
 
 function setCheckoutState({ label, disabled, messageText, onClick }) {
   checkoutBtn.textContent = label;
@@ -22,8 +19,8 @@ function absoluteUrl(path) {
 }
 
 async function startCheckout(user) {
-  if (!STRIPE_PRICE_ID || STRIPE_PRICE_ID.includes("REPLACE")) {
-    message.textContent = "Add your Stripe price ID in js/stripe-config.js before accepting payments.";
+  if (!PAYHERE_CONFIG.merchantId || !PAYHERE_CONFIG.createPaymentEndpoint) {
+    message.textContent = "Add your PayHere merchant ID and backend endpoint in js/payhere-config.js before accepting payments.";
     message.classList.add("error");
     return;
   }
@@ -31,45 +28,40 @@ async function startCheckout(user) {
   setCheckoutState({
     label: "Opening Checkout...",
     disabled: true,
-    messageText: "Creating a secure Stripe Checkout session."
+    messageText: "Creating a signed PayHere payment."
   });
 
   try {
-    const checkoutSessionRef = await addDoc(
-      collection(db, "customers", user.uid, "checkout_sessions"),
-      {
-        price: STRIPE_PRICE_ID,
-        mode: STRIPE_MODE,
-        success_url: absoluteUrl("premium-success.html"),
-        cancel_url: absoluteUrl("premium-cancel.html"),
-        allow_promotion_codes: true
-      }
-    );
-
-    activeCheckoutListener = onSnapshot(checkoutSessionRef, (snap) => {
-      const data = snap.data();
-      if (!data) return;
-
-      if (data.error) {
-        setCheckoutState({
-          label: "Try Checkout Again",
-          disabled: false,
-          messageText: data.error.message || "Stripe Checkout could not start.",
-          onClick: () => startCheckout(user)
-        });
-        message.classList.add("error");
-      }
-
-      if (data.url) {
-        window.location.assign(data.url);
-      }
+    const token = await user.getIdToken();
+    const response = await fetch(PAYHERE_CONFIG.createPaymentEndpoint, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        amount: PAYHERE_CONFIG.amount,
+        currency: PAYHERE_CONFIG.currency,
+        itemName: PAYHERE_CONFIG.itemName,
+        returnUrl: absoluteUrl("premium-success.html"),
+        cancelUrl: absoluteUrl("premium-cancel.html")
+      })
     });
+
+    if (!response.ok) throw new Error("PayHere payment creation failed.");
+
+    const payment = await response.json();
+    if (!window.payhere || typeof window.payhere.startPayment !== "function") {
+      throw new Error("PayHere checkout library is not loaded.");
+    }
+
+    window.payhere.startPayment(payment);
   } catch (error) {
-    console.error("Unable to create checkout session.", error);
+    console.error("Unable to create PayHere payment.", error);
     setCheckoutState({
       label: "Try Checkout Again",
       disabled: false,
-      messageText: "Checkout is not available yet. Check the Firebase Stripe extension setup.",
+      messageText: "PayHere checkout is not available yet. Check the backend signing endpoint.",
       onClick: () => startCheckout(user)
     });
     message.classList.add("error");
@@ -77,11 +69,6 @@ async function startCheckout(user) {
 }
 
 onAuthStateChanged(auth, async (user) => {
-  if (activeCheckoutListener) {
-    activeCheckoutListener();
-    activeCheckoutListener = null;
-  }
-
   if (!user) {
     statusBox.textContent = "Sign in first, then return here to upgrade.";
     setCheckoutState({
@@ -110,23 +97,19 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   statusBox.textContent = "You are signed in as a free member.";
-  if (!STRIPE_PRICE_ID) {
+  if (!PAYHERE_CONFIG.merchantId || !PAYHERE_CONFIG.createPaymentEndpoint) {
     setCheckoutState({
-      label: "Add Stripe Price ID",
+      label: "Add PayHere Setup",
       disabled: true,
-      messageText: "Add your real Stripe price ID in js/stripe-config.js to enable checkout."
+      messageText: "Add your PayHere merchant ID and backend endpoint in js/payhere-config.js to enable checkout."
     });
     return;
   }
 
   setCheckoutState({
-    label: "Upgrade With Stripe",
+    label: "Upgrade With PayHere",
     disabled: false,
-    messageText: "Checkout opens securely through Stripe.",
+    messageText: "Checkout opens securely through PayHere.",
     onClick: () => startCheckout(user)
   });
-});
-
-window.addEventListener("pagehide", () => {
-  if (activeCheckoutListener) activeCheckoutListener();
 });
