@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Premium - PMW Visuals</title>
+  <meta name="description" content="Upgrade to PMW Visuals Premium to unlock private mobile wallpaper collections when premium wallpapers are released." />
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="shortcut icon" href="/favicon.png">
+  <link rel="stylesheet" href="css/pmw-auth.css" />
+</head>
+<body class="pmw-auth-page">
+  <nav class="pmw-auth-nav">
+    <a class="pmw-brand" href="index.html"><img class="pmw-brand-wordmark" src="pmw-wordmark.png" alt="PMW"><span>Visuals</span></a>
+    <div class="pmw-nav-links"><a href="index.html">Home</a><a href="account.html">Account</a><a href="premium-wallpapers.html">Premium Wallpapers</a></div>
+  </nav>
+  <main class="pmw-auth-shell">
+    <section class="pmw-hero-card">
+      <div>
+        <div class="pmw-kicker">Premium Access</div>
+        <h1>Unlock the private collection.</h1>
+        <p>Premium will give signed-in members access to exclusive mobile wallpapers. Payment checkout and premium files will be connected in the next phase.</p>
+      </div>
+      <div class="pmw-stats"><div class="pmw-stat"><strong>Private</strong><span>wallpapers</span></div><div class="pmw-stat"><strong>HD</strong><span>mobile files</span></div><div class="pmw-stat"><strong>Secure</strong><span>member access</span></div></div>
+    </section>
+    <section class="pmw-form-card">
+      <span class="pmw-badge">Coming Next</span>
+      <h2>Premium setup is ready.</h2>
+      <p id="premiumStatus" class="pmw-sub">Checking your account status...</p>
+      <div class="pmw-grid">
+        <div class="pmw-mini-card"><h3>Step 1</h3><p>Stripe Checkout will be connected here.</p></div>
+        <div class="pmw-mini-card"><h3>Step 2</h3><p>Premium wallpapers will unlock only for paid members.</p></div>
+      </div>
+      <div class="pmw-btn-row">
+        <button class="pmw-btn" id="checkoutBtn" type="button" disabled>Checkout Coming Soon</button>
+        <a class="pmw-btn secondary" href="premium-wallpapers.html">View Premium Area</a>
+      </div>
+      <p class="pmw-message" id="premiumMessage">No payment is taken on this page yet.</p>
+    </section>
+  </main>
+  <script type="module" src="js/premium.js"></script>
+</body>
+</html>
+

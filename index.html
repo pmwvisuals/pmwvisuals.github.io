@@ -3261,6 +3261,7 @@
             <div class="nav-links nav-links-right">
                 <button class="nav-link" data-section="about" onclick="navigateTo('about')"><span>About</span></button>
                 <button class="nav-link" data-section="contact" onclick="navigateTo('contact')"><span>Contact</span></button>
+                <button class="nav-link auth-signed-in auth-free-only auth-link-hidden" onclick="window.location.href='premium.html'"><span>Go Premium</span></button>
                 <button class="nav-link auth-signed-out" onclick="window.location.href='login.html'"><span>Sign In / Up</span></button>
                 <button class="nav-link auth-profile-link auth-signed-in auth-link-hidden" onclick="window.location.href='account.html'" aria-label="Open account">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -3285,6 +3286,7 @@
         <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html';">PMW Wallpapers</button>
         <button class="nav-link" onclick="navigateTo('about'); toggleMobileMenu();">About</button>
         <button class="nav-link" onclick="navigateTo('contact'); toggleMobileMenu();">Contact</button>
+        <button class="nav-link auth-signed-in auth-free-only auth-link-hidden" onclick="window.location.href='premium.html';">Go Premium</button>
         <button class="nav-link auth-signed-out" onclick="window.location.href='login.html';">Sign In / Up</button>
         <button class="nav-link auth-signed-in auth-link-hidden" onclick="window.location.href='account.html';">Account</button>
     </div>
@@ -5676,13 +5678,18 @@ function initContactForm() {
     <script type="module">
         import { auth } from './js/firebase.js';
         import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js';
+        import { isPremiumUser } from './js/premium-access.js';
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             document.querySelectorAll('.auth-signed-out').forEach((el) => {
                 el.classList.toggle('auth-link-hidden', Boolean(user));
             });
             document.querySelectorAll('.auth-signed-in').forEach((el) => {
                 el.classList.toggle('auth-link-hidden', !user);
+            });
+            const isPremium = user ? await isPremiumUser(user) : false;
+            document.querySelectorAll('.auth-free-only').forEach((el) => {
+                el.classList.toggle('auth-link-hidden', !user || isPremium);
             });
         });
     </script>
