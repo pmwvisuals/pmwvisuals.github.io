@@ -1,67 +1,47 @@
-# PMW Visuals Premium Phase 2 Setup
+# PMW Visuals Premium Paddle Setup
 
-This website now uses Firebase account status with a PayHere checkout entry point.
+The website now uses Paddle as the premium checkout provider.
 
-## Required PayHere Setup
+## Current Setup
 
-1. Create a PayHere merchant account.
-2. Get the PayHere merchant ID.
-3. Deploy the included Firebase Functions backend.
-4. Put the public merchant ID and deployed `createPayHerePayment` endpoint in `js/payhere-config.js`.
+- Paddle client-side token is stored in `js/paddle-config.js`.
+- The checkout page is `premium.html`.
+- Premium access is still controlled by Firebase account status through `js/premium-access.js`.
+- Premium wallpapers are still protected by `premium-wallpapers.html`.
+
+## Required Paddle Setup
+
+1. Open your Paddle dashboard.
+2. Create the PMW Visuals premium product.
+3. Create a price for that product.
+4. Copy the Paddle price ID. It usually starts with `pri_`.
+5. Paste that price ID into `js/paddle-config.js`.
 
 ```js
-export const PAYHERE_CONFIG = {
-  merchantId: "your_payhere_merchant_id",
-  amount: "1000.00",
-  currency: "LKR",
-  itemName: "PMW Visuals Premium",
-  createPaymentEndpoint: "https://your-function-url/createPayHerePayment"
+export const PADDLE_CONFIG = {
+  clientToken: "test_9462cd67818764d9e2dc77a8831",
+  environment: "sandbox",
+  priceId: "pri_your_paddle_price_id",
+  itemName: "PMW Visuals Premium"
 };
 ```
 
-## Backend Requirement
+## Important
 
-Do not put the PayHere merchant secret in this repository. GitHub Pages is public.
+The client-side token is safe to keep in the public website. Do not put private Paddle API keys or webhook secrets in this repository.
 
-This repo now includes a Firebase Functions scaffold:
+## Premium Activation
 
-- `functions/index.js`
-- `functions/package.json`
-- `functions/.env.example`
-- `firebase.json`
+The checkout can open after the Paddle price ID is added. To activate premium automatically after payment, connect a secure backend or serverless function to Paddle webhooks and update the user's Firebase account record after a verified payment.
 
-Before deployment, create a real `functions/.env` file locally using `functions/.env.example` as the template. Do not commit the real `.env` file.
+The current premium check accepts either:
 
-## Deploy Checklist
+- Firebase custom claim `premium: true`
+- Firebase custom claim `role: "premium"`
+- Firestore user field `premium: true`
+- Firestore user field `role: "premium"`
+- Firestore user field `plan: "premium"`
 
-From the repository root:
+## Testing
 
-```bash
-cd functions
-npm install
-cd ..
-firebase deploy --only functions
-```
-
-After deployment, Firebase will show URLs for:
-
-- `createPayHerePayment`
-- `payHereNotify`
-
-Put the `createPayHerePayment` URL into `js/payhere-config.js`:
-
-```js
-createPaymentEndpoint: "https://your-region-your-project.cloudfunctions.net/createPayHerePayment"
-```
-
-Use the `payHereNotify` URL as the server notification URL in PayHere if PayHere asks for it manually. The website also sends it inside the signed payment object.
-
-The backend endpoint should:
-
-1. Verify the Firebase user ID token from the `Authorization` header.
-2. Create an order ID.
-3. Generate the PayHere hash using the merchant secret.
-4. Return the signed PayHere payment object to the browser.
-5. Handle the PayHere notify URL and mark the user as premium in Firestore after a successful verified payment.
-
-Premium download protection still needs Phase 3 with Firebase Storage rules or signed Cloudinary delivery.
+Because the token starts with `test_`, the checkout is configured for Paddle sandbox mode. Change the token, environment, and price ID when you are ready to use a live Paddle product.

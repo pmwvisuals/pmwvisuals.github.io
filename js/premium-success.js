@@ -24,5 +24,5 @@ onAuthStateChanged(auth, async (user) => {
 
   badge.textContent = "Sync Pending";
   title.textContent = "Premium is syncing.";
-  text.textContent = "If you just paid, wait a moment and refresh this page so Firebase can receive the PayHere update.";
+  text.textContent = "If you just paid, wait a moment and refresh this page so Firebase can receive the Paddle update.";
 });

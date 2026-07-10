@@ -1,11 +1,13 @@
 import { auth } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 import { isPremiumUser } from "./premium-access.js";
-import { PAYHERE_CONFIG } from "./payhere-config.js";
+import { PADDLE_CONFIG } from "./paddle-config.js";
 
 const statusBox = document.querySelector("#premiumStatus");
 const checkoutBtn = document.querySelector("#checkoutBtn");
 const message = document.querySelector("#premiumMessage");
+
+let paddleReady = false;
 
 function setCheckoutState({ label, disabled, messageText, onClick }) {
   checkoutBtn.textContent = label;
@@ -18,9 +20,30 @@ function absoluteUrl(path) {
   return new URL(path, window.location.origin).toString();
 }
 
+function ensurePaddleReady() {
+  if (!window.Paddle) {
+    throw new Error("Paddle checkout library is not loaded.");
+  }
+
+  if (paddleReady) return;
+
+  if (PADDLE_CONFIG.environment === "sandbox" && window.Paddle.Environment?.set) {
+    window.Paddle.Environment.set("sandbox");
+  }
+
+  window.Paddle.Initialize({
+    token: PADDLE_CONFIG.clientToken
+  });
+  paddleReady = true;
+}
+
+function hasPaddlePrice() {
+  return Boolean(PADDLE_CONFIG.priceId && PADDLE_CONFIG.priceId.trim());
+}
+
 async function startCheckout(user) {
-  if (!PAYHERE_CONFIG.merchantId || !PAYHERE_CONFIG.createPaymentEndpoint) {
-    message.textContent = "Add your PayHere merchant ID and backend endpoint in js/payhere-config.js before accepting payments.";
+  if (!hasPaddlePrice()) {
+    message.textContent = "Add your Paddle price ID in js/paddle-config.js before accepting payments.";
     message.classList.add("error");
     return;
   }
@@ -28,61 +51,42 @@ async function startCheckout(user) {
   setCheckoutState({
     label: "Opening Checkout...",
     disabled: true,
-    messageText: "Creating a signed PayHere payment."
+    messageText: "Opening Paddle checkout."
   });
 
   try {
-    const token = await user.getIdToken();
-    const response = await fetch(PAYHERE_CONFIG.createPaymentEndpoint, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
+    ensurePaddleReady();
+    window.Paddle.Checkout.open({
+      items: [
+        {
+          priceId: PADDLE_CONFIG.priceId,
+          quantity: 1
+        }
+      ],
+      customer: {
+        email: user.email || undefined
       },
-      body: JSON.stringify({
-        amount: PAYHERE_CONFIG.amount,
-        currency: PAYHERE_CONFIG.currency,
-        itemName: PAYHERE_CONFIG.itemName,
-        returnUrl: absoluteUrl("premium-success.html"),
-        cancelUrl: absoluteUrl("premium-cancel.html")
-      })
+      customData: {
+        uid: user.uid,
+        product: "pmw-premium"
+      },
+      settings: {
+        successUrl: absoluteUrl("premium-success.html")
+      }
     });
 
-    if (!response.ok) throw new Error("PayHere payment creation failed.");
-
-    const payment = await response.json();
-    if (!window.payhere || typeof window.payhere.startPayment !== "function") {
-      throw new Error("PayHere checkout library is not loaded.");
-    }
-
-    window.payhere.onCompleted = () => {
-      window.location.href = "premium-success.html";
-    };
-    window.payhere.onDismissed = () => {
-      setCheckoutState({
-        label: "Upgrade With PayHere",
-        disabled: false,
-        messageText: "PayHere checkout was closed before payment finished.",
-        onClick: () => startCheckout(user)
-      });
-    };
-    window.payhere.onError = () => {
-      setCheckoutState({
-        label: "Try Checkout Again",
-        disabled: false,
-        messageText: "PayHere reported a checkout error.",
-        onClick: () => startCheckout(user)
-      });
-      message.classList.add("error");
-    };
-
-    window.payhere.startPayment(payment);
+    setCheckoutState({
+      label: "Upgrade With Paddle",
+      disabled: false,
+      messageText: "Complete payment in the Paddle checkout window.",
+      onClick: () => startCheckout(user)
+    });
   } catch (error) {
-    console.error("Unable to create PayHere payment.", error);
+    console.error("Unable to open Paddle checkout.", error);
     setCheckoutState({
       label: "Try Checkout Again",
       disabled: false,
-      messageText: "PayHere checkout is not available yet. Check the backend signing endpoint.",
+      messageText: "Paddle checkout is not available yet. Check the client token and price ID.",
       onClick: () => startCheckout(user)
     });
     message.classList.add("error");
@@ -90,6 +94,8 @@ async function startCheckout(user) {
 }
 
 onAuthStateChanged(auth, async (user) => {
+  message.classList.remove("error");
+
   if (!user) {
     statusBox.textContent = "Sign in first, then return here to upgrade.";
     setCheckoutState({
@@ -118,19 +124,19 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   statusBox.textContent = "You are signed in as a free member.";
-  if (!PAYHERE_CONFIG.merchantId || !PAYHERE_CONFIG.createPaymentEndpoint) {
+  if (!hasPaddlePrice()) {
     setCheckoutState({
-      label: "Add PayHere Setup",
+      label: "Add Paddle Price ID",
       disabled: true,
-      messageText: "Add your PayHere merchant ID and backend endpoint in js/payhere-config.js to enable checkout."
+      messageText: "Add your Paddle price ID in js/paddle-config.js to enable checkout."
     });
     return;
   }
 
   setCheckoutState({
-    label: "Upgrade With PayHere",
+    label: "Upgrade With Paddle",
     disabled: false,
-    messageText: "Checkout opens securely through PayHere.",
+    messageText: "Checkout opens securely through Paddle.",
     onClick: () => startCheckout(user)
   });
 });
