@@ -55,6 +55,27 @@ async function startCheckout(user) {
       throw new Error("PayHere checkout library is not loaded.");
     }
 
+    window.payhere.onCompleted = () => {
+      window.location.href = "premium-success.html";
+    };
+    window.payhere.onDismissed = () => {
+      setCheckoutState({
+        label: "Upgrade With PayHere",
+        disabled: false,
+        messageText: "PayHere checkout was closed before payment finished.",
+        onClick: () => startCheckout(user)
+      });
+    };
+    window.payhere.onError = () => {
+      setCheckoutState({
+        label: "Try Checkout Again",
+        disabled: false,
+        messageText: "PayHere reported a checkout error.",
+        onClick: () => startCheckout(user)
+      });
+      message.classList.add("error");
+    };
+
     window.payhere.startPayment(payment);
   } catch (error) {
     console.error("Unable to create PayHere payment.", error);

@@ -6,8 +6,8 @@ This website now uses Firebase account status with a PayHere checkout entry poin
 
 1. Create a PayHere merchant account.
 2. Get the PayHere merchant ID.
-3. Build a backend endpoint, preferably Firebase Functions, that creates a PayHere payment object and signs it with your PayHere merchant secret.
-4. Put the public merchant ID and backend endpoint in `js/payhere-config.js`.
+3. Deploy the included Firebase Functions backend.
+4. Put the public merchant ID and deployed `createPayHerePayment` endpoint in `js/payhere-config.js`.
 
 ```js
 export const PAYHERE_CONFIG = {
@@ -22,6 +22,39 @@ export const PAYHERE_CONFIG = {
 ## Backend Requirement
 
 Do not put the PayHere merchant secret in this repository. GitHub Pages is public.
+
+This repo now includes a Firebase Functions scaffold:
+
+- `functions/index.js`
+- `functions/package.json`
+- `functions/.env.example`
+- `firebase.json`
+
+Before deployment, create a real `functions/.env` file locally using `functions/.env.example` as the template. Do not commit the real `.env` file.
+
+## Deploy Checklist
+
+From the repository root:
+
+```bash
+cd functions
+npm install
+cd ..
+firebase deploy --only functions
+```
+
+After deployment, Firebase will show URLs for:
+
+- `createPayHerePayment`
+- `payHereNotify`
+
+Put the `createPayHerePayment` URL into `js/payhere-config.js`:
+
+```js
+createPaymentEndpoint: "https://your-region-your-project.cloudfunctions.net/createPayHerePayment"
+```
+
+Use the `payHereNotify` URL as the server notification URL in PayHere if PayHere asks for it manually. The website also sends it inside the signed payment object.
 
 The backend endpoint should:
 
