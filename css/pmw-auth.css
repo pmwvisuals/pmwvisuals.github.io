@@ -505,7 +505,7 @@ a {
 }
 
 .pmw-pricing-grid.personal-only {
-  grid-template-columns: repeat(3, minmax(0, 330px));
+  grid-template-columns: repeat(3, minmax(0, 360px));
   justify-content: center;
 }
 
@@ -518,10 +518,10 @@ a {
 .pmw-plan-card {
   position: relative;
   overflow: visible;
-  min-height: 600px;
-  padding: 30px 28px 28px;
+  min-height: 660px;
+  padding: 34px 32px 30px;
   display: grid;
-  grid-template-rows: 44px 78px 28px 68px 36px 72px 1fr;
+  grid-template-rows: 46px 84px 34px 72px 44px 82px 1fr;
   align-items: start;
   border: 1px solid var(--line);
   border-radius: 28px;
@@ -588,8 +588,8 @@ a {
 
 .pmw-card-toggle {
   position: absolute;
-  top: 18px;
-  right: 20px;
+  top: 20px;
+  right: 22px;
   z-index: 5;
   transform: scale(0.8);
   transform-origin: top right;
@@ -597,7 +597,8 @@ a {
 
 .pmw-recommend-badge {
   grid-row: 5;
-  justify-self: start;
+  justify-self: center;
+  align-self: center;
   position: relative;
   z-index: 4;
   display: inline-flex;
@@ -675,7 +676,7 @@ a {
 
 .pmw-plan-card p {
   grid-row: 4;
-  min-height: 52px;
+  min-height: 58px;
   margin: 0;
   color: #d8d8d8;
   line-height: 1.55;
@@ -684,7 +685,7 @@ a {
 .pmw-plan-button {
   grid-row: 6;
   width: 100%;
-  margin: 12px auto;
+  margin: 16px auto 18px;
   min-height: 48px;
   display: inline-flex;
   align-items: center;
