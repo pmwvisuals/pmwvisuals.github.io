@@ -20,79 +20,94 @@
       <h1>Upgrade your plan</h1>
       <p id="premiumStatus" class="pmw-sub">Checking your account status...</p>
       <div class="pmw-plan-toggle" aria-label="Plan type">
-        <button type="button" class="is-active">Personal</button>
-        <button type="button">Business</button>
+        <button type="button" class="is-active" data-plan-view="personal">Personal</button>
+        <button type="button" data-plan-view="business">Business</button>
       </div>
     </section>
 
     <section class="pmw-pricing-grid" aria-label="PMW Visuals plans">
-      <article class="pmw-plan-card">
+      <article class="pmw-plan-card" data-audience="personal">
         <h2>Free</h2>
         <div class="pmw-price"><span>$</span><strong>0</strong><em>USD / month</em></div>
         <p>Perfect for getting started</p>
         <button class="pmw-plan-button current" type="button" disabled>Current Plan</button>
         <ul>
-          <li><span>▧</span>720p download quality</li>
-          <li><span>↓</span>5 downloads per day</li>
-          <li><span>◈</span>Access to free wallpapers</li>
-          <li><span>↔</span>Standard converter (limited)</li>
-          <li><span>⌗</span>Standard resizer (limited)</li>
-          <li><span>⌁</span>Ads supported</li>
-          <li><span>♙</span>Personal use only</li>
+          <li><span>HD</span>720p download quality</li>
+          <li><span>DL</span>5 downloads per day</li>
+          <li><span>WP</span>Access to free wallpapers</li>
+          <li><span>CV</span>Standard converter (limited)</li>
+          <li><span>RS</span>Standard resizer (limited)</li>
+          <li><span>AD</span>Ads supported</li>
+          <li><span>PS</span>Personal use only</li>
         </ul>
       </article>
 
-      <article class="pmw-plan-card creative">
+      <article class="pmw-plan-card creative recommended" data-audience="personal" data-billing="monthly" data-monthly="2.99" data-year-original="35.88" data-year-price="29.99">
+        <div class="pmw-recommend-badge">Highly Recommended</div>
+        <div class="pmw-card-toggle" aria-label="Creative billing cycle">
+          <button type="button" class="is-active" data-billing-option="monthly">Monthly</button>
+          <button type="button" data-billing-option="yearly">Yearly</button>
+        </div>
         <h2>Creative</h2>
         <div class="pmw-price"><span>$</span><strong>2.99</strong><em>USD / month</em></div>
+        <div class="pmw-yearly-line" aria-live="polite"></div>
         <p>More downloads. More creativity.</p>
-        <button class="pmw-plan-button premium-checkout" data-plan="Creative" type="button" disabled>Upgrade to Creative</button>
+        <button class="pmw-plan-button premium-checkout" data-plan="Creative" data-billing="monthly" type="button" disabled>Upgrade to Creative</button>
         <ul>
-          <li><span>▧</span>1080p download quality</li>
-          <li><span>↓</span>50 downloads per day</li>
-          <li><span>◈</span>Access to premium wallpapers</li>
-          <li><span>▻</span>Video backgrounds</li>
-          <li><span>⌁</span>No ads</li>
-          <li><span>↔</span>Unlimited converter</li>
-          <li><span>⌗</span>Unlimited resizer</li>
-          <li><span>♙</span>Personal use only</li>
+          <li><span>HD</span>1080p download quality</li>
+          <li><span>DL</span>50 downloads per day</li>
+          <li><span>WP</span>Access to premium wallpapers</li>
+          <li><span>VD</span>Video backgrounds</li>
+          <li><span>AD</span>No ads</li>
+          <li><span>CV</span>Unlimited converter</li>
+          <li><span>RS</span>Unlimited resizer</li>
+          <li><span>PS</span>Personal use only</li>
         </ul>
       </article>
 
-      <article class="pmw-plan-card plus featured">
-        <div class="pmw-card-toggle"><span>Monthly</span><span>Yearly</span></div>
-        <h2>Plus</h2>
+      <article class="pmw-plan-card premium featured" data-audience="personal" data-billing="monthly" data-monthly="5.99" data-year-original="71.88" data-year-price="59.99">
+        <div class="pmw-card-toggle" aria-label="Premium billing cycle">
+          <button type="button" class="is-active" data-billing-option="monthly">Monthly</button>
+          <button type="button" data-billing-option="yearly">Yearly</button>
+        </div>
+        <h2>Premium</h2>
         <div class="pmw-price"><span>$</span><strong>5.99</strong><em>USD / month</em></div>
+        <div class="pmw-yearly-line" aria-live="polite"></div>
         <p>More power. More possibilities.</p>
-        <button class="pmw-plan-button premium-checkout" data-plan="Plus" type="button" disabled>Upgrade to Plus</button>
+        <button class="pmw-plan-button premium-checkout" data-plan="Premium" data-billing="monthly" type="button" disabled>Upgrade to Premium</button>
         <ul>
-          <li><span>▧</span>1440p &amp; 4K download quality</li>
-          <li><span>↓</span>200 downloads per day</li>
-          <li><span>◈</span>All premium wallpapers</li>
-          <li><span>◫</span>Premium collections</li>
-          <li><span>▻</span>Video assets</li>
-          <li><span>⌁</span>No ads</li>
-          <li><span>↔</span>Unlimited converter</li>
-          <li><span>⌗</span>Unlimited resizer</li>
-          <li><span>♙</span>Wallpaper requests (5 per month)</li>
+          <li><span>4K</span>1440p &amp; 4K download quality</li>
+          <li><span>DL</span>200 downloads per day</li>
+          <li><span>WP</span>All premium wallpapers</li>
+          <li><span>CL</span>Premium collections</li>
+          <li><span>VD</span>Video assets</li>
+          <li><span>AD</span>No ads</li>
+          <li><span>CV</span>Unlimited converter</li>
+          <li><span>RS</span>Unlimited resizer</li>
+          <li><span>RQ</span>Wallpaper requests (5 per month)</li>
         </ul>
       </article>
 
-      <article class="pmw-plan-card business">
+      <article class="pmw-plan-card business" data-audience="business" data-billing="monthly" data-monthly="9.99" data-year-original="119.88" data-year-price="119.88">
+        <div class="pmw-card-toggle" aria-label="Business billing cycle">
+          <button type="button" class="is-active" data-billing-option="monthly">Monthly</button>
+          <button type="button" data-billing-option="yearly">Yearly</button>
+        </div>
         <h2>Business</h2>
         <div class="pmw-price"><span>$</span><strong>9.99</strong><em>USD / month</em></div>
+        <div class="pmw-yearly-line" aria-live="polite"></div>
         <p>For professionals &amp; commercial use.</p>
-        <button class="pmw-plan-button premium-checkout" data-plan="Business" type="button" disabled>Upgrade to Business</button>
+        <button class="pmw-plan-button premium-checkout" data-plan="Business" data-billing="monthly" type="button" disabled>Upgrade to Business</button>
         <ul>
-          <li><span>▧</span>Original quality downloads</li>
-          <li><span>↓</span>Unlimited downloads</li>
-          <li><span>◈</span>All premium wallpapers &amp; collections</li>
-          <li><span>◫</span>Commercial use license</li>
-          <li><span>▻</span>Video assets (commercial use)</li>
-          <li><span>⌁</span>No ads</li>
-          <li><span>↔</span>Unlimited converter</li>
-          <li><span>⌗</span>Unlimited resizer</li>
-          <li><span>♙</span>Priority support</li>
+          <li><span>HQ</span>Original quality downloads</li>
+          <li><span>DL</span>Unlimited downloads</li>
+          <li><span>WP</span>All premium wallpapers &amp; collections</li>
+          <li><span>LC</span>Commercial use license</li>
+          <li><span>VD</span>Video assets (commercial use)</li>
+          <li><span>AD</span>No ads</li>
+          <li><span>CV</span>Unlimited converter</li>
+          <li><span>RS</span>Unlimited resizer</li>
+          <li><span>SP</span>Priority support</li>
         </ul>
       </article>
     </section>

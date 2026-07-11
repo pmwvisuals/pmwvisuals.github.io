@@ -474,7 +474,7 @@ a {
 }
 
 .pmw-plan-toggle button,
-.pmw-card-toggle span {
+.pmw-card-toggle button {
   flex: 1;
   border: 0;
   border-radius: 999px;
@@ -483,10 +483,11 @@ a {
   background: transparent;
   font: inherit;
   font-weight: 900;
+  cursor: pointer;
 }
 
 .pmw-plan-toggle .is-active,
-.pmw-card-toggle span:first-child {
+.pmw-card-toggle .is-active {
   color: #111;
   background: #fff;
   box-shadow: 0 8px 28px rgba(255, 255, 255, 0.16);
@@ -496,6 +497,12 @@ a {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 20px;
+}
+
+.pmw-pricing-grid.business-only {
+  width: min(430px, 100%);
+  margin: 0 auto;
+  grid-template-columns: 1fr;
 }
 
 .pmw-plan-card {
@@ -526,6 +533,10 @@ a {
   position: relative;
 }
 
+.pmw-plan-card.is-hidden {
+  display: none;
+}
+
 .pmw-plan-card h2 {
   margin: 0 0 20px;
   font-size: 1.7rem;
@@ -538,14 +549,14 @@ a {
   color: #a66bff;
 }
 
-.pmw-plan-card.plus {
+.pmw-plan-card.premium {
   border-color: rgba(55, 143, 255, 0.45);
   box-shadow: 0 30px 100px rgba(30, 110, 255, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-.pmw-plan-card.plus h2,
-.pmw-plan-card.plus .pmw-price strong,
-.pmw-plan-card.plus li span {
+.pmw-plan-card.premium h2,
+.pmw-plan-card.premium .pmw-price strong,
+.pmw-plan-card.premium li span {
   color: #4b94ff;
 }
 
@@ -565,6 +576,23 @@ a {
   right: 22px;
   transform: scale(0.82);
   transform-origin: top right;
+}
+
+.pmw-recommend-badge {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  margin: 0 0 16px;
+  border: 1px solid rgba(166, 107, 255, 0.38);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(124, 57, 215, 0.74), rgba(166, 107, 255, 0.32));
+  box-shadow: 0 0 28px rgba(166, 107, 255, 0.16);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .pmw-price {
@@ -594,6 +622,31 @@ a {
   font-size: 0.78rem;
   font-style: normal;
   font-weight: 800;
+}
+
+.pmw-yearly-line {
+  min-height: 28px;
+  margin: -4px 0 12px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.pmw-yearly-line del {
+  color: #777;
+  margin-right: 8px;
+}
+
+.pmw-save-badge {
+  display: inline-flex;
+  margin-left: 8px;
+  border-radius: 999px;
+  padding: 4px 8px;
+  color: #111;
+  background: #fff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.12);
+  font-size: 0.72rem;
+  font-weight: 900;
 }
 
 .pmw-plan-card p {
@@ -635,7 +688,7 @@ a {
   background: linear-gradient(135deg, #7c39d7, #a66bff);
 }
 
-.pmw-plan-card.plus .pmw-plan-button {
+.pmw-plan-card.premium .pmw-plan-button {
   color: #fff;
   border-color: rgba(75, 148, 255, 0.35);
   background: linear-gradient(135deg, #0576ff, #4b94ff);
@@ -666,8 +719,15 @@ a {
 }
 
 .pmw-plan-card li span {
-  width: 20px;
+  min-width: 28px;
+  height: 24px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
   color: var(--muted);
+  font-size: 0.68rem;
   font-weight: 900;
   text-align: center;
 }

@@ -6,16 +6,36 @@ import { PADDLE_CONFIG } from "./paddle-config.js";
 const statusBox = document.querySelector("#premiumStatus");
 const checkoutButtons = Array.from(document.querySelectorAll(".premium-checkout"));
 const message = document.querySelector("#premiumMessage");
+const viewButtons = Array.from(document.querySelectorAll("[data-plan-view]"));
+const planCards = Array.from(document.querySelectorAll(".pmw-plan-card"));
+const pricingGrid = document.querySelector(".pmw-pricing-grid");
 
 let paddleReady = false;
+let currentCheckoutDisabled = true;
+let currentCheckoutHandler = null;
+let currentLabelPrefix = "Upgrade to";
+
+function buttonPlanLabel(button, labelPrefix) {
+  const plan = button.dataset.plan || "Premium";
+  const billing = button.dataset.billing === "yearly" ? " Yearly" : "";
+  return labelPrefix ? `${labelPrefix} ${plan}${billing}` : `Upgrade to ${plan}${billing}`;
+}
+
+function refreshButtonLabels() {
+  checkoutButtons.forEach((button) => {
+    button.textContent = buttonPlanLabel(button, currentLabelPrefix);
+    button.disabled = currentCheckoutDisabled;
+    button.onclick = currentCheckoutHandler
+      ? () => currentCheckoutHandler(button.dataset.plan || "Premium", button.dataset.billing || "monthly")
+      : null;
+  });
+}
 
 function setCheckoutState({ disabled, messageText, onClick, labelPrefix }) {
-  checkoutButtons.forEach((button) => {
-    const plan = button.dataset.plan || "Premium";
-    button.textContent = labelPrefix ? `${labelPrefix} ${plan}` : `Upgrade to ${plan}`;
-    button.disabled = disabled;
-    button.onclick = onClick ? () => onClick(plan) : null;
-  });
+  currentCheckoutDisabled = disabled;
+  currentCheckoutHandler = onClick || null;
+  currentLabelPrefix = labelPrefix || "Upgrade to";
+  refreshButtonLabels();
   if (messageText) message.textContent = messageText;
 }
 
@@ -40,13 +60,94 @@ function ensurePaddleReady() {
   paddleReady = true;
 }
 
-function hasPaddlePrice() {
-  return Boolean(PADDLE_CONFIG.priceId && PADDLE_CONFIG.priceId.trim());
+function getPaddlePriceId(planName, billing) {
+  return PADDLE_CONFIG.prices?.[planName]?.[billing] || "";
 }
 
-async function startCheckout(user, planName = "Premium") {
-  if (!hasPaddlePrice()) {
-    message.textContent = "Add your Paddle price ID in js/paddle-config.js before accepting payments.";
+function hasAnyPaddlePrice() {
+  return Object.values(PADDLE_CONFIG.prices || {}).some((planPrices) => {
+    return Object.values(planPrices || {}).some((priceId) => Boolean(priceId && priceId.trim()));
+  });
+}
+
+function formatUsd(value) {
+  return Number(value).toFixed(2);
+}
+
+function savingPercent(original, discounted) {
+  if (!original || original <= discounted) return 0;
+  return Math.round(((original - discounted) / original) * 100);
+}
+
+function updatePlanBilling(card, billing) {
+  const monthly = Number(card.dataset.monthly);
+  const yearOriginal = Number(card.dataset.yearOriginal);
+  const yearPrice = Number(card.dataset.yearPrice);
+  const price = card.querySelector(".pmw-price strong");
+  const cycle = card.querySelector(".pmw-price em");
+  const yearlyLine = card.querySelector(".pmw-yearly-line");
+  const checkoutButton = card.querySelector(".premium-checkout");
+
+  card.dataset.billing = billing;
+  if (checkoutButton) checkoutButton.dataset.billing = billing;
+
+  card.querySelectorAll("[data-billing-option]").forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.billingOption === billing);
+  });
+
+  if (billing === "yearly") {
+    price.textContent = formatUsd(yearPrice);
+    cycle.textContent = "USD / year";
+    const save = savingPercent(yearOriginal, yearPrice);
+    yearlyLine.innerHTML = save
+      ? `<del>$${formatUsd(yearOriginal)}</del> $${formatUsd(yearPrice)} for yr <span class="pmw-save-badge">Save ${save}%</span>`
+      : `$${formatUsd(yearOriginal)} for yr`;
+  } else {
+    price.textContent = formatUsd(monthly);
+    cycle.textContent = "USD / month";
+    yearlyLine.textContent = "";
+  }
+
+  refreshButtonLabels();
+}
+
+function setPlanView(view) {
+  viewButtons.forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.planView === view);
+  });
+
+  planCards.forEach((card) => {
+    card.classList.toggle("is-hidden", card.dataset.audience !== view);
+  });
+
+  if (pricingGrid) {
+    pricingGrid.classList.toggle("business-only", view === "business");
+  }
+}
+
+function initPricingControls() {
+  planCards.forEach((card) => {
+    if (card.dataset.monthly) updatePlanBilling(card, card.dataset.billing || "monthly");
+  });
+
+  document.querySelectorAll("[data-billing-option]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const card = button.closest(".pmw-plan-card");
+      if (card) updatePlanBilling(card, button.dataset.billingOption);
+    });
+  });
+
+  viewButtons.forEach((button) => {
+    button.addEventListener("click", () => setPlanView(button.dataset.planView));
+  });
+
+  setPlanView("personal");
+}
+
+async function startCheckout(user, planName = "Premium", billing = "monthly") {
+  const priceId = getPaddlePriceId(planName, billing);
+  if (!priceId) {
+    message.textContent = `Add the Paddle ${planName} ${billing} price ID in js/paddle-config.js before accepting payments.`;
     message.classList.add("error");
     return;
   }
@@ -54,7 +155,7 @@ async function startCheckout(user, planName = "Premium") {
   setCheckoutState({
     disabled: true,
     labelPrefix: "Opening",
-    messageText: `Opening Paddle checkout for ${planName}.`
+    messageText: `Opening Paddle checkout for ${planName} ${billing}.`
   });
 
   try {
@@ -62,7 +163,7 @@ async function startCheckout(user, planName = "Premium") {
     window.Paddle.Checkout.open({
       items: [
         {
-          priceId: PADDLE_CONFIG.priceId,
+          priceId: priceId,
           quantity: 1
         }
       ],
@@ -72,7 +173,8 @@ async function startCheckout(user, planName = "Premium") {
       customData: {
         uid: user.uid,
         product: "pmw-premium",
-        plan: planName
+        plan: planName,
+        billing: billing
       },
       settings: {
         successUrl: absoluteUrl("premium-success.html")
@@ -83,7 +185,7 @@ async function startCheckout(user, planName = "Premium") {
       disabled: false,
       labelPrefix: "Upgrade to",
       messageText: "Complete payment in the Paddle checkout window.",
-      onClick: (plan) => startCheckout(user, plan)
+      onClick: (plan, selectedBilling) => startCheckout(user, plan, selectedBilling)
     });
   } catch (error) {
     console.error("Unable to open Paddle checkout.", error);
@@ -91,11 +193,13 @@ async function startCheckout(user, planName = "Premium") {
       disabled: false,
       labelPrefix: "Try",
       messageText: "Paddle checkout is not available yet. Check the client token and price ID.",
-      onClick: (plan) => startCheckout(user, plan)
+      onClick: (plan, selectedBilling) => startCheckout(user, plan, selectedBilling)
     });
     message.classList.add("error");
   }
 }
+
+initPricingControls();
 
 onAuthStateChanged(auth, async (user) => {
   message.classList.remove("error");
@@ -128,11 +232,11 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   statusBox.textContent = "You are signed in as a free member.";
-  if (!hasPaddlePrice()) {
+  if (!hasAnyPaddlePrice()) {
     setCheckoutState({
       disabled: true,
       labelPrefix: "Add price for",
-      messageText: "Add your Paddle price ID in js/paddle-config.js to enable checkout."
+      messageText: "Add your Paddle monthly and yearly price IDs in js/paddle-config.js to enable checkout."
     });
     return;
   }
@@ -141,6 +245,6 @@ onAuthStateChanged(auth, async (user) => {
     disabled: false,
     labelPrefix: "Upgrade to",
     messageText: "Checkout opens securely through Paddle.",
-    onClick: (plan) => startCheckout(user, plan)
+    onClick: (plan, selectedBilling) => startCheckout(user, plan, selectedBilling)
   });
 });
