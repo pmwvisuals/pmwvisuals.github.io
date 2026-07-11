@@ -14,29 +14,96 @@
     <a class="pmw-brand" href="index.html"><img class="pmw-brand-wordmark" src="pmw-wordmark.png" alt="PMW"><span>Visuals</span></a>
     <div class="pmw-nav-links"><a href="index.html">Home</a><a href="account.html">Account</a><a href="premium-wallpapers.html">Premium Wallpapers</a></div>
   </nav>
-  <main class="pmw-auth-shell">
-    <section class="pmw-hero-card">
-      <div>
-        <div class="pmw-kicker">Premium Access</div>
-        <h1>Unlock the private collection.</h1>
-        <p>Premium gives signed-in members access to exclusive mobile wallpapers. Paddle checkout is prepared so payments can open through a trusted payment window.</p>
-      </div>
-      <div class="pmw-stats"><div class="pmw-stat"><strong>Private</strong><span>wallpapers</span></div><div class="pmw-stat"><strong>HD</strong><span>mobile files</span></div><div class="pmw-stat"><strong>Secure</strong><span>member access</span></div></div>
-    </section>
-    <section class="pmw-form-card">
-      <span class="pmw-badge">Paddle Checkout</span>
-      <h2>Upgrade your account.</h2>
+  <main class="pmw-pricing-shell">
+    <section class="pmw-pricing-head">
+      <div class="pmw-kicker">Premium Access</div>
+      <h1>Upgrade your plan</h1>
       <p id="premiumStatus" class="pmw-sub">Checking your account status...</p>
-      <div class="pmw-grid">
-        <div class="pmw-mini-card"><h3>Secure Checkout</h3><p>Payment opens through Paddle when your product price is connected.</p></div>
-        <div class="pmw-mini-card"><h3>Premium Access</h3><p>Paid members unlock private wallpaper downloads.</p></div>
+      <div class="pmw-plan-toggle" aria-label="Plan type">
+        <button type="button" class="is-active">Personal</button>
+        <button type="button">Business</button>
       </div>
-      <div class="pmw-btn-row">
-        <button class="pmw-btn" id="checkoutBtn" type="button" disabled>Checking Account</button>
-        <a class="pmw-btn secondary" href="premium-wallpapers.html">View Premium Area</a>
-      </div>
-      <p class="pmw-message" id="premiumMessage">Checkout will activate after your Paddle price ID is added.</p>
     </section>
+
+    <section class="pmw-pricing-grid" aria-label="PMW Visuals plans">
+      <article class="pmw-plan-card">
+        <h2>Free</h2>
+        <div class="pmw-price"><span>$</span><strong>0</strong><em>USD / month</em></div>
+        <p>Perfect for getting started</p>
+        <button class="pmw-plan-button current" type="button" disabled>Current Plan</button>
+        <ul>
+          <li><span>▧</span>720p download quality</li>
+          <li><span>↓</span>5 downloads per day</li>
+          <li><span>◈</span>Access to free wallpapers</li>
+          <li><span>↔</span>Standard converter (limited)</li>
+          <li><span>⌗</span>Standard resizer (limited)</li>
+          <li><span>⌁</span>Ads supported</li>
+          <li><span>♙</span>Personal use only</li>
+        </ul>
+      </article>
+
+      <article class="pmw-plan-card creative">
+        <h2>Creative</h2>
+        <div class="pmw-price"><span>$</span><strong>2.99</strong><em>USD / month</em></div>
+        <p>More downloads. More creativity.</p>
+        <button class="pmw-plan-button premium-checkout" data-plan="Creative" type="button" disabled>Upgrade to Creative</button>
+        <ul>
+          <li><span>▧</span>1080p download quality</li>
+          <li><span>↓</span>50 downloads per day</li>
+          <li><span>◈</span>Access to premium wallpapers</li>
+          <li><span>▻</span>Video backgrounds</li>
+          <li><span>⌁</span>No ads</li>
+          <li><span>↔</span>Unlimited converter</li>
+          <li><span>⌗</span>Unlimited resizer</li>
+          <li><span>♙</span>Personal use only</li>
+        </ul>
+      </article>
+
+      <article class="pmw-plan-card plus featured">
+        <div class="pmw-card-toggle"><span>Monthly</span><span>Yearly</span></div>
+        <h2>Plus</h2>
+        <div class="pmw-price"><span>$</span><strong>5.99</strong><em>USD / month</em></div>
+        <p>More power. More possibilities.</p>
+        <button class="pmw-plan-button premium-checkout" data-plan="Plus" type="button" disabled>Upgrade to Plus</button>
+        <ul>
+          <li><span>▧</span>1440p &amp; 4K download quality</li>
+          <li><span>↓</span>200 downloads per day</li>
+          <li><span>◈</span>All premium wallpapers</li>
+          <li><span>◫</span>Premium collections</li>
+          <li><span>▻</span>Video assets</li>
+          <li><span>⌁</span>No ads</li>
+          <li><span>↔</span>Unlimited converter</li>
+          <li><span>⌗</span>Unlimited resizer</li>
+          <li><span>♙</span>Wallpaper requests (5 per month)</li>
+        </ul>
+      </article>
+
+      <article class="pmw-plan-card business">
+        <h2>Business</h2>
+        <div class="pmw-price"><span>$</span><strong>9.99</strong><em>USD / month</em></div>
+        <p>For professionals &amp; commercial use.</p>
+        <button class="pmw-plan-button premium-checkout" data-plan="Business" type="button" disabled>Upgrade to Business</button>
+        <ul>
+          <li><span>▧</span>Original quality downloads</li>
+          <li><span>↓</span>Unlimited downloads</li>
+          <li><span>◈</span>All premium wallpapers &amp; collections</li>
+          <li><span>◫</span>Commercial use license</li>
+          <li><span>▻</span>Video assets (commercial use)</li>
+          <li><span>⌁</span>No ads</li>
+          <li><span>↔</span>Unlimited converter</li>
+          <li><span>⌗</span>Unlimited resizer</li>
+          <li><span>♙</span>Priority support</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="pmw-pricing-notes" aria-label="Premium notes">
+      <div><strong>Secure payments</strong><span>Encrypted &amp; secure</span></div>
+      <div><strong>Cancel anytime</strong><span>No hidden fees</span></div>
+      <div><strong>Need help?</strong><span>We're here for you</span></div>
+    </section>
+
+    <p class="pmw-message" id="premiumMessage">Checkout will activate after your Paddle price ID is added.</p>
   </main>
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   <script type="module" src="js/premium.js"></script>

@@ -4,15 +4,18 @@ import { isPremiumUser } from "./premium-access.js";
 import { PADDLE_CONFIG } from "./paddle-config.js";
 
 const statusBox = document.querySelector("#premiumStatus");
-const checkoutBtn = document.querySelector("#checkoutBtn");
+const checkoutButtons = Array.from(document.querySelectorAll(".premium-checkout"));
 const message = document.querySelector("#premiumMessage");
 
 let paddleReady = false;
 
-function setCheckoutState({ label, disabled, messageText, onClick }) {
-  checkoutBtn.textContent = label;
-  checkoutBtn.disabled = disabled;
-  checkoutBtn.onclick = onClick || null;
+function setCheckoutState({ disabled, messageText, onClick, labelPrefix }) {
+  checkoutButtons.forEach((button) => {
+    const plan = button.dataset.plan || "Premium";
+    button.textContent = labelPrefix ? `${labelPrefix} ${plan}` : `Upgrade to ${plan}`;
+    button.disabled = disabled;
+    button.onclick = onClick ? () => onClick(plan) : null;
+  });
   if (messageText) message.textContent = messageText;
 }
 
@@ -41,7 +44,7 @@ function hasPaddlePrice() {
   return Boolean(PADDLE_CONFIG.priceId && PADDLE_CONFIG.priceId.trim());
 }
 
-async function startCheckout(user) {
+async function startCheckout(user, planName = "Premium") {
   if (!hasPaddlePrice()) {
     message.textContent = "Add your Paddle price ID in js/paddle-config.js before accepting payments.";
     message.classList.add("error");
@@ -49,9 +52,9 @@ async function startCheckout(user) {
   }
 
   setCheckoutState({
-    label: "Opening Checkout...",
     disabled: true,
-    messageText: "Opening Paddle checkout."
+    labelPrefix: "Opening",
+    messageText: `Opening Paddle checkout for ${planName}.`
   });
 
   try {
@@ -68,7 +71,8 @@ async function startCheckout(user) {
       },
       customData: {
         uid: user.uid,
-        product: "pmw-premium"
+        product: "pmw-premium",
+        plan: planName
       },
       settings: {
         successUrl: absoluteUrl("premium-success.html")
@@ -76,18 +80,18 @@ async function startCheckout(user) {
     });
 
     setCheckoutState({
-      label: "Upgrade With Paddle",
       disabled: false,
+      labelPrefix: "Upgrade to",
       messageText: "Complete payment in the Paddle checkout window.",
-      onClick: () => startCheckout(user)
+      onClick: (plan) => startCheckout(user, plan)
     });
   } catch (error) {
     console.error("Unable to open Paddle checkout.", error);
     setCheckoutState({
-      label: "Try Checkout Again",
       disabled: false,
+      labelPrefix: "Try",
       messageText: "Paddle checkout is not available yet. Check the client token and price ID.",
-      onClick: () => startCheckout(user)
+      onClick: (plan) => startCheckout(user, plan)
     });
     message.classList.add("error");
   }
@@ -99,8 +103,8 @@ onAuthStateChanged(auth, async (user) => {
   if (!user) {
     statusBox.textContent = "Sign in first, then return here to upgrade.";
     setCheckoutState({
-      label: "Sign In To Continue",
       disabled: false,
+      labelPrefix: "Sign in for",
       messageText: "Premium checkout requires a PMW Visuals account.",
       onClick: () => {
         window.location.href = "login.html";
@@ -113,8 +117,8 @@ onAuthStateChanged(auth, async (user) => {
   if (isPremium) {
     statusBox.textContent = "Premium access is active for this account.";
     setCheckoutState({
-      label: "Open Premium Wallpapers",
       disabled: false,
+      labelPrefix: "Open",
       messageText: "You can open the premium area from this page.",
       onClick: () => {
         window.location.href = "premium-wallpapers.html";
@@ -126,17 +130,17 @@ onAuthStateChanged(auth, async (user) => {
   statusBox.textContent = "You are signed in as a free member.";
   if (!hasPaddlePrice()) {
     setCheckoutState({
-      label: "Add Paddle Price ID",
       disabled: true,
+      labelPrefix: "Add price for",
       messageText: "Add your Paddle price ID in js/paddle-config.js to enable checkout."
     });
     return;
   }
 
   setCheckoutState({
-    label: "Upgrade With Paddle",
     disabled: false,
+    labelPrefix: "Upgrade to",
     messageText: "Checkout opens securely through Paddle.",
-    onClick: () => startCheckout(user)
+    onClick: (plan) => startCheckout(user, plan)
   });
 });
