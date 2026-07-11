@@ -18,7 +18,7 @@
     <section class="pmw-pricing-head">
       <div class="pmw-kicker">Premium Access</div>
       <h1>Upgrade your plan</h1>
-      <p id="premiumStatus" class="pmw-sub">Checking your account status...</p>
+      <p id="premiumStatus" class="pmw-sub" aria-live="polite"></p>
       <div class="pmw-plan-toggle" aria-label="Plan type">
         <button type="button" class="is-active" data-plan-view="personal">Personal</button>
         <button type="button" data-plan-view="business">Business</button>
@@ -52,7 +52,7 @@
         <div class="pmw-price"><span>$</span><strong>2.99</strong><em>USD / month</em></div>
         <div class="pmw-yearly-line" aria-live="polite"></div>
         <p>More downloads. More creativity.</p>
-        <button class="pmw-plan-button premium-checkout" data-plan="Creative" data-billing="monthly" type="button" disabled>Upgrade to Creative</button>
+        <button class="pmw-plan-button premium-checkout" data-plan="Creative" data-billing="monthly" type="button" disabled>BUY NOW!</button>
         <ul>
           <li><span>HD</span>1080p download quality</li>
           <li><span>DL</span>50 downloads per day</li>
@@ -74,7 +74,7 @@
         <div class="pmw-price"><span>$</span><strong>5.99</strong><em>USD / month</em></div>
         <div class="pmw-yearly-line" aria-live="polite"></div>
         <p>More power. More possibilities.</p>
-        <button class="pmw-plan-button premium-checkout" data-plan="Premium" data-billing="monthly" type="button" disabled>Upgrade to Premium</button>
+        <button class="pmw-plan-button premium-checkout" data-plan="Premium" data-billing="monthly" type="button" disabled>BUY NOW!</button>
         <ul>
           <li><span>4K</span>1440p &amp; 4K download quality</li>
           <li><span>DL</span>200 downloads per day</li>
@@ -97,7 +97,7 @@
         <div class="pmw-price"><span>$</span><strong>9.99</strong><em>USD / month</em></div>
         <div class="pmw-yearly-line" aria-live="polite"></div>
         <p>For professionals &amp; commercial use.</p>
-        <button class="pmw-plan-button premium-checkout" data-plan="Business" data-billing="monthly" type="button" disabled>Upgrade to Business</button>
+        <button class="pmw-plan-button premium-checkout" data-plan="Business" data-billing="monthly" type="button" disabled>BUY NOW!</button>
         <ul>
           <li><span>HQ</span>Original quality downloads</li>
           <li><span>DL</span>Unlimited downloads</li>
@@ -118,7 +118,7 @@
       <div><strong>Need help?</strong><span>We're here for you</span></div>
     </section>
 
-    <p class="pmw-message" id="premiumMessage">Choose a plan and billing cycle to continue with secure Paddle checkout.</p>
+    <p class="pmw-message" id="premiumMessage" aria-live="polite"></p>
   </main>
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   <script type="module" src="js/premium.js"></script>

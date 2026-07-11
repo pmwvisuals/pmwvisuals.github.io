@@ -13,11 +13,12 @@ const pricingGrid = document.querySelector(".pmw-pricing-grid");
 let paddleReady = false;
 let currentCheckoutDisabled = true;
 let currentCheckoutHandler = null;
-let currentLabelPrefix = "Upgrade to";
+let currentLabelPrefix = "BUY NOW!";
 
 function buttonPlanLabel(button, labelPrefix) {
   const plan = button.dataset.plan || "Premium";
   const billing = button.dataset.billing === "yearly" ? " Yearly" : "";
+  if (labelPrefix === "BUY NOW!") return "BUY NOW!";
   return labelPrefix ? `${labelPrefix} ${plan}${billing}` : `Upgrade to ${plan}${billing}`;
 }
 
@@ -112,6 +113,10 @@ function updatePlanBilling(card, billing) {
 }
 
 function setPlanView(view) {
+  planCards.forEach((card) => {
+    if (card.dataset.monthly) updatePlanBilling(card, "monthly");
+  });
+
   viewButtons.forEach((button) => {
     button.classList.toggle("is-active", button.dataset.planView === view);
   });
@@ -121,6 +126,7 @@ function setPlanView(view) {
   });
 
   if (pricingGrid) {
+    pricingGrid.classList.toggle("personal-only", view === "personal");
     pricingGrid.classList.toggle("business-only", view === "business");
   }
 }
@@ -183,7 +189,7 @@ async function startCheckout(user, planName = "Premium", billing = "monthly") {
 
     setCheckoutState({
       disabled: false,
-      labelPrefix: "Upgrade to",
+      labelPrefix: "BUY NOW!",
       messageText: "Complete payment in the Paddle checkout window.",
       onClick: (plan, selectedBilling) => startCheckout(user, plan, selectedBilling)
     });
@@ -205,11 +211,11 @@ onAuthStateChanged(auth, async (user) => {
   message.classList.remove("error");
 
   if (!user) {
-    statusBox.textContent = "Sign in first, then return here to upgrade.";
+    statusBox.textContent = "";
     setCheckoutState({
       disabled: false,
-      labelPrefix: "Sign in for",
-      messageText: "Premium checkout requires a PMW Visuals account.",
+      labelPrefix: "BUY NOW!",
+      messageText: "",
       onClick: () => {
         window.location.href = "login.html";
       }
@@ -231,7 +237,7 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
-  statusBox.textContent = "You are signed in as a free member.";
+  statusBox.textContent = "";
   if (!hasAnyPaddlePrice()) {
     setCheckoutState({
       disabled: true,
@@ -243,8 +249,8 @@ onAuthStateChanged(auth, async (user) => {
 
   setCheckoutState({
     disabled: false,
-    labelPrefix: "Upgrade to",
-      messageText: "Choose a plan and billing cycle to continue with secure Paddle checkout.",
+    labelPrefix: "BUY NOW!",
+    messageText: "",
     onClick: (plan, selectedBilling) => startCheckout(user, plan, selectedBilling)
   });
 });

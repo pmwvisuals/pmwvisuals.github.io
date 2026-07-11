@@ -67,15 +67,16 @@ a {
 .pmw-brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   color: #fff;
-  font-weight: 800;
+  font-size: 1.15rem;
+  font-weight: 900;
   letter-spacing: 0;
 }
 
 .pmw-brand-wordmark {
-  width: 74px;
-  height: 34px;
+  width: clamp(52px, 5.2vw, 76px);
+  height: auto;
   object-fit: contain;
   display: block;
   filter: drop-shadow(0 0 10px rgba(216, 173, 76, 0.18));
@@ -450,11 +451,15 @@ a {
 }
 
 .pmw-pricing-head h1 {
-  margin: 12px 0 10px;
+  margin: 12px 0 18px;
   color: #fff;
   font-size: clamp(2.2rem, 4vw, 4.35rem);
   line-height: 0.98;
   letter-spacing: 0;
+}
+
+.pmw-pricing-head .pmw-sub:empty {
+  display: none;
 }
 
 .pmw-plan-toggle,
@@ -469,7 +474,7 @@ a {
 }
 
 .pmw-plan-toggle {
-  margin-top: 10px;
+  margin-top: 0;
   min-width: 300px;
 }
 
@@ -499,6 +504,11 @@ a {
   gap: 20px;
 }
 
+.pmw-pricing-grid.personal-only {
+  grid-template-columns: repeat(3, minmax(0, 330px));
+  justify-content: center;
+}
+
 .pmw-pricing-grid.business-only {
   width: min(430px, 100%);
   margin: 0 auto;
@@ -507,9 +517,11 @@ a {
 
 .pmw-plan-card {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   min-height: 600px;
-  padding: 28px;
+  padding: 30px 28px 28px;
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--line);
   border-radius: 28px;
   background:
@@ -524,6 +536,7 @@ a {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  border-radius: inherit;
   background:
     radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.08), transparent 28%),
     radial-gradient(circle at 88% 14%, rgba(216, 173, 76, 0.12), transparent 30%);
@@ -538,7 +551,7 @@ a {
 }
 
 .pmw-plan-card h2 {
-  margin: 0 0 20px;
+  margin: 40px 0 20px;
   font-size: 1.7rem;
   line-height: 1;
 }
@@ -572,17 +585,23 @@ a {
 
 .pmw-card-toggle {
   position: absolute;
-  top: 22px;
-  right: 22px;
-  transform: scale(0.82);
+  top: 18px;
+  right: 20px;
+  z-index: 5;
+  transform: scale(0.8);
   transform-origin: top right;
 }
 
 .pmw-recommend-badge {
+  position: absolute;
+  top: -16px;
+  left: 24px;
+  z-index: 6;
   display: inline-flex;
   align-items: center;
   width: max-content;
-  margin: 0 0 16px;
+  max-width: calc(100% - 48px);
+  margin: 0;
   border: 1px solid rgba(166, 107, 255, 0.38);
   border-radius: 999px;
   padding: 8px 12px;
@@ -658,7 +677,11 @@ a {
 
 .pmw-plan-button {
   width: 100%;
-  margin: 22px 0 24px;
+  margin: auto auto 24px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--line-strong);
   border-radius: 999px;
   padding: 13px 16px;
@@ -707,6 +730,10 @@ a {
   padding: 24px 0 0;
   border-top: 1px solid var(--line);
   list-style: none;
+}
+
+.pmw-plan-card .pmw-plan-button + ul {
+  margin-top: 0;
 }
 
 .pmw-plan-card li {
@@ -766,7 +793,12 @@ a {
 }
 
 .pmw-pricing-shell > .pmw-message {
+  min-height: 0;
   text-align: center;
+}
+
+.pmw-pricing-shell > .pmw-message:empty {
+  display: none;
 }
 
 @media (max-width: 900px) {
@@ -835,6 +867,10 @@ a {
 
   .pmw-pricing-grid,
   .pmw-pricing-notes {
+    grid-template-columns: 1fr;
+  }
+
+  .pmw-pricing-grid.personal-only {
     grid-template-columns: 1fr;
   }
 
