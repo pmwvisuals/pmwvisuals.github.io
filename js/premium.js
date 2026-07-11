@@ -235,8 +235,8 @@ onAuthStateChanged(auth, async (user) => {
   if (!hasAnyPaddlePrice()) {
     setCheckoutState({
       disabled: true,
-      labelPrefix: "Add price for",
-      messageText: "Add your Paddle monthly and yearly price IDs in js/paddle-config.js to enable checkout."
+      labelPrefix: "Unavailable for",
+      messageText: "Premium checkout is temporarily unavailable. Please try again later."
     });
     return;
   }
@@ -244,7 +244,7 @@ onAuthStateChanged(auth, async (user) => {
   setCheckoutState({
     disabled: false,
     labelPrefix: "Upgrade to",
-    messageText: "Checkout opens securely through Paddle.",
+      messageText: "Choose a plan and billing cycle to continue with secure Paddle checkout.",
     onClick: (plan, selectedBilling) => startCheckout(user, plan, selectedBilling)
   });
 });
