@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="shortcut icon" href="/favicon.png">
+  <script data-pmw-consent-default>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied'
+    });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KWF3JNMHNW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KWF3JNMHNW');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PMW Converter - Image, Video &amp; Audio File Converter</title>
+  <meta name="description" content="Convert images, videos, and audio into popular file formats with PMW Converter, a clean media conversion tool from PMW Visuals.">
+  <link rel="canonical" href="https://pmwvisuals.com/pmw-converter.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PMW Converter - Image, Video &amp; Audio File Converter">
+  <meta property="og:description" content="Convert image, video, and audio files into the formats you need with PMW Converter.">
+  <meta property="og:url" content="https://pmwvisuals.com/pmw-converter.html">
+  <meta property="og:image" content="https://pmwvisuals.com/pmw-logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#050505">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/pmw-converter.css?v=20260712-design1">
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebPage","name":"PMW Converter","url":"https://pmwvisuals.com/pmw-converter.html","description":"A PMW Visuals tool for converting image, video, and audio file formats.","isPartOf":{"@type":"WebSite","name":"PMW Visuals","url":"https://pmwvisuals.com/"}}
+  </script>
+</head>
+<body>
+  <div class="converter-page">
+    <nav class="converter-nav converter-shell" id="converterNav" aria-label="Primary navigation">
+      <a class="converter-brand" href="index.html" aria-label="PMW Visuals home">
+        <img src="pmw-wordmark.png" alt="PMW">
+        <span>Visuals</span>
+      </a>
+
+      <div class="converter-nav-links">
+        <a class="converter-nav-link" href="index.html">Home</a>
+        <a class="converter-nav-link" href="pmw-studio.html">PMW Studio</a>
+        <a class="converter-nav-link" href="pmw-wallpapers.html">PMW Wallpapers</a>
+        <a class="converter-nav-link active" href="pmw-converter.html" aria-current="page">PMW Converter</a>
+      </div>
+
+      <div class="converter-nav-actions">
+        <a class="converter-nav-link converter-mobile-link" href="index.html">Home</a>
+        <a class="converter-nav-link converter-mobile-link" href="pmw-studio.html">PMW Studio</a>
+        <a class="converter-nav-link converter-mobile-link" href="pmw-wallpapers.html">PMW Wallpapers</a>
+        <a class="converter-nav-link converter-mobile-link active" href="pmw-converter.html">PMW Converter</a>
+        <a class="converter-nav-link" href="index.html#about">About</a>
+        <a class="converter-nav-link" href="index.html#contact">Contact</a>
+        <a class="converter-nav-link" href="login.html">Sign In / Up</a>
+        <button class="converter-menu-button" id="converterMenuButton" type="button" aria-label="Open navigation" aria-expanded="false">
+          <i data-lucide="menu" aria-hidden="true"></i>
+        </button>
+      </div>
+    </nav>
+
+    <main>
+      <section class="converter-hero converter-shell" aria-labelledby="converterTitle">
+        <div class="converter-copy">
+          <span class="converter-kicker">PMW creative tools</span>
+          <h1 id="converterTitle">Convert media.<span>Keep the quality.</span></h1>
+          <p>Prepare images, videos, and audio for any screen or creative workflow with the most useful formats in one focused workspace.</p>
+          <div class="converter-format-strip" aria-label="Popular supported formats">
+            <span>JPG</span><span>PNG</span><span>WEBP</span><span>MP4</span><span>WEBM</span><span>MP3</span><span>WAV</span>
+          </div>
+        </div>
+
+        <section class="converter-workbench" aria-label="File converter design preview">
+          <div class="converter-mode-tabs" role="tablist" aria-label="Media type">
+            <button class="converter-mode-tab active" type="button" role="tab" aria-selected="true" data-mode="image">
+              <i data-lucide="image" aria-hidden="true"></i><span>Image</span>
+            </button>
+            <button class="converter-mode-tab" type="button" role="tab" aria-selected="false" data-mode="video">
+              <i data-lucide="film" aria-hidden="true"></i><span>Video</span>
+            </button>
+            <button class="converter-mode-tab" type="button" role="tab" aria-selected="false" data-mode="audio">
+              <i data-lucide="audio-lines" aria-hidden="true"></i><span>Audio</span>
+            </button>
+          </div>
+
+          <div class="converter-workbench-body">
+            <div class="converter-upload-column">
+              <input id="converterFileInput" type="file" accept="image/*" hidden>
+              <div class="converter-dropzone" id="converterDropzone" role="button" tabindex="0" aria-controls="converterFileInput">
+                <div>
+                  <div class="dropzone-icon"><i data-lucide="upload" aria-hidden="true"></i></div>
+                  <h2 class="dropzone-title" id="dropzoneTitle">Drop an image here</h2>
+                  <p class="dropzone-copy" id="dropzoneCopy">JPG, PNG, WEBP, GIF, BMP, TIFF or HEIC</p>
+                  <span class="dropzone-action">Choose file</span>
+                </div>
+              </div>
+
+              <div class="converter-file" id="converterFile" aria-live="polite">
+                <div class="converter-file-preview" id="converterFilePreview"><i data-lucide="file" aria-hidden="true"></i></div>
+                <div class="converter-file-meta">
+                  <p class="converter-file-name" id="converterFileName"></p>
+                  <p class="converter-file-size" id="converterFileSize"></p>
+                </div>
+                <button class="converter-file-remove" id="converterFileRemove" type="button" aria-label="Remove selected file"><i data-lucide="x" aria-hidden="true"></i></button>
+              </div>
+            </div>
+
+            <div class="converter-controls">
+              <div class="converter-control-group">
+                <label for="converterFormat">Convert to</label>
+                <select class="converter-select" id="converterFormat"></select>
+              </div>
+
+              <div class="converter-control-group" id="qualityGroup">
+                <div class="converter-quality-row">
+                  <span class="converter-control-label">Quality</span>
+                  <span class="converter-quality-value" id="qualityValue">90%</span>
+                </div>
+                <input class="converter-range" id="converterQuality" type="range" min="40" max="100" value="90" aria-label="Output quality">
+              </div>
+
+              <div class="converter-toggle-row">
+                <div class="converter-toggle-copy">
+                  <strong id="optionTitle">Preserve metadata</strong>
+                  <span id="optionCopy">Keep available image information</span>
+                </div>
+                <label class="converter-toggle">
+                  <input id="converterOption" type="checkbox" checked aria-label="Preserve metadata">
+                  <span aria-hidden="true"></span>
+                </label>
+              </div>
+
+              <button class="converter-start" id="converterStart" type="button" disabled>
+                <span>Convert file</span><i data-lucide="arrow-right" aria-hidden="true"></i>
+              </button>
+              <p class="converter-message" id="converterMessage" aria-live="polite">Select a file to prepare conversion.</p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="converter-categories converter-shell" aria-labelledby="formatsTitle">
+        <div class="converter-section-head">
+          <div>
+            <span class="section-kicker">Three media families</span>
+            <h2 id="formatsTitle">One workspace for the formats creators use.</h2>
+          </div>
+          <p>Move between visual, motion, and sound workflows without leaving the PMW Visuals experience.</p>
+        </div>
+
+        <div class="format-cards">
+          <article class="format-card">
+            <div class="format-card-icon"><i data-lucide="images" aria-hidden="true"></i></div>
+            <h3>Image Converter</h3>
+            <p>Prepare still images for websites, social media, mobile screens, documents, and creative projects.</p>
+            <div class="format-list"><span>JPG</span><span>PNG</span><span>WEBP</span><span>AVIF</span><span>GIF</span><span>BMP</span></div>
+          </article>
+          <article class="format-card">
+            <div class="format-card-icon"><i data-lucide="clapperboard" aria-hidden="true"></i></div>
+            <h3>Video Converter</h3>
+            <p>Reformat motion assets for broad playback, lightweight sharing, editing, and modern web delivery.</p>
+            <div class="format-list"><span>MP4</span><span>WEBM</span><span>MOV</span><span>AVI</span><span>MKV</span><span>GIF</span></div>
+          </article>
+          <article class="format-card">
+            <div class="format-card-icon"><i data-lucide="waveform" aria-hidden="true"></i></div>
+            <h3>Audio Converter</h3>
+            <p>Switch sound files between everyday listening, lossless production, and compact publishing formats.</p>
+            <div class="format-list"><span>MP3</span><span>WAV</span><span>AAC</span><span>FLAC</span><span>OGG</span><span>M4A</span></div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="converter-footer">
+      <div class="converter-footer-inner converter-shell">
+        <div>
+          <a class="converter-footer-brand" href="index.html"><img src="pmw-wordmark.png" alt="PMW"><span>Visuals</span></a>
+          <p class="converter-footer-copy">Wallpapers, visual assets, and practical creative tools for every screen.</p>
+        </div>
+        <div class="converter-footer-column">
+          <h3>Explore</h3>
+          <a href="pmw-wallpapers.html">PMW Wallpapers</a>
+          <a href="pmw-studio.html">PMW Studio</a>
+          <a href="pmw-converter.html">PMW Converter</a>
+        </div>
+        <div class="converter-footer-column">
+          <h3>Information</h3>
+          <a href="index.html#about">About Us</a>
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="license.html">License</a>
+        </div>
+      </div>
+      <div class="converter-footer-bottom converter-shell">
+        <span>&copy; 2026 PMW Visuals. All rights reserved.</span>
+        <span>Designed for the next PMW creative workflow.</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="js/pmw-converter.js?v=20260712-design1"></script>
+  <script src="consent.js"></script>
+</body>
+</html>
