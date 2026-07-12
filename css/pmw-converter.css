@@ -105,6 +105,13 @@ a { color: inherit; text-decoration: none; }
 .converter-start:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.06); }
 .converter-start:disabled { cursor: not-allowed; opacity: .42; }
 .converter-start svg { width: 18px; height: 18px; }
+.converter-progress { display: none; height: 4px; margin-top: -10px; overflow: hidden; border-radius: 2px; background: rgba(255,255,255,.08); }
+.converter-progress.visible { display: block; }
+.converter-progress span { display: block; width: 0; height: 100%; background: linear-gradient(90deg,var(--gold),#f4e0a6); transition: width .2s ease; }
+.converter-download { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 10px; margin-top: -10px; border: 1px solid rgba(93,228,219,.35); border-radius: 6px; color: #baf9f4; background: rgba(93,228,219,.08); font-size: .8rem; font-weight: 850; transition: .2s ease; }
+.converter-download[hidden] { display: none; }
+.converter-download:hover { border-color: rgba(93,228,219,.7); background: rgba(93,228,219,.13); transform: translateY(-1px); }
+.converter-download svg { width: 17px; height: 17px; }
 .converter-message { min-height: 18px; margin: -12px 0 0; color: #8f8f92; font-size: .7rem; text-align: center; }
 
 .converter-categories { padding: 110px 0 120px; }

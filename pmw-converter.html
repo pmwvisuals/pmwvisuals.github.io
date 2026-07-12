@@ -80,7 +80,7 @@
           </div>
         </div>
 
-        <section class="converter-workbench" aria-label="File converter design preview">
+        <section class="converter-workbench" aria-label="File converter">
           <div class="converter-mode-tabs" role="tablist" aria-label="Media type">
             <button class="converter-mode-tab active" type="button" role="tab" aria-selected="true" data-mode="image">
               <i data-lucide="image" aria-hidden="true"></i><span>Image</span>
@@ -143,6 +143,12 @@
               <button class="converter-start" id="converterStart" type="button" disabled>
                 <span>Convert file</span><i data-lucide="arrow-right" aria-hidden="true"></i>
               </button>
+              <div class="converter-progress" id="converterProgress" aria-hidden="true">
+                <span id="converterProgressBar"></span>
+              </div>
+              <a class="converter-download" id="converterDownload" href="#" download hidden>
+                <span>Download converted file</span><i data-lucide="download" aria-hidden="true"></i>
+              </a>
               <p class="converter-message" id="converterMessage" aria-live="polite">Select a file to prepare conversion.</p>
             </div>
           </div>
