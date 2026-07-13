@@ -5,8 +5,8 @@
     image: {
       accept: "image/*,.tif,.tiff",
       title: "Drop an image here",
-      copy: "JPG, PNG, WEBP, GIF, BMP, TIFF or AVIF",
-      formats: ["JPG", "PNG", "WEBP", "AVIF", "GIF", "BMP", "TIFF"],
+      copy: "JPG, PNG, WEBP, GIF, BMP or TIFF",
+      formats: ["JPG", "PNG", "WEBP", "GIF", "BMP", "TIFF"],
       optionTitle: "Remove metadata",
       optionCopy: "Strip embedded image information"
     },
@@ -56,9 +56,12 @@
   let outputUrl = "";
   let currentFile = null;
   let ffmpegInstance = null;
-
-  const ffmpegScript = "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js";
-  const ffmpegCore = "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js";
+  let ffmpegFetchFile = null;
+  let ffmpegLogs = [];
+  const ffmpegModuleUrl = new URL("vendor/ffmpeg/ffmpeg/index.js", document.baseURI).href;
+  const ffmpegUtilUrl = new URL("vendor/ffmpeg/util/index.js", document.baseURI).href;
+  const ffmpegCoreUrl = new URL("vendor/ffmpeg/core/ffmpeg-core.js", document.baseURI).href;
+  const ffmpegWasmUrl = new URL("vendor/ffmpeg/core/ffmpeg-core.wasm", document.baseURI).href;
 
   function redrawIcons() {
     if (window.lucide) window.lucide.createIcons();
@@ -215,38 +218,36 @@
     startButtonLabel.textContent = isBusy ? "Converting..." : "Convert file";
   }
 
-  function loadScript(src) {
-    return new Promise((resolve, reject) => {
-      const existing = document.querySelector(`script[src="${src}"]`);
-      if (existing) {
-        if (window.FFmpeg) resolve();
-        else existing.addEventListener("load", resolve, { once: true });
-        return;
-      }
-      const script = document.createElement("script");
-      script.src = src;
-      script.async = true;
-      script.onload = resolve;
-      script.onerror = () => reject(new Error("The media conversion engine could not be loaded."));
-      document.head.appendChild(script);
-    });
-  }
-
   async function getFfmpeg() {
-    if (ffmpegInstance && ffmpegInstance.isLoaded()) return ffmpegInstance;
+    if (ffmpegInstance && ffmpegInstance.loaded) return ffmpegInstance;
     message.textContent = "Loading the media engine for the first conversion...";
     setProgress(5);
-    await loadScript(ffmpegScript);
-    if (!window.FFmpeg) throw new Error("The media conversion engine is unavailable.");
-    ffmpegInstance = window.FFmpeg.createFFmpeg({
-      log: false,
-      corePath: ffmpegCore,
-      progress: ({ ratio }) => {
+    try {
+      const [{ FFmpeg }, { fetchFile }] = await Promise.all([
+        import(ffmpegModuleUrl),
+        import(ffmpegUtilUrl)
+      ]);
+      ffmpegFetchFile = fetchFile;
+      const engine = new FFmpeg();
+      engine.on("log", ({ message: logMessage }) => {
+        ffmpegLogs.push(logMessage);
+        if (ffmpegLogs.length > 40) ffmpegLogs.shift();
+      });
+      engine.on("progress", ({ progress: ratio }) => {
         if (Number.isFinite(ratio)) setProgress(12 + ratio * 86);
-      }
-    });
-    await ffmpegInstance.load();
-    return ffmpegInstance;
+      });
+      await engine.load({
+        coreURL: ffmpegCoreUrl,
+        wasmURL: ffmpegWasmUrl
+      });
+      ffmpegInstance = engine;
+      return engine;
+    } catch (error) {
+      console.error("FFmpeg engine load failed", error);
+      ffmpegInstance = null;
+      ffmpegFetchFile = null;
+      throw new Error("The on-device media engine could not be loaded. Refresh the page and try again.", { cause: error });
+    }
   }
 
   function outputExtension(selectedFormat) {
@@ -254,7 +255,7 @@
   }
 
   function outputMime(mode, selectedFormat) {
-    const imageTypes = { jpg: "image/jpeg", png: "image/png", webp: "image/webp", avif: "image/avif", gif: "image/gif", bmp: "image/bmp", tiff: "image/tiff" };
+    const imageTypes = { jpg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif", bmp: "image/bmp", tiff: "image/tiff" };
     const videoTypes = { mp4: "video/mp4", webm: "video/webm", mov: "video/quicktime", avi: "video/x-msvideo", mkv: "video/x-matroska", gif: "image/gif" };
     const audioTypes = { mp3: "audio/mpeg", wav: "audio/wav", aac: "audio/aac", flac: "audio/flac", ogg: "audio/ogg", m4a: "audio/mp4" };
     return (mode === "image" ? imageTypes : mode === "video" ? videoTypes : audioTypes)[selectedFormat] || "application/octet-stream";
@@ -266,7 +267,7 @@
   }
 
   async function convertNativeImage(file, selectedFormat) {
-    const nativeFormats = { jpg: "image/jpeg", png: "image/png", webp: "image/webp", avif: "image/avif" };
+    const nativeFormats = { jpg: "image/jpeg", png: "image/png", webp: "image/webp" };
     const mime = nativeFormats[selectedFormat];
     if (!mime) return null;
     setProgress(15);
@@ -327,16 +328,21 @@
     const inputExtension = (file.name.split(".").pop() || "bin").replace(/[^a-z0-9]/gi, "").toLowerCase();
     const inputName = `pmw-input.${inputExtension}`;
     const outputName = `pmw-output.${outputExtension(selectedFormat)}`;
-    engine.FS("writeFile", inputName, await window.FFmpeg.fetchFile(file));
+    await engine.writeFile(inputName, await ffmpegFetchFile(file));
     try {
+      ffmpegLogs = [];
       message.textContent = "Converting in your browser...";
-      await engine.run(...buildFfmpegArgs(inputName, outputName, selectedFormat));
-      const data = engine.FS("readFile", outputName);
+      const exitCode = await engine.exec(buildFfmpegArgs(inputName, outputName, selectedFormat));
+      if (exitCode !== 0) {
+        console.error("FFmpeg conversion log", ffmpegLogs.join("\n"));
+        throw new Error(`${selectedFormat.toUpperCase()} conversion is not supported for this source file.`);
+      }
+      const data = await engine.readFile(outputName);
       setProgress(100);
       return new Blob([data.buffer], { type: outputMime(activeMode, selectedFormat) });
     } finally {
-      try { engine.FS("unlink", inputName); } catch (_) {}
-      try { engine.FS("unlink", outputName); } catch (_) {}
+      try { await engine.deleteFile(inputName); } catch (_) {}
+      try { await engine.deleteFile(outputName); } catch (_) {}
     }
   }
 
