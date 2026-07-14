@@ -7,9 +7,11 @@ export async function isPremiumUser(user) {
   try {
     const token = await user.getIdTokenResult(true);
     const claims = token.claims || {};
+    const claimPlan = String(claims.plan || "").toLowerCase();
     if (
       claims.premium === true ||
-      claims.role === "premium"
+      claims.role === "premium" ||
+      ["creative", "premium", "business"].includes(claimPlan)
     ) {
       return true;
     }
@@ -20,7 +22,8 @@ export async function isPremiumUser(user) {
   try {
     const snap = await getDoc(doc(db, "users", user.uid));
     const data = snap.exists() ? snap.data() : {};
-    return data.premium === true || data.role === "premium" || data.plan === "premium";
+    const plan = String(data.plan || "").toLowerCase();
+    return data.premium === true || data.role === "premium" || ["creative", "premium", "business"].includes(plan);
   } catch (error) {
     console.warn("Unable to read premium account status.", error);
     return false;

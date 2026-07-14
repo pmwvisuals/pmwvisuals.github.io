@@ -35,7 +35,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/pmw-converter.css?v=20260712-design1">
+  <link rel="stylesheet" href="css/pmw-converter.css?v=20260714-batch1">
   <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"WebPage","name":"PMW Converter","url":"https://pmwvisuals.com/pmw-converter.html","description":"A PMW Visuals tool for converting image, video, and audio file formats.","isPartOf":{"@type":"WebSite","name":"PMW Visuals","url":"https://pmwvisuals.com/"}}
   </script>
@@ -95,27 +95,28 @@
 
           <div class="converter-workbench-body">
             <div class="converter-upload-column">
-              <input id="converterFileInput" type="file" accept="image/*" hidden>
+              <input id="converterFileInput" type="file" accept="image/*" multiple hidden aria-labelledby="dropzoneTitle" aria-describedby="dropzoneCopy">
               <div class="converter-dropzone" id="converterDropzone" role="button" tabindex="0" aria-controls="converterFileInput">
                 <div>
                   <div class="dropzone-icon"><i data-lucide="upload" aria-hidden="true"></i></div>
-                  <h2 class="dropzone-title" id="dropzoneTitle">Drop an image here</h2>
+                  <h2 class="dropzone-title" id="dropzoneTitle">Drop images here</h2>
                   <p class="dropzone-copy" id="dropzoneCopy">JPG, PNG, WEBP, GIF, BMP or TIFF</p>
-                  <span class="dropzone-action">Choose file</span>
+                  <span class="dropzone-action">Choose files</span>
                 </div>
               </div>
 
-              <div class="converter-file" id="converterFile" aria-live="polite">
-                <div class="converter-file-preview" id="converterFilePreview"><i data-lucide="file" aria-hidden="true"></i></div>
-                <div class="converter-file-meta">
-                  <p class="converter-file-name" id="converterFileName"></p>
-                  <p class="converter-file-size" id="converterFileSize"></p>
-                </div>
-                <button class="converter-file-remove" id="converterFileRemove" type="button" aria-label="Remove selected file"><i data-lucide="x" aria-hidden="true"></i></button>
-              </div>
+              <div class="converter-file-list" id="converterFileList" aria-live="polite"></div>
             </div>
 
             <div class="converter-controls">
+              <div class="converter-usage" id="converterUsage">
+                <div>
+                  <span>Daily conversions</span>
+                  <strong id="converterUsageText">13 free conversions left today</strong>
+                </div>
+                <span class="converter-usage-count" id="converterUsageCount">0 / 13</span>
+              </div>
+
               <div class="converter-control-group">
                 <label for="converterFormat">Convert to</label>
                 <select class="converter-select" id="converterFormat"></select>
@@ -131,8 +132,8 @@
 
               <div class="converter-toggle-row">
                 <div class="converter-toggle-copy">
-                  <strong id="optionTitle">Preserve metadata</strong>
-                  <span id="optionCopy">Keep available image information</span>
+                  <strong><span id="optionTitle">Strip metadata</span><button class="converter-premium-crown" id="metadataPremiumCrown" type="button" aria-label="Premium feature"><i data-lucide="crown" aria-hidden="true"></i><span>Premium</span></button></strong>
+                  <span id="optionCopy">Remove embedded image information</span>
                 </div>
                 <label class="converter-toggle">
                   <input id="converterOption" type="checkbox" checked aria-label="Preserve metadata">
@@ -141,18 +142,29 @@
               </div>
 
               <button class="converter-start" id="converterStart" type="button" disabled>
-                <span>Convert file</span><i data-lucide="arrow-right" aria-hidden="true"></i>
+                <span>Convert files</span><i data-lucide="arrow-right" aria-hidden="true"></i>
               </button>
               <div class="converter-progress" id="converterProgress" aria-hidden="true">
                 <span id="converterProgressBar"></span>
               </div>
-              <a class="converter-download" id="converterDownload" href="#" download hidden>
-                <span>Download converted file</span><i data-lucide="download" aria-hidden="true"></i>
-              </a>
-              <p class="converter-message" id="converterMessage" aria-live="polite">Select a file to prepare conversion.</p>
+              <p class="converter-message" id="converterMessage" aria-live="polite">Select one or more files to prepare conversion.</p>
             </div>
           </div>
         </section>
+
+        <div class="converter-upgrade-overlay" id="converterUpgradeOverlay" hidden>
+          <section class="converter-upgrade-dialog" role="dialog" aria-modal="true" aria-labelledby="converterUpgradeTitle">
+            <button class="converter-upgrade-close" id="converterUpgradeClose" type="button" aria-label="Close"><i data-lucide="x" aria-hidden="true"></i></button>
+            <div class="converter-upgrade-icon"><i data-lucide="crown" aria-hidden="true"></i></div>
+            <span class="section-kicker">Premium access</span>
+            <h2 id="converterUpgradeTitle">Unlock unlimited conversions</h2>
+            <p id="converterUpgradeText">The free plan includes 13 file conversions each day. Upgrade for unlimited batches and metadata controls.</p>
+            <div class="converter-upgrade-actions">
+              <a class="converter-upgrade-primary" href="premium.html">View premium plans</a>
+              <button class="converter-upgrade-secondary" id="converterUpgradeLater" type="button">Maybe later</button>
+            </div>
+          </section>
+        </div>
       </section>
 
       <section class="converter-categories converter-shell" aria-labelledby="formatsTitle">
@@ -215,7 +227,7 @@
   </div>
 
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-  <script src="js/pmw-converter.js?v=20260712-design1"></script>
+  <script src="js/pmw-converter.js?v=20260714-batch1"></script>
   <script src="consent.js"></script>
 </body>
 </html>
