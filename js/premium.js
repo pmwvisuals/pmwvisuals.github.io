@@ -2,7 +2,7 @@ import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 import { isPremiumUser } from "./premium-access.js";
-import { PADDLE_CONFIG, PRICING_TIERS } from "./paddle-config.js";
+import { PADDLE_CONFIG, PRICING_TIERS } from "./paddle-config.js?v=20260718-success";
 
 const statusBox = document.querySelector("#premiumStatus");
 const message = document.querySelector("#premiumMessage");

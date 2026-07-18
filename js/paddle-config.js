@@ -1,7 +1,7 @@
 export const PADDLE_CONFIG = {
   clientToken: "live_e1acf603a496c5dc11e7662eb81",
   environment: "production",
-  successPath: "welcome/",
+  successPath: "premium-success.html",
   prices: {
     Pro: {
       monthly: "pri_01kxsfyk134yk1y741d0vcm45c",
