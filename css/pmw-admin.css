@@ -331,6 +331,101 @@ a {
   flex-wrap: wrap;
 }
 
+.admin-record-id {
+  margin: 0 0 18px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.admin-record-id strong {
+  color: var(--text);
+}
+
+.admin-wallpaper-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.admin-wallpaper-item {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1.4fr) minmax(160px, 0.8fr) auto;
+  gap: 14px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: #fafafa;
+}
+
+.admin-wallpaper-thumb {
+  width: 72px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #e4e4e7;
+}
+
+.admin-wallpaper-title {
+  margin: 0 0 7px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.admin-wallpaper-meta,
+.admin-wallpaper-id {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.admin-wallpaper-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.admin-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: #fff;
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 750;
+  line-height: 1;
+}
+
+.admin-pill.is-muted {
+  color: var(--muted);
+}
+
+.admin-wallpaper-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.admin-wallpaper-actions .admin-button {
+  min-height: 36px;
+  padding: 8px 10px;
+  font-size: 0.86rem;
+}
+
+.admin-button.danger {
+  background: var(--danger);
+}
+
+.admin-button.danger:hover {
+  background: #991b1b;
+}
+
 @media (max-width: 640px) {
   .admin-topbar-inner {
     align-items: flex-start;
@@ -360,5 +455,16 @@ a {
   .admin-upload-box {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .admin-wallpaper-item {
+    grid-template-columns: 72px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .admin-wallpaper-tags,
+  .admin-wallpaper-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
   }
 }

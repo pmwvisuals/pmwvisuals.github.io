@@ -130,6 +130,102 @@
           <p class="admin-message" id="wallpaperFormMessage" aria-live="polite"></p>
         </form>
       </div>
+
+      <div class="admin-card-body admin-section">
+        <div class="admin-row">
+          <div>
+            <h2>Manage Wallpapers</h2>
+            <p class="admin-subtitle">Find, edit, hide, change access, or delete Firestore wallpaper records.</p>
+          </div>
+          <button class="admin-button secondary" id="reloadWallpapersButton" type="button">Reload</button>
+        </div>
+
+        <div class="admin-field">
+          <label for="wallpaperSearch">Search wallpapers</label>
+          <input id="wallpaperSearch" type="search" autocomplete="off" placeholder="Title, exact Cloudinary URL, public ID, or Firestore document ID" />
+        </div>
+
+        <p class="admin-message" id="manageWallpapersMessage" aria-live="polite"></p>
+        <div class="admin-wallpaper-list" id="wallpapersList" aria-live="polite"></div>
+      </div>
+
+      <div class="admin-card-body admin-section" id="editWallpaperPanel" hidden>
+        <div class="admin-row">
+          <div>
+            <h2>Edit Wallpaper</h2>
+            <p class="admin-subtitle">Update Firestore metadata only. Images stay in Cloudinary.</p>
+          </div>
+          <button class="admin-button secondary" id="cancelEditWallpaperButton" type="button">Cancel edit</button>
+        </div>
+
+        <form id="editWallpaperForm" novalidate>
+          <p class="admin-record-id">Document ID: <strong id="editWallpaperId"></strong></p>
+
+          <div class="admin-form-grid">
+            <div class="admin-field">
+              <label for="editWallpaperTitle">Title</label>
+              <input id="editWallpaperTitle" type="text" autocomplete="off" required />
+            </div>
+
+            <div class="admin-field">
+              <label for="editWallpaperAccess">Free or Premium status</label>
+              <select id="editWallpaperAccess" required>
+                <option value="free">Free</option>
+                <option value="premium">Premium</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="admin-field">
+            <label for="editWallpaperDescription">Description</label>
+            <textarea id="editWallpaperDescription" rows="4"></textarea>
+          </div>
+
+          <div class="admin-field">
+            <label for="editWallpaperImageUrl">Image URL</label>
+            <input id="editWallpaperImageUrl" type="url" autocomplete="off" required />
+          </div>
+
+          <div class="admin-field">
+            <label for="editWallpaperPublicId">Cloudinary public ID</label>
+            <input id="editWallpaperPublicId" type="text" autocomplete="off" />
+          </div>
+
+          <fieldset class="admin-fieldset">
+            <legend>Image types or categories</legend>
+            <div class="admin-checkbox-grid" id="editWallpaperTypes"></div>
+          </fieldset>
+
+          <div class="admin-form-grid">
+            <div class="admin-field">
+              <label for="editWallpaperHashtags">Hashtags</label>
+              <input id="editWallpaperHashtags" type="text" autocomplete="off" />
+            </div>
+
+            <div class="admin-field">
+              <label for="editWallpaperVisible">Visible or Hidden status</label>
+              <select id="editWallpaperVisible">
+                <option value="true">Visible</option>
+                <option value="false">Hidden</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="admin-preview" id="editImagePreviewPanel" hidden>
+            <img id="editImagePreview" alt="Wallpaper preview" />
+            <div>
+              <strong>Preview</strong>
+              <span>Preview loaded from the image URL.</span>
+            </div>
+          </div>
+
+          <div class="admin-actions">
+            <button class="admin-button" id="saveEditWallpaperButton" type="submit">Save changes</button>
+            <button class="admin-button secondary" id="cancelEditWallpaperButtonBottom" type="button">Cancel</button>
+          </div>
+          <p class="admin-message" id="editWallpaperMessage" aria-live="polite"></p>
+        </form>
+      </div>
     </section>
   </main>
 

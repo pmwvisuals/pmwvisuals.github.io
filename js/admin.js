@@ -4,7 +4,11 @@ import { signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-aut
 import {
   addDoc,
   collection,
-  serverTimestamp
+  deleteDoc,
+  doc,
+  getDocs,
+  serverTimestamp,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const CLOUDINARY_CLOUD_NAME = "dlmjetz3s";
@@ -33,9 +37,32 @@ const imageMeta = document.querySelector("#imageMeta");
 const publishButton = document.querySelector("#publishWallpaperButton");
 const resetButton = document.querySelector("#resetWallpaperButton");
 const formMessage = document.querySelector("#wallpaperFormMessage");
+const reloadWallpapersButton = document.querySelector("#reloadWallpapersButton");
+const wallpaperSearchInput = document.querySelector("#wallpaperSearch");
+const manageMessage = document.querySelector("#manageWallpapersMessage");
+const wallpapersList = document.querySelector("#wallpapersList");
+const editPanel = document.querySelector("#editWallpaperPanel");
+const editForm = document.querySelector("#editWallpaperForm");
+const editId = document.querySelector("#editWallpaperId");
+const editTitleInput = document.querySelector("#editWallpaperTitle");
+const editDescriptionInput = document.querySelector("#editWallpaperDescription");
+const editImageUrlInput = document.querySelector("#editWallpaperImageUrl");
+const editPublicIdInput = document.querySelector("#editWallpaperPublicId");
+const editHashtagsInput = document.querySelector("#editWallpaperHashtags");
+const editAccessInput = document.querySelector("#editWallpaperAccess");
+const editVisibleInput = document.querySelector("#editWallpaperVisible");
+const editTypeList = document.querySelector("#editWallpaperTypes");
+const editPreviewPanel = document.querySelector("#editImagePreviewPanel");
+const editPreviewImage = document.querySelector("#editImagePreview");
+const saveEditButton = document.querySelector("#saveEditWallpaperButton");
+const cancelEditButton = document.querySelector("#cancelEditWallpaperButton");
+const cancelEditButtonBottom = document.querySelector("#cancelEditWallpaperButtonBottom");
+const editMessage = document.querySelector("#editWallpaperMessage");
 
 let cloudinaryWidget = null;
 let uploadInProgress = false;
+let wallpapers = [];
+let editingWallpaperId = "";
 let imageDetails = {
   width: 0,
   height: 0,
@@ -75,17 +102,22 @@ function getCategories() {
   ];
 }
 
-function renderTypeOptions() {
-  typeList.innerHTML = getCategories().map((category, index) => `
-    <label class="admin-check" for="wallpaperType${index}">
-      <input id="wallpaperType${index}" type="checkbox" value="${category}">
+function renderCheckboxOptions(container, idPrefix, selectedTypes = []) {
+  const selected = new Set(selectedTypes);
+  container.innerHTML = getCategories().map((category, index) => `
+    <label class="admin-check" for="${idPrefix}${index}">
+      <input id="${idPrefix}${index}" type="checkbox" value="${category}" ${selected.has(category) ? "checked" : ""}>
       <span>${category}</span>
     </label>
   `).join("");
 }
 
-function getSelectedTypes() {
-  return Array.from(typeList.querySelectorAll("input:checked")).map((input) => input.value);
+function renderTypeOptions() {
+  renderCheckboxOptions(typeList, "wallpaperType");
+}
+
+function getSelectedTypes(container = typeList) {
+  return Array.from(container.querySelectorAll("input:checked")).map((input) => input.value);
 }
 
 function parseHashtags(value) {
@@ -247,10 +279,308 @@ function setSavingState(isSaving) {
   publishButton.textContent = isSaving ? "Saving..." : "Publish wallpaper";
 }
 
+function normalizeText(value) {
+  return String(value || "").trim().toLowerCase();
+}
+
+function normalizeUrl(value) {
+  try {
+    const url = new URL(String(value || "").trim());
+    return url.href;
+  } catch (error) {
+    return String(value || "").trim();
+  }
+}
+
+function normalizeWallpaper(docSnap) {
+  const data = docSnap.data() || {};
+  return {
+    id: docSnap.id,
+    title: String(data.title || ""),
+    description: String(data.description || ""),
+    imageUrl: String(data.imageUrl || ""),
+    cloudinaryPublicId: String(data.cloudinaryPublicId || ""),
+    types: Array.isArray(data.types) ? data.types.map(String) : [],
+    hashtags: Array.isArray(data.hashtags) ? data.hashtags.map(String) : [],
+    access: data.access === "premium" ? "premium" : "free",
+    visible: data.visible !== false,
+    width: Number(data.width) || 0,
+    height: Number(data.height) || 0,
+    format: String(data.format || "")
+  };
+}
+
+function matchesWallpaper(wallpaper, query) {
+  const term = query.trim();
+  if (!term) return true;
+
+  const lowered = normalizeText(term);
+  const exactUrl = normalizeUrl(term);
+  return normalizeText(wallpaper.title).includes(lowered)
+    || normalizeText(wallpaper.cloudinaryPublicId).includes(lowered)
+    || normalizeText(wallpaper.id).includes(lowered)
+    || normalizeUrl(wallpaper.imageUrl) === exactUrl;
+}
+
+function getFilteredWallpapers() {
+  const query = wallpaperSearchInput.value;
+  return wallpapers.filter((wallpaper) => matchesWallpaper(wallpaper, query));
+}
+
+function createPill(text, muted = false) {
+  const pill = document.createElement("span");
+  pill.className = muted ? "admin-pill is-muted" : "admin-pill";
+  pill.textContent = text;
+  return pill;
+}
+
+function createActionButton(label, action, id, variant = "secondary") {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `admin-button ${variant}`;
+  button.dataset.action = action;
+  button.dataset.id = id;
+  button.textContent = label;
+  return button;
+}
+
+function renderWallpapers() {
+  wallpapersList.replaceChildren();
+  const filtered = getFilteredWallpapers();
+
+  if (!wallpapers.length) {
+    setMessage(manageMessage, "No Firestore wallpaper records found.");
+    return;
+  }
+
+  if (!filtered.length) {
+    setMessage(manageMessage, "No wallpapers match that search.");
+    return;
+  }
+
+  setMessage(manageMessage, `Showing ${filtered.length} of ${wallpapers.length} wallpaper record${wallpapers.length === 1 ? "" : "s"}.`);
+
+  filtered.forEach((wallpaper) => {
+    const item = document.createElement("article");
+    item.className = "admin-wallpaper-item";
+
+    const thumbnail = document.createElement("img");
+    thumbnail.className = "admin-wallpaper-thumb";
+    thumbnail.src = wallpaper.imageUrl;
+    thumbnail.alt = "";
+    thumbnail.loading = "lazy";
+
+    const details = document.createElement("div");
+    const title = document.createElement("p");
+    title.className = "admin-wallpaper-title";
+    title.textContent = wallpaper.title || "Untitled wallpaper";
+    const publicId = document.createElement("p");
+    publicId.className = "admin-wallpaper-meta";
+    publicId.textContent = wallpaper.cloudinaryPublicId
+      ? `Cloudinary: ${wallpaper.cloudinaryPublicId}`
+      : "Cloudinary public ID is empty";
+    const docId = document.createElement("p");
+    docId.className = "admin-wallpaper-id";
+    docId.textContent = `Doc: ${wallpaper.id}`;
+    details.append(title, publicId, docId);
+
+    const tags = document.createElement("div");
+    tags.className = "admin-wallpaper-tags";
+    const typeText = wallpaper.types.length ? wallpaper.types.join(", ") : "No type";
+    tags.append(
+      createPill(typeText, !wallpaper.types.length),
+      createPill(wallpaper.access === "premium" ? "Premium" : "Free"),
+      createPill(wallpaper.visible ? "Visible" : "Hidden", !wallpaper.visible)
+    );
+
+    const actions = document.createElement("div");
+    actions.className = "admin-wallpaper-actions";
+    actions.append(
+      createActionButton("Edit", "edit", wallpaper.id),
+      createActionButton(wallpaper.access === "premium" ? "Make Free" : "Make Premium", "toggle-access", wallpaper.id),
+      createActionButton(wallpaper.visible ? "Hide" : "Show", "toggle-visible", wallpaper.id),
+      createActionButton("Delete", "delete", wallpaper.id, "danger")
+    );
+
+    item.append(thumbnail, details, tags, actions);
+    wallpapersList.append(item);
+  });
+}
+
+async function loadWallpapers(successText = "") {
+  reloadWallpapersButton.disabled = true;
+  setMessage(manageMessage, "Loading wallpapers...");
+  wallpapersList.replaceChildren();
+
+  try {
+    const snapshot = await getDocs(collection(db, "wallpapers"));
+    wallpapers = snapshot.docs.map(normalizeWallpaper)
+      .sort((a, b) => a.title.localeCompare(b.title));
+    renderWallpapers();
+    if (successText) setMessage(manageMessage, successText, "success");
+  } catch (error) {
+    console.error("Unable to load wallpapers.", error);
+    setMessage(manageMessage, error.message.replace("Firebase: ", ""), "error");
+  } finally {
+    reloadWallpapersButton.disabled = false;
+  }
+}
+
+function findWallpaper(id) {
+  return wallpapers.find((wallpaper) => wallpaper.id === id);
+}
+
+function updateEditPreview() {
+  const imageUrl = editImageUrlInput.value.trim();
+  if (!imageUrl) {
+    editPreviewPanel.hidden = true;
+    editPreviewImage.removeAttribute("src");
+    return;
+  }
+
+  editPreviewImage.src = imageUrl;
+  editPreviewPanel.hidden = false;
+}
+
+function openEditWallpaper(id) {
+  const wallpaper = findWallpaper(id);
+  if (!wallpaper) {
+    setMessage(manageMessage, "That wallpaper record could not be found. Reload and try again.", "error");
+    return;
+  }
+
+  editingWallpaperId = id;
+  editId.textContent = id;
+  editTitleInput.value = wallpaper.title;
+  editDescriptionInput.value = wallpaper.description;
+  editImageUrlInput.value = wallpaper.imageUrl;
+  editPublicIdInput.value = wallpaper.cloudinaryPublicId;
+  editHashtagsInput.value = wallpaper.hashtags.join(", ");
+  editAccessInput.value = wallpaper.access;
+  editVisibleInput.value = String(wallpaper.visible);
+  renderCheckboxOptions(editTypeList, "editWallpaperType", wallpaper.types);
+  updateEditPreview();
+  setMessage(editMessage, "");
+  editPanel.hidden = false;
+  editPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function closeEditWallpaper() {
+  editingWallpaperId = "";
+  editForm.reset();
+  editPanel.hidden = true;
+  editPreviewPanel.hidden = true;
+  editPreviewImage.removeAttribute("src");
+  setMessage(editMessage, "");
+}
+
+function validateEditWallpaper() {
+  const title = editTitleInput.value.trim();
+  const imageUrl = editImageUrlInput.value.trim();
+  const types = getSelectedTypes(editTypeList);
+  const access = editAccessInput.value;
+
+  if (!editingWallpaperId) return "Choose a wallpaper to edit first.";
+  if (!title) return "Title is required.";
+  if (!imageUrl) return "Image URL is required.";
+  if (!isCloudinaryUrl(imageUrl)) return "Image URL must be a secure Cloudinary URL.";
+  if (!types.length) return "Select at least one image type.";
+  if (!["free", "premium"].includes(access)) return "Choose a valid access level.";
+  return "";
+}
+
+function getEditPayload() {
+  const existing = findWallpaper(editingWallpaperId);
+  return {
+    title: editTitleInput.value.trim(),
+    description: editDescriptionInput.value.trim(),
+    imageUrl: editImageUrlInput.value.trim(),
+    cloudinaryPublicId: editPublicIdInput.value.trim(),
+    types: getSelectedTypes(editTypeList),
+    hashtags: parseHashtags(editHashtagsInput.value),
+    access: editAccessInput.value,
+    visible: editVisibleInput.value === "true",
+    width: existing?.width || 0,
+    height: existing?.height || 0,
+    format: existing?.format || "",
+    updatedAt: serverTimestamp()
+  };
+}
+
+function setEditSavingState(isSaving) {
+  saveEditButton.disabled = isSaving;
+  saveEditButton.textContent = isSaving ? "Saving..." : "Save changes";
+}
+
+async function updateWallpaperFields(id, fields, successText) {
+  setMessage(manageMessage, "Saving changes...");
+  try {
+    await updateDoc(doc(db, "wallpapers", id), {
+      ...fields,
+      updatedAt: serverTimestamp()
+    });
+    await loadWallpapers(successText);
+  } catch (error) {
+    console.error("Unable to update wallpaper.", error);
+    setMessage(manageMessage, error.message.replace("Firebase: ", ""), "error");
+  }
+}
+
+async function handleWallpaperAction(event) {
+  const button = event.target.closest("button[data-action]");
+  if (!button) return;
+
+  const { action, id } = button.dataset;
+  const wallpaper = findWallpaper(id);
+  if (!wallpaper) {
+    setMessage(manageMessage, "That wallpaper record could not be found. Reload and try again.", "error");
+    return;
+  }
+
+  if (action === "edit") {
+    openEditWallpaper(id);
+    return;
+  }
+
+  button.disabled = true;
+
+  if (action === "toggle-access") {
+    const nextAccess = wallpaper.access === "premium" ? "free" : "premium";
+    await updateWallpaperFields(id, { access: nextAccess }, `Wallpaper changed to ${nextAccess}.`);
+  }
+
+  if (action === "toggle-visible") {
+    const nextVisible = !wallpaper.visible;
+    await updateWallpaperFields(id, { visible: nextVisible }, `Wallpaper is now ${nextVisible ? "visible" : "hidden"}.`);
+  }
+
+  if (action === "delete") {
+    const confirmed = window.confirm(`Delete Firestore metadata for "${wallpaper.title || wallpaper.id}"? The Cloudinary image will not be deleted.`);
+    if (!confirmed) {
+      button.disabled = false;
+      return;
+    }
+
+    setMessage(manageMessage, "Deleting wallpaper metadata...");
+    try {
+      await deleteDoc(doc(db, "wallpapers", id));
+      if (editingWallpaperId === id) closeEditWallpaper();
+      await loadWallpapers("Wallpaper metadata deleted. The Cloudinary image was not deleted.");
+    } catch (error) {
+      console.error("Unable to delete wallpaper.", error);
+      setMessage(manageMessage, error.message.replace("Firebase: ", ""), "error");
+      button.disabled = false;
+    }
+  }
+
+  if (button.isConnected) button.disabled = false;
+}
+
 requireAdmin({
   onAllowed(user) {
     adminEmail.textContent = user.email || user.uid;
     showPanel(dashboardPanel);
+    loadWallpapers();
   },
   onDenied(user) {
     adminEmail.textContent = user.email || user.uid;
@@ -276,6 +606,12 @@ imageUrlInput.addEventListener("input", () => {
 });
 
 resetButton.addEventListener("click", resetForm);
+reloadWallpapersButton.addEventListener("click", loadWallpapers);
+wallpaperSearchInput.addEventListener("input", renderWallpapers);
+wallpapersList.addEventListener("click", handleWallpaperAction);
+editImageUrlInput.addEventListener("input", updateEditPreview);
+cancelEditButton.addEventListener("click", closeEditWallpaper);
+cancelEditButtonBottom.addEventListener("click", closeEditWallpaper);
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -294,10 +630,37 @@ form.addEventListener("submit", async (event) => {
     const docRef = await addDoc(collection(db, "wallpapers"), getWallpaperPayload());
     resetForm();
     setMessage(formMessage, `Wallpaper saved with ID ${docRef.id}.`, "success");
+    await loadWallpapers();
   } catch (error) {
     console.error("Unable to save wallpaper.", error);
     setMessage(formMessage, error.message.replace("Firebase: ", ""), "error");
   } finally {
     setSavingState(false);
+  }
+});
+
+editForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  setMessage(editMessage, "");
+
+  const validationMessage = validateEditWallpaper();
+  if (validationMessage) {
+    setMessage(editMessage, validationMessage, "error");
+    return;
+  }
+
+  setEditSavingState(true);
+  setMessage(editMessage, "Saving changes...");
+
+  try {
+    await updateDoc(doc(db, "wallpapers", editingWallpaperId), getEditPayload());
+    const savedId = editingWallpaperId;
+    closeEditWallpaper();
+    await loadWallpapers(`Wallpaper ${savedId} updated.`);
+  } catch (error) {
+    console.error("Unable to save wallpaper edits.", error);
+    setMessage(editMessage, error.message.replace("Firebase: ", ""), "error");
+  } finally {
+    setEditSavingState(false);
   }
 });
