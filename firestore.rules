@@ -11,6 +11,42 @@ service cloud.firestore {
         && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
+    function hasPremiumClaim() {
+      return signedIn()
+        && (
+          request.auth.token.premium == true
+          || request.auth.token.role == 'premium'
+          || request.auth.token.plan in ['creative', 'premium', 'business']
+        );
+    }
+
+    function hasPremiumAccountDoc() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && (
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.premium == true
+          || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'premium'
+          || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.plan in ['creative', 'premium', 'business']
+        );
+    }
+
+    function isPremium() {
+      return hasPremiumClaim() || hasPremiumAccountDoc();
+    }
+
+    function canReadWallpaper() {
+      return isAdmin()
+        || (
+          resource.data.visible == true
+          && resource.data.access == 'free'
+        )
+        || (
+          resource.data.visible == true
+          && resource.data.access == 'premium'
+          && isPremium()
+        );
+    }
+
     function isValidWallpaper() {
       return request.resource.data.keys().hasOnly([
           'title',
@@ -75,7 +111,7 @@ service cloud.firestore {
     }
 
     match /wallpapers/{wallpaperId} {
-      allow read: if true;
+      allow read: if canReadWallpaper();
       allow create: if isAdmin()
         && isValidWallpaper()
         && request.resource.data.createdAt == request.time

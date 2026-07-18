@@ -764,16 +764,10 @@
         animateParticles();
 
         const configuredCategories = window.PMW_WALLPAPER_CATEGORIES || [];
-        const wallpapers = window.PMW_WALLPAPERS || [];
-        const randomizedWallpapers = shuffleWallpapers(wallpapers);
+        let wallpapers = [];
+        let randomizedWallpapers = [];
         const requestedCategory = new URLSearchParams(window.location.search).get('category');
-        const availableCategories = new Set([
-            ...configuredCategories,
-            ...wallpapers.map(item => item.category).filter(Boolean)
-        ]);
-        let activeCategory = requestedCategory && availableCategories.has(requestedCategory)
-            ? requestedCategory
-            : 'All';
+        let activeCategory = 'All';
         let searchQuery = '';
 
         const grid = document.getElementById('wallpapersGrid');
@@ -812,10 +806,22 @@
             document.querySelector('meta[name="description"]').setAttribute('content', description);
         }
 
-        updateCategorySeo(activeCategory);
-
         function normalize(value) {
             return String(value || '').toLowerCase().trim();
+        }
+
+        function escapeHtml(value) {
+            return String(value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function getItemTypes(item) {
+            const types = Array.isArray(item.types) && item.types.length ? item.types : [item.category];
+            return types.filter(Boolean);
         }
 
         function shuffleWallpapers(items) {
@@ -865,12 +871,16 @@
             return urls;
         }
 
-        const wallpaperPageUrls = buildWallpaperPageUrls(wallpapers);
+        let wallpaperPageUrls = {};
 
         function getWallpaperPageUrl(item) {
             return (window.PMW_WALLPAPER_PAGES && window.PMW_WALLPAPER_PAGES[item.id])
                 || wallpaperPageUrls[item.id]
-                || 'pmw-wallpapers.html';
+                || `#wallpaper-${encodeURIComponent(item.id)}`;
+        }
+
+        function opensPanelOnly(item) {
+            return !((window.PMW_WALLPAPER_PAGES && window.PMW_WALLPAPER_PAGES[item.id]) || wallpaperPageUrls[item.id]);
         }
 
         function renderFilters() {
@@ -878,21 +888,27 @@
                 'All',
                 ...Array.from(new Set([
                     ...configuredCategories,
-                    ...randomizedWallpapers.map(item => item.category).filter(Boolean)
+                    ...randomizedWallpapers.flatMap(getItemTypes)
                 ])).sort()
             ];
             filters.innerHTML = categories.map(category => `
-                <button class="filter-chip ${category === activeCategory ? 'active' : ''}" data-category="${category}">${getCategoryLabel(category)}</button>
+                <button class="filter-chip ${category === activeCategory ? 'active' : ''}" data-category="${escapeHtml(category)}">${escapeHtml(getCategoryLabel(category))}</button>
             `).join('');
         }
 
         function getFilteredWallpapers() {
             const q = normalize(searchQuery);
             return randomizedWallpapers.filter(item => {
-                const categoryMatch = activeCategory === 'All' || item.category === activeCategory;
-                const searchText = normalize([item.title, item.description, item.category, ...(item.tags || [])].join(' '));
+                const itemTypes = getItemTypes(item);
+                const categoryMatch = activeCategory === 'All' || itemTypes.includes(activeCategory);
+                const searchText = normalize([item.title, item.description, item.access, ...itemTypes, ...(item.tags || [])].join(' '));
                 return categoryMatch && (!q || searchText.includes(q));
             });
+        }
+
+        function renderLoading(message = 'Loading wallpapers...') {
+            count.textContent = '0';
+            grid.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
         }
 
         function renderWallpapers() {
@@ -901,20 +917,21 @@
             if (!items.length) {
                 const message = wallpapers.length
                     ? 'No wallpapers found. Try another search or category.'
-                    : 'No wallpapers loaded yet. Add Cloudinary assets to wallpapers-data.js to populate this page.';
-                grid.innerHTML = `<div class="empty-state">${message}</div>`;
+                    : 'No wallpapers loaded yet. Firestore is empty and the static fallback has no visible free wallpapers.';
+                grid.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
                 return;
             }
             grid.innerHTML = items.map(item => `
-                <a class="wallpaper-card" data-id="${item.id}" href="${getWallpaperPageUrl(item)}">
+                <a class="wallpaper-card" data-id="${escapeHtml(item.id)}" data-panel-only="${opensPanelOnly(item) ? 'true' : 'false'}" href="${escapeHtml(getWallpaperPageUrl(item))}">
                     <div class="wallpaper-thumb">
-                        <img src="${item.thumbnail}" alt="${item.title}" loading="lazy">
+                        <img src="${escapeHtml(item.thumbnail)}" alt="${escapeHtml(item.title)}" loading="lazy">
                         <span class="wallpaper-hd-badge">HD</span>
                     </div>
                     <div class="wallpaper-card-info">
-                        <h3 class="wallpaper-card-title">${item.title}</h3>
+                        <h3 class="wallpaper-card-title">${escapeHtml(item.title)}</h3>
                         <div class="wallpaper-card-meta">
-                            <span class="mini-tag">${getCategoryLabel(item.category)}</span>
+                            ${getItemTypes(item).slice(0, 2).map(type => `<span class="mini-tag">${escapeHtml(getCategoryLabel(type))}</span>`).join('')}
+                            <span class="mini-tag">${item.access === 'premium' ? 'Premium' : 'Free'}</span>
                             <span class="mini-tag">9:16</span>
                         </div>
                     </div>
@@ -928,12 +945,12 @@
             selectedWallpaper = item;
             document.getElementById('panelImage').src = item.preview;
             document.getElementById('panelImage').alt = item.title;
-            document.getElementById('panelCategory').textContent = getCategoryLabel(item.category);
+            document.getElementById('panelCategory').textContent = getItemTypes(item).map(getCategoryLabel).join(' / ');
             document.getElementById('panelTitle').textContent = item.title;
             document.getElementById('panelDescription').textContent = item.description;
             document.getElementById('panelResolution').textContent = item.resolution;
             document.getElementById('panelFormat').textContent = item.format || 'Image';
-            document.getElementById('panelTags').innerHTML = (item.tags || []).map(tag => `<span class="hashtag">#${tag}</span>`).join('');
+            document.getElementById('panelTags').innerHTML = (item.tags || []).map(tag => `<span class="hashtag">#${escapeHtml(tag)}</span>`).join('');
             panel.classList.add('active');
             document.body.classList.add('panel-open');
         }
@@ -967,13 +984,20 @@
             renderWallpapers();
         });
 
+        grid.addEventListener('click', event => {
+            const card = event.target.closest('.wallpaper-card');
+            if (!card || card.dataset.panelOnly !== 'true') return;
+            event.preventDefault();
+            openPanel(card.dataset.id);
+        });
+
         panelDownload.addEventListener('click', () => {
             if (!selectedWallpaper) return;
             if (window.PMW_DOWNLOAD_TRACKING) {
                 window.PMW_DOWNLOAD_TRACKING.trackDownload({
                     id: selectedWallpaper.id,
                     title: selectedWallpaper.title,
-                    category: getCategoryLabel(selectedWallpaper.category),
+                    category: getItemTypes(selectedWallpaper).map(getCategoryLabel).join(', '),
                     url: location.href,
                     type: 'wallpaper'
                 });
@@ -992,8 +1016,47 @@
             document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
         });
 
-        renderFilters();
-        renderWallpapers();
+        function setActiveCategoryFromAvailable() {
+            const availableCategories = new Set([
+                ...configuredCategories,
+                ...wallpapers.flatMap(getItemTypes)
+            ]);
+            activeCategory = requestedCategory && availableCategories.has(requestedCategory)
+                ? requestedCategory
+                : 'All';
+            updateCategorySeo(activeCategory);
+        }
+
+        async function initializeWallpaperPage() {
+            renderLoading();
+            try {
+                const { loadVisibleWallpapers } = await import('./js/wallpaper-source.js');
+                const result = await loadVisibleWallpapers({
+                    access: 'free',
+                    fallback: window.PMW_WALLPAPERS || []
+                });
+                wallpapers = result.items;
+                randomizedWallpapers = shuffleWallpapers(wallpapers);
+                wallpaperPageUrls = buildWallpaperPageUrls(wallpapers.filter(item => item.source === 'static'));
+                setActiveCategoryFromAvailable();
+                renderFilters();
+                renderWallpapers();
+
+                if (result.error) {
+                    console.warn('Firestore wallpaper loading failed; static fallback was used.', result.error);
+                }
+            } catch (error) {
+                console.warn('Unable to initialize Firestore wallpaper loading; static fallback was used.', error);
+                wallpapers = (window.PMW_WALLPAPERS || []).filter(item => item.visible !== false);
+                randomizedWallpapers = shuffleWallpapers(wallpapers);
+                wallpaperPageUrls = buildWallpaperPageUrls(wallpapers);
+                setActiveCategoryFromAvailable();
+                renderFilters();
+                renderWallpapers();
+            }
+        }
+
+        initializeWallpaperPage();
     </script>
     <script src="consent.js" defer></script>
 </body>

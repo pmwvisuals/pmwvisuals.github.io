@@ -432,6 +432,72 @@ a {
   line-height: 1.6;
 }
 
+.pmw-premium-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 22px 0;
+}
+
+.pmw-premium-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.pmw-premium-thumb {
+  aspect-ratio: 9 / 16;
+  background: #111;
+}
+
+.pmw-premium-thumb img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.pmw-premium-info {
+  padding: 14px;
+}
+
+.pmw-premium-info h3 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.pmw-premium-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.pmw-premium-tags span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 8px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.pmw-premium-download {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid rgba(216, 173, 76, 0.34);
+  border-radius: 999px;
+  color: #111;
+  background: linear-gradient(135deg, #c88c00, #ffd36e);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
 .pmw-pricing-shell {
   position: relative;
   z-index: 1;
@@ -913,7 +979,8 @@ a {
   }
 
   .pmw-stats,
-  .pmw-grid {
+  .pmw-grid,
+  .pmw-premium-grid {
     grid-template-columns: 1fr;
   }
 

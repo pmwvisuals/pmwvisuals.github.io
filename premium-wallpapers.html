@@ -21,24 +21,26 @@
         <h1>Private wallpaper area.</h1>
         <p>This page is ready for premium wallpaper cards. No premium images have been added yet, so you can upload and organize them later.</p>
       </div>
-      <div class="pmw-stats"><div class="pmw-stat"><strong>0</strong><span>premium images</span></div><div class="pmw-stat"><strong>Locked</strong><span>until payment</span></div><div class="pmw-stat"><strong>Ready</strong><span>for uploads</span></div></div>
+      <div class="pmw-stats"><div class="pmw-stat"><strong id="premiumWallpaperCount">0</strong><span>premium images</span></div><div class="pmw-stat"><strong id="premiumAccessStat">Locked</strong><span>access status</span></div><div class="pmw-stat"><strong>Cloudinary</strong><span>image hosting</span></div></div>
     </section>
     <section class="pmw-form-card">
       <span class="pmw-badge" id="premiumGateBadge">Checking Access</span>
       <h2 id="premiumGateTitle">Premium access required</h2>
       <p id="premiumGateText" class="pmw-sub">Please sign in and upgrade to premium before downloading premium wallpapers.</p>
-      <div class="pmw-premium-empty" aria-live="polite">
+      <div class="pmw-premium-empty" id="premiumWallpaperState" aria-live="polite">
         <div class="pmw-premium-lock-icon">P</div>
         <h3>No premium wallpapers yet</h3>
         <p>Premium wallpaper cards will appear here after you add the protected assets.</p>
       </div>
+      <div class="pmw-premium-grid" id="premiumWallpapersGrid" hidden></div>
       <div class="pmw-btn-row">
         <a class="pmw-btn" id="premiumPrimaryBtn" href="premium.html">Go Premium</a>
         <a class="pmw-btn secondary" href="pmw-wallpapers.html">Browse Free Wallpapers</a>
       </div>
     </section>
   </main>
+  <script src="wallpapers-data.js"></script>
+  <script src="download-tracking.js"></script>
   <script type="module" src="js/premium-wallpapers.js"></script>
 </body>
 </html>
-
