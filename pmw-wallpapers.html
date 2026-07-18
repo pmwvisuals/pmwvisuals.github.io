@@ -1109,7 +1109,7 @@
         async function initializeWallpaperPage() {
             renderLoading();
             try {
-                const { loadVisibleWallpapers } = await import('./js/wallpaper-source.js');
+                const { loadVisibleWallpapers } = await import('./js/wallpaper-source.js?v=20260718-premium-meta');
                 const [freeResult, premiumResult] = await Promise.all([
                     loadVisibleWallpapers({
                         access: 'free',

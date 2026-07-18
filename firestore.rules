@@ -16,7 +16,7 @@ service cloud.firestore {
         && (
           request.auth.token.premium == true
           || request.auth.token.role == 'premium'
-          || request.auth.token.plan in ['creative', 'premium', 'business']
+          || request.auth.token.plan in ['creative', 'premium', 'business', 'starter', 'pro', 'advanced', 'advance', 'elite']
         );
     }
 
@@ -26,7 +26,7 @@ service cloud.firestore {
         && (
           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.premium == true
           || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'premium'
-          || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.plan in ['creative', 'premium', 'business']
+          || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.plan in ['creative', 'premium', 'business', 'starter', 'pro', 'advanced', 'advance', 'elite']
         );
     }
 
@@ -36,15 +36,7 @@ service cloud.firestore {
 
     function canReadWallpaper() {
       return isAdmin()
-        || (
-          resource.data.visible == true
-          && resource.data.access == 'free'
-        )
-        || (
-          resource.data.visible == true
-          && resource.data.access == 'premium'
-          && isPremium()
-        );
+        || resource.data.visible == true;
     }
 
     function isValidWallpaper() {

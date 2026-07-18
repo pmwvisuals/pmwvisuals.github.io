@@ -6,7 +6,7 @@ import {
   where
 } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
-const CACHE_TTL_MS = 2 * 60 * 1000;
+const CACHE_TTL_MS = 0;
 
 function normalizeText(value) {
   return String(value || "").trim();
@@ -122,6 +122,7 @@ function cacheKey(access) {
 }
 
 function readCache(access) {
+  if (CACHE_TTL_MS <= 0) return null;
   try {
     const cached = JSON.parse(sessionStorage.getItem(cacheKey(access)) || "null");
     if (!cached || Date.now() - cached.savedAt > CACHE_TTL_MS) return null;
@@ -132,6 +133,7 @@ function readCache(access) {
 }
 
 function writeCache(access, items) {
+  if (CACHE_TTL_MS <= 0) return;
   try {
     sessionStorage.setItem(cacheKey(access), JSON.stringify({
       savedAt: Date.now(),
