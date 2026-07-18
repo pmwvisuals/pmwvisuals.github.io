@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin Login - PMW Visuals</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="shortcut icon" href="/favicon.png" />
+  <link rel="stylesheet" href="css/pmw-admin.css" />
+</head>
+<body>
+  <header class="admin-topbar">
+    <div class="admin-topbar-inner">
+      <p class="admin-title">PMW Visuals Admin</p>
+      <nav class="admin-nav" aria-label="Admin navigation">
+        <a class="admin-link" href="index.html">Back to site</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin-auth-shell">
+    <section class="admin-card" aria-labelledby="adminLoginTitle">
+      <div class="admin-card-body">
+        <h1 id="adminLoginTitle">Admin login</h1>
+        <p class="admin-subtitle">Sign in with a Firebase account that has admin permission.</p>
+
+        <form id="adminLoginForm">
+          <div class="admin-field">
+            <label for="adminEmail">Email</label>
+            <input id="adminEmail" type="email" autocomplete="email" required />
+          </div>
+          <div class="admin-field">
+            <label for="adminPassword">Password</label>
+            <input id="adminPassword" type="password" autocomplete="current-password" required />
+          </div>
+          <button class="admin-button" id="adminLoginButton" type="submit">Log in</button>
+          <p class="admin-message" id="adminMessage" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/admin-login.js"></script>
+</body>
+</html>

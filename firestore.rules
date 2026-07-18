@@ -1,0 +1,94 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function isValidWallpaper() {
+      return request.resource.data.keys().hasOnly([
+          'title',
+          'description',
+          'imageUrl',
+          'cloudinaryPublicId',
+          'types',
+          'hashtags',
+          'access',
+          'visible',
+          'width',
+          'height',
+          'format',
+          'createdAt',
+          'updatedAt'
+        ])
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.description is string
+        && request.resource.data.imageUrl is string
+        && request.resource.data.imageUrl.size() > 0
+        && request.resource.data.imageUrl.matches('https://res\\.cloudinary\\.com/.*')
+        && request.resource.data.cloudinaryPublicId is string
+        && request.resource.data.types is list
+        && request.resource.data.types.size() > 0
+        && request.resource.data.hashtags is list
+        && request.resource.data.access in ['free', 'premium']
+        && request.resource.data.visible is bool
+        && (request.resource.data.width is int || request.resource.data.width is float)
+        && (request.resource.data.height is int || request.resource.data.height is float)
+        && request.resource.data.format is string
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.updatedAt is timestamp;
+    }
+
+    match /admins/{adminId} {
+      allow get: if signedIn() && (request.auth.uid == adminId || isAdmin());
+      allow list: if false;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow get: if signedIn() && (request.auth.uid == userId || isAdmin());
+      allow list: if isAdmin();
+
+      allow create: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(['name', 'email', 'role', 'createdAt'])
+        && request.resource.data.role == 'member'
+        && request.resource.data.email == request.auth.token.email;
+
+      allow update: if isAdmin()
+        || (
+          signedIn()
+          && request.auth.uid == userId
+          && request.resource.data.keys().hasOnly(['name', 'email', 'role', 'createdAt'])
+          && request.resource.data.email == resource.data.email
+          && request.resource.data.role == resource.data.role
+        );
+
+      allow delete: if isAdmin();
+    }
+
+    match /wallpapers/{wallpaperId} {
+      allow read: if true;
+      allow create: if isAdmin()
+        && isValidWallpaper()
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+      allow update: if isAdmin()
+        && isValidWallpaper()
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
