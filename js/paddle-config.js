@@ -30,7 +30,12 @@ export const PRICING_TIERS = [
       "Personal use license",
       "Cancel anytime"
     ],
-    priceId: PADDLE_CONFIG.prices.Pro
+    priceId: PADDLE_CONFIG.prices.Pro,
+    yearlyValue: {
+      monthlyTotal: "$35.88",
+      yearlyTotal: "$29.99",
+      savePercent: 16
+    }
   },
   {
     name: "Advance",
@@ -43,7 +48,12 @@ export const PRICING_TIERS = [
       "No ads on premium areas",
       "Monthly wallpaper requests"
     ],
-    priceId: PADDLE_CONFIG.prices.Advance
+    priceId: PADDLE_CONFIG.prices.Advance,
+    yearlyValue: {
+      monthlyTotal: "$71.88",
+      yearlyTotal: "$59.99",
+      savePercent: 17
+    }
   },
   {
     name: "Elite",
@@ -56,6 +66,11 @@ export const PRICING_TIERS = [
       "Video asset access",
       "Priority support"
     ],
-    priceId: PADDLE_CONFIG.prices.Elite
+    priceId: PADDLE_CONFIG.prices.Elite,
+    yearlyValue: {
+      monthlyTotal: "$119.88",
+      yearlyTotal: "$119.88",
+      savePercent: 0
+    }
   }
 ];

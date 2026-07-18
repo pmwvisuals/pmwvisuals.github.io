@@ -599,8 +599,8 @@ a {
 }
 
 .pmw-pricing-grid .pmw-plan-card {
-  min-height: 610px;
-  grid-template-rows: 58px 106px 92px 82px 1fr;
+  min-height: 640px;
+  grid-template-rows: 58px 106px 42px 92px 82px 1fr;
 }
 
 .pmw-plan-card::before {
@@ -754,31 +754,39 @@ a {
 .pmw-yearly-line {
   grid-row: 3;
   min-height: 28px;
-  margin: -4px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  margin: -2px 0 10px;
   color: var(--muted);
   font-size: 0.82rem;
   font-weight: 800;
+  white-space: nowrap;
 }
 
 .pmw-yearly-line del {
   color: #777;
-  margin-right: 8px;
+}
+
+.pmw-yearly-compare {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .pmw-save-badge {
   display: inline-flex;
-  margin-left: 8px;
   border-radius: 999px;
   padding: 4px 8px;
   color: #111;
-  background: #fff;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.12);
+  background: linear-gradient(135deg, #fff, #d8ad4c);
+  box-shadow: 0 0 22px rgba(216, 173, 76, 0.2);
   font-size: 0.72rem;
   font-weight: 900;
 }
 
 .pmw-plan-card p {
-  grid-row: 3;
+  grid-row: 4;
   min-height: 58px;
   margin: 0;
   color: #d8d8d8;
@@ -786,7 +794,7 @@ a {
 }
 
 .pmw-plan-button {
-  grid-row: 4;
+  grid-row: 5;
   width: 100%;
   margin: 16px auto 18px;
   min-height: 48px;
@@ -847,7 +855,7 @@ a {
 }
 
 .pmw-plan-card ul {
-  grid-row: 5;
+  grid-row: 6;
   display: grid;
   gap: 13px;
   margin: 0;
@@ -861,7 +869,7 @@ a {
 }
 
 .pmw-plan-card:not([data-monthly]) .pmw-plan-button {
-  grid-row: 4;
+  grid-row: 5;
 }
 
 .pmw-plan-card li {

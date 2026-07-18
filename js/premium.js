@@ -2,7 +2,7 @@ import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 import { isPremiumUser } from "./premium-access.js";
-import { PADDLE_CONFIG, PRICING_TIERS } from "./paddle-config.js?v=20260718-success";
+import { PADDLE_CONFIG, PRICING_TIERS } from "./paddle-config.js?v=20260718-yearly-savings";
 
 const statusBox = document.querySelector("#premiumStatus");
 const message = document.querySelector("#premiumMessage");
@@ -82,6 +82,19 @@ function priceLabel(tier) {
   return localizedPrices[selectedPriceId(tier)] || "Loading...";
 }
 
+function yearlySavingsMarkup(tier) {
+  if (frequency !== "yearly" || !tier.yearlyValue?.savePercent) {
+    return "";
+  }
+
+  return `
+    <div class="pmw-yearly-line">
+      <span class="pmw-save-badge">Save ${tier.yearlyValue.savePercent}%</span>
+      <span class="pmw-yearly-compare">Monthly x12: <del>${tier.yearlyValue.monthlyTotal}</del></span>
+    </div>
+  `;
+}
+
 function frequencyText() {
   return frequency === "yearly" ? "year" : "month";
 }
@@ -106,6 +119,7 @@ function renderPricing() {
           <strong>${priceLabel(tier)}</strong>
           <em>/${frequencyText()}</em>
         </div>
+        ${yearlySavingsMarkup(tier)}
         <p>${tier.description}</p>
         <button class="pmw-plan-button premium-checkout" data-tier="${tier.name}" type="button"${disabled}>${buttonText}</button>
         <ul>${features}</ul>
