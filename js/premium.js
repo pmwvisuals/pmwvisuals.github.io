@@ -1,256 +1,221 @@
-import { auth } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 import { isPremiumUser } from "./premium-access.js";
-import { PADDLE_CONFIG } from "./paddle-config.js";
+import { PADDLE_CONFIG, PRICING_TIERS } from "./paddle-config.js";
 
 const statusBox = document.querySelector("#premiumStatus");
-const checkoutButtons = Array.from(document.querySelectorAll(".premium-checkout"));
 const message = document.querySelector("#premiumMessage");
-const viewButtons = Array.from(document.querySelectorAll("[data-plan-view]"));
-const planCards = Array.from(document.querySelectorAll(".pmw-plan-card"));
-const pricingGrid = document.querySelector(".pmw-pricing-grid");
+const frequencyButtons = Array.from(document.querySelectorAll("[data-frequency]"));
+const pricingGrid = document.querySelector("#pricingGrid");
 
 let paddleReady = false;
-let currentCheckoutDisabled = true;
-let currentCheckoutHandler = null;
-let currentLabelPrefix = "BUY NOW!";
-
-function buttonPlanLabel(button, labelPrefix) {
-  const plan = button.dataset.plan || "Premium";
-  const billing = button.dataset.billing === "yearly" ? " Yearly" : "";
-  if (labelPrefix === "BUY NOW!") return "BUY NOW!";
-  return labelPrefix ? `${labelPrefix} ${plan}${billing}` : `Upgrade to ${plan}${billing}`;
-}
-
-function refreshButtonLabels() {
-  checkoutButtons.forEach((button) => {
-    button.textContent = buttonPlanLabel(button, currentLabelPrefix);
-    button.disabled = currentCheckoutDisabled;
-    button.onclick = currentCheckoutHandler
-      ? () => currentCheckoutHandler(button.dataset.plan || "Premium", button.dataset.billing || "monthly")
-      : null;
-  });
-}
-
-function setCheckoutState({ disabled, messageText, onClick, labelPrefix }) {
-  currentCheckoutDisabled = disabled;
-  currentCheckoutHandler = onClick || null;
-  currentLabelPrefix = labelPrefix || "Upgrade to";
-  refreshButtonLabels();
-  if (messageText) message.textContent = messageText;
-}
+let signedInUser = null;
+let signedInPaddleCustomerId = "";
+let isPremiumMember = false;
+let frequency = "monthly";
+let localizedPrices = {};
 
 function absoluteUrl(path) {
   return new URL(path, window.location.origin).toString();
 }
 
+function setMessage(text = "", type = "") {
+  message.textContent = text;
+  message.classList.toggle("error", type === "error");
+  message.classList.toggle("success", type === "success");
+}
+
+function validatePaddleConfig() {
+  if (!PADDLE_CONFIG.environment) {
+    throw new Error("Paddle environment is missing in js/paddle-config.js.");
+  }
+
+  if (!PADDLE_CONFIG.clientToken) {
+    throw new Error("Paddle client-side token is missing in js/paddle-config.js.");
+  }
+
+  if (PADDLE_CONFIG.environment === "sandbox" && !PADDLE_CONFIG.clientToken.startsWith("test_")) {
+    throw new Error("Sandbox checkout requires a test_ Paddle client-side token.");
+  }
+
+  if (PADDLE_CONFIG.environment === "production" && !PADDLE_CONFIG.clientToken.startsWith("live_")) {
+    throw new Error("Production checkout requires a live_ Paddle client-side token.");
+  }
+
+  const missingPrices = PRICING_TIERS.flatMap((tier) => {
+    return ["monthly", "yearly"].filter((cycle) => !tier.priceId?.[cycle]).map((cycle) => `${tier.name} ${cycle}`);
+  });
+
+  if (missingPrices.length) {
+    throw new Error(`Missing Paddle price IDs: ${missingPrices.join(", ")}.`);
+  }
+}
+
 function ensurePaddleReady() {
+  validatePaddleConfig();
+
   if (!window.Paddle) {
     throw new Error("Paddle checkout library is not loaded.");
   }
 
   if (paddleReady) return;
 
-  if (PADDLE_CONFIG.environment === "sandbox" && window.Paddle.Environment?.set) {
-    window.Paddle.Environment.set("sandbox");
+  const initOptions = {
+    token: PADDLE_CONFIG.clientToken
+  };
+
+  if (PADDLE_CONFIG.environment === "production" && signedInPaddleCustomerId) {
+    initOptions.pwCustomer = { id: signedInPaddleCustomerId };
   }
 
-  window.Paddle.Initialize({
-    token: PADDLE_CONFIG.clientToken
-  });
+  window.Paddle.Initialize(initOptions);
+
   paddleReady = true;
 }
 
-function getPaddlePriceId(planName, billing) {
-  return PADDLE_CONFIG.prices?.[planName]?.[billing] || "";
+function selectedPriceId(tier) {
+  return frequency === "yearly" ? tier.priceId.yearly : tier.priceId.monthly;
 }
 
-function hasAnyPaddlePrice() {
-  return Object.values(PADDLE_CONFIG.prices || {}).some((planPrices) => {
-    return Object.values(planPrices || {}).some((priceId) => Boolean(priceId && priceId.trim()));
+function priceLabel(tier) {
+  return localizedPrices[selectedPriceId(tier)] || "Loading...";
+}
+
+function frequencyText() {
+  return frequency === "yearly" ? "year" : "month";
+}
+
+function checkoutDisabled() {
+  return isPremiumMember || !paddleReady;
+}
+
+function renderPricing() {
+  pricingGrid.innerHTML = PRICING_TIERS.map((tier) => {
+    const highlight = tier.featured ? " featured" : "";
+    const disabled = checkoutDisabled() ? " disabled" : "";
+    const buttonText = isPremiumMember ? "Active Plan" : "Subscribe";
+    const badge = tier.featured ? '<div class="pmw-recommend-badge">Best Value</div>' : "";
+    const features = tier.features.map((feature) => `<li><span>OK</span>${feature}</li>`).join("");
+
+    return `
+      <article class="pmw-plan-card${highlight}" data-tier="${tier.name}">
+        ${badge}
+        <h2>${tier.name}</h2>
+        <div class="pmw-price">
+          <strong>${priceLabel(tier)}</strong>
+          <em>/${frequencyText()}</em>
+        </div>
+        <p>${tier.description}</p>
+        <button class="pmw-plan-button premium-checkout" data-tier="${tier.name}" type="button"${disabled}>${buttonText}</button>
+        <ul>${features}</ul>
+      </article>
+    `;
+  }).join("");
+
+  pricingGrid.querySelectorAll(".premium-checkout").forEach((button) => {
+    button.addEventListener("click", () => startCheckout(button.dataset.tier));
   });
 }
 
-function formatUsd(value) {
-  return Number(value).toFixed(2);
-}
+async function loadLocalizedPrices() {
+  try {
+    ensurePaddleReady();
+    setMessage("Loading localized Paddle prices...");
 
-function savingPercent(original, discounted) {
-  if (!original || original <= discounted) return 0;
-  return Math.round(((original - discounted) / original) * 100);
-}
+    const items = PRICING_TIERS.flatMap((tier) => [
+      { priceId: tier.priceId.monthly, quantity: 1 },
+      { priceId: tier.priceId.yearly, quantity: 1 }
+    ]);
 
-function updatePlanBilling(card, billing) {
-  const monthly = Number(card.dataset.monthly);
-  const yearOriginal = Number(card.dataset.yearOriginal);
-  const yearPrice = Number(card.dataset.yearPrice);
-  const price = card.querySelector(".pmw-price strong");
-  const cycle = card.querySelector(".pmw-price em");
-  const yearlyLine = card.querySelector(".pmw-yearly-line");
-  const checkoutButton = card.querySelector(".premium-checkout");
+    const preview = await window.Paddle.PricePreview({ items });
+    const lineItems = preview?.data?.details?.lineItems || [];
+    localizedPrices = lineItems.reduce((prices, item) => {
+      if (item.price?.id && item.formattedTotals?.total) {
+        prices[item.price.id] = item.formattedTotals.total;
+      }
+      return prices;
+    }, {});
 
-  card.dataset.billing = billing;
-  if (checkoutButton) checkoutButton.dataset.billing = billing;
-
-  card.querySelectorAll("[data-billing-option]").forEach((button) => {
-    button.classList.toggle("is-active", button.dataset.billingOption === billing);
-  });
-
-  if (billing === "yearly") {
-    price.textContent = formatUsd(yearPrice);
-    cycle.textContent = "USD / year";
-    const save = savingPercent(yearOriginal, yearPrice);
-    yearlyLine.innerHTML = save
-      ? `<del>$${formatUsd(yearOriginal)}</del> $${formatUsd(yearPrice)} for yr <span class="pmw-save-badge">Save ${save}%</span>`
-      : `$${formatUsd(yearOriginal)} for yr`;
-  } else {
-    price.textContent = formatUsd(monthly);
-    cycle.textContent = "USD / month";
-    yearlyLine.textContent = "";
+    setMessage("");
+  } catch (error) {
+    console.error("Unable to load Paddle localized prices.", error);
+    setMessage(error.message || "Unable to load Paddle prices. Check the Paddle token and price IDs.", "error");
   }
 
-  refreshButtonLabels();
+  renderPricing();
 }
 
-function setPlanView(view) {
-  planCards.forEach((card) => {
-    if (card.dataset.monthly) updatePlanBilling(card, "monthly");
-  });
+async function startCheckout(tierName) {
+  const tier = PRICING_TIERS.find((item) => item.name === tierName);
+  const priceId = tier ? selectedPriceId(tier) : "";
 
-  viewButtons.forEach((button) => {
-    button.classList.toggle("is-active", button.dataset.planView === view);
-  });
-
-  planCards.forEach((card) => {
-    card.classList.toggle("is-hidden", card.dataset.audience !== view);
-  });
-
-  if (pricingGrid) {
-    pricingGrid.classList.toggle("personal-only", view === "personal");
-    pricingGrid.classList.toggle("business-only", view === "business");
-  }
-}
-
-function initPricingControls() {
-  planCards.forEach((card) => {
-    if (card.dataset.monthly) updatePlanBilling(card, card.dataset.billing || "monthly");
-  });
-
-  document.querySelectorAll("[data-billing-option]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const card = button.closest(".pmw-plan-card");
-      if (card) updatePlanBilling(card, button.dataset.billingOption);
-    });
-  });
-
-  viewButtons.forEach((button) => {
-    button.addEventListener("click", () => setPlanView(button.dataset.planView));
-  });
-
-  setPlanView("personal");
-}
-
-async function startCheckout(user, planName = "Premium", billing = "monthly") {
-  const priceId = getPaddlePriceId(planName, billing);
-  if (!priceId) {
-    message.textContent = `Add the Paddle ${planName} ${billing} price ID in js/paddle-config.js before accepting payments.`;
-    message.classList.add("error");
+  if (!tier || !priceId) {
+    setMessage("This tier is missing a Paddle price ID.", "error");
     return;
   }
-
-  setCheckoutState({
-    disabled: true,
-    labelPrefix: "Opening",
-    messageText: `Opening Paddle checkout for ${planName} ${billing}.`
-  });
 
   try {
     ensurePaddleReady();
+    setMessage(`Opening ${tier.name} ${frequencyText()} checkout...`);
     window.Paddle.Checkout.open({
       items: [
         {
-          priceId: priceId,
+          priceId,
           quantity: 1
         }
       ],
-      customer: {
-        email: user.email || undefined
-      },
+      ...(signedInUser?.email ? { customer: { email: signedInUser.email } } : {}),
       customData: {
-        uid: user.uid,
+        uid: signedInUser?.uid || "",
         product: "pmw-premium",
-        plan: planName,
-        billing: billing
+        plan: tier.name,
+        billing: frequency
       },
       settings: {
-        successUrl: absoluteUrl("premium-success.html")
+        displayMode: "overlay",
+        variant: "one-page",
+        successUrl: absoluteUrl(PADDLE_CONFIG.successPath || "welcome/")
       }
-    });
-
-    setCheckoutState({
-      disabled: false,
-      labelPrefix: "BUY NOW!",
-      messageText: "Complete payment in the Paddle checkout window.",
-      onClick: (plan, selectedBilling) => startCheckout(user, plan, selectedBilling)
     });
   } catch (error) {
     console.error("Unable to open Paddle checkout.", error);
-    setCheckoutState({
-      disabled: false,
-      labelPrefix: "Try",
-      messageText: "Paddle checkout is not available yet. Check the client token and price ID.",
-      onClick: (plan, selectedBilling) => startCheckout(user, plan, selectedBilling)
-    });
-    message.classList.add("error");
+    setMessage(error.message || "Paddle checkout is not available yet.", "error");
   }
 }
 
-initPricingControls();
+frequencyButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    frequency = button.dataset.frequency;
+    frequencyButtons.forEach((item) => item.classList.toggle("is-active", item === button));
+    renderPricing();
+  });
+});
+
+renderPricing();
 
 onAuthStateChanged(auth, async (user) => {
-  message.classList.remove("error");
+  signedInUser = user;
+  signedInPaddleCustomerId = "";
+  isPremiumMember = user ? await isPremiumUser(user) : false;
 
   if (!user) {
-    statusBox.textContent = "";
-    setCheckoutState({
-      disabled: false,
-      labelPrefix: "BUY NOW!",
-      messageText: "",
-      onClick: () => {
-        window.location.href = "login.html";
-      }
-    });
-    return;
-  }
-
-  const isPremium = await isPremiumUser(user);
-  if (isPremium) {
+    statusBox.textContent = "Sign in to prefill your email at checkout.";
+  } else if (isPremiumMember) {
     statusBox.textContent = "Premium access is active for this account.";
-    setCheckoutState({
-      disabled: false,
-      labelPrefix: "Open",
-      messageText: "You can open the premium area from this page.",
-      onClick: () => {
-        window.location.href = "premium-wallpapers.html";
-      }
-    });
-    return;
+  } else {
+    statusBox.textContent = `Checkout will use ${user.email || "your signed-in email"}.`;
   }
 
-  statusBox.textContent = "";
-  if (!hasAnyPaddlePrice()) {
-    setCheckoutState({
-      disabled: true,
-      labelPrefix: "Unavailable for",
-      messageText: "Premium checkout is temporarily unavailable. Please try again later."
-    });
-    return;
+  if (user) {
+    try {
+      const userSnap = await getDoc(doc(db, "users", user.uid));
+      signedInPaddleCustomerId = userSnap.exists() ? userSnap.data().paddleCustomerId || "" : "";
+    } catch (error) {
+      console.warn("Unable to read Paddle customer ID for Paddle Retain.", error);
+    }
   }
 
-  setCheckoutState({
-    disabled: false,
-    labelPrefix: "BUY NOW!",
-    messageText: "",
-    onClick: (plan, selectedBilling) => startCheckout(user, plan, selectedBilling)
-  });
+  renderPricing();
+  loadLocalizedPrices();
 });

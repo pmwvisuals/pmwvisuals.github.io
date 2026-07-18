@@ -1,4 +1,5 @@
-functions/.env
+functions/.env*
+!functions/.env.example
 functions/.runtimeconfig.json
 functions/node_modules/
-
+functions/.pnpm-store/

@@ -1,19 +1,61 @@
 export const PADDLE_CONFIG = {
-  clientToken: "test_9462cd67818764d9e2dc77a8831",
-  environment: "sandbox",
-  itemName: "PMW Visuals Premium",
+  clientToken: "live_e1acf603a496c5dc11e7662eb81",
+  environment: "production",
+  successPath: "welcome/",
   prices: {
-    Creative: {
-      monthly: "pri_01kx81warb6jfesz3awzzxyn4v",
-      yearly: "pri_01kx826h5xqqt2sje6j94azkgj"
+    Pro: {
+      monthly: "pri_01kxsfyk134yk1y741d0vcm45c",
+      yearly: "pri_01kxsfyktcfcqnckvgjchebghv"
     },
-    Premium: {
-      monthly: "pri_01kx81z21ke3yfeh52y6s79j34",
-      yearly: "pri_01kx828jc4dzy23nwe7fe79hz2"
+    Advance: {
+      monthly: "pri_01kxsfymg1vph3sg7dw4amqcq6",
+      yearly: "pri_01kxsfymt7297wfdk1a4s5vgsv"
     },
-    Business: {
-      monthly: "pri_01kx820hy8vw78t19xfs9w5n4g",
-      yearly: "pri_01kx82a4xbqsjs2bv0hhm6avay"
+    Elite: {
+      monthly: "pri_01kxsfynf6yx2790jnrheb3hp4",
+      yearly: "pri_01kxsfynvy8602e8pyyx255wvc"
     }
   }
 };
+
+export const PRICING_TIERS = [
+  {
+    name: "Pro",
+    description: "A simple paid plan for more downloads and everyday creative tools.",
+    featured: false,
+    features: [
+      "HD wallpaper downloads",
+      "More daily conversions",
+      "Access to pro premium releases",
+      "Personal use license",
+      "Cancel anytime"
+    ],
+    priceId: PADDLE_CONFIG.prices.Pro
+  },
+  {
+    name: "Advance",
+    description: "The best choice for regular PMW Visuals users and creators.",
+    featured: true,
+    features: [
+      "High-resolution wallpaper downloads",
+      "Premium wallpaper collections",
+      "Unlimited converter access",
+      "No ads on premium areas",
+      "Monthly wallpaper requests"
+    ],
+    priceId: PADDLE_CONFIG.prices.Advance
+  },
+  {
+    name: "Elite",
+    description: "Built for heavier creative use, client work, and commercial projects.",
+    featured: false,
+    features: [
+      "Original quality downloads",
+      "Commercial use license",
+      "All premium wallpaper collections",
+      "Video asset access",
+      "Priority support"
+    ],
+    priceId: PADDLE_CONFIG.prices.Elite
+  }
+];

@@ -500,7 +500,7 @@ a {
 
 .pmw-pricing-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
 }
 
@@ -532,6 +532,11 @@ a {
   backdrop-filter: blur(20px);
 }
 
+.pmw-pricing-grid .pmw-plan-card {
+  min-height: 610px;
+  grid-template-rows: 58px 106px 92px 82px 1fr;
+}
+
 .pmw-plan-card::before {
   content: "";
   position: absolute;
@@ -557,6 +562,31 @@ a {
   margin: 0 0 10px;
   font-size: 1.7rem;
   line-height: 1;
+}
+
+.pmw-pricing-grid .pmw-plan-card h2 {
+  grid-row: 1;
+  align-self: end;
+}
+
+.pmw-plan-card[data-tier="Pro"] h2,
+.pmw-plan-card[data-tier="Pro"] li span {
+  color: #d8ad4c;
+}
+
+.pmw-plan-card.featured {
+  border-color: rgba(75, 148, 255, 0.48);
+  box-shadow: 0 30px 100px rgba(30, 110, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.pmw-plan-card.featured h2,
+.pmw-plan-card.featured li span {
+  color: #4b94ff;
+}
+
+.pmw-plan-card[data-tier="Elite"] h2,
+.pmw-plan-card[data-tier="Elite"] li span {
+  color: #a66bff;
 }
 
 .pmw-plan-card.creative h2,
@@ -596,10 +626,11 @@ a {
 }
 
 .pmw-recommend-badge {
-  grid-row: 5;
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
   justify-self: center;
-  align-self: center;
-  position: relative;
   z-index: 4;
   display: inline-flex;
   align-items: center;
@@ -626,6 +657,11 @@ a {
   margin-bottom: 14px;
 }
 
+.pmw-pricing-grid .pmw-price {
+  align-items: baseline;
+  min-width: 0;
+}
+
 .pmw-price span {
   align-self: flex-start;
   margin-top: 8px;
@@ -635,9 +671,10 @@ a {
 
 .pmw-price strong {
   color: #fff;
-  font-size: 3.25rem;
+  font-size: clamp(2.35rem, 3.2vw, 3.25rem);
   line-height: 0.88;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 
 .pmw-price em {
@@ -675,7 +712,7 @@ a {
 }
 
 .pmw-plan-card p {
-  grid-row: 4;
+  grid-row: 3;
   min-height: 58px;
   margin: 0;
   color: #d8d8d8;
@@ -683,7 +720,7 @@ a {
 }
 
 .pmw-plan-button {
-  grid-row: 6;
+  grid-row: 4;
   width: 100%;
   margin: 16px auto 18px;
   min-height: 48px;
@@ -719,6 +756,18 @@ a {
   background: linear-gradient(135deg, #7c39d7, #a66bff);
 }
 
+.pmw-plan-card.featured .pmw-plan-button {
+  color: #fff;
+  border-color: rgba(75, 148, 255, 0.35);
+  background: linear-gradient(135deg, #0576ff, #4b94ff);
+}
+
+.pmw-plan-card[data-tier="Elite"] .pmw-plan-button {
+  color: #fff;
+  border-color: rgba(166, 107, 255, 0.35);
+  background: linear-gradient(135deg, #7c39d7, #a66bff);
+}
+
 .pmw-plan-card.premium .pmw-plan-button {
   color: #fff;
   border-color: rgba(75, 148, 255, 0.35);
@@ -732,7 +781,7 @@ a {
 }
 
 .pmw-plan-card ul {
-  grid-row: 7;
+  grid-row: 5;
   display: grid;
   gap: 13px;
   margin: 0;
@@ -746,7 +795,7 @@ a {
 }
 
 .pmw-plan-card:not([data-monthly]) .pmw-plan-button {
-  grid-row: 6;
+  grid-row: 4;
 }
 
 .pmw-plan-card li {
