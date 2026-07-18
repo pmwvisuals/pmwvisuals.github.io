@@ -8,7 +8,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const CLOUDINARY_CLOUD_NAME = "dlmjetz3s";
-const CLOUDINARY_UPLOAD_PRESET = "";
+const CLOUDINARY_UPLOAD_PRESET = "PMWVISUALS";
 
 const loadingPanel = document.querySelector("#adminLoadingPanel");
 const deniedPanel = document.querySelector("#adminDeniedPanel");
