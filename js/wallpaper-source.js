@@ -118,7 +118,7 @@ function staticFallbackWallpapers(fallback, access) {
 }
 
 function cacheKey(access) {
-  return `pmw:wallpapers:${access}:v1`;
+  return `pmw:wallpapers:${access}:v2`;
 }
 
 function readCache(access) {

@@ -126,7 +126,7 @@
       const [{ auth }, { onAuthStateChanged }, { isPremiumUser }] = await Promise.all([
         import(new URL("js/firebase.js", document.baseURI).href),
         import("https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js"),
-        import(new URL("js/premium-access.js", document.baseURI).href)
+        import(new URL("js/premium-access.js?v=20260718-premium-gate", document.baseURI).href)
       ]);
       onAuthStateChanged(auth, async (user) => {
         accountKey = user ? user.uid : "guest";

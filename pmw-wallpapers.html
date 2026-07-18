@@ -376,6 +376,32 @@
                 0 8px 24px rgba(0,0,0,0.48),
                 inset 0 1px 0 rgba(255,255,255,0.58);
         }
+        .wallpaper-premium-badge {
+            position: absolute;
+            top: 10px;
+            left: 56px;
+            z-index: 2;
+            width: 34px;
+            height: 28px;
+            display: inline-grid;
+            place-items: center;
+            border: 1px solid rgba(216,173,76,0.42);
+            border-radius: 999px;
+            color: #111;
+            background: linear-gradient(135deg, #fff7d6 0%, #d8ad4c 48%, #7f5310 100%);
+            box-shadow:
+                0 0 22px rgba(216,173,76,0.38),
+                0 8px 24px rgba(0,0,0,0.52),
+                inset 0 1px 0 rgba(255,255,255,0.68);
+            backdrop-filter: blur(12px);
+        }
+        .wallpaper-premium-badge svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+            stroke: currentColor;
+            stroke-width: 1.8;
+        }
         .wallpaper-card-info {
             padding: 14px;
         }
@@ -548,6 +574,11 @@
         .download-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 12px 28px rgba(255,255,255,0.14);
+        }
+        .download-btn.locked {
+            color: #111;
+            background: linear-gradient(135deg, #fff7d6, #d8ad4c);
+            box-shadow: 0 16px 34px rgba(216,173,76,0.2);
         }
         .download-btn svg { width: 18px; height: 18px; }
         .empty-state {
@@ -769,6 +800,9 @@
         const requestedCategory = new URLSearchParams(window.location.search).get('category');
         let activeCategory = 'All';
         let searchQuery = '';
+        let authReady = false;
+        let signedInUser = null;
+        let isPremiumMember = false;
 
         const grid = document.getElementById('wallpapersGrid');
         const filters = document.getElementById('categoryFilters');
@@ -824,6 +858,25 @@
             return types.filter(Boolean);
         }
 
+        function isPremiumWallpaper(item) {
+            return String(item && item.access || '').toLowerCase() === 'premium';
+        }
+
+        function crownIconMarkup() {
+            return `
+                <span class="wallpaper-premium-badge" title="Premium wallpaper" aria-label="Premium wallpaper">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M5 18h14l1-10-5 4-3-6-3 6-5-4 1 10Z"></path>
+                        <path d="M5 18h14v2H5z"></path>
+                    </svg>
+                </span>
+            `;
+        }
+
+        function canDownloadWallpaper(item) {
+            return !isPremiumWallpaper(item) || isPremiumMember;
+        }
+
         function shuffleWallpapers(items) {
             const shuffled = [...items];
             for (let index = shuffled.length - 1; index > 0; index -= 1) {
@@ -874,12 +927,16 @@
         let wallpaperPageUrls = {};
 
         function getWallpaperPageUrl(item) {
+            if (isPremiumWallpaper(item)) {
+                return `#wallpaper-${encodeURIComponent(item.id)}`;
+            }
             return (window.PMW_WALLPAPER_PAGES && window.PMW_WALLPAPER_PAGES[item.id])
                 || wallpaperPageUrls[item.id]
                 || `#wallpaper-${encodeURIComponent(item.id)}`;
         }
 
         function opensPanelOnly(item) {
+            if (isPremiumWallpaper(item)) return true;
             return !((window.PMW_WALLPAPER_PAGES && window.PMW_WALLPAPER_PAGES[item.id]) || wallpaperPageUrls[item.id]);
         }
 
@@ -926,6 +983,7 @@
                     <div class="wallpaper-thumb">
                         <img src="${escapeHtml(item.thumbnail)}" alt="${escapeHtml(item.title)}" loading="lazy">
                         <span class="wallpaper-hd-badge">HD</span>
+                        ${isPremiumWallpaper(item) ? crownIconMarkup() : ''}
                     </div>
                     <div class="wallpaper-card-info">
                         <h3 class="wallpaper-card-title">${escapeHtml(item.title)}</h3>
@@ -951,6 +1009,23 @@
             document.getElementById('panelResolution').textContent = item.resolution;
             document.getElementById('panelFormat').textContent = item.format || 'Image';
             document.getElementById('panelTags').innerHTML = (item.tags || []).map(tag => `<span class="hashtag">#${escapeHtml(tag)}</span>`).join('');
+            panelDownload.classList.toggle('locked', !canDownloadWallpaper(item));
+            panelDownload.innerHTML = canDownloadWallpaper(item)
+                ? `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download Wallpaper
+                `
+                : `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3l3 6 5-4-1 10H5L4 5l5 4 3-6Z"></path>
+                        <path d="M5 19h14"></path>
+                    </svg>
+                    ${signedInUser ? 'Upgrade to Download' : 'Sign In to Unlock'}
+                `;
             panel.classList.add('active');
             document.body.classList.add('panel-open');
         }
@@ -993,6 +1068,10 @@
 
         panelDownload.addEventListener('click', () => {
             if (!selectedWallpaper) return;
+            if (!canDownloadWallpaper(selectedWallpaper)) {
+                window.location.href = signedInUser ? 'premium.html' : 'login.html';
+                return;
+            }
             if (window.PMW_DOWNLOAD_TRACKING) {
                 window.PMW_DOWNLOAD_TRACKING.trackDownload({
                     id: selectedWallpaper.id,
@@ -1031,19 +1110,33 @@
             renderLoading();
             try {
                 const { loadVisibleWallpapers } = await import('./js/wallpaper-source.js');
-                const result = await loadVisibleWallpapers({
-                    access: 'free',
-                    fallback: window.PMW_WALLPAPERS || []
-                });
-                wallpapers = result.items;
+                const [freeResult, premiumResult] = await Promise.all([
+                    loadVisibleWallpapers({
+                        access: 'free',
+                        fallback: window.PMW_WALLPAPERS || []
+                    }),
+                    loadVisibleWallpapers({
+                        access: 'premium',
+                        fallback: window.PMW_WALLPAPERS || [],
+                        allowFallback: false
+                    }).catch(error => ({
+                        items: [],
+                        source: 'firestore',
+                        error
+                    }))
+                ]);
+                wallpapers = [...freeResult.items, ...premiumResult.items];
                 randomizedWallpapers = shuffleWallpapers(wallpapers);
                 wallpaperPageUrls = buildWallpaperPageUrls(wallpapers.filter(item => item.source === 'static'));
                 setActiveCategoryFromAvailable();
                 renderFilters();
                 renderWallpapers();
 
-                if (result.error) {
-                    console.warn('Firestore wallpaper loading failed; static fallback was used.', result.error);
+                if (freeResult.error) {
+                    console.warn('Firestore free wallpaper loading failed; static fallback was used.', freeResult.error);
+                }
+                if (premiumResult.error) {
+                    console.warn('Firestore premium wallpaper loading failed.', premiumResult.error);
                 }
             } catch (error) {
                 console.warn('Unable to initialize Firestore wallpaper loading; static fallback was used.', error);
@@ -1056,6 +1149,32 @@
             }
         }
 
+        async function initializePremiumAccess() {
+            try {
+                const [{ auth }, { onAuthStateChanged }, { isPremiumUser }] = await Promise.all([
+                    import('./js/firebase.js'),
+                    import('https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js'),
+                    import('./js/premium-access.js?v=20260718-premium-gate')
+                ]);
+
+                onAuthStateChanged(auth, async user => {
+                    signedInUser = user;
+                    isPremiumMember = user ? await isPremiumUser(user) : false;
+                    authReady = true;
+                    renderWallpapers();
+                    if (selectedWallpaper) {
+                        openPanel(selectedWallpaper.id);
+                    }
+                });
+            } catch (error) {
+                authReady = true;
+                signedInUser = null;
+                isPremiumMember = false;
+                console.warn('Unable to initialize premium access checks.', error);
+            }
+        }
+
+        initializePremiumAccess();
         initializeWallpaperPage();
     </script>
     <script src="consent.js" defer></script>

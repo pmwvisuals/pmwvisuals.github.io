@@ -1,6 +1,6 @@
 import { auth } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-import { isPremiumUser } from "./premium-access.js";
+import { isPremiumUser } from "./premium-access.js?v=20260718-premium-gate";
 
 const badge = document.querySelector("#successBadge");
 const title = document.querySelector("#successTitle");
