@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Wallpaper Migration - PMW Visuals</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="shortcut icon" href="/favicon.png" />
+  <link rel="stylesheet" href="css/pmw-admin.css" />
+</head>
+<body>
+  <header class="admin-topbar">
+    <div class="admin-topbar-inner">
+      <p class="admin-title">PMW Visuals Admin</p>
+      <nav class="admin-nav" aria-label="Admin navigation">
+        <a class="admin-link" href="admin.html">Admin dashboard</a>
+        <a class="admin-link" href="index.html">Back to site</a>
+        <button class="admin-button secondary" id="adminLogoutButton" type="button">Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin-shell">
+    <section class="admin-card admin-panel" id="adminLoadingPanel" aria-live="polite">
+      <div class="admin-card-body">
+        <h1>Checking access</h1>
+        <p class="admin-subtitle">Please wait while admin permission is verified.</p>
+      </div>
+    </section>
+
+    <section class="admin-card admin-panel" id="adminDeniedPanel" hidden>
+      <div class="admin-card-body">
+        <h1>Access blocked</h1>
+        <p class="admin-subtitle">You are signed in, but this Firebase account is not an administrator.</p>
+        <button class="admin-button" id="adminDeniedLogoutButton" type="button">Logout</button>
+      </div>
+    </section>
+
+    <section class="admin-card admin-panel" id="migrationPanel" hidden>
+      <div class="admin-card-body">
+        <h1>Wallpaper migration</h1>
+        <p class="admin-subtitle">Move the existing JavaScript wallpaper metadata into Firestore. The old JavaScript file will not be changed.</p>
+
+        <div class="admin-status">
+          <span>Signed in as <strong id="adminEmail">admin</strong></span>
+          <span>Source: <strong>window.PMW_WALLPAPERS</strong> from <strong>wallpapers-data.js</strong></span>
+          <span>Destination: <strong>wallpapers</strong> Firestore collection</span>
+        </div>
+      </div>
+
+      <div class="admin-card-body admin-section">
+        <h2>Run Migration</h2>
+        <p class="admin-subtitle">Start with a dry run. The real migration uses existing wallpaper IDs as Firestore document IDs when possible.</p>
+
+        <div class="admin-actions">
+          <button class="admin-button secondary" id="dryRunButton" type="button">Dry run</button>
+          <button class="admin-button" id="runMigrationButton" type="button" disabled>Run real migration</button>
+          <button class="admin-button secondary" id="downloadLogButton" type="button" disabled>Download log</button>
+        </div>
+
+        <label class="admin-check admin-confirm-check" for="confirmRealMigration">
+          <input id="confirmRealMigration" type="checkbox" />
+          <span>I reviewed the dry run and want to write non-duplicate records to Firestore.</span>
+        </label>
+
+        <p class="admin-message" id="migrationMessage" aria-live="polite"></p>
+
+        <div class="admin-migration-summary" id="migrationSummary" hidden>
+          <div><strong id="summarySource">0</strong><span>source records</span></div>
+          <div><strong id="summaryReady">0</strong><span>ready</span></div>
+          <div><strong id="summaryImported">0</strong><span>imported</span></div>
+          <div><strong id="summarySkipped">0</strong><span>duplicates</span></div>
+          <div><strong id="summaryInvalid">0</strong><span>invalid</span></div>
+          <div><strong id="summaryFailed">0</strong><span>failed</span></div>
+        </div>
+      </div>
+
+      <div class="admin-card-body admin-section">
+        <h2>Migration Log</h2>
+        <p class="admin-subtitle">Successful records, skipped duplicates, invalid records, and failures appear here after each run.</p>
+        <div class="admin-log-list" id="migrationLog"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="wallpapers-data.js"></script>
+  <script type="module" src="js/admin-migrate.js"></script>
+</body>
+</html>

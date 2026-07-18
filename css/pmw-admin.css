@@ -418,6 +418,76 @@ a {
   font-size: 0.86rem;
 }
 
+.admin-confirm-check {
+  margin-top: 18px;
+  align-items: flex-start;
+}
+
+.admin-migration-summary {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.admin-migration-summary div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: #fafafa;
+}
+
+.admin-migration-summary strong,
+.admin-migration-summary span {
+  display: block;
+}
+
+.admin-migration-summary strong {
+  font-size: 1.35rem;
+}
+
+.admin-migration-summary span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.admin-log-list {
+  display: grid;
+  gap: 18px;
+}
+
+.admin-log-section h3 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.admin-log-row {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 8px;
+  border-left: 3px solid var(--line-strong);
+  padding: 8px 10px;
+  background: #fafafa;
+}
+
+.admin-log-row span {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.admin-log-row.is-success {
+  border-left-color: var(--success);
+}
+
+.admin-log-row.is-invalid,
+.admin-log-row.is-failed {
+  border-left-color: var(--danger);
+}
+
 .admin-button.danger {
   background: var(--danger);
 }
@@ -455,6 +525,10 @@ a {
   .admin-upload-box {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .admin-migration-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .admin-wallpaper-item {
