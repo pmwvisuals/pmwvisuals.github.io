@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign Up - PMW Visuals</title>
   <link rel="stylesheet" href="css/pmw-auth.css" />
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body class="pmw-auth-page">
   <nav class="pmw-auth-nav">
@@ -19,7 +20,14 @@
     <section class="pmw-form-card">
       <span class="pmw-badge">Start Free</span>
       <h2>Create account</h2><p class="pmw-sub">Your account will be created as a free member first.</p>
-      <form id="signupForm"><div class="pmw-field"><label for="name">Display name</label><input id="name" type="text" required autocomplete="name"></div><div class="pmw-field"><label for="email">Email</label><input id="email" type="email" required autocomplete="email"></div><div class="pmw-field"><label for="password">Password</label><input id="password" type="password" required minlength="6" autocomplete="new-password"></div><button class="pmw-btn" type="submit">Create Account</button><p id="authMessage" class="pmw-message"></p></form>
+      <form id="signupForm">
+        <div class="pmw-field"><label for="name">Display name</label><input id="name" type="text" required autocomplete="name"></div>
+        <div class="pmw-field"><label for="email">Email</label><input id="email" type="email" required autocomplete="email"></div>
+        <div class="pmw-field"><label for="password">Password</label><input id="password" type="password" required minlength="6" autocomplete="new-password"></div>
+        <div class="pmw-recaptcha"><div class="g-recaptcha" data-sitekey="6LdM1wtAAAAAAIuv3umAk_cxJOFW8gXVOOyF7wv2" data-theme="dark"></div></div>
+        <button class="pmw-btn" type="submit">Create Account</button>
+        <p id="authMessage" class="pmw-message"></p>
+      </form>
       <p class="pmw-switch">Already have an account? <a href="login.html">Login</a></p>
     </section>
   </main>

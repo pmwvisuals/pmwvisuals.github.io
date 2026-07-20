@@ -284,6 +284,14 @@ a {
   box-shadow: 0 0 0 4px var(--gold-soft);
 }
 
+.pmw-recaptcha {
+  display: flex;
+  justify-content: flex-start;
+  min-height: 78px;
+  margin: 4px 0 16px;
+  overflow: hidden;
+}
+
 .pmw-btn {
   width: 100%;
   border: 1px solid transparent;
@@ -949,6 +957,13 @@ a {
 
   .pmw-pricing-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 380px) {
+  .pmw-recaptcha {
+    transform: scale(0.88);
+    transform-origin: left center;
   }
 }
 
