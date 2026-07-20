@@ -38,6 +38,7 @@
     <meta name="twitter:title" content="PMW Visuals - Free 4K Wallpapers & Video Assets">
     <meta name="twitter:description" content="Explore free mobile wallpapers, visual assets, and creative media from PMW Visuals. Download HD wallpapers for AMOLED, anime, nature, and more.">
     <meta name="twitter:image" content="https://pmwvisuals.com/pmw-wordmark.png">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script type="application/ld+json" data-seo-schema>{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://pmwvisuals.com/#organization","name":"PMW Visuals","url":"https://pmwvisuals.com/","logo":"https://pmwvisuals.com/pmw-wordmark.png","sameAs":["https://uk.pinterest.com/pmw_wallpapers/","https://www.instagram.com/pmw_wallpapers/","https://www.youtube.com/@PMW_Studio","https://www.facebook.com/people/Apollo-Sounds/61579450350429/"]},{"@type":"WebSite","@id":"https://pmwvisuals.com/#website","name":"PMW Visuals","url":"https://pmwvisuals.com/","publisher":{"@id":"https://pmwvisuals.com/#organization"},"potentialAction":{"@type":"SearchAction","target":"https://pmwvisuals.com/pmw-wallpapers.html?q={search_term_string}","query-input":"required name=search_term_string"}},{"@type":"WebPage","@id":"https://pmwvisuals.com/#webpage","url":"https://pmwvisuals.com/","name":"PMW Visuals - Free 4K Wallpapers & Video Assets","isPartOf":{"@id":"https://pmwvisuals.com/#website"},"about":{"@id":"https://pmwvisuals.com/#organization"}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2613,6 +2614,21 @@
             line-height: 1.6;
         }
 
+        .form-recaptcha {
+            display: flex;
+            justify-content: flex-start;
+            min-height: 78px;
+            padding: 2px 0 4px;
+            overflow: hidden;
+        }
+
+        @media (max-width: 380px) {
+            .form-recaptcha {
+                transform: scale(0.9);
+                transform-origin: left center;
+            }
+        }
+
         .form-select {
             cursor: pointer;
             appearance: none;
@@ -3256,6 +3272,7 @@
                 <button class="nav-link active" data-section="home" onclick="navigateTo('home')"><span>Home</span></button>
                 <button class="nav-link" data-section="studio" onclick="window.location.href='pmw-studio.html'"><span>PMW Studio</span></button>
                 <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html'"><span>PMW Wallpapers</span></button>
+                <button class="nav-link" onclick="window.location.href='pmw-desktop-wallpapers.html'"><span>Desktop Wallpapers</span></button>
                 <button class="nav-link" onclick="window.location.href='pmw-converter.html'"><span>PMW Converter</span></button>
                 
             </div>
@@ -3285,6 +3302,7 @@
         <button class="nav-link" onclick="navigateTo('home'); toggleMobileMenu();">Home</button>
         <button class="nav-link" onclick="window.location.href='pmw-studio.html';">PMW Studio</button>
         <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html';">PMW Wallpapers</button>
+        <button class="nav-link" onclick="window.location.href='pmw-desktop-wallpapers.html';">Desktop Wallpapers</button>
         <button class="nav-link" onclick="window.location.href='pmw-converter.html';">PMW Converter</button>
         <button class="nav-link" onclick="navigateTo('about'); toggleMobileMenu();">About</button>
         <button class="nav-link" onclick="navigateTo('contact'); toggleMobileMenu();">Contact</button>
@@ -3706,6 +3724,9 @@
                                 <label class="form-label" for="contactMessage">Message</label>
                                 <textarea id="contactMessage" name="message" class="form-input form-textarea" placeholder="Share your question, project, or request..." required rows="5"></textarea>
                             </div>
+                            <div class="form-recaptcha">
+                                <div class="g-recaptcha" data-sitekey="6LdM1wtAAAAAAIuv3umAk_cxJOFW8gXVOOyF7wv2" data-theme="dark"></div>
+                            </div>
                             <button type="submit" class="form-submit" id="submitBtn">
                                 <span class="form-submit-text">Send Message</span>
                                 <svg class="form-submit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -3748,6 +3769,7 @@
                     <h3>Explore</h3>
                     <a href="javascript:void(0)" onclick="navigateTo('home')">Home</a>
                     <a href="pmw-wallpapers.html">PMW Wallpapers</a>
+                    <a href="pmw-desktop-wallpapers.html">Desktop Wallpapers</a>
                     <a href="pmw-studio.html">PMW Studio</a>
                     <a href="pmw-converter.html">PMW Converter</a>
                     <a href="javascript:void(0)" onclick="navigateTo('about')">About Us</a>
@@ -4762,6 +4784,7 @@ function initContactForm() {
             const btn = document.getElementById('submitBtn');
             if (form && btn) {
                 form.reset();
+                resetContactCaptcha();
                 btn.classList.remove('loading', 'success');
                 btn.disabled = false;
                 btn.querySelector('.form-submit-text').textContent = 'Send Message';
@@ -4769,12 +4792,28 @@ function initContactForm() {
         }
 
 // ===== CONTACT FORM =====
+        function resetContactCaptcha() {
+            try {
+                if (window.grecaptcha) {
+                    grecaptcha.reset();
+                }
+            } catch (error) {
+                // The widget may still be loading when the contact section opens.
+            }
+        }
+
         const contactForm = document.getElementById('contactForm');
         if (contactForm) {
             contactForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 const submitBtn = document.getElementById('submitBtn');
                 const originalText = submitBtn.querySelector('.form-submit-text').textContent;
+                const captchaToken = window.grecaptcha ? grecaptcha.getResponse() : '';
+
+                if (!captchaToken) {
+                    showToast('Please complete the reCAPTCHA before sending.');
+                    return;
+                }
 
                 // Show loading state
                 submitBtn.disabled = true;
@@ -4796,6 +4835,7 @@ function initContactForm() {
                         submitBtn.querySelector('.form-submit-text').textContent = 'Message Sent!';
                         showToast('Your message has been sent successfully!');
                         contactForm.reset();
+                        resetContactCaptcha();
 
                         setTimeout(() => {
                             submitBtn.classList.remove('success');
