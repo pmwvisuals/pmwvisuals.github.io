@@ -123,12 +123,15 @@
             <input id="resizeQuality" class="tool-range" type="range" min="35" max="100" value="92" data-range-output="resizeQualityValue">
           </div>
 
-          <button class="tools-action" id="toolAction" type="button" disabled>Resize Image <i data-lucide="arrow-right"></i></button>
+          <div class="tool-action-row">
+            <button class="tools-action" id="toolAction" type="button" disabled>Resize Image <i data-lucide="arrow-right"></i></button>
+            <button class="tools-secondary-action" id="toolReset" type="button">Reset <i data-lucide="rotate-ccw"></i></button>
+          </div>
           <p class="tool-message" id="toolMessage" aria-live="polite">Upload an image to begin.</p>
 
           <div class="usage-notice" id="resizeUsageNotice" hidden>
             <strong>Free resize limit reached</strong>
-            <span>You have reached today’s free resize limit. Upgrade to Premium for more resizing features.</span>
+            <span>You have reached today's free resize limit. Upgrade to Premium for more resizing features.</span>
             <a href="../../premium.html">Upgrade to Premium</a>
           </div>
 

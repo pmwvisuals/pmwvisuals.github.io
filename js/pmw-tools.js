@@ -3,12 +3,16 @@
 
   const FREE_RESIZE_LIMIT = 13;
   const PRO_RESIZE_LIMIT = 20;
+  const FREE_COMPRESS_LIMIT = 9;
+  const PRO_COMPRESS_LIMIT = 50;
+  const ADVANCE_COMPRESS_LIMIT = 100;
   const FREE_MAX_FILE_SIZE = 10 * 1024 * 1024;
   const FREE_MAX_WIDTH = 3840;
   const FREE_MAX_HEIGHT = 2160;
   const FREE_MAX_PIXELS = FREE_MAX_WIDTH * FREE_MAX_HEIGHT;
   const BROWSER_MAX_PIXELS = 60_000_000;
   const SUPPORTED_RESIZE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+  const SUPPORTED_COMPRESS_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
   const page = document.body.dataset.tool;
   const input = document.getElementById("toolFileInput");
@@ -40,6 +44,22 @@
     usageBackend: "local",
     firestore: null,
     firestoreDocRef: null
+  };
+
+  const compressorState = {
+    items: [],
+    outputs: [],
+    accountKey: "guest",
+    user: null,
+    premium: false,
+    plan: "free",
+    usageCount: 0,
+    usageLoaded: false,
+    usageBackend: "local",
+    firestore: null,
+    firestoreDocRef: null,
+    estimateTimer: null,
+    estimateToken: 0
   };
 
   function drawIcons() {
@@ -217,20 +237,6 @@
     ]);
   }
 
-  async function runCompressor() {
-    const type = document.getElementById("compressFormat").value;
-    const quality = Number(document.getElementById("compressQuality").value) / 100;
-    const canvas = drawImageToCanvas(state.image, state.image.naturalWidth, state.image.naturalHeight, type === "image/jpeg");
-    const blob = await canvasToBlob(canvas, type, quality);
-    const saved = state.file.size > 0 ? Math.max(0, Math.round((1 - blob.size / state.file.size) * 100)) : 0;
-    const fileName = `${safeBaseName(state.file.name)}-pmw-compressed.${extensionFor(type)}`;
-    showResult(blob, fileName, [
-      `<strong>Before:</strong> ${readableSize(state.file.size)}`,
-      `<strong>After:</strong> ${readableSize(blob.size)}`,
-      `<strong>Saved:</strong> ${saved}%`
-    ]);
-  }
-
   async function runBasicTool() {
     if (!state.file || !state.image) {
       setMessage("Upload an image first.", "error");
@@ -240,7 +246,6 @@
     setMessage("Processing locally in your browser...");
     try {
       if (page === "converter") await runConverter();
-      if (page === "compressor") await runCompressor();
       setMessage("Done. Your image was processed on this device.", "success");
     } catch (error) {
       setMessage(error.message || "The tool could not process this image.", "error");
@@ -277,6 +282,593 @@
       range.addEventListener("input", update);
       update();
     });
+  }
+
+  function compressorLocalUsageKey() {
+    return `pmw-image-compressor-usage-v1:${compressorState.accountKey}:${todayKey()}`;
+  }
+
+  function normalizeCompressPlan() {
+    return normalizePlan(compressorState.plan);
+  }
+
+  function isUnlimitedCompressPlan() {
+    return normalizeCompressPlan() === "elite";
+  }
+
+  function compressDailyLimit() {
+    const plan = normalizeCompressPlan();
+    if (plan === "elite") return Number.POSITIVE_INFINITY;
+    if (plan === "advance" || plan === "advanced") return ADVANCE_COMPRESS_LIMIT;
+    if (plan === "pro") return PRO_COMPRESS_LIMIT;
+    return FREE_COMPRESS_LIMIT;
+  }
+
+  function readCompressLocalUsage() {
+    try {
+      const value = Number.parseInt(localStorage.getItem(compressorLocalUsageKey()) || "0", 10);
+      return Number.isFinite(value) ? Math.max(0, value) : 0;
+    } catch (_) {
+      return compressorState.usageCount || 0;
+    }
+  }
+
+  function writeCompressLocalUsage(value) {
+    const safeValue = Math.max(0, Math.floor(value));
+    compressorState.usageCount = safeValue;
+    try {
+      localStorage.setItem(compressorLocalUsageKey(), String(safeValue));
+    } catch (_) {}
+  }
+
+  async function getCompressFirestoreUsageRef() {
+    if (!compressorState.user || !compressorState.firestore) return null;
+    const { db, doc } = compressorState.firestore;
+    return doc(db, "toolUsage", compressorState.user.uid, "daily", todayKey());
+  }
+
+  async function loadCompressUsage() {
+    compressorState.usageLoaded = false;
+    compressorState.usageBackend = "local";
+
+    if (isUnlimitedCompressPlan()) {
+      compressorState.usageCount = 0;
+      compressorState.usageLoaded = true;
+      updateCompressorAccessUI();
+      return;
+    }
+
+    const firestoreRef = await getCompressFirestoreUsageRef();
+    if (firestoreRef) {
+      try {
+        const snap = await compressorState.firestore.getDoc(firestoreRef);
+        compressorState.firestoreDocRef = firestoreRef;
+        compressorState.usageCount = snap.exists() ? Number(snap.data().imageCompressCount || 0) : 0;
+        compressorState.usageBackend = "firestore";
+        compressorState.usageLoaded = true;
+        updateCompressorAccessUI();
+        return;
+      } catch (error) {
+        console.warn("Firestore toolUsage read failed; using local compressor limit fallback.", error);
+      }
+    }
+
+    compressorState.usageCount = readCompressLocalUsage();
+    compressorState.usageLoaded = true;
+    updateCompressorAccessUI();
+  }
+
+  async function consumeCompressUsage(amount) {
+    if (isUnlimitedCompressPlan()) return;
+    const count = Math.max(1, Number(amount) || 1);
+    const limit = compressDailyLimit();
+
+    if (compressorState.usageBackend === "firestore" && compressorState.firestoreDocRef) {
+      try {
+        await compressorState.firestore.runTransaction(compressorState.firestore.db, async (transaction) => {
+          const snap = await transaction.get(compressorState.firestoreDocRef);
+          const current = snap.exists() ? Number(snap.data().imageCompressCount || 0) : 0;
+          if (current + count > limit) throw new Error("compress-limit");
+          transaction.set(compressorState.firestoreDocRef, {
+            imageCompressCount: current + count,
+            updatedAt: compressorState.firestore.serverTimestamp()
+          }, { merge: true });
+          compressorState.usageCount = current + count;
+        });
+        updateCompressorAccessUI();
+        return;
+      } catch (error) {
+        if (error.message === "compress-limit") throw error;
+        console.warn("Firestore toolUsage write failed; using local compressor limit fallback.", error);
+        compressorState.usageBackend = "local";
+        compressorState.usageCount = readCompressLocalUsage();
+      }
+    }
+
+    const current = readCompressLocalUsage();
+    if (current + count > limit) throw new Error("compress-limit");
+    writeCompressLocalUsage(current + count);
+    updateCompressorAccessUI();
+  }
+
+  function compressLimitReached() {
+    return Number.isFinite(compressDailyLimit()) && compressorState.usageLoaded && compressorState.usageCount >= compressDailyLimit();
+  }
+
+  function showCompressLimitNotice() {
+    const notice = document.getElementById("compressUsageNotice");
+    const plan = normalizeCompressPlan();
+    const copyByPlan = {
+      pro: "You have reached today's Pro compression limit. Upgrade to Advance or Elite for more compression.",
+      advance: "You have reached today's Advance compression limit. Upgrade to Elite for unlimited compression.",
+      advanced: "You have reached today's Advance compression limit. Upgrade to Elite for unlimited compression."
+    };
+    const copy = copyByPlan[plan] || "You have reached today's free compression limit. Upgrade to Premium for more compression features.";
+    if (notice) {
+      const title = notice.querySelector("strong");
+      const span = notice.querySelector("span");
+      const link = notice.querySelector("a");
+      if (title) title.textContent = plan === "pro" || plan === "advance" || plan === "advanced" ? "Compression limit reached" : "Free compression limit reached";
+      if (span) span.textContent = copy;
+      if (link) link.textContent = plan === "pro" || plan === "advance" || plan === "advanced" ? "Upgrade Plan" : "Upgrade to Premium";
+      notice.hidden = false;
+    }
+    setMessage(copy, "error");
+  }
+
+  function hideCompressLimitNotice() {
+    const notice = document.getElementById("compressUsageNotice");
+    if (notice) notice.hidden = true;
+  }
+
+  function updateCompressorAccessUI() {
+    if (page !== "compressor" || !action) return;
+    document.body.classList.toggle("is-premium-member", compressorState.premium);
+    document.body.dataset.compressPlan = normalizeCompressPlan();
+    if (isUnlimitedCompressPlan() || !compressLimitReached()) hideCompressLimitNotice();
+    if (compressLimitReached()) {
+      showCompressLimitNotice();
+      action.disabled = true;
+      return;
+    }
+    updateCompressButtonState();
+  }
+
+  function normalizeCompressOutputType(type) {
+    return SUPPORTED_COMPRESS_TYPES.includes(type) ? type : "";
+  }
+
+  function getCompressOutputType(file) {
+    return normalizeCompressOutputType(file.type);
+  }
+
+  function getCompressQuality() {
+    return Math.max(0.1, Math.min(0.95, Number(document.getElementById("compressQuality")?.value || 70) / 100));
+  }
+
+  function getCompressQualityPercent() {
+    return Math.round(getCompressQuality() * 100);
+  }
+
+  function compressionDelta(originalSize, outputSize) {
+    const delta = originalSize - outputSize;
+    const percent = originalSize > 0 ? Math.abs(delta) / originalSize * 100 : 0;
+    return {
+      delta,
+      percent,
+      smaller: delta > 0,
+      larger: delta < 0
+    };
+  }
+
+  function validateCompressItem(item) {
+    const pixels = item.image.naturalWidth * item.image.naturalHeight;
+    if (pixels > BROWSER_MAX_PIXELS) {
+      throw new Error("This image is too large for this browser to compress safely.");
+    }
+    if (!getCompressOutputType(item.file)) {
+      throw new Error("Please choose a JPG, PNG, or WEBP image.");
+    }
+    if (compressorState.premium) return;
+    if (item.file.size > FREE_MAX_FILE_SIZE || isLargeForFree(item.image.naturalWidth, item.image.naturalHeight)) {
+      throw new Error("Large image compression is a Premium feature.");
+    }
+  }
+
+  async function compressOneItem(item) {
+    validateCompressItem(item);
+    const type = getCompressOutputType(item.file);
+    const quality = getCompressQuality();
+    const canvas = drawImageToCanvas(item.image, item.image.naturalWidth, item.image.naturalHeight, type === "image/jpeg");
+    const blob = await canvasToBlob(canvas, type, quality);
+    const delta = compressionDelta(item.file.size, blob.size);
+    const name = `${safeBaseName(item.file.name)}-pmw-compressed.${extensionFor(type)}`;
+    return {
+      blob,
+      name,
+      type,
+      quality: getCompressQualityPercent(),
+      url: URL.createObjectURL(blob),
+      originalSize: item.file.size,
+      outputSize: blob.size,
+      width: item.image.naturalWidth,
+      height: item.image.naturalHeight,
+      delta
+    };
+  }
+
+  function clearCompressorOutputs() {
+    compressorState.outputs.forEach((output) => {
+      if (output.url) URL.revokeObjectURL(output.url);
+    });
+    compressorState.outputs = [];
+    clearOutput();
+    const list = document.getElementById("compressBatchResultList");
+    if (list) list.innerHTML = "";
+    const empty = document.getElementById("compressResultEmpty");
+    if (empty) empty.hidden = false;
+  }
+
+  function clearCompressorItems() {
+    compressorState.items.forEach((item) => {
+      if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+    });
+    compressorState.items = [];
+    clearCompressorOutputs();
+  }
+
+  function setCompressOriginalDetails(item) {
+    const details = document.getElementById("compressOriginalDetails");
+    if (!details) return;
+    if (!item) {
+      details.hidden = true;
+      return;
+    }
+    document.getElementById("compressDetailName").textContent = item.file.name;
+    document.getElementById("compressDetailSize").textContent = readableSize(item.file.size);
+    document.getElementById("compressDetailWidth").textContent = `${item.image.naturalWidth}px`;
+    document.getElementById("compressDetailHeight").textContent = `${item.image.naturalHeight}px`;
+    document.getElementById("compressDetailType").textContent = labelForType(item.file.type);
+    details.hidden = false;
+  }
+
+  function renderCompressorPreview() {
+    if (!preview) return;
+    if (!compressorState.items.length) {
+      preview.classList.remove("visible");
+      preview.innerHTML = "";
+      setCompressOriginalDetails(null);
+      updateCompressButtonState();
+      resetCompressEstimate("Upload an image", "-");
+      return;
+    }
+
+    const first = compressorState.items[0];
+    const extraCount = compressorState.items.length - 1;
+    preview.innerHTML = `
+      <img src="${first.previewUrl}" alt="">
+      <div>
+        <strong>${escapeHtml(first.file.name)}</strong>
+        <span>${readableSize(first.file.size)} - ${first.image.naturalWidth}x${first.image.naturalHeight}${extraCount > 0 ? ` - ${extraCount} more` : ""}</span>
+      </div>
+    `;
+    preview.classList.add("visible");
+    setCompressOriginalDetails(first);
+    updateCompressButtonState();
+    scheduleCompressEstimate();
+  }
+
+  function setEstimateClass(name) {
+    const estimate = document.getElementById("compressEstimate");
+    if (!estimate) return;
+    estimate.classList.remove("is-warning", "is-success", "is-muted");
+    if (name) estimate.classList.add(name);
+  }
+
+  function resetCompressEstimate(status, saved) {
+    const quality = getCompressQualityPercent();
+    document.getElementById("compressEstimateStatus").textContent = status;
+    document.getElementById("compressEstimateQuality").textContent = `Quality ${quality}%`;
+    document.getElementById("compressEstimateOriginal").textContent = "-";
+    document.getElementById("compressEstimateSize").textContent = "-";
+    document.getElementById("compressEstimateSaved").textContent = saved || "-";
+    document.getElementById("compressEstimatePercent").textContent = "-";
+    setEstimateClass("is-muted");
+  }
+
+  async function estimateCompression() {
+    const item = compressorState.items[0];
+    if (!item) {
+      resetCompressEstimate("Upload an image", "-");
+      return;
+    }
+
+    const token = ++compressorState.estimateToken;
+    const type = getCompressOutputType(item.file);
+    const quality = getCompressQuality();
+    const percent = getCompressQualityPercent();
+    document.getElementById("compressEstimateStatus").textContent = "Estimating...";
+    document.getElementById("compressEstimateQuality").textContent = `Quality ${percent}%`;
+    document.getElementById("compressEstimateOriginal").textContent = readableSize(item.file.size);
+    document.getElementById("compressEstimateSize").textContent = "-";
+    document.getElementById("compressEstimateSaved").textContent = "-";
+    document.getElementById("compressEstimatePercent").textContent = "-";
+    setEstimateClass("is-muted");
+
+    try {
+      validateCompressItem(item);
+      const canvas = drawImageToCanvas(item.image, item.image.naturalWidth, item.image.naturalHeight, type === "image/jpeg");
+      const blob = await canvasToBlob(canvas, type, quality);
+      if (token !== compressorState.estimateToken) return;
+
+      const delta = compressionDelta(item.file.size, blob.size);
+      const status = type === "image/png"
+        ? "PNG compression may have limited savings in the browser."
+        : delta.larger
+          ? "This setting may increase file size"
+          : delta.percent < 5
+            ? "Try lower quality for better compression"
+            : "Ready to compress";
+      document.getElementById("compressEstimateStatus").textContent = status;
+      document.getElementById("compressEstimateSize").textContent = readableSize(blob.size);
+      if (delta.smaller) {
+        document.getElementById("compressEstimateSaved").textContent = readableSize(delta.delta);
+        document.getElementById("compressEstimatePercent").textContent = `${delta.percent.toFixed(1)}% smaller`;
+        setEstimateClass("is-success");
+      } else if (delta.larger) {
+        document.getElementById("compressEstimateSaved").textContent = `${readableSize(Math.abs(delta.delta))} larger`;
+        document.getElementById("compressEstimatePercent").textContent = "Larger than original";
+        setEstimateClass("is-warning");
+      } else {
+        document.getElementById("compressEstimateSaved").textContent = "No size change";
+        document.getElementById("compressEstimatePercent").textContent = "0% change";
+        setEstimateClass("is-warning");
+      }
+    } catch (error) {
+      if (token !== compressorState.estimateToken) return;
+      document.getElementById("compressEstimateStatus").textContent = error.message || "Unable to estimate this image.";
+      setEstimateClass("is-warning");
+    }
+  }
+
+  function scheduleCompressEstimate() {
+    window.clearTimeout(compressorState.estimateTimer);
+    compressorState.estimateTimer = window.setTimeout(estimateCompression, 420);
+  }
+
+  function updateCompressButtonState() {
+    if (page !== "compressor" || !action) return;
+    const hasItems = compressorState.items.length > 0;
+    action.disabled = !hasItems || compressLimitReached();
+    action.innerHTML = `${compressorState.items.length > 1 ? "Compress Images" : "Compress Image"} <i data-lucide="arrow-right"></i>`;
+    drawIcons();
+  }
+
+  async function addCompressFiles(fileList) {
+    const files = Array.from(fileList || []).filter((file) => file.type.startsWith("image/"));
+    if (!files.length) {
+      setMessage("Please choose a JPG, PNG, or WEBP image.", "error");
+      return;
+    }
+
+    clearCompressorItems();
+    hideCompressLimitNotice();
+
+    let selectedFiles = files;
+    if (!compressorState.premium && files.length > 1) {
+      selectedFiles = files.slice(0, 1);
+      setMessage("Batch compression is a Premium feature. The first image was selected.", "error");
+    } else {
+      setMessage("Reading image on your device...");
+    }
+
+    try {
+      const loadedItems = [];
+      for (const file of selectedFiles) {
+        if (!SUPPORTED_COMPRESS_TYPES.includes(file.type)) {
+          throw new Error("Please choose a JPG, PNG, or WEBP image.");
+        }
+        if (!compressorState.premium && file.size > FREE_MAX_FILE_SIZE) {
+          throw new Error("Large image compression is a Premium feature.");
+        }
+        const loaded = await loadImage(file);
+        const item = { file, image: loaded.img, previewUrl: loaded.url };
+        if (!compressorState.premium && isLargeForFree(item.image.naturalWidth, item.image.naturalHeight)) {
+          URL.revokeObjectURL(item.previewUrl);
+          throw new Error("Large image compression is a Premium feature.");
+        }
+        loadedItems.push(item);
+      }
+      compressorState.items = loadedItems;
+      renderCompressorPreview();
+      setMessage(compressorState.items.length > 1 ? `${compressorState.items.length} images ready for premium batch compression.` : "Ready to compress.", "success");
+    } catch (error) {
+      clearCompressorItems();
+      setMessage(error.message || "This image could not be loaded.", "error");
+      renderCompressorPreview();
+    }
+  }
+
+  function showCompressOutput(output) {
+    clearOutput();
+    state.outputUrl = output.url;
+    resultImage.src = output.url;
+    resultDownload.href = output.url;
+    resultDownload.download = output.name;
+    result.classList.toggle("is-warning", output.delta.larger || !output.delta.smaller);
+
+    const resultLine = output.delta.smaller
+      ? `<span><strong>Saved:</strong> ${readableSize(output.delta.delta)} (${output.delta.percent.toFixed(1)}%)</span>`
+      : output.delta.larger
+        ? `<span><strong>Result:</strong> ${readableSize(Math.abs(output.delta.delta))} larger</span>`
+        : `<span><strong>Result:</strong> No size change</span>`;
+    const warningLine = output.delta.larger
+      ? `<span class="result-warning"><strong>Warning:</strong> This output is larger than the original. Try lowering the quality or use the original file.</span>`
+      : "";
+
+    resultMeta.innerHTML = [
+      `<span><strong>Before:</strong> ${readableSize(output.originalSize)}</span>`,
+      `<span><strong>After:</strong> ${readableSize(output.outputSize)}</span>`,
+      resultLine,
+      `<span><strong>Output type:</strong> ${labelForType(output.type)}</span>`,
+      `<span><strong>Quality used:</strong> ${output.quality}%</span>`,
+      `<span><strong>Resolution:</strong> ${output.width}x${output.height}</span>`,
+      warningLine
+    ].filter(Boolean).join("");
+    result.classList.add("visible");
+    const empty = document.getElementById("compressResultEmpty");
+    if (empty) empty.hidden = true;
+  }
+
+  function renderCompressBatchOutputs() {
+    const list = document.getElementById("compressBatchResultList");
+    if (!list) return;
+    if (compressorState.outputs.length <= 1) {
+      list.innerHTML = "";
+      return;
+    }
+
+    list.innerHTML = compressorState.outputs.map((output, index) => {
+      const summary = output.delta.smaller
+        ? `${readableSize(output.outputSize)} - saved ${output.delta.percent.toFixed(1)}%`
+        : output.delta.larger
+          ? `${readableSize(output.outputSize)} - ${readableSize(Math.abs(output.delta.delta))} larger`
+          : `${readableSize(output.outputSize)} - no size change`;
+      return `
+        <article class="batch-result-item ${output.delta.larger ? "is-warning" : ""}">
+          <div>
+            <strong>${escapeHtml(output.name)}</strong>
+            <span>${summary}</span>
+          </div>
+          <a href="${output.url}" download="${escapeHtml(output.name)}">Download ${index + 1}</a>
+        </article>
+      `;
+    }).join("");
+  }
+
+  async function runCompressor() {
+    if (!compressorState.items.length) {
+      setMessage("Upload an image first.", "error");
+      return;
+    }
+    if (!compressorState.usageLoaded) await loadCompressUsage();
+    if (compressLimitReached()) {
+      showCompressLimitNotice();
+      return;
+    }
+
+    action.disabled = true;
+    setMessage("Compressing locally in your browser...");
+
+    const compressedOutputs = [];
+    try {
+      const items = compressorState.premium ? compressorState.items : compressorState.items.slice(0, 1);
+      if (Number.isFinite(compressDailyLimit()) && compressorState.usageCount + items.length > compressDailyLimit()) {
+        throw new Error("compress-limit");
+      }
+
+      for (const item of items) {
+        compressedOutputs.push(await compressOneItem(item));
+      }
+
+      await consumeCompressUsage(compressedOutputs.length);
+      clearCompressorOutputs();
+      compressorState.outputs = compressedOutputs;
+      showCompressOutput(compressorState.outputs[0]);
+      renderCompressBatchOutputs();
+      setMessage("Done. Your image was processed locally on your device.", "success");
+      scheduleCompressEstimate();
+    } catch (error) {
+      compressedOutputs.forEach((output) => URL.revokeObjectURL(output.url));
+      if (error.message === "compress-limit") showCompressLimitNotice();
+      else setMessage(error.message || "This image could not be compressed.", "error");
+    } finally {
+      updateCompressButtonState();
+    }
+  }
+
+  function bindCompressorDropzone() {
+    dropzone.addEventListener("click", () => input.click());
+    dropzone.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        input.click();
+      }
+    });
+    dropzone.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      dropzone.classList.add("is-dragging");
+    });
+    dropzone.addEventListener("dragleave", () => dropzone.classList.remove("is-dragging"));
+    dropzone.addEventListener("drop", (event) => {
+      event.preventDefault();
+      dropzone.classList.remove("is-dragging");
+      addCompressFiles(event.dataTransfer.files);
+    });
+    input.addEventListener("change", () => addCompressFiles(input.files));
+  }
+
+  function bindCompressQualityControls() {
+    const range = document.getElementById("compressQuality");
+    const output = document.getElementById("compressQualityValue");
+    const update = () => {
+      if (output) output.textContent = `${range.value}%`;
+      document.getElementById("compressEstimateQuality").textContent = `Quality ${range.value}%`;
+      scheduleCompressEstimate();
+    };
+    range?.addEventListener("input", update);
+    update();
+
+    document.getElementById("compressPresetGrid")?.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-quality]");
+      if (!button || !range) return;
+      range.value = button.dataset.quality;
+      update();
+      setMessage(`Quality preset selected: ${button.dataset.quality}%.`, "success");
+    });
+  }
+
+  async function initializeCompressorMembership() {
+    try {
+      const [{ auth, db }, { onAuthStateChanged }, premiumModule, firestoreModule] = await Promise.all([
+        import(new URL("../../js/firebase.js", document.baseURI).href),
+        import("https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js"),
+        import(new URL("../../js/premium-access.js?v=20260718-premium-gate", document.baseURI).href),
+        import("https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js")
+      ]);
+      compressorState.firestore = {
+        db,
+        doc: firestoreModule.doc,
+        getDoc: firestoreModule.getDoc,
+        runTransaction: firestoreModule.runTransaction,
+        serverTimestamp: firestoreModule.serverTimestamp
+      };
+      onAuthStateChanged(auth, async (user) => {
+        compressorState.user = user || null;
+        compressorState.accountKey = user ? user.uid : "guest";
+        const plan = user && typeof premiumModule.getPremiumPlan === "function" ? await premiumModule.getPremiumPlan(user) : "";
+        compressorState.plan = normalizePlan(plan || "free");
+        compressorState.premium = user ? Boolean(plan || await premiumModule.isPremiumUser(user)) : false;
+        await loadCompressUsage();
+        renderCompressorPreview();
+      });
+    } catch (error) {
+      console.warn("PMW premium status is unavailable; using free compressor access.", error);
+      compressorState.user = null;
+      compressorState.accountKey = "guest";
+      compressorState.premium = false;
+      compressorState.plan = "free";
+      await loadCompressUsage();
+    }
+  }
+
+  function initCompressor() {
+    bindCompressorDropzone();
+    bindCompressQualityControls();
+    action.addEventListener("click", runCompressor);
+    resetCompressEstimate("Upload an image", "-");
+    initializeCompressorMembership();
+    updateCompressButtonState();
   }
 
   function localUsageKey() {
@@ -426,8 +1018,8 @@
     document.body.dataset.resizePlan = normalizePlan(resizerState.plan);
     if (isUnlimitedResizePlan() || !freeLimitReached()) hideLimitNotice();
     if (freeLimitReached()) {
-      showLimitNotice();
-      action.disabled = true;
+      hideLimitNotice();
+      updateResizeButtonState();
       return;
     }
     updateResizeButtonState();
@@ -540,7 +1132,7 @@
   function updateResizeButtonState() {
     if (page !== "resizer" || !action) return;
     const hasItems = resizerState.items.length > 0;
-    action.disabled = !hasItems || freeLimitReached();
+    action.disabled = !hasItems;
     action.querySelector("span")?.remove();
     action.innerHTML = `${resizerState.items.length > 1 ? "Resize Images" : "Resize Image"} <i data-lucide="arrow-right"></i>`;
     drawIcons();
@@ -666,6 +1258,7 @@
     if (!resizerState.usageLoaded) await loadResizeUsage();
     if (freeLimitReached()) {
       showLimitNotice();
+      action.disabled = true;
       return;
     }
 
@@ -703,7 +1296,10 @@
       setMessage(`${resizedOutputs.length} image${resizedOutputs.length === 1 ? "" : "s"} resized.`, "success");
     } catch (error) {
       resizedOutputs.forEach((output) => URL.revokeObjectURL(output.url));
-      if (error.message === "resize-limit") showLimitNotice();
+      if (error.message === "resize-limit") {
+        showLimitNotice();
+        action.disabled = true;
+      }
       else setMessage(error.message || "This image could not be resized.", "error");
     } finally {
       updateResizeButtonState();
@@ -741,6 +1337,27 @@
       document.getElementById("resizeHeight").value = button.dataset.height;
       setMessage(`Preset selected: ${button.dataset.width}x${button.dataset.height}.`, "success");
     });
+  }
+
+  function resetResizer() {
+    clearResizerItems();
+    hideLimitNotice();
+    if (input) input.value = "";
+    const width = document.getElementById("resizeWidth");
+    const height = document.getElementById("resizeHeight");
+    const keep = document.getElementById("keepAspect");
+    const format = document.getElementById("resizeFormat");
+    const quality = document.getElementById("resizeQuality");
+    const qualityValue = document.getElementById("resizeQualityValue");
+    if (width) width.value = "";
+    if (height) height.value = "";
+    if (keep) keep.checked = true;
+    if (format) format.value = "original";
+    if (quality) quality.value = "92";
+    if (qualityValue) qualityValue.textContent = "92%";
+    updateResizeQualityVisibility();
+    updateResizeButtonState();
+    setMessage("Upload an image to begin.");
   }
 
   function bindResizerDropzone() {
@@ -806,6 +1423,7 @@
     bindPresets();
     document.getElementById("resizeFormat").addEventListener("change", updateResizeQualityVisibility);
     action.addEventListener("click", runResizer);
+    document.getElementById("toolReset")?.addEventListener("click", resetResizer);
     initializeResizerMembership();
     updateResizeButtonState();
   }
@@ -814,6 +1432,8 @@
 
   if (page === "resizer") {
     initResizer();
+  } else if (page === "compressor") {
+    initCompressor();
   } else {
     bindBasicDropzone();
     bindRanges();

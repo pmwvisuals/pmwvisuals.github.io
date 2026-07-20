@@ -18,12 +18,12 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Compressor - PMW Tools</title>
-  <meta name="description" content="Compress images online with PMW Tools. Reduce JPG and WebP file size locally in your browser and download optimized images.">
+  <title>Image Compressor - Compress Images Online | PMW Tools</title>
+  <meta name="description" content="Compress JPG, PNG, and WEBP images online with PMW Image Compressor. Reduce image file size in your browser while keeping your image private.">
   <link rel="canonical" href="https://pmwvisuals.com/tools/image-compressor/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Image Compressor - PMW Tools">
-  <meta property="og:description" content="Reduce image file size locally in your browser with PMW Visuals.">
+  <meta property="og:title" content="Image Compressor - Compress Images Online | PMW Tools">
+  <meta property="og:description" content="Compress JPG, PNG, and WEBP images online with PMW Image Compressor.">
   <meta property="og:url" content="https://pmwvisuals.com/tools/image-compressor/">
   <meta property="og:image" content="https://pmwvisuals.com/pmw-wordmark.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -50,7 +50,7 @@
       <header class="tool-header">
         <span class="tools-kicker">PMW Tools</span>
         <h1>Image Compressor</h1>
-        <p>Reduce image file size for faster uploads, previews, and sharing while keeping the conversion local to your browser.</p>
+        <p>Reduce JPG, PNG, and WEBP image file size directly in your browser. PMW Image Compressor keeps your original image private, estimates savings before compression, and downloads the optimized result without uploading files to a server.</p>
       </header>
       <nav class="tool-tabs" aria-label="Tool navigation">
         <a href="../../pmw-converter.html">Convert</a>
@@ -58,39 +58,95 @@
         <a class="active" href="./" aria-current="page">Compress</a>
       </nav>
 
-      <section class="tool-panel" aria-label="Image compressor workspace">
-        <div class="tool-upload-side">
-          <input id="toolFileInput" type="file" accept="image/*" hidden>
+      <section class="compressor-layout" aria-label="Image compressor workspace">
+        <div class="tool-upload-side compressor-upload-card">
+          <input id="toolFileInput" type="file" accept="image/*" multiple hidden>
           <div class="tool-dropzone" id="toolDropzone" role="button" tabindex="0">
             <div>
               <div class="tool-drop-icon"><i data-lucide="upload"></i></div>
               <h2>Drop an image here</h2>
-              <p>Upload a JPG, PNG, or WebP image and choose a compression quality.</p>
+              <p>Free users can compress one image up to 10MB. Premium users can batch compress larger images.</p>
             </div>
           </div>
-          <div class="tool-file-preview" id="toolFilePreview" aria-live="polite"></div>
+          <div class="tool-file-preview compressor-file-preview" id="toolFilePreview" aria-live="polite"></div>
+          <div class="resizer-details" id="compressOriginalDetails" hidden>
+            <h2>Original Image Details</h2>
+            <dl>
+              <div><dt>File name</dt><dd id="compressDetailName">-</dd></div>
+              <div><dt>File size</dt><dd id="compressDetailSize">-</dd></div>
+              <div><dt>Width</dt><dd id="compressDetailWidth">-</dd></div>
+              <div><dt>Height</dt><dd id="compressDetailHeight">-</dd></div>
+              <div><dt>File type</dt><dd id="compressDetailType">-</dd></div>
+            </dl>
+          </div>
         </div>
-        <div class="tool-controls">
+
+        <section class="tool-controls compressor-controls" aria-label="Compression settings">
           <div class="tool-field">
-            <label for="compressFormat">Output format</label>
-            <select id="compressFormat" class="tool-select">
-              <option value="image/jpeg">JPG</option>
-              <option value="image/webp">WebP</option>
-              <option value="image/png">PNG</option>
-            </select>
+            <span class="tool-label">Quality presets</span>
+            <div class="quality-preset-grid" id="compressPresetGrid">
+              <button type="button" data-quality="85">High quality <span>85%</span></button>
+              <button type="button" data-quality="70">Balanced <span>70%</span></button>
+              <button type="button" data-quality="55">Small size <span>55%</span></button>
+              <button type="button" data-quality="40">Maximum compression <span>40%</span></button>
+            </div>
           </div>
+
           <div class="tool-field">
-            <label for="compressQuality">Compression quality <span id="compressQualityValue">72%</span></label>
-            <input id="compressQuality" class="tool-range" type="range" min="10" max="95" value="72" data-range-output="compressQualityValue">
+            <label for="compressQuality">Compression quality <span id="compressQualityValue">70%</span></label>
+            <input id="compressQuality" class="tool-range" type="range" min="10" max="95" value="70" data-range-output="compressQualityValue">
           </div>
+
+          <div class="compress-estimate" id="compressEstimate" aria-live="polite">
+            <div class="compress-estimate-head">
+              <strong id="compressEstimateStatus">Upload an image</strong>
+              <span id="compressEstimateQuality">Quality 70%</span>
+            </div>
+            <dl>
+              <div><dt>Original</dt><dd id="compressEstimateOriginal">-</dd></div>
+              <div><dt>Estimated</dt><dd id="compressEstimateSize">-</dd></div>
+              <div><dt>Saved</dt><dd id="compressEstimateSaved">-</dd></div>
+              <div><dt>Result</dt><dd id="compressEstimatePercent">-</dd></div>
+            </dl>
+          </div>
+
           <button class="tools-action" id="toolAction" type="button" disabled>Compress Image <i data-lucide="arrow-right"></i></button>
           <p class="tool-message" id="toolMessage" aria-live="polite">Upload an image to begin.</p>
-          <div class="tool-result" id="toolResult">
+
+          <div class="usage-notice" id="compressUsageNotice" hidden>
+            <strong>Free compression limit reached</strong>
+            <span>You have reached today's free compression limit. Upgrade to Premium for more compression features.</span>
+            <a href="../../premium.html">Upgrade to Premium</a>
+          </div>
+
+          <aside class="premium-feature-card" aria-label="Premium Compressor Features">
+            <div class="premium-feature-icon"><i data-lucide="crown"></i></div>
+            <div>
+              <h2>Premium Compressor Features</h2>
+              <ul>
+                <li>Batch compression</li>
+                <li>Larger image support</li>
+                <li>Advanced quality controls</li>
+                <li>More daily compressions</li>
+                <li>Faster workflow</li>
+              </ul>
+            </div>
+          </aside>
+        </section>
+
+        <section class="compressor-result-panel" aria-label="Compression result">
+          <div class="resizer-result-empty" id="compressResultEmpty">
+            <i data-lucide="image-down"></i>
+            <h2>Result preview</h2>
+            <p>Your compressed image and file size comparison will appear here.</p>
+          </div>
+          <div class="tool-result compressor-result" id="toolResult">
             <div class="tool-result-preview"><img id="toolResultImage" alt="Compressed image preview"></div>
             <div class="tool-result-meta" id="toolResultMeta"></div>
             <a class="tool-download" id="toolDownload">Download Compressed Image <i data-lucide="download"></i></a>
           </div>
-        </div>
+          <div class="batch-result-list" id="compressBatchResultList" aria-live="polite"></div>
+        </section>
       </section>
     </main>
   </div>
