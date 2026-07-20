@@ -474,34 +474,57 @@
     }
   }
 
-  function compressionQualityCandidates(type) {
+  function compressionQualityCandidates(type, selectedQuality) {
     if (type === "image/png") return [1];
-    const selected = getCompressQuality();
-    const candidates = [
-      selected,
-      0.9,
-      0.82,
-      0.74,
-      0.66,
-      0.58,
-      0.5,
-      0.42,
-      0.34,
-      0.26,
-      0.18,
-      0.1
-    ];
-    return [...new Set(candidates.map((quality) => Number(Math.max(0.1, Math.min(0.95, quality)).toFixed(2))))];
+    const floor = 0.1;
+    const step = Math.max(0.03, (selectedQuality - floor) / 10);
+    const candidates = [];
+    for (let quality = selectedQuality; quality >= floor; quality -= step) {
+      candidates.push(Number(Math.max(floor, quality).toFixed(2)));
+    }
+    candidates.push(floor);
+    return [...new Set(candidates)];
   }
 
-  function compressionScaleCandidates() {
-    return [1, 0.96, 0.92, 0.88, 0.84, 0.8, 0.74, 0.68, 0.62, 0.56, 0.5, 0.44, 0.38, 0.32, 0.26, 0.2, 0.14, 0.1];
+  function compressionScaleCandidates(selectedQuality) {
+    const preferredScale = Math.max(0.16, Math.min(1, 0.2 + selectedQuality * 0.84));
+    const candidates = [
+      preferredScale,
+      1,
+      0.96,
+      0.92,
+      0.88,
+      0.84,
+      0.8,
+      0.74,
+      0.68,
+      0.62,
+      0.56,
+      0.5,
+      0.44,
+      0.38,
+      0.32,
+      0.26,
+      0.2,
+      0.16,
+      0.12,
+      0.1
+    ];
+    return [...new Set(candidates.map((scale) => Number(Math.max(0.1, Math.min(1, scale)).toFixed(3))))].sort((a, b) => b - a);
+  }
+
+  function compressionTargetSize(originalSize, selectedQuality) {
+    const targetRatio = Math.max(0.16, Math.min(0.97, selectedQuality * 0.92 + 0.08));
+    return Math.max(1, Math.floor(originalSize * targetRatio));
   }
 
   async function createSmallerCompressedBlob(item, type) {
-    const qualities = compressionQualityCandidates(type);
-    const scales = compressionScaleCandidates();
+    const selectedQuality = getCompressQuality();
+    const targetSize = compressionTargetSize(item.file.size, selectedQuality);
+    const qualities = compressionQualityCandidates(type, selectedQuality);
+    const scales = compressionScaleCandidates(selectedQuality);
     let smallest = null;
+    let best = null;
 
     for (const scale of scales) {
       const width = Math.max(1, Math.round(item.image.naturalWidth * scale));
@@ -514,7 +537,7 @@
           blob,
           width,
           height,
-          qualityPercent: type === "image/png" ? 100 : Math.round(quality * 100),
+          qualityPercent: Math.round(selectedQuality * 100),
           wasScaled: scale < 1
         };
 
@@ -522,11 +545,17 @@
           smallest = candidate;
         }
         if (blob.size < item.file.size) {
-          return candidate;
+          if (!best || blob.size <= targetSize && blob.size > best.blob.size) {
+            best = candidate;
+          }
+          if (blob.size <= targetSize) {
+            return candidate;
+          }
         }
       }
     }
 
+    if (best) return best;
     if (smallest && smallest.blob.size < item.file.size) return smallest;
     throw new Error("This image is already too optimized for browser compression.");
   }
