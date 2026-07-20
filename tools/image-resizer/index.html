@@ -18,12 +18,12 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Resizer - PMW Tools</title>
-  <meta name="description" content="Resize images online with PMW Tools. Set custom width and height, keep aspect ratio, and download the resized image.">
+  <title>Image Resizer - Resize Images Online | PMW Tools</title>
+  <meta name="description" content="Resize JPG, PNG, and WEBP images online with PMW Image Resizer. Change image width and height, keep aspect ratio, and download resized images.">
   <link rel="canonical" href="https://pmwvisuals.com/tools/image-resizer/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Image Resizer - PMW Tools">
-  <meta property="og:description" content="Resize images by width and height online with a clean PMW Visuals tool.">
+  <meta property="og:title" content="Image Resizer - Resize Images Online | PMW Tools">
+  <meta property="og:description" content="Resize JPG, PNG, and WEBP images online with PMW Image Resizer.">
   <meta property="og:url" content="https://pmwvisuals.com/tools/image-resizer/">
   <meta property="og:image" content="https://pmwvisuals.com/pmw-wordmark.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -50,54 +50,116 @@
       <header class="tool-header">
         <span class="tools-kicker">PMW Tools</span>
         <h1>Image Resizer</h1>
-        <p>Resize an image to exact pixel dimensions for banners, previews, thumbnails, posts, or desktop publishing.</p>
+        <p>Resize JPG, PNG, and WEBP images directly in your browser. Set exact dimensions, keep the original aspect ratio, choose export quality, and download the resized result without uploading your image to a server.</p>
       </header>
+
       <nav class="tool-tabs" aria-label="Tool navigation">
         <a href="../../pmw-converter.html">Convert</a>
         <a class="active" href="./" aria-current="page">Resize</a>
         <a href="../image-compressor/">Compress</a>
       </nav>
 
-      <section class="tool-panel" aria-label="Image resizer workspace">
-        <div class="tool-upload-side">
-          <input id="toolFileInput" type="file" accept="image/*" hidden>
+      <section class="resizer-layout" aria-label="Image resizer workspace">
+        <div class="tool-upload-side resizer-upload-card">
+          <input id="toolFileInput" type="file" accept="image/*" multiple hidden>
           <div class="tool-dropzone" id="toolDropzone" role="button" tabindex="0">
             <div>
               <div class="tool-drop-icon"><i data-lucide="upload"></i></div>
-              <h2>Drop an image here</h2>
-              <p>Upload one image, then set the output width and height.</p>
+              <h2>Drop image here</h2>
+              <p>Free users can resize one image up to 10MB. Premium users can batch resize larger images.</p>
             </div>
           </div>
-          <div class="tool-file-preview" id="toolFilePreview" aria-live="polite"></div>
+          <div class="tool-file-preview resizer-file-preview" id="toolFilePreview" aria-live="polite"></div>
+          <div class="resizer-details" id="originalDetails" hidden>
+            <h2>Original Image Details</h2>
+            <dl>
+              <div><dt>File name</dt><dd id="detailName">-</dd></div>
+              <div><dt>File size</dt><dd id="detailSize">-</dd></div>
+              <div><dt>Width</dt><dd id="detailWidth">-</dd></div>
+              <div><dt>Height</dt><dd id="detailHeight">-</dd></div>
+              <div><dt>File type</dt><dd id="detailType">-</dd></div>
+            </dl>
+          </div>
         </div>
-        <div class="tool-controls">
+
+        <section class="tool-controls resizer-controls" aria-label="Resize settings">
+          <div class="tool-field">
+            <span class="tool-label">Preset sizes</span>
+            <div class="preset-grid" id="presetGrid">
+              <button type="button" data-width="1920" data-height="1080">1920 x 1080</button>
+              <button type="button" data-width="1366" data-height="768">1366 x 768</button>
+              <button type="button" data-width="1280" data-height="720">1280 x 720</button>
+              <button type="button" data-width="1080" data-height="1920">1080 x 1920</button>
+              <button type="button" data-width="1080" data-height="1080">1080 x 1080</button>
+              <button type="button" data-width="3840" data-height="2160">3840 x 2160</button>
+            </div>
+          </div>
+
           <div class="tool-row">
             <div class="tool-field">
-              <label for="resizeWidth">Width</label>
-              <input id="resizeWidth" class="tool-input" type="number" min="1" placeholder="Width px">
+              <label for="resizeWidth">Custom width</label>
+              <input id="resizeWidth" class="tool-input" type="number" min="1" inputmode="numeric" placeholder="Width px">
             </div>
             <div class="tool-field">
-              <label for="resizeHeight">Height</label>
-              <input id="resizeHeight" class="tool-input" type="number" min="1" placeholder="Height px">
+              <label for="resizeHeight">Custom height</label>
+              <input id="resizeHeight" class="tool-input" type="number" min="1" inputmode="numeric" placeholder="Height px">
             </div>
           </div>
+
           <label class="tool-check"><input id="keepAspect" type="checkbox" checked> Keep aspect ratio</label>
+
           <div class="tool-field">
             <label for="resizeFormat">Output format</label>
             <select id="resizeFormat" class="tool-select">
+              <option value="original">Same as original</option>
               <option value="image/jpeg">JPG</option>
               <option value="image/png">PNG</option>
-              <option value="image/webp">WebP</option>
+              <option value="image/webp">WEBP</option>
             </select>
           </div>
+
+          <div class="tool-field" id="resizeQualityGroup">
+            <label for="resizeQuality">Export quality <span id="resizeQualityValue">92%</span></label>
+            <input id="resizeQuality" class="tool-range" type="range" min="35" max="100" value="92" data-range-output="resizeQualityValue">
+          </div>
+
           <button class="tools-action" id="toolAction" type="button" disabled>Resize Image <i data-lucide="arrow-right"></i></button>
           <p class="tool-message" id="toolMessage" aria-live="polite">Upload an image to begin.</p>
-          <div class="tool-result" id="toolResult">
+
+          <div class="usage-notice" id="resizeUsageNotice" hidden>
+            <strong>Free resize limit reached</strong>
+            <span>You have reached today’s free resize limit. Upgrade to Premium for more resizing features.</span>
+            <a href="../../premium.html">Upgrade to Premium</a>
+          </div>
+
+          <aside class="premium-feature-card" aria-label="Premium Resizer Features">
+            <div class="premium-feature-icon"><i data-lucide="crown"></i></div>
+            <div>
+              <h2>Premium Resizer Features</h2>
+              <ul>
+                <li>Batch resize multiple images</li>
+                <li>Larger image support</li>
+                <li>Higher quality exports</li>
+                <li>Faster workflow</li>
+                <li>More daily resizes</li>
+              </ul>
+            </div>
+          </aside>
+        </section>
+
+        <section class="resizer-result-panel" aria-label="Resize result">
+          <div class="resizer-result-empty" id="resultEmpty">
+            <i data-lucide="image"></i>
+            <h2>Result preview</h2>
+            <p>Your resized image will appear here after processing.</p>
+          </div>
+          <div class="tool-result resizer-result" id="toolResult">
             <div class="tool-result-preview"><img id="toolResultImage" alt="Resized image preview"></div>
             <div class="tool-result-meta" id="toolResultMeta"></div>
             <a class="tool-download" id="toolDownload">Download Resized Image <i data-lucide="download"></i></a>
           </div>
-        </div>
+          <div class="batch-result-list" id="batchResultList" aria-live="polite"></div>
+        </section>
       </section>
     </main>
   </div>

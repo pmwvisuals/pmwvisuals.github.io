@@ -3,19 +3,24 @@ import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase
 
 const PREMIUM_PLANS = ["creative", "premium", "business", "starter", "pro", "advanced", "advance", "elite"];
 
-export async function isPremiumUser(user) {
+function normalizePlan(value) {
+  const plan = String(value || "").toLowerCase();
+  return PREMIUM_PLANS.includes(plan) ? plan : "";
+}
+
+export async function getPremiumPlan(user) {
   if (!user) return false;
 
   try {
     const token = await user.getIdTokenResult(true);
     const claims = token.claims || {};
-    const claimPlan = String(claims.plan || "").toLowerCase();
+    const claimPlan = normalizePlan(claims.plan);
+    if (claimPlan) return claimPlan;
     if (
       claims.premium === true ||
-      claims.role === "premium" ||
-      PREMIUM_PLANS.includes(claimPlan)
+      claims.role === "premium"
     ) {
-      return true;
+      return "premium";
     }
   } catch (error) {
     console.warn("Unable to read premium token claims.", error);
@@ -24,10 +29,15 @@ export async function isPremiumUser(user) {
   try {
     const snap = await getDoc(doc(db, "users", user.uid));
     const data = snap.exists() ? snap.data() : {};
-    const plan = String(data.plan || "").toLowerCase();
-    return data.premium === true || data.role === "premium" || PREMIUM_PLANS.includes(plan);
+    const plan = normalizePlan(data.plan);
+    if (plan) return plan;
+    return data.premium === true || data.role === "premium" ? "premium" : "";
   } catch (error) {
     console.warn("Unable to read premium account status.", error);
-    return false;
+    return "";
   }
+}
+
+export async function isPremiumUser(user) {
+  return Boolean(await getPremiumPlan(user));
 }
