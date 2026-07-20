@@ -456,8 +456,7 @@
     return {
       delta,
       percent,
-      smaller: delta > 0,
-      larger: delta < 0
+      smaller: delta > 0
     };
   }
 
@@ -475,25 +474,82 @@
     }
   }
 
+  function compressionQualityCandidates(type) {
+    if (type === "image/png") return [1];
+    const selected = getCompressQuality();
+    const candidates = [
+      selected,
+      0.9,
+      0.82,
+      0.74,
+      0.66,
+      0.58,
+      0.5,
+      0.42,
+      0.34,
+      0.26,
+      0.18,
+      0.1
+    ];
+    return [...new Set(candidates.map((quality) => Number(Math.max(0.1, Math.min(0.95, quality)).toFixed(2))))];
+  }
+
+  function compressionScaleCandidates() {
+    return [1, 0.96, 0.92, 0.88, 0.84, 0.8, 0.74, 0.68, 0.62, 0.56, 0.5, 0.44, 0.38, 0.32, 0.26, 0.2, 0.14, 0.1];
+  }
+
+  async function createSmallerCompressedBlob(item, type) {
+    const qualities = compressionQualityCandidates(type);
+    const scales = compressionScaleCandidates();
+    let smallest = null;
+
+    for (const scale of scales) {
+      const width = Math.max(1, Math.round(item.image.naturalWidth * scale));
+      const height = Math.max(1, Math.round(item.image.naturalHeight * scale));
+      const canvas = drawImageToCanvas(item.image, width, height, type === "image/jpeg");
+
+      for (const quality of qualities) {
+        const blob = await canvasToBlob(canvas, type, quality);
+        const candidate = {
+          blob,
+          width,
+          height,
+          qualityPercent: type === "image/png" ? 100 : Math.round(quality * 100),
+          wasScaled: scale < 1
+        };
+
+        if (!smallest || blob.size < smallest.blob.size) {
+          smallest = candidate;
+        }
+        if (blob.size < item.file.size) {
+          return candidate;
+        }
+      }
+    }
+
+    if (smallest && smallest.blob.size < item.file.size) return smallest;
+    throw new Error("This image is already too optimized for browser compression.");
+  }
+
   async function compressOneItem(item) {
     validateCompressItem(item);
     const type = getCompressOutputType(item.file);
-    const quality = getCompressQuality();
-    const canvas = drawImageToCanvas(item.image, item.image.naturalWidth, item.image.naturalHeight, type === "image/jpeg");
-    const blob = await canvasToBlob(canvas, type, quality);
+    const compressed = await createSmallerCompressedBlob(item, type);
+    const blob = compressed.blob;
     const delta = compressionDelta(item.file.size, blob.size);
     const name = `${safeBaseName(item.file.name)}-pmw-compressed.${extensionFor(type)}`;
     return {
       blob,
       name,
       type,
-      quality: getCompressQualityPercent(),
+      quality: compressed.qualityPercent,
       url: URL.createObjectURL(blob),
       originalSize: item.file.size,
       outputSize: blob.size,
-      width: item.image.naturalWidth,
-      height: item.image.naturalHeight,
-      delta
+      width: compressed.width,
+      height: compressed.height,
+      delta,
+      wasScaled: compressed.wasScaled
     };
   }
 
@@ -585,7 +641,6 @@
 
     const token = ++compressorState.estimateToken;
     const type = getCompressOutputType(item.file);
-    const quality = getCompressQuality();
     const percent = getCompressQualityPercent();
     document.getElementById("compressEstimateStatus").textContent = "Estimating...";
     document.getElementById("compressEstimateQuality").textContent = `Quality ${percent}%`;
@@ -597,33 +652,19 @@
 
     try {
       validateCompressItem(item);
-      const canvas = drawImageToCanvas(item.image, item.image.naturalWidth, item.image.naturalHeight, type === "image/jpeg");
-      const blob = await canvasToBlob(canvas, type, quality);
+      const compressed = await createSmallerCompressedBlob(item, type);
+      const blob = compressed.blob;
       if (token !== compressorState.estimateToken) return;
 
       const delta = compressionDelta(item.file.size, blob.size);
-      const status = type === "image/png"
-        ? "PNG compression may have limited savings in the browser."
-        : delta.larger
-          ? "This setting may increase file size"
-          : delta.percent < 5
-            ? "Try lower quality for better compression"
-            : "Ready to compress";
+      const status = compressed.wasScaled
+        ? "Ready to compress with a smaller optimized output"
+        : "Ready to compress";
       document.getElementById("compressEstimateStatus").textContent = status;
       document.getElementById("compressEstimateSize").textContent = readableSize(blob.size);
-      if (delta.smaller) {
-        document.getElementById("compressEstimateSaved").textContent = readableSize(delta.delta);
-        document.getElementById("compressEstimatePercent").textContent = `${delta.percent.toFixed(1)}% smaller`;
-        setEstimateClass("is-success");
-      } else if (delta.larger) {
-        document.getElementById("compressEstimateSaved").textContent = `${readableSize(Math.abs(delta.delta))} larger`;
-        document.getElementById("compressEstimatePercent").textContent = "Larger than original";
-        setEstimateClass("is-warning");
-      } else {
-        document.getElementById("compressEstimateSaved").textContent = "No size change";
-        document.getElementById("compressEstimatePercent").textContent = "0% change";
-        setEstimateClass("is-warning");
-      }
+      document.getElementById("compressEstimateSaved").textContent = readableSize(delta.delta);
+      document.getElementById("compressEstimatePercent").textContent = `${delta.percent.toFixed(1)}% smaller`;
+      setEstimateClass("is-success");
     } catch (error) {
       if (token !== compressorState.estimateToken) return;
       document.getElementById("compressEstimateStatus").textContent = error.message || "Unable to estimate this image.";
@@ -695,25 +736,20 @@
     resultImage.src = output.url;
     resultDownload.href = output.url;
     resultDownload.download = output.name;
-    result.classList.toggle("is-warning", output.delta.larger || !output.delta.smaller);
+    result.classList.remove("is-warning");
 
-    const resultLine = output.delta.smaller
-      ? `<span><strong>Saved:</strong> ${readableSize(output.delta.delta)} (${output.delta.percent.toFixed(1)}%)</span>`
-      : output.delta.larger
-        ? `<span><strong>Result:</strong> ${readableSize(Math.abs(output.delta.delta))} larger</span>`
-        : `<span><strong>Result:</strong> No size change</span>`;
-    const warningLine = output.delta.larger
-      ? `<span class="result-warning"><strong>Warning:</strong> This output is larger than the original. Try lowering the quality or use the original file.</span>`
+    const scaledLine = output.wasScaled
+      ? `<span><strong>Optimization:</strong> Dimensions were reduced to keep the compressed file smaller than the upload.</span>`
       : "";
 
     resultMeta.innerHTML = [
       `<span><strong>Before:</strong> ${readableSize(output.originalSize)}</span>`,
       `<span><strong>After:</strong> ${readableSize(output.outputSize)}</span>`,
-      resultLine,
+      `<span><strong>Saved:</strong> ${readableSize(output.delta.delta)} (${output.delta.percent.toFixed(1)}%)</span>`,
       `<span><strong>Output type:</strong> ${labelForType(output.type)}</span>`,
       `<span><strong>Quality used:</strong> ${output.quality}%</span>`,
       `<span><strong>Resolution:</strong> ${output.width}x${output.height}</span>`,
-      warningLine
+      scaledLine
     ].filter(Boolean).join("");
     result.classList.add("visible");
     const empty = document.getElementById("compressResultEmpty");
@@ -729,13 +765,9 @@
     }
 
     list.innerHTML = compressorState.outputs.map((output, index) => {
-      const summary = output.delta.smaller
-        ? `${readableSize(output.outputSize)} - saved ${output.delta.percent.toFixed(1)}%`
-        : output.delta.larger
-          ? `${readableSize(output.outputSize)} - ${readableSize(Math.abs(output.delta.delta))} larger`
-          : `${readableSize(output.outputSize)} - no size change`;
+      const summary = `${readableSize(output.outputSize)} - saved ${output.delta.percent.toFixed(1)}%`;
       return `
-        <article class="batch-result-item ${output.delta.larger ? "is-warning" : ""}">
+        <article class="batch-result-item">
           <div>
             <strong>${escapeHtml(output.name)}</strong>
             <span>${summary}</span>
