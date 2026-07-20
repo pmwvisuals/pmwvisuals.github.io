@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5405757257681205" crossorigin="anonymous"></script>
+  <link rel="icon" type="image/png" href="../../favicon.png">
+  <link rel="shortcut icon" href="../../favicon.png">
+  <script data-pmw-consent-default>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {'ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied','analytics_storage':'denied'});
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KWF3JNMHNW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KWF3JNMHNW');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Compressor - PMW Tools</title>
+  <meta name="description" content="Compress images online with PMW Tools. Reduce JPG and WebP file size locally in your browser and download optimized images.">
+  <link rel="canonical" href="https://pmwvisuals.com/tools/image-compressor/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Image Compressor - PMW Tools">
+  <meta property="og:description" content="Reduce image file size locally in your browser with PMW Visuals.">
+  <meta property="og:url" content="https://pmwvisuals.com/tools/image-compressor/">
+  <meta property="og:image" content="https://pmwvisuals.com/pmw-wordmark.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#050505">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/pmw-tools.css">
+</head>
+<body data-tool="compressor">
+  <div class="tools-page">
+    <nav class="tools-nav tools-shell" aria-label="Primary navigation">
+      <a class="tools-brand" href="../../index.html" aria-label="PMW Visuals home"><img src="../../pmw-wordmark.png" alt="PMW"><span>Visuals</span></a>
+      <div class="tools-nav-links">
+        <a class="tools-nav-link" href="../../index.html">Home</a>
+        <a class="tools-nav-link" href="../../pmw-wallpapers.html">Wallpapers</a>
+        <a class="tools-nav-link" href="../../pmw-studio.html">PMW Studio</a>
+        <a class="tools-nav-link active" href="../">PMW Tools</a>
+      </div>
+      <div class="tools-nav-actions"><a class="tools-nav-link" href="../../index.html#contact">Contact</a></div>
+    </nav>
+
+    <main class="tool-workspace tools-shell">
+      <header class="tool-header">
+        <span class="tools-kicker">PMW Tools</span>
+        <h1>Image Compressor</h1>
+        <p>Reduce image file size for faster uploads, previews, and sharing while keeping the conversion local to your browser.</p>
+      </header>
+      <nav class="tool-tabs" aria-label="Tool navigation">
+        <a href="../../pmw-converter.html">Convert</a>
+        <a href="../image-resizer/">Resize</a>
+        <a class="active" href="./" aria-current="page">Compress</a>
+      </nav>
+
+      <section class="tool-panel" aria-label="Image compressor workspace">
+        <div class="tool-upload-side">
+          <input id="toolFileInput" type="file" accept="image/*" hidden>
+          <div class="tool-dropzone" id="toolDropzone" role="button" tabindex="0">
+            <div>
+              <div class="tool-drop-icon"><i data-lucide="upload"></i></div>
+              <h2>Drop an image here</h2>
+              <p>Upload a JPG, PNG, or WebP image and choose a compression quality.</p>
+            </div>
+          </div>
+          <div class="tool-file-preview" id="toolFilePreview" aria-live="polite"></div>
+        </div>
+        <div class="tool-controls">
+          <div class="tool-field">
+            <label for="compressFormat">Output format</label>
+            <select id="compressFormat" class="tool-select">
+              <option value="image/jpeg">JPG</option>
+              <option value="image/webp">WebP</option>
+              <option value="image/png">PNG</option>
+            </select>
+          </div>
+          <div class="tool-field">
+            <label for="compressQuality">Compression quality <span id="compressQualityValue">72%</span></label>
+            <input id="compressQuality" class="tool-range" type="range" min="10" max="95" value="72" data-range-output="compressQualityValue">
+          </div>
+          <button class="tools-action" id="toolAction" type="button" disabled>Compress Image <i data-lucide="arrow-right"></i></button>
+          <p class="tool-message" id="toolMessage" aria-live="polite">Upload an image to begin.</p>
+          <div class="tool-result" id="toolResult">
+            <div class="tool-result-preview"><img id="toolResultImage" alt="Compressed image preview"></div>
+            <div class="tool-result-meta" id="toolResultMeta"></div>
+            <a class="tool-download" id="toolDownload">Download Compressed Image <i data-lucide="download"></i></a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="../../js/pmw-tools.js"></script>
+  <script src="../../consent.js"></script>
+</body>
+</html>
