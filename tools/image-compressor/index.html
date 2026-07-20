@@ -97,6 +97,12 @@
             <input id="compressQuality" class="tool-range" type="range" min="10" max="95" value="70" data-range-output="compressQualityValue">
           </div>
 
+          <div class="tool-field">
+            <label for="compressTargetSize">Target file size</label>
+            <input id="compressTargetSize" class="tool-input" type="number" min="1" step="1" inputmode="numeric" placeholder="Auto from quality">
+            <p class="tool-note">Optional. Enter a preferred size in KB. The result will stay below the uploaded file size.</p>
+          </div>
+
           <div class="compress-estimate" id="compressEstimate" aria-live="polite">
             <div class="compress-estimate-head">
               <strong id="compressEstimateStatus">Upload an image</strong>

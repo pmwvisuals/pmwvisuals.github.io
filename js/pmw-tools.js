@@ -513,18 +513,26 @@
     return [...new Set(candidates.map((scale) => Number(Math.max(0.1, Math.min(1, scale)).toFixed(3))))].sort((a, b) => b - a);
   }
 
-  function compressionTargetSize(originalSize, selectedQuality) {
-    const targetRatio = Math.max(0.16, Math.min(0.97, selectedQuality * 0.92 + 0.08));
-    return Math.max(1, Math.floor(originalSize * targetRatio));
+  function getRequestedCompressTargetBytes(originalSize, selectedQuality) {
+    const inputTarget = document.getElementById("compressTargetSize");
+    const requestedKb = Number.parseFloat(inputTarget?.value || "");
+    const maxTarget = Math.max(1, originalSize - 1);
+    if (Number.isFinite(requestedKb) && requestedKb > 0) {
+      return Math.max(1, Math.min(maxTarget, Math.round(requestedKb * 1024)));
+    }
+
+    const targetRatio = Math.max(0.14, Math.min(0.97, selectedQuality * 0.9 + 0.07));
+    return Math.max(1, Math.min(maxTarget, Math.floor(originalSize * targetRatio)));
   }
 
   async function createSmallerCompressedBlob(item, type) {
     const selectedQuality = getCompressQuality();
-    const targetSize = compressionTargetSize(item.file.size, selectedQuality);
+    const targetSize = getRequestedCompressTargetBytes(item.file.size, selectedQuality);
     const qualities = compressionQualityCandidates(type, selectedQuality);
     const scales = compressionScaleCandidates(selectedQuality);
     let smallest = null;
-    let best = null;
+    let bestUnderTarget = null;
+    let closestAboveTarget = null;
 
     for (const scale of scales) {
       const width = Math.max(1, Math.round(item.image.naturalWidth * scale));
@@ -545,17 +553,19 @@
           smallest = candidate;
         }
         if (blob.size < item.file.size) {
-          if (!best || blob.size <= targetSize && blob.size > best.blob.size) {
-            best = candidate;
-          }
           if (blob.size <= targetSize) {
-            return candidate;
+            if (!bestUnderTarget || blob.size > bestUnderTarget.blob.size) {
+              bestUnderTarget = candidate;
+            }
+          } else if (!closestAboveTarget || blob.size < closestAboveTarget.blob.size) {
+            closestAboveTarget = candidate;
           }
         }
       }
     }
 
-    if (best) return best;
+    if (bestUnderTarget) return bestUnderTarget;
+    if (closestAboveTarget) return closestAboveTarget;
     if (smallest && smallest.blob.size < item.file.size) return smallest;
     throw new Error("This image is already too optimized for browser compression.");
   }
@@ -872,12 +882,14 @@
   function bindCompressQualityControls() {
     const range = document.getElementById("compressQuality");
     const output = document.getElementById("compressQualityValue");
+    const target = document.getElementById("compressTargetSize");
     const update = () => {
       if (output) output.textContent = `${range.value}%`;
       document.getElementById("compressEstimateQuality").textContent = `Quality ${range.value}%`;
       scheduleCompressEstimate();
     };
     range?.addEventListener("input", update);
+    target?.addEventListener("input", scheduleCompressEstimate);
     update();
 
     document.getElementById("compressPresetGrid")?.addEventListener("click", (event) => {
