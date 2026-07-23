@@ -28,19 +28,19 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PMW Wallpapers - Laptop, Mobile &amp; 4K Wallpapers</title>
-    <meta name="description" content="Browse high-quality PMW wallpapers for laptops, desktops, phones, and creative projects. Search anime, nature, galaxy, dark aesthetic, AMOLED, and 4K wallpapers.">
+    <title>PMW Wallpapers - Desktop, Mobile &amp; 4K Wallpapers</title>
+    <meta name="description" content="Browse high-quality PMW wallpapers for desktops, phones, and creative projects. Search anime, nature, galaxy, dark aesthetic, AMOLED, and 4K wallpapers.">
     <link rel="canonical" href="https://pmwvisuals.com/pmw-wallpapers.html">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="PMW Wallpapers - Laptop, Mobile &amp; 4K Wallpapers">
-    <meta property="og:description" content="Browse high-quality wallpapers for laptops, desktops, phones, anime, nature, galaxy, dark aesthetic, AMOLED, and 4K screens.">
+    <meta property="og:title" content="PMW Wallpapers - Desktop, Mobile &amp; 4K Wallpapers">
+    <meta property="og:description" content="Browse high-quality wallpapers for desktops, phones, anime, nature, galaxy, dark aesthetic, AMOLED, and 4K screens.">
     <meta property="og:url" content="https://pmwvisuals.com/pmw-wallpapers.html">
     <meta property="og:image" content="https://pmwvisuals.com/pmw-logo.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="PMW Wallpapers - Laptop, Mobile &amp; 4K Wallpapers">
-    <meta name="twitter:description" content="Browse high-quality wallpapers for laptops, desktops, phones, anime, nature, galaxy, dark aesthetic, AMOLED, and 4K screens.">
+    <meta name="twitter:title" content="PMW Wallpapers - Desktop, Mobile &amp; 4K Wallpapers">
+    <meta name="twitter:description" content="Browse high-quality wallpapers for desktops, phones, anime, nature, galaxy, dark aesthetic, AMOLED, and 4K screens.">
     <meta name="twitter:image" content="https://pmwvisuals.com/pmw-logo.png">
-    <script type="application/ld+json" data-seo-schema>{"@context":"https://schema.org","@type":"CollectionPage","name":"PMW Wallpapers","url":"https://pmwvisuals.com/pmw-wallpapers.html","description":"A searchable PMW Visuals wallpaper collection for laptops, desktops, phones, and creative projects.","isPartOf":{"@type":"WebSite","name":"PMW Visuals","url":"https://pmwvisuals.com/"}}</script>
+    <script type="application/ld+json" data-seo-schema>{"@context":"https://schema.org","@type":"CollectionPage","name":"PMW Wallpapers","url":"https://pmwvisuals.com/pmw-wallpapers.html","description":"A searchable PMW Visuals wallpaper collection for desktops, phones, and creative projects.","isPartOf":{"@type":"WebSite","name":"PMW Visuals","url":"https://pmwvisuals.com/"}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -368,8 +368,7 @@
             grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 14px;
         }
-        .category-card,
-        .device-card {
+        .category-card {
             position: relative;
             min-height: 210px;
             overflow: hidden;
@@ -381,14 +380,12 @@
             cursor: pointer;
             transition: var(--transition-base);
         }
-        .category-card:hover,
-        .device-card:hover {
+        .category-card:hover {
             transform: translateY(-5px);
             border-color: var(--border-hover);
             box-shadow: 0 26px 70px rgba(0,0,0,0.46);
         }
-        .category-card::before,
-        .device-card::before {
+        .category-card::before {
             content: "";
             position: absolute;
             inset: 0;
@@ -399,37 +396,25 @@
             background-size: cover;
             transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .category-card:hover::before,
-        .device-card:hover::before {
+        .category-card:hover::before {
             transform: scale(1.06);
         }
-        .category-card-body,
-        .device-card-body {
+        .category-card-body {
             position: absolute;
             inset: auto 16px 16px 16px;
             z-index: 1;
         }
-        .category-card h3,
-        .device-card h3 {
+        .category-card h3 {
             margin: 0 0 8px;
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.32rem;
             line-height: 1.05;
             letter-spacing: -0.03em;
         }
-        .category-card span,
-        .device-card p {
+        .category-card span {
             color: rgba(255,255,255,0.72);
             font-size: 0.78rem;
             font-weight: 700;
-        }
-        .device-card-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 14px;
-        }
-        .device-card {
-            min-height: 240px;
         }
         .filter-panel {
             display: grid;
@@ -466,6 +451,12 @@
         .wallpapers-grid {
             column-count: 5;
             column-gap: 18px;
+        }
+        .desktop-wallpapers-row {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            column-count: initial;
         }
         .wallpaper-card {
             position: relative;
@@ -727,10 +718,10 @@
         @media (max-width: 900px) {
             .wallpaper-section-head { align-items: start; flex-direction: column; }
             .category-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .device-card-grid { grid-template-columns: 1fr; }
             .filter-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .filter-chips { justify-content: flex-start; }
             .wallpapers-grid { column-count: 3; }
+            .desktop-wallpapers-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .wallpaper-panel {
                 grid-template-columns: 1fr;
                 overflow-y: auto;
@@ -754,6 +745,8 @@
             .category-card { min-width: 220px; scroll-snap-align: start; }
             .filter-panel { grid-template-columns: 1fr; }
             .wallpapers-grid { column-count: 2; column-gap: 12px; }
+            .desktop-wallpapers-row { display: flex; overflow-x: auto; gap: 12px; }
+            .desktop-wallpapers-row .wallpaper-card { min-width: 76vw; }
             .wallpaper-card { margin-bottom: 12px; }
             .panel-overlay { padding: 12px; align-items: center; }
             .panel-details { padding: 26px 20px 22px; }
@@ -803,7 +796,7 @@
                 <button class="nav-link" onclick="window.location.href='index.html'">Home</button>
                 <button class="nav-link" onclick="window.location.href='pmw-studio.html'">PMW Studio</button>
                 <button class="nav-link active">PMW Wallpapers</button>
-                <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html?category=Desktop%20Wallpapers#latest-wallpapers'">Desktop Wallpapers</button>
+                <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html?device=desktop#latest-wallpapers'">Desktop Wallpapers</button>
                 <button class="nav-link" onclick="window.location.href='tools/'">PMW Tools</button>
             </div>
             <div class="nav-actions">
@@ -825,7 +818,7 @@
                 <div class="wallpaper-hero-content">
                     <span class="wallpaper-kicker">Wallpapers for every screen</span>
                     <h1 class="section-title">Find Your Perfect Wallpaper</h1>
-                    <p class="section-subtitle">Browse high-quality wallpapers for laptops, desktops, phones, and creative projects.</p>
+                    <p class="section-subtitle">Browse high-quality wallpapers for desktops, phones, and creative projects.</p>
                 <label class="search-box" for="wallpaperSearch">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
@@ -834,7 +827,7 @@
                     <input id="wallpaperSearch" type="text" placeholder="Search anime, nature, galaxy, dark, aesthetic..." autocomplete="off">
                 </label>
                     <div class="filter-chips quick-filter-chips" id="quickFilters" aria-label="Quick wallpaper filters">
-                        <button class="filter-chip" type="button" data-filter-type="device" data-filter-value="laptop">Laptop</button>
+                        <button class="filter-chip" type="button" data-filter-type="device" data-filter-value="desktop">Desktop</button>
                         <button class="filter-chip" type="button" data-filter-type="device" data-filter-value="mobile">Mobile</button>
                         <button class="filter-chip" type="button" data-filter-type="tag" data-filter-value="4k">4K</button>
                         <button class="filter-chip" type="button" data-filter-type="category" data-filter-value="Anime">Anime</button>
@@ -856,25 +849,15 @@
                 <div class="category-card-grid" id="categoryCards" aria-live="polite"></div>
             </section>
 
-            <section class="wallpaper-section" aria-labelledby="deviceBrowseTitle">
-                <div class="wallpaper-section-head">
-                    <div>
-                        <span class="wallpaper-kicker">Screen fit</span>
-                        <h2 id="deviceBrowseTitle">Browse by Device</h2>
-                    </div>
-                </div>
-                <div class="device-card-grid" id="deviceCards" aria-live="polite"></div>
-            </section>
-
-            <section class="wallpaper-section" aria-labelledby="laptopWallpapersTitle">
+            <section class="wallpaper-section" aria-labelledby="desktopWallpapersTitle">
                 <div class="wallpaper-section-head">
                     <div>
                         <span class="wallpaper-kicker">Wide screens</span>
-                        <h2 id="laptopWallpapersTitle">Laptop Wallpapers</h2>
+                        <h2 id="desktopWallpapersTitle">Desktop Wallpapers</h2>
                     </div>
-                    <p>Wide 16:9 wallpapers designed for laptops, desktops, and large screens.</p>
+                    <p>Wide 16:9 wallpapers designed for desktops and large screens.</p>
                 </div>
-                <section class="wallpapers-grid" id="laptopWallpapersGrid" aria-live="polite"></section>
+                <section class="wallpapers-grid desktop-wallpapers-row" id="desktopWallpapersGrid" aria-live="polite"></section>
             </section>
 
             <section class="wallpaper-section" id="latest-wallpapers" aria-labelledby="latestWallpapersTitle">
@@ -883,7 +866,7 @@
                         <span class="wallpaper-kicker">Fresh picks</span>
                         <h2 id="latestWallpapersTitle">Latest Wallpapers</h2>
                     </div>
-                    <p>Use search and filters to find anime, nature, galaxy, dark aesthetic, mobile, laptop, free, and premium wallpapers.</p>
+                    <p>Use search and filters to find anime, nature, galaxy, dark aesthetic, desktop, mobile, free, and premium wallpapers.</p>
                 </div>
                 <div class="filter-panel" aria-label="Wallpaper filters">
                     <div class="filter-field">
@@ -894,7 +877,6 @@
                         <label for="deviceFilterSelect">Device type</label>
                         <select id="deviceFilterSelect">
                             <option value="All">All devices</option>
-                            <option value="laptop">Laptop</option>
                             <option value="desktop">Desktop</option>
                             <option value="mobile">Mobile</option>
                         </select>
@@ -1032,10 +1014,9 @@
         let isPremiumMember = false;
 
         const grid = document.getElementById('wallpapersGrid');
-        const laptopGrid = document.getElementById('laptopWallpapersGrid');
+        const desktopGrid = document.getElementById('desktopWallpapersGrid');
         const quickFilters = document.getElementById('quickFilters');
         const categoryCards = document.getElementById('categoryCards');
-        const deviceCards = document.getElementById('deviceCards');
         const categoryFilterSelect = document.getElementById('categoryFilterSelect');
         const deviceFilterSelect = document.getElementById('deviceFilterSelect');
         const styleFilterSelect = document.getElementById('styleFilterSelect');
@@ -1057,9 +1038,7 @@
             Romantic: 'Romantic Wallpapers',
             'Space and Galaxy': 'Galaxy Wallpapers',
             'Celestial Samurai': 'Samurai Wallpapers',
-            Minimalist: 'Minimal Wallpapers',
-            'Desktop Wallpapers': 'Desktop Wallpapers',
-            'Nature Desktop': 'Nature Desktop'
+            Minimalist: 'Minimal Wallpapers'
         };
 
         const featuredCategories = [
@@ -1070,18 +1049,25 @@
             { label: 'Dark Aesthetic', value: 'Dark Aesthetic', aliases: ['dark aesthetic', 'aesthetic', 'dark'] },
             { label: 'AMOLED', value: 'AMOLED', aliases: ['amoled'] },
             { label: 'Minimal', value: 'Minimalist', aliases: ['minimal', 'minimalist'] },
-            { label: 'Samurai', value: 'Celestial Samurai', aliases: ['celestial samurai', 'samurai'] },
-            { label: 'Desktop', value: 'Desktop Wallpapers', aliases: ['desktop wallpapers', 'desktop wallpaper', 'laptop wallpaper', '16:9 wallpaper'] }
+            { label: 'Samurai', value: 'Celestial Samurai', aliases: ['celestial samurai', 'samurai'] }
         ];
 
         function getCategoryLabel(category) {
             return categoryDisplayLabels[category] || category;
         }
 
+        function normalizeCategoryType(value) {
+            const normalized = normalize(value);
+            if (!normalized || normalized === 'desktop wallpapers') return '';
+            if (normalized === 'nature desktop') return 'Nature';
+            if (normalized === 'space') return 'Space and Galaxy';
+            return value;
+        }
+
         function updateCategorySeo(category) {
             const subject = category === 'All' ? 'PMW Visuals' : category;
             const pageTitle = category === 'All'
-                ? 'PMW Wallpapers - Laptop, Mobile & 4K Wallpapers'
+                ? 'PMW Wallpapers - Desktop, Mobile & 4K Wallpapers'
                 : `${category} Wallpapers - Free HD Downloads | PMW Visuals`;
             let description = `Download high-quality ${subject} wallpapers for mobile and desktop. Free HD wallpaper from PMW Visuals.`;
 
@@ -1125,7 +1111,7 @@
                 Array.isArray(item.types) ? item.types : [],
                 Array.isArray(item.categories) ? item.categories : [],
                 item.category
-            ]);
+            ].map(value => Array.isArray(value) ? value.map(normalizeCategoryType) : normalizeCategoryType(value)));
         }
 
         function getItemTags(item) {
@@ -1136,12 +1122,18 @@
             return (Array.isArray(items) ? items : []).map((item, index) => {
                 const width = Number(item.width) || 0;
                 const height = Number(item.height) || 0;
-                const category = item.category || 'Desktop Wallpapers';
+                const rawCategory = item.category || 'Desktop Wallpapers';
+                const category = normalize(rawCategory) === 'nature desktop'
+                    ? 'Nature'
+                    : normalize(rawCategory) === 'space'
+                        ? 'Space and Galaxy'
+                        : normalize(rawCategory) === 'desktop wallpapers'
+                            ? 'Wallpapers'
+                            : rawCategory;
                 const types = uniqueList([
                     item.types || [],
                     item.categories || [],
-                    category,
-                    'Desktop Wallpapers'
+                    category
                 ]);
                 const id = item.id || `desktop-wallpaper-${index + 1}`;
                 const imageUrl = item.imageUrl || item.image || item.preview || item.thumbnail || item.download;
@@ -1157,8 +1149,8 @@
                     category,
                     types,
                     categories: types,
-                    tags: uniqueList([item.tags || [], 'desktop wallpaper', 'laptop wallpaper', '16:9 wallpaper']),
-                    deviceTypes: uniqueList([item.deviceTypes || [], 'desktop', 'laptop']),
+                    tags: uniqueList([item.tags || [], 'desktop wallpaper', '16:9 wallpaper']),
+                    deviceTypes: uniqueList([item.deviceTypes || [], 'desktop']).map(type => normalize(type) === 'laptop' ? 'desktop' : type),
                     access: item.access || 'free',
                     visible: item.visible !== false,
                     width,
@@ -1209,13 +1201,12 @@
 
         function getDeviceTypes(item) {
             const explicit = uniqueList([item.deviceTypes || [], item.deviceType || '', item.device || ''])
-                .map(type => normalize(type));
+                .map(type => normalize(type) === 'laptop' ? 'desktop' : normalize(type));
             const devices = new Set(explicit);
             if (!devices.size) {
                 const size = getResolutionSize(item);
                 if (size.width && size.height) {
                     if (size.width > size.height) {
-                        devices.add('laptop');
                         devices.add('desktop');
                     } else {
                         devices.add('mobile');
@@ -1355,7 +1346,7 @@
                 ...Array.from(new Set([
                     ...configuredCategories,
                     ...randomizedWallpapers.flatMap(getItemTypes)
-                ])).sort()
+                ].map(normalizeCategoryType).filter(Boolean))).sort()
             ];
 
             const popularStyles = ['All', '4K', 'anime', 'nature', 'galaxy', 'dark', 'aesthetic', 'fantasy', 'samurai', 'minimal'];
@@ -1397,7 +1388,7 @@
 
         function renderLoading(message = 'Loading wallpapers...') {
             grid.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
-            laptopGrid.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
+            desktopGrid.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
         }
 
         function renderWallpaperGrid(target, items, options = {}) {
@@ -1411,7 +1402,7 @@
 
             target.innerHTML = items.map(item => {
                 const devices = getDeviceTypes(item);
-                const wide = options.wide || devices.includes('laptop') || devices.includes('desktop') || isWideWallpaper(item);
+                const wide = options.wide || devices.includes('desktop') || isWideWallpaper(item);
                 const size = getResolutionSize(item);
                 const aspect = size.width && size.height
                     ? `${size.width} / ${size.height}`
@@ -1432,9 +1423,9 @@
 
         function renderWallpapers() {
             const items = getFilteredWallpapers();
-            const laptopItems = items.filter(item => matchesDevice(item, 'laptop') || matchesDevice(item, 'desktop') || isWideWallpaper(item));
+            const desktopItems = wallpapers.filter(item => matchesDevice(item, 'desktop') || isWideWallpaper(item));
             renderWallpaperGrid(grid, items.slice(0, 36));
-            renderWallpaperGrid(laptopGrid, laptopItems.slice(0, 12), { wide: true });
+            renderWallpaperGrid(desktopGrid, desktopItems.slice(0, 4), { wide: true });
             renderFilters();
         }
 
@@ -1457,34 +1448,6 @@
             }).join('');
         }
 
-        function renderDeviceCards() {
-            const laptopItem = findPreviewItem(item => matchesDevice(item, 'laptop') || matchesDevice(item, 'desktop') || isWideWallpaper(item));
-            const mobileItem = findPreviewItem(item => matchesDevice(item, 'mobile') && !isWideWallpaper(item));
-            const cards = [
-                {
-                    title: 'Laptop Wallpapers',
-                    device: 'laptop',
-                    copy: 'Wide 16:9 wallpapers for laptops and desktops.',
-                    image: laptopItem ? laptopItem.thumbnail : ''
-                },
-                {
-                    title: 'Mobile Wallpapers',
-                    device: 'mobile',
-                    copy: 'Vertical wallpapers designed for phone screens.',
-                    image: mobileItem ? mobileItem.thumbnail : ''
-                }
-            ];
-
-            deviceCards.innerHTML = cards.map(card => `
-                <a class="device-card" href="pmw-wallpapers.html?device=${encodeURIComponent(card.device)}#latest-wallpapers" data-device="${escapeHtml(card.device)}" style="--card-image: url('${escapeHtml(card.image)}')">
-                    <div class="device-card-body">
-                        <h3>${escapeHtml(card.title)}</h3>
-                        <p>${escapeHtml(card.copy)}</p>
-                    </div>
-                </a>
-            `).join('');
-        }
-
         function updateHeroImage() {
             const item = randomizedWallpapers.find(wallpaper => matchesStyle(wallpaper, 'galaxy') || matchesStyle(wallpaper, 'fantasy') || matchesStyle(wallpaper, 'dark')) || randomizedWallpapers[0];
             if (item && hero) {
@@ -1495,7 +1458,6 @@
         function renderBrowseSections() {
             updateHeroImage();
             renderCategoryCards();
-            renderDeviceCards();
         }
 
         function openPanel(id) {
@@ -1568,15 +1530,6 @@
             document.getElementById('latest-wallpapers').scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
-        deviceCards.addEventListener('click', event => {
-            const card = event.target.closest('.device-card');
-            if (!card) return;
-            event.preventDefault();
-            activeDevice = card.dataset.device || 'All';
-            renderWallpapers();
-            document.getElementById('latest-wallpapers').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-
         categoryFilterSelect.addEventListener('change', event => {
             activeCategory = event.target.value;
             renderWallpapers();
@@ -1609,7 +1562,7 @@
             openPanel(card.dataset.id);
         });
 
-        laptopGrid.addEventListener('click', event => {
+        desktopGrid.addEventListener('click', event => {
             const card = event.target.closest('.wallpaper-card');
             if (!card || card.dataset.panelOnly !== 'true') return;
             event.preventDefault();
@@ -1656,7 +1609,7 @@
                 : featuredMatch
                     ? featuredMatch.value
                     : 'All';
-            activeDevice = requestedDevice && ['laptop', 'desktop', 'mobile'].includes(normalize(requestedDevice))
+            activeDevice = requestedDevice && ['desktop', 'mobile'].includes(normalize(requestedDevice))
                 ? normalize(requestedDevice)
                 : 'All';
             updateCategorySeo(activeCategory);
