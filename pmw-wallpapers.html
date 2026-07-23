@@ -28,19 +28,19 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PMW Wallpapers - Mobile Wallpapers</title>
-    <meta name="description" content="Browse free HD mobile wallpapers from PMW Visuals, including AMOLED, anime, nature, romantic, dark aesthetic, fantasy, and space wallpapers.">
+    <title>PMW Wallpapers - Laptop, Mobile &amp; 4K Wallpapers</title>
+    <meta name="description" content="Browse high-quality PMW wallpapers for laptops, desktops, phones, and creative projects. Search anime, nature, galaxy, dark aesthetic, AMOLED, and 4K wallpapers.">
     <link rel="canonical" href="https://pmwvisuals.com/pmw-wallpapers.html">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="PMW Wallpapers - Free HD Mobile Wallpapers">
-    <meta property="og:description" content="Browse free HD mobile wallpapers from PMW Visuals, including AMOLED, anime, nature, romantic, dark aesthetic, fantasy, and space wallpapers.">
+    <meta property="og:title" content="PMW Wallpapers - Laptop, Mobile &amp; 4K Wallpapers">
+    <meta property="og:description" content="Browse high-quality wallpapers for laptops, desktops, phones, anime, nature, galaxy, dark aesthetic, AMOLED, and 4K screens.">
     <meta property="og:url" content="https://pmwvisuals.com/pmw-wallpapers.html">
     <meta property="og:image" content="https://pmwvisuals.com/pmw-logo.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="PMW Wallpapers - Free HD Mobile Wallpapers">
-    <meta name="twitter:description" content="Browse free HD mobile wallpapers from PMW Visuals, including AMOLED, anime, nature, romantic, dark aesthetic, fantasy, and space wallpapers.">
+    <meta name="twitter:title" content="PMW Wallpapers - Laptop, Mobile &amp; 4K Wallpapers">
+    <meta name="twitter:description" content="Browse high-quality wallpapers for laptops, desktops, phones, anime, nature, galaxy, dark aesthetic, AMOLED, and 4K screens.">
     <meta name="twitter:image" content="https://pmwvisuals.com/pmw-logo.png">
-    <script type="application/ld+json" data-seo-schema>{"@context":"https://schema.org","@type":"CollectionPage","name":"PMW Wallpapers","url":"https://pmwvisuals.com/pmw-wallpapers.html","description":"A searchable PMW Visuals collection of free HD mobile wallpapers.","isPartOf":{"@type":"WebSite","name":"PMW Visuals","url":"https://pmwvisuals.com/"}}</script>
+    <script type="application/ld+json" data-seo-schema>{"@context":"https://schema.org","@type":"CollectionPage","name":"PMW Wallpapers","url":"https://pmwvisuals.com/pmw-wallpapers.html","description":"A searchable PMW Visuals wallpaper collection for laptops, desktops, phones, and creative projects.","isPartOf":{"@type":"WebSite","name":"PMW Visuals","url":"https://pmwvisuals.com/"}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -218,84 +218,102 @@
         .breadcrumb a:hover { color: var(--text-secondary); }
         .breadcrumb span { color: var(--text-muted); }
 
-        .wallpaper-header {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) auto;
-            gap: 24px;
-            align-items: end;
-            margin-bottom: 36px;
+        .wallpaper-hero {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 54px;
+            padding: clamp(34px, 7vw, 74px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            background:
+                radial-gradient(circle at 78% 18%, rgba(93, 228, 219, 0.12), transparent 28rem),
+                radial-gradient(circle at 14% 12%, rgba(216, 173, 76, 0.13), transparent 30rem),
+                linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.014));
+            box-shadow: 0 34px 100px rgba(0,0,0,0.42), inset 0 1px rgba(255,255,255,0.04);
+        }
+        .wallpaper-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.28;
+            background:
+                linear-gradient(90deg, rgba(5,5,5,0.9), rgba(5,5,5,0.3) 52%, rgba(5,5,5,0.72)),
+                var(--hero-image, none);
+            background-position: center;
+            background-size: cover;
+            filter: saturate(1.08);
+        }
+        .wallpaper-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 820px;
+        }
+        .wallpaper-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            color: #d7d7d8;
+            font-size: 0.74rem;
+            font-weight: 900;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+        .wallpaper-kicker::before {
+            content: "";
+            width: 30px;
+            height: 1px;
+            background: #d8ad4c;
         }
         .section-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4.8rem);
+            font-size: clamp(3rem, 8vw, 6.8rem);
             font-weight: 700;
             letter-spacing: -0.04em;
-            line-height: 1.04;
+            line-height: 0.95;
             background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.45) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 14px;
+            margin-bottom: 18px;
         }
         .section-subtitle {
             color: var(--text-secondary);
-            font-size: 1.0625rem;
-            max-width: 620px;
+            font-size: clamp(1rem, 1.8vw, 1.18rem);
+            max-width: 680px;
             line-height: 1.7;
-        }
-        .wallpaper-count {
-            min-width: 160px;
-            padding: 18px 20px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
-            text-align: right;
-        }
-        .wallpaper-count strong {
-            display: block;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.7rem;
-            line-height: 1;
-        }
-        .wallpaper-count span {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-
-        .toolbar {
-            display: grid;
-            grid-template-columns: minmax(240px, 1fr) auto;
-            gap: 16px;
-            margin-bottom: 28px;
         }
         .search-box {
             display: flex;
             align-items: center;
             gap: 12px;
+            margin-top: 28px;
             border: 1px solid var(--border);
             border-radius: var(--radius-xl);
-            background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
-            padding: 0 18px;
+            background: rgba(5,5,5,0.72);
+            padding: 0 20px;
+            backdrop-filter: blur(18px);
+            box-shadow: 0 18px 50px rgba(0,0,0,0.28);
         }
         .search-box svg { width: 19px; height: 19px; color: var(--text-muted); flex-shrink: 0; }
         .search-box input {
             width: 100%;
-            padding: 16px 0;
+            padding: 19px 0;
             border: none;
             outline: none;
             color: var(--text-primary);
             background: transparent;
             font: inherit;
-            font-size: 0.9375rem;
+            font-size: 1rem;
         }
         .filter-chips {
             display: flex;
             flex-wrap: wrap;
-            justify-content: flex-end;
             gap: 8px;
+        }
+        .quick-filter-chips {
+            margin-top: 16px;
         }
         .filter-chip {
             padding: 9px 18px;
@@ -316,6 +334,128 @@
             border-color: #fff;
         }
 
+        .wallpaper-section {
+            margin-top: 54px;
+        }
+        .wallpaper-section-head {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 22px;
+        }
+        .wallpaper-section-head h2 {
+            margin: 10px 0 0;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 3.4rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+        .wallpaper-section-head p {
+            max-width: 560px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .category-card-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+        .category-card,
+        .device-card {
+            position: relative;
+            min-height: 210px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            color: #fff;
+            background: #111;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+        .category-card:hover,
+        .device-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-hover);
+            box-shadow: 0 26px 70px rgba(0,0,0,0.46);
+        }
+        .category-card::before,
+        .device-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.78)),
+                var(--card-image, linear-gradient(135deg, #1f1f22, #050505));
+            background-position: center;
+            background-size: cover;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .category-card:hover::before,
+        .device-card:hover::before {
+            transform: scale(1.06);
+        }
+        .category-card-body,
+        .device-card-body {
+            position: absolute;
+            inset: auto 16px 16px 16px;
+            z-index: 1;
+        }
+        .category-card h3,
+        .device-card h3 {
+            margin: 0 0 8px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.32rem;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+        }
+        .category-card span,
+        .device-card p {
+            color: rgba(255,255,255,0.72);
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+        .device-card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+        .device-card {
+            min-height: 240px;
+        }
+        .filter-panel {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: linear-gradient(145deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01));
+        }
+        .filter-field {
+            display: grid;
+            gap: 8px;
+        }
+        .filter-field label {
+            color: var(--text-muted);
+            font-size: 0.68rem;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .filter-field select {
+            min-height: 44px;
+            padding: 0 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            background: #101010;
+            font: inherit;
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
         .wallpapers-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
@@ -342,7 +482,7 @@
             box-shadow: 0 24px 60px rgba(0,0,0,0.48);
         }
         .wallpaper-thumb {
-            aspect-ratio: 9 / 16;
+            aspect-ratio: var(--wallpaper-aspect, 9 / 16);
             overflow: hidden;
             background: #111;
             position: relative;
@@ -410,20 +550,7 @@
             font-size: 1rem;
             font-weight: 700;
             letter-spacing: -0.02em;
-            margin-bottom: 7px;
-        }
-        .wallpaper-card-meta {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        .mini-tag {
-            padding: 4px 8px;
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 100px;
-            color: var(--text-muted);
-            font-size: 0.6875rem;
-            font-weight: 700;
+            margin: 0;
         }
 
         .panel-overlay {
@@ -589,9 +716,11 @@
         }
 
         @media (max-width: 900px) {
-            .wallpaper-header, .toolbar { grid-template-columns: 1fr; }
+            .wallpaper-section-head { align-items: start; flex-direction: column; }
+            .category-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .device-card-grid { grid-template-columns: 1fr; }
+            .filter-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .filter-chips { justify-content: flex-start; }
-            .wallpaper-count { text-align: left; }
             .wallpaper-panel {
                 grid-template-columns: 1fr;
                 overflow-y: auto;
@@ -604,6 +733,13 @@
             .nav-inner { grid-template-columns: 1fr; }
             .nav-logo { justify-self: start; }
             .nav-links, .nav-actions { display: none; }
+            .wallpaper-hero { padding: 26px 18px; border-radius: 18px; }
+            .search-box { margin-top: 22px; border-radius: 18px; }
+            .search-box input { padding: 16px 0; }
+            .quick-filter-chips { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+            .category-card-grid { display: flex; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+            .category-card { min-width: 220px; scroll-snap-align: start; }
+            .filter-panel { grid-template-columns: 1fr; }
             .wallpapers-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
             .panel-overlay { padding: 12px; align-items: center; }
             .panel-details { padding: 26px 20px 22px; }
@@ -653,7 +789,7 @@
                 <button class="nav-link" onclick="window.location.href='index.html'">Home</button>
                 <button class="nav-link" onclick="window.location.href='pmw-studio.html'">PMW Studio</button>
                 <button class="nav-link active">PMW Wallpapers</button>
-                <button class="nav-link" onclick="window.location.href='pmw-desktop-wallpapers.html'">Desktop Wallpapers</button>
+                <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html?device=desktop#latest-wallpapers'">Desktop Wallpapers</button>
                 <button class="nav-link" onclick="window.location.href='tools/'">PMW Tools</button>
             </div>
             <div class="nav-actions">
@@ -671,29 +807,99 @@
                 <span>PMW Wallpapers</span>
             </div>
 
-            <header class="wallpaper-header">
-                <div>
-                    <h1 class="section-title">PMW Wallpapers</h1>
-                    <p class="section-subtitle">A growing collection of mobile wallpapers for AMOLED, anime, celestial samurai, dark aesthetic, dark fantasy, nature, romantic, space, and galaxy phone screens.</p>
-                </div>
-                <div class="wallpaper-count">
-                    <strong id="wallpaperCount">0</strong>
-                    <span>Wallpapers</span>
-                </div>
-            </header>
-
-            <div class="toolbar">
+            <header class="wallpaper-hero" id="wallpaperHero">
+                <div class="wallpaper-hero-content">
+                    <span class="wallpaper-kicker">Wallpapers for every screen</span>
+                    <h1 class="section-title">Find Your Perfect Wallpaper</h1>
+                    <p class="section-subtitle">Browse high-quality wallpapers for laptops, desktops, phones, and creative projects.</p>
                 <label class="search-box" for="wallpaperSearch">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
-                    <input id="wallpaperSearch" type="text" placeholder="Search wallpapers..." autocomplete="off">
+                    <input id="wallpaperSearch" type="text" placeholder="Search anime, nature, galaxy, dark, aesthetic..." autocomplete="off">
                 </label>
-                <div class="filter-chips" id="categoryFilters"></div>
-            </div>
+                    <div class="filter-chips quick-filter-chips" id="quickFilters" aria-label="Quick wallpaper filters">
+                        <button class="filter-chip" type="button" data-filter-type="device" data-filter-value="laptop">Laptop</button>
+                        <button class="filter-chip" type="button" data-filter-type="device" data-filter-value="mobile">Mobile</button>
+                        <button class="filter-chip" type="button" data-filter-type="tag" data-filter-value="4k">4K</button>
+                        <button class="filter-chip" type="button" data-filter-type="category" data-filter-value="Anime">Anime</button>
+                        <button class="filter-chip" type="button" data-filter-type="category" data-filter-value="Nature">Nature</button>
+                        <button class="filter-chip" type="button" data-filter-type="tag" data-filter-value="galaxy">Galaxy</button>
+                        <button class="filter-chip" type="button" data-filter-type="tag" data-filter-value="dark">Dark</button>
+                        <button class="filter-chip" type="button" data-filter-type="tag" data-filter-value="aesthetic">Aesthetic</button>
+                    </div>
+                </div>
+            </header>
 
-            <section class="wallpapers-grid" id="wallpapersGrid" aria-live="polite"></section>
+            <section class="wallpaper-section" aria-labelledby="categoryBrowseTitle">
+                <div class="wallpaper-section-head">
+                    <div>
+                        <span class="wallpaper-kicker">Category browsing</span>
+                        <h2 id="categoryBrowseTitle">Browse by Category</h2>
+                    </div>
+                </div>
+                <div class="category-card-grid" id="categoryCards" aria-live="polite"></div>
+            </section>
+
+            <section class="wallpaper-section" aria-labelledby="deviceBrowseTitle">
+                <div class="wallpaper-section-head">
+                    <div>
+                        <span class="wallpaper-kicker">Screen fit</span>
+                        <h2 id="deviceBrowseTitle">Browse by Device</h2>
+                    </div>
+                </div>
+                <div class="device-card-grid" id="deviceCards" aria-live="polite"></div>
+            </section>
+
+            <section class="wallpaper-section" aria-labelledby="laptopWallpapersTitle">
+                <div class="wallpaper-section-head">
+                    <div>
+                        <span class="wallpaper-kicker">Wide screens</span>
+                        <h2 id="laptopWallpapersTitle">Laptop Wallpapers</h2>
+                    </div>
+                    <p>Wide 16:9 wallpapers designed for laptops, desktops, and large screens.</p>
+                </div>
+                <section class="wallpapers-grid" id="laptopWallpapersGrid" aria-live="polite"></section>
+            </section>
+
+            <section class="wallpaper-section" id="latest-wallpapers" aria-labelledby="latestWallpapersTitle">
+                <div class="wallpaper-section-head">
+                    <div>
+                        <span class="wallpaper-kicker">Fresh picks</span>
+                        <h2 id="latestWallpapersTitle">Latest Wallpapers</h2>
+                    </div>
+                    <p>Use search and filters to find anime, nature, galaxy, dark aesthetic, mobile, laptop, free, and premium wallpapers.</p>
+                </div>
+                <div class="filter-panel" aria-label="Wallpaper filters">
+                    <div class="filter-field">
+                        <label for="categoryFilterSelect">Category</label>
+                        <select id="categoryFilterSelect"></select>
+                    </div>
+                    <div class="filter-field">
+                        <label for="deviceFilterSelect">Device type</label>
+                        <select id="deviceFilterSelect">
+                            <option value="All">All devices</option>
+                            <option value="laptop">Laptop</option>
+                            <option value="desktop">Desktop</option>
+                            <option value="mobile">Mobile</option>
+                        </select>
+                    </div>
+                    <div class="filter-field">
+                        <label for="styleFilterSelect">Style / tag</label>
+                        <select id="styleFilterSelect"></select>
+                    </div>
+                    <div class="filter-field">
+                        <label for="accessFilterSelect">Free / Premium</label>
+                        <select id="accessFilterSelect">
+                            <option value="All">All access</option>
+                            <option value="free">Free</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                    </div>
+                </div>
+                <section class="wallpapers-grid" id="wallpapersGrid" aria-live="polite"></section>
+            </section>
         </div>
     </main>
 
@@ -798,17 +1004,29 @@
         const configuredCategories = window.PMW_WALLPAPER_CATEGORIES || [];
         let wallpapers = [];
         let randomizedWallpapers = [];
-        const requestedCategory = new URLSearchParams(window.location.search).get('category');
+        const pageParams = new URLSearchParams(window.location.search);
+        const requestedCategory = pageParams.get('category');
+        const requestedDevice = pageParams.get('device');
         let activeCategory = 'All';
+        let activeDevice = 'All';
+        let activeStyle = 'All';
+        let activeAccess = 'All';
         let searchQuery = '';
         let authReady = false;
         let signedInUser = null;
         let isPremiumMember = false;
 
         const grid = document.getElementById('wallpapersGrid');
-        const filters = document.getElementById('categoryFilters');
-        const count = document.getElementById('wallpaperCount');
+        const laptopGrid = document.getElementById('laptopWallpapersGrid');
+        const quickFilters = document.getElementById('quickFilters');
+        const categoryCards = document.getElementById('categoryCards');
+        const deviceCards = document.getElementById('deviceCards');
+        const categoryFilterSelect = document.getElementById('categoryFilterSelect');
+        const deviceFilterSelect = document.getElementById('deviceFilterSelect');
+        const styleFilterSelect = document.getElementById('styleFilterSelect');
+        const accessFilterSelect = document.getElementById('accessFilterSelect');
         const search = document.getElementById('wallpaperSearch');
+        const hero = document.getElementById('wallpaperHero');
         const panel = document.getElementById('wallpaperPanel');
         const panelClose = document.getElementById('panelClose');
         const panelDownload = document.getElementById('panelDownload');
@@ -818,9 +1036,25 @@
             All: 'All Wallpapers',
             AMOLED: 'AMOLED Wallpapers',
             Anime: 'Anime Wallpapers',
+            'Dark Aesthetic': 'Dark Aesthetic',
+            'Dark Fantasy': 'Dark Fantasy',
             Nature: 'Nature Wallpapers',
-            Romantic: 'Romantic Wallpapers'
+            Romantic: 'Romantic Wallpapers',
+            'Space and Galaxy': 'Galaxy Wallpapers',
+            'Celestial Samurai': 'Samurai Wallpapers',
+            Minimalist: 'Minimal Wallpapers'
         };
+
+        const featuredCategories = [
+            { label: 'Anime', value: 'Anime', aliases: ['anime'] },
+            { label: 'Nature', value: 'Nature', aliases: ['nature', 'natures'] },
+            { label: 'Galaxy', value: 'Space and Galaxy', aliases: ['space and galaxy', 'galaxy', 'space'] },
+            { label: 'Fantasy', value: 'Dark Fantasy', aliases: ['dark fantasy', 'fantasy'] },
+            { label: 'Dark Aesthetic', value: 'Dark Aesthetic', aliases: ['dark aesthetic', 'aesthetic', 'dark'] },
+            { label: 'AMOLED', value: 'AMOLED', aliases: ['amoled'] },
+            { label: 'Minimal', value: 'Minimalist', aliases: ['minimal', 'minimalist'] },
+            { label: 'Samurai', value: 'Celestial Samurai', aliases: ['celestial samurai', 'samurai'] }
+        ];
 
         function getCategoryLabel(category) {
             return categoryDisplayLabels[category] || category;
@@ -829,7 +1063,7 @@
         function updateCategorySeo(category) {
             const subject = category === 'All' ? 'PMW Visuals' : category;
             const pageTitle = category === 'All'
-                ? 'PMW Wallpapers - Mobile Wallpapers'
+                ? 'PMW Wallpapers - Laptop, Mobile & 4K Wallpapers'
                 : `${category} Wallpapers - Free HD Downloads | PMW Visuals`;
             let description = `Download high-quality ${subject} wallpapers for mobile and desktop. Free HD wallpaper from PMW Visuals.`;
 
@@ -854,9 +1088,104 @@
                 .replace(/'/g, '&#039;');
         }
 
+        function uniqueList(values) {
+            const seen = new Set();
+            return values
+                .flatMap(value => Array.isArray(value) ? value : [value])
+                .map(value => String(value || '').trim())
+                .filter(Boolean)
+                .filter(value => {
+                    const key = normalize(value);
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
+        }
+
         function getItemTypes(item) {
-            const types = Array.isArray(item.types) && item.types.length ? item.types : [item.category];
-            return types.filter(Boolean);
+            return uniqueList([
+                Array.isArray(item.types) ? item.types : [],
+                Array.isArray(item.categories) ? item.categories : [],
+                item.category
+            ]);
+        }
+
+        function getItemTags(item) {
+            return uniqueList([item.tags || [], item.hashtags || []]).map(tag => tag.replace(/^#+/, '').toLowerCase());
+        }
+
+        function getResolutionSize(item) {
+            const resolution = String(item.resolution || '');
+            const match = resolution.match(/(\d{3,5})\s*[x×]\s*(\d{3,5})/i);
+            return {
+                width: Number(item.width) || (match ? Number(match[1]) : 0),
+                height: Number(item.height) || (match ? Number(match[2]) : 0)
+            };
+        }
+
+        function isWideWallpaper(item) {
+            const size = getResolutionSize(item);
+            return size.width > size.height && size.width >= 1200;
+        }
+
+        function getDeviceTypes(item) {
+            const explicit = uniqueList([item.deviceTypes || [], item.deviceType || '', item.device || ''])
+                .map(type => normalize(type));
+            const devices = new Set(explicit);
+            if (!devices.size) {
+                const size = getResolutionSize(item);
+                if (size.width && size.height) {
+                    if (size.width > size.height) {
+                        devices.add('laptop');
+                        devices.add('desktop');
+                    } else {
+                        devices.add('mobile');
+                    }
+                } else {
+                    devices.add('mobile');
+                }
+            }
+            return Array.from(devices);
+        }
+
+        function getSearchText(item) {
+            return normalize([
+                item.title,
+                item.description,
+                item.access,
+                item.resolution,
+                ...getItemTypes(item),
+                ...getItemTags(item),
+                ...getDeviceTypes(item)
+            ].join(' '));
+        }
+
+        function matchesAliasText(item, aliases) {
+            const searchText = getSearchText(item);
+            return aliases.map(normalize).some(alias => searchText.includes(alias));
+        }
+
+        function matchesCategory(item, category) {
+            if (category === 'All') return true;
+            const normalizedCategory = normalize(category);
+            const types = getItemTypes(item).map(normalize);
+            if (types.includes(normalizedCategory)) return true;
+            const featured = featuredCategories.find(config => normalize(config.value) === normalizedCategory || normalize(config.label) === normalizedCategory);
+            return featured ? matchesAliasText(item, featured.aliases) : false;
+        }
+
+        function matchesStyle(item, style) {
+            if (style === 'All') return true;
+            const normalizedStyle = normalize(style);
+            const size = getResolutionSize(item);
+            if (normalizedStyle === '4k' && size.width >= 3840) return true;
+            return getSearchText(item).includes(normalizedStyle);
+        }
+
+        function matchesDevice(item, device) {
+            if (device === 'All') return true;
+            const normalizedDevice = normalize(device);
+            return getDeviceTypes(item).includes(normalizedDevice);
         }
 
         function isPremiumWallpaper(item) {
@@ -949,38 +1278,67 @@
                     ...randomizedWallpapers.flatMap(getItemTypes)
                 ])).sort()
             ];
-            filters.innerHTML = categories.map(category => `
-                <button class="filter-chip ${category === activeCategory ? 'active' : ''}" data-category="${escapeHtml(category)}">${escapeHtml(getCategoryLabel(category))}</button>
+
+            const popularStyles = ['All', '4K', 'anime', 'nature', 'galaxy', 'dark', 'aesthetic', 'fantasy', 'samurai', 'minimal'];
+            const dynamicTags = Array.from(new Set(randomizedWallpapers.flatMap(getItemTags))).sort();
+            const styles = uniqueList([...popularStyles, ...dynamicTags]).slice(0, 80);
+
+            categoryFilterSelect.innerHTML = categories.map(category => `
+                <option value="${escapeHtml(category)}" ${category === activeCategory ? 'selected' : ''}>${escapeHtml(getCategoryLabel(category))}</option>
             `).join('');
+
+            styleFilterSelect.innerHTML = styles.map(style => `
+                <option value="${escapeHtml(style)}" ${normalize(style) === normalize(activeStyle) ? 'selected' : ''}>${style === 'All' ? 'All styles' : escapeHtml(style)}</option>
+            `).join('');
+
+            deviceFilterSelect.value = activeDevice;
+            accessFilterSelect.value = activeAccess;
+
+            quickFilters.querySelectorAll('.filter-chip').forEach(button => {
+                const type = button.dataset.filterType;
+                const value = button.dataset.filterValue;
+                const active = (type === 'category' && normalize(activeCategory) === normalize(value))
+                    || (type === 'device' && normalize(activeDevice) === normalize(value))
+                    || (type === 'tag' && normalize(activeStyle) === normalize(value));
+                button.classList.toggle('active', active);
+            });
         }
 
         function getFilteredWallpapers() {
             const q = normalize(searchQuery);
-            return randomizedWallpapers.filter(item => {
-                const itemTypes = getItemTypes(item);
-                const categoryMatch = activeCategory === 'All' || itemTypes.includes(activeCategory);
-                const searchText = normalize([item.title, item.description, item.access, ...itemTypes, ...(item.tags || [])].join(' '));
-                return categoryMatch && (!q || searchText.includes(q));
+            return wallpapers.filter(item => {
+                const categoryMatch = matchesCategory(item, activeCategory);
+                const deviceMatch = matchesDevice(item, activeDevice);
+                const styleMatch = matchesStyle(item, activeStyle);
+                const accessMatch = activeAccess === 'All' || normalize(item.access) === normalize(activeAccess);
+                const searchText = getSearchText(item);
+                return categoryMatch && deviceMatch && styleMatch && accessMatch && (!q || searchText.includes(q));
             });
         }
 
         function renderLoading(message = 'Loading wallpapers...') {
-            count.textContent = '0';
             grid.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
+            laptopGrid.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
         }
 
-        function renderWallpapers() {
-            const items = getFilteredWallpapers();
-            count.textContent = items.length;
+        function renderWallpaperGrid(target, items, options = {}) {
             if (!items.length) {
                 const message = wallpapers.length
                     ? 'No wallpapers found. Try another search or category.'
                     : 'No wallpapers loaded yet. Firestore is empty and the static fallback has no visible free wallpapers.';
-                grid.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
+                target.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
                 return;
             }
-            grid.innerHTML = items.map(item => `
-                <a class="wallpaper-card" data-id="${escapeHtml(item.id)}" data-panel-only="${opensPanelOnly(item) ? 'true' : 'false'}" href="${escapeHtml(getWallpaperPageUrl(item))}">
+
+            target.innerHTML = items.map(item => {
+                const devices = getDeviceTypes(item);
+                const wide = options.wide || devices.includes('laptop') || devices.includes('desktop') || isWideWallpaper(item);
+                const size = getResolutionSize(item);
+                const aspect = size.width && size.height
+                    ? `${size.width} / ${size.height}`
+                    : (wide ? '16 / 9' : '9 / 16');
+                return `
+                <a class="wallpaper-card" data-id="${escapeHtml(item.id)}" data-panel-only="${opensPanelOnly(item) ? 'true' : 'false'}" href="${escapeHtml(getWallpaperPageUrl(item))}" style="--wallpaper-aspect: ${escapeHtml(aspect)}">
                     <div class="wallpaper-thumb">
                         <img src="${escapeHtml(item.thumbnail)}" alt="${escapeHtml(item.title)}" loading="lazy">
                         <span class="wallpaper-hd-badge">HD</span>
@@ -988,18 +1346,81 @@
                     </div>
                     <div class="wallpaper-card-info">
                         <h3 class="wallpaper-card-title">${escapeHtml(item.title)}</h3>
-                        <div class="wallpaper-card-meta">
-                            ${getItemTypes(item).slice(0, 2).map(type => `<span class="mini-tag">${escapeHtml(getCategoryLabel(type))}</span>`).join('')}
-                            <span class="mini-tag">${item.access === 'premium' ? 'Premium' : 'Free'}</span>
-                            <span class="mini-tag">9:16</span>
+                    </div>
+                </a>
+            `}).join('');
+        }
+
+        function renderWallpapers() {
+            const items = getFilteredWallpapers();
+            const laptopItems = items.filter(item => matchesDevice(item, 'laptop') || matchesDevice(item, 'desktop') || isWideWallpaper(item));
+            renderWallpaperGrid(grid, items.slice(0, 36));
+            renderWallpaperGrid(laptopGrid, laptopItems.slice(0, 12), { wide: true });
+            renderFilters();
+        }
+
+        function findPreviewItem(matchFn) {
+            return randomizedWallpapers.find(matchFn) || randomizedWallpapers[0] || null;
+        }
+
+        function renderCategoryCards() {
+            categoryCards.innerHTML = featuredCategories.map(config => {
+                const item = findPreviewItem(wallpaper => matchesCategory(wallpaper, config.value) || matchesAliasText(wallpaper, config.aliases));
+                const image = item ? item.thumbnail : '';
+                return `
+                    <a class="category-card" href="pmw-wallpapers.html?category=${encodeURIComponent(config.value)}#latest-wallpapers" data-category="${escapeHtml(config.value)}" style="--card-image: url('${escapeHtml(image)}')">
+                        <div class="category-card-body">
+                            <h3>${escapeHtml(config.label)}</h3>
+                            <span>Browse ${escapeHtml(config.label)} wallpapers</span>
                         </div>
+                    </a>
+                `;
+            }).join('');
+        }
+
+        function renderDeviceCards() {
+            const laptopItem = findPreviewItem(item => matchesDevice(item, 'laptop') || matchesDevice(item, 'desktop') || isWideWallpaper(item));
+            const mobileItem = findPreviewItem(item => matchesDevice(item, 'mobile') && !isWideWallpaper(item));
+            const cards = [
+                {
+                    title: 'Laptop Wallpapers',
+                    device: 'laptop',
+                    copy: 'Wide 16:9 wallpapers for laptops and desktops.',
+                    image: laptopItem ? laptopItem.thumbnail : ''
+                },
+                {
+                    title: 'Mobile Wallpapers',
+                    device: 'mobile',
+                    copy: 'Vertical wallpapers designed for phone screens.',
+                    image: mobileItem ? mobileItem.thumbnail : ''
+                }
+            ];
+
+            deviceCards.innerHTML = cards.map(card => `
+                <a class="device-card" href="pmw-wallpapers.html?device=${encodeURIComponent(card.device)}#latest-wallpapers" data-device="${escapeHtml(card.device)}" style="--card-image: url('${escapeHtml(card.image)}')">
+                    <div class="device-card-body">
+                        <h3>${escapeHtml(card.title)}</h3>
+                        <p>${escapeHtml(card.copy)}</p>
                     </div>
                 </a>
             `).join('');
         }
 
+        function updateHeroImage() {
+            const item = randomizedWallpapers.find(wallpaper => matchesStyle(wallpaper, 'galaxy') || matchesStyle(wallpaper, 'fantasy') || matchesStyle(wallpaper, 'dark')) || randomizedWallpapers[0];
+            if (item && hero) {
+                hero.style.setProperty('--hero-image', `url('${item.preview || item.thumbnail}')`);
+            }
+        }
+
+        function renderBrowseSections() {
+            updateHeroImage();
+            renderCategoryCards();
+            renderDeviceCards();
+        }
+
         function openPanel(id) {
-            const item = randomizedWallpapers.find(wallpaper => wallpaper.id === id);
+            const item = wallpapers.find(wallpaper => wallpaper.id === id);
             if (!item) return;
             selectedWallpaper = item;
             document.getElementById('panelImage').src = item.preview;
@@ -1047,11 +1468,53 @@
             return String(url || '').replace('/fl_attachment/', `/fl_attachment:${downloadName}/`);
         }
 
-        filters.addEventListener('click', event => {
+        quickFilters.addEventListener('click', event => {
             const button = event.target.closest('.filter-chip');
             if (!button) return;
-            activeCategory = button.dataset.category;
-            renderFilters();
+            const type = button.dataset.filterType;
+            const value = button.dataset.filterValue;
+            if (type === 'category') activeCategory = activeCategory === value ? 'All' : value;
+            if (type === 'device') activeDevice = activeDevice === value ? 'All' : value;
+            if (type === 'tag') activeStyle = normalize(activeStyle) === normalize(value) ? 'All' : value;
+            renderWallpapers();
+            document.getElementById('latest-wallpapers').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        categoryCards.addEventListener('click', event => {
+            const card = event.target.closest('.category-card');
+            if (!card) return;
+            event.preventDefault();
+            activeCategory = card.dataset.category || 'All';
+            renderWallpapers();
+            document.getElementById('latest-wallpapers').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        deviceCards.addEventListener('click', event => {
+            const card = event.target.closest('.device-card');
+            if (!card) return;
+            event.preventDefault();
+            activeDevice = card.dataset.device || 'All';
+            renderWallpapers();
+            document.getElementById('latest-wallpapers').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        categoryFilterSelect.addEventListener('change', event => {
+            activeCategory = event.target.value;
+            renderWallpapers();
+        });
+
+        deviceFilterSelect.addEventListener('change', event => {
+            activeDevice = event.target.value;
+            renderWallpapers();
+        });
+
+        styleFilterSelect.addEventListener('change', event => {
+            activeStyle = event.target.value;
+            renderWallpapers();
+        });
+
+        accessFilterSelect.addEventListener('change', event => {
+            activeAccess = event.target.value;
             renderWallpapers();
         });
 
@@ -1061,6 +1524,13 @@
         });
 
         grid.addEventListener('click', event => {
+            const card = event.target.closest('.wallpaper-card');
+            if (!card || card.dataset.panelOnly !== 'true') return;
+            event.preventDefault();
+            openPanel(card.dataset.id);
+        });
+
+        laptopGrid.addEventListener('click', event => {
             const card = event.target.closest('.wallpaper-card');
             if (!card || card.dataset.panelOnly !== 'true') return;
             event.preventDefault();
@@ -1101,8 +1571,14 @@
                 ...configuredCategories,
                 ...wallpapers.flatMap(getItemTypes)
             ]);
+            const featuredMatch = featuredCategories.find(config => normalize(config.value) === normalize(requestedCategory) || normalize(config.label) === normalize(requestedCategory));
             activeCategory = requestedCategory && availableCategories.has(requestedCategory)
                 ? requestedCategory
+                : featuredMatch
+                    ? featuredMatch.value
+                    : 'All';
+            activeDevice = requestedDevice && ['laptop', 'desktop', 'mobile'].includes(normalize(requestedDevice))
+                ? normalize(requestedDevice)
                 : 'All';
             updateCategorySeo(activeCategory);
         }
@@ -1130,6 +1606,7 @@
                 randomizedWallpapers = shuffleWallpapers(wallpapers);
                 wallpaperPageUrls = buildWallpaperPageUrls(wallpapers.filter(item => item.source === 'static'));
                 setActiveCategoryFromAvailable();
+                renderBrowseSections();
                 renderFilters();
                 renderWallpapers();
 
@@ -1145,6 +1622,7 @@
                 randomizedWallpapers = shuffleWallpapers(wallpapers);
                 wallpaperPageUrls = buildWallpaperPageUrls(wallpapers);
                 setActiveCategoryFromAvailable();
+                renderBrowseSections();
                 renderFilters();
                 renderWallpapers();
             }

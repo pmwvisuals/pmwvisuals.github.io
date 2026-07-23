@@ -88,6 +88,7 @@ function normalizeWallpaper(id, item, source) {
   const types = cleanTypes(item);
   const access = normalizeAccess(item.access || (item.premium || item.isPremium ? "premium" : "free"));
   const tags = cleanList([item.hashtags || [], item.tags || []]).map((tag) => tag.toLowerCase());
+  const deviceTypes = cleanList([item.deviceTypes || [], item.deviceType || "", item.device || ""]).map((type) => type.toLowerCase());
 
   return {
     id: normalizeText(id || item.id),
@@ -98,6 +99,7 @@ function normalizeWallpaper(id, item, source) {
     types,
     category: types[0] || normalizeText(item.category) || "Wallpapers",
     tags,
+    deviceTypes,
     access,
     visible: item.visible !== false,
     width: Number(item.width) || 0,
