@@ -222,7 +222,7 @@
             position: relative;
             overflow: hidden;
             margin-bottom: 54px;
-            padding: clamp(34px, 7vw, 74px);
+            padding: clamp(28px, 4.5vw, 52px);
             border: 1px solid var(--border);
             border-radius: var(--radius-xl);
             background:
@@ -247,7 +247,9 @@
         .wallpaper-hero-content {
             position: relative;
             z-index: 1;
-            max-width: 820px;
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
         }
         .wallpaper-kicker {
             display: inline-flex;
@@ -268,7 +270,7 @@
         }
         .section-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 8vw, 6.8rem);
+            font-size: clamp(2.8rem, 5vw, 4.8rem);
             font-weight: 700;
             letter-spacing: -0.04em;
             line-height: 0.95;
@@ -277,18 +279,22 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 18px;
+            white-space: nowrap;
         }
         .section-subtitle {
             color: var(--text-secondary);
             font-size: clamp(1rem, 1.8vw, 1.18rem);
             max-width: 680px;
             line-height: 1.7;
+            margin-left: auto;
+            margin-right: auto;
         }
         .search-box {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-top: 28px;
+            width: min(920px, 100%);
+            margin: 24px auto 0;
             border: 1px solid var(--border);
             border-radius: var(--radius-xl);
             background: rgba(5,5,5,0.72);
@@ -314,6 +320,7 @@
         }
         .quick-filter-chips {
             margin-top: 16px;
+            justify-content: center;
         }
         .filter-chip {
             padding: 9px 18px;
@@ -457,13 +464,15 @@
             font-weight: 700;
         }
         .wallpapers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-            gap: 18px;
+            column-count: 5;
+            column-gap: 18px;
         }
         .wallpaper-card {
             position: relative;
             display: block;
+            width: 100%;
+            margin: 0 0 18px;
+            break-inside: avoid;
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
@@ -709,7 +718,7 @@
         }
         .download-btn svg { width: 18px; height: 18px; }
         .empty-state {
-            grid-column: 1 / -1;
+            column-span: all;
             padding: 70px 20px;
             text-align: center;
             color: var(--text-muted);
@@ -721,6 +730,7 @@
             .device-card-grid { grid-template-columns: 1fr; }
             .filter-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .filter-chips { justify-content: flex-start; }
+            .wallpapers-grid { column-count: 3; }
             .wallpaper-panel {
                 grid-template-columns: 1fr;
                 overflow-y: auto;
@@ -734,13 +744,17 @@
             .nav-logo { justify-self: start; }
             .nav-links, .nav-actions { display: none; }
             .wallpaper-hero { padding: 26px 18px; border-radius: 18px; }
+            .wallpaper-hero-content { text-align: left; }
+            .section-title { white-space: normal; font-size: clamp(2.35rem, 14vw, 4.2rem); }
+            .section-subtitle { margin-left: 0; margin-right: 0; }
             .search-box { margin-top: 22px; border-radius: 18px; }
             .search-box input { padding: 16px 0; }
-            .quick-filter-chips { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+            .quick-filter-chips { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; padding-bottom: 4px; }
             .category-card-grid { display: flex; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
             .category-card { min-width: 220px; scroll-snap-align: start; }
             .filter-panel { grid-template-columns: 1fr; }
-            .wallpapers-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+            .wallpapers-grid { column-count: 2; column-gap: 12px; }
+            .wallpaper-card { margin-bottom: 12px; }
             .panel-overlay { padding: 12px; align-items: center; }
             .panel-details { padding: 26px 20px 22px; }
             .detail-grid { grid-template-columns: 1fr; }
@@ -789,7 +803,7 @@
                 <button class="nav-link" onclick="window.location.href='index.html'">Home</button>
                 <button class="nav-link" onclick="window.location.href='pmw-studio.html'">PMW Studio</button>
                 <button class="nav-link active">PMW Wallpapers</button>
-                <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html?device=desktop#latest-wallpapers'">Desktop Wallpapers</button>
+                <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html?category=Desktop%20Wallpapers#latest-wallpapers'">Desktop Wallpapers</button>
                 <button class="nav-link" onclick="window.location.href='tools/'">PMW Tools</button>
             </div>
             <div class="nav-actions">
@@ -943,6 +957,7 @@
 
     <script src="wallpapers-data.js"></script>
     <script src="wallpaper-pages.js"></script>
+    <script src="desktop-wallpapers-data.js"></script>
     <script src="download-tracking.js"></script>
     <script>
         const canvas = document.getElementById('canvas-bg');
@@ -1042,7 +1057,9 @@
             Romantic: 'Romantic Wallpapers',
             'Space and Galaxy': 'Galaxy Wallpapers',
             'Celestial Samurai': 'Samurai Wallpapers',
-            Minimalist: 'Minimal Wallpapers'
+            Minimalist: 'Minimal Wallpapers',
+            'Desktop Wallpapers': 'Desktop Wallpapers',
+            'Nature Desktop': 'Nature Desktop'
         };
 
         const featuredCategories = [
@@ -1053,7 +1070,8 @@
             { label: 'Dark Aesthetic', value: 'Dark Aesthetic', aliases: ['dark aesthetic', 'aesthetic', 'dark'] },
             { label: 'AMOLED', value: 'AMOLED', aliases: ['amoled'] },
             { label: 'Minimal', value: 'Minimalist', aliases: ['minimal', 'minimalist'] },
-            { label: 'Samurai', value: 'Celestial Samurai', aliases: ['celestial samurai', 'samurai'] }
+            { label: 'Samurai', value: 'Celestial Samurai', aliases: ['celestial samurai', 'samurai'] },
+            { label: 'Desktop', value: 'Desktop Wallpapers', aliases: ['desktop wallpapers', 'desktop wallpaper', 'laptop wallpaper', '16:9 wallpaper'] }
         ];
 
         function getCategoryLabel(category) {
@@ -1112,6 +1130,67 @@
 
         function getItemTags(item) {
             return uniqueList([item.tags || [], item.hashtags || []]).map(tag => tag.replace(/^#+/, '').toLowerCase());
+        }
+
+        function normalizeDesktopWallpapers(items = []) {
+            return (Array.isArray(items) ? items : []).map((item, index) => {
+                const width = Number(item.width) || 0;
+                const height = Number(item.height) || 0;
+                const category = item.category || 'Desktop Wallpapers';
+                const types = uniqueList([
+                    item.types || [],
+                    item.categories || [],
+                    category,
+                    'Desktop Wallpapers'
+                ]);
+                const id = item.id || `desktop-wallpaper-${index + 1}`;
+                const imageUrl = item.imageUrl || item.image || item.preview || item.thumbnail || item.download;
+                return {
+                    ...item,
+                    id,
+                    title: item.title || 'Desktop Wallpaper',
+                    description: item.description || 'A wide desktop wallpaper from PMW Visuals.',
+                    imageUrl,
+                    preview: item.preview || imageUrl,
+                    thumbnail: item.thumbnail || item.preview || imageUrl,
+                    download: item.download || imageUrl,
+                    category,
+                    types,
+                    categories: types,
+                    tags: uniqueList([item.tags || [], 'desktop wallpaper', 'laptop wallpaper', '16:9 wallpaper']),
+                    deviceTypes: uniqueList([item.deviceTypes || [], 'desktop', 'laptop']),
+                    access: item.access || 'free',
+                    visible: item.visible !== false,
+                    width,
+                    height,
+                    resolution: item.resolution || (width && height ? `${width}x${height}` : 'Desktop'),
+                    format: item.format || 'PNG',
+                    source: 'desktop-static'
+                };
+            }).filter(item => item.visible !== false);
+        }
+
+        function mergeWallpaperLists(...lists) {
+            const seen = new Set();
+            return lists.flat().filter(item => {
+                const key = item.id || item.imageUrl || item.preview || item.thumbnail;
+                if (!key || seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            });
+        }
+
+        function mixWallpaperLists(primaryItems = [], desktopItems = []) {
+            const mixed = [];
+            let desktopIndex = 0;
+            primaryItems.forEach((item, index) => {
+                mixed.push(item);
+                if ((index + 1) % 3 === 0 && desktopIndex < desktopItems.length) {
+                    mixed.push(desktopItems[desktopIndex]);
+                    desktopIndex += 1;
+                }
+            });
+            return mergeWallpaperLists(mixed, desktopItems.slice(desktopIndex));
         }
 
         function getResolutionSize(item) {
@@ -1602,7 +1681,8 @@
                         error
                     }))
                 ]);
-                wallpapers = [...freeResult.items, ...premiumResult.items];
+                const desktopItems = normalizeDesktopWallpapers(window.PMW_DESKTOP_WALLPAPERS || []);
+                wallpapers = mixWallpaperLists([...freeResult.items, ...premiumResult.items], desktopItems);
                 randomizedWallpapers = shuffleWallpapers(wallpapers);
                 wallpaperPageUrls = buildWallpaperPageUrls(wallpapers.filter(item => item.source === 'static'));
                 setActiveCategoryFromAvailable();
@@ -1618,9 +1698,13 @@
                 }
             } catch (error) {
                 console.warn('Unable to initialize Firestore wallpaper loading; static fallback was used.', error);
-                wallpapers = (window.PMW_WALLPAPERS || []).filter(item => item.visible !== false);
+                const desktopItems = normalizeDesktopWallpapers(window.PMW_DESKTOP_WALLPAPERS || []);
+                wallpapers = mixWallpaperLists(
+                    (window.PMW_WALLPAPERS || []).filter(item => item.visible !== false),
+                    desktopItems
+                );
                 randomizedWallpapers = shuffleWallpapers(wallpapers);
-                wallpaperPageUrls = buildWallpaperPageUrls(wallpapers);
+                wallpaperPageUrls = buildWallpaperPageUrls(wallpapers.filter(item => item.source !== 'desktop-static'));
                 setActiveCategoryFromAvailable();
                 renderBrowseSections();
                 renderFilters();
