@@ -420,6 +420,7 @@
             font-weight: 700;
         }
         .category-marquee {
+            grid-column: 1 / -1;
             overflow: hidden;
             margin: 24px 0;
             padding: 2px 0;
@@ -517,24 +518,26 @@
             box-shadow: 0 10px 26px rgba(255,255,255,0.16);
         }
         .wallpapers-grid {
-            column-count: 5;
-            column-gap: 18px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 18px;
+            align-items: start;
         }
-        .feed-grid {
-            margin-bottom: 0;
+        .feed-grid { margin-bottom: 0; }
+        .feed-insert {
+            grid-column: 1 / -1;
         }
         .desktop-wallpapers-row {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 18px;
             column-count: initial;
+            margin: 6px 0 18px;
         }
         .wallpaper-card {
             position: relative;
             display: block;
             width: 100%;
-            margin: 0 0 18px;
-            break-inside: avoid;
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
@@ -791,7 +794,7 @@
             .category-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .filter-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .filter-chips { justify-content: flex-start; }
-            .wallpapers-grid { column-count: 3; }
+            .wallpapers-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
             .desktop-wallpapers-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .wallpaper-panel {
                 grid-template-columns: 1fr;
@@ -817,10 +820,8 @@
             .category-card { min-width: 220px; scroll-snap-align: start; }
             .category-marquee .category-card { min-width: 230px; }
             .filter-panel { grid-template-columns: 1fr; }
-            .wallpapers-grid { column-count: 2; column-gap: 12px; }
-            .desktop-wallpapers-row { display: flex; overflow-x: auto; gap: 12px; }
-            .desktop-wallpapers-row .wallpaper-card { min-width: 76vw; }
-            .wallpaper-card { margin-bottom: 12px; }
+            .wallpapers-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+            .desktop-wallpapers-row { grid-template-columns: 1fr; gap: 12px; }
             .panel-overlay { padding: 12px; align-items: center; }
             .panel-details { padding: 26px 20px 22px; }
             .detail-grid { grid-template-columns: 1fr; }
@@ -941,12 +942,6 @@
 
             <section class="wallpaper-section wallpaper-results-section" id="latest-wallpapers" aria-label="Wallpaper results">
                 <section class="wallpapers-grid feed-grid" id="wallpapersGrid" aria-live="polite"></section>
-                <div class="category-marquee" aria-label="Browse wallpaper categories">
-                    <div class="category-card-grid category-marquee-track" id="categoryCards" aria-live="polite"></div>
-                </div>
-                <section class="wallpapers-grid feed-grid" id="wallpapersMidGrid" aria-live="polite"></section>
-                <section class="wallpapers-grid desktop-wallpapers-row" id="desktopWallpapersGrid" aria-label="Desktop wallpaper picks" aria-live="polite"></section>
-                <section class="wallpapers-grid feed-grid" id="wallpapersRestGrid" aria-live="polite"></section>
             </section>
         </div>
     </main>
@@ -1066,11 +1061,7 @@
         let isPremiumMember = false;
 
         const grid = document.getElementById('wallpapersGrid');
-        const midGrid = document.getElementById('wallpapersMidGrid');
-        const restGrid = document.getElementById('wallpapersRestGrid');
-        const desktopGrid = document.getElementById('desktopWallpapersGrid');
         const quickFilters = document.getElementById('quickFilters');
-        const categoryCards = document.getElementById('categoryCards');
         const categoryFilterSelect = document.getElementById('categoryFilterSelect');
         const deviceToggle = document.getElementById('deviceToggle');
         const styleFilterSelect = document.getElementById('styleFilterSelect');
@@ -1445,32 +1436,16 @@
 
         function renderLoading(message = 'Loading wallpapers...') {
             grid.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
-            midGrid.innerHTML = '';
-            desktopGrid.innerHTML = '';
-            restGrid.innerHTML = '';
         }
 
-        function renderWallpaperGrid(target, items, options = {}) {
-            if (!items.length) {
-                if (options.empty === false) {
-                    target.innerHTML = '';
-                    return;
-                }
-                const message = wallpapers.length
-                    ? 'No wallpapers found. Try another search or category.'
-                    : 'No wallpapers loaded yet. Firestore is empty and the static fallback has no visible free wallpapers.';
-                target.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
-                return;
-            }
-
-            target.innerHTML = items.map(item => {
-                const devices = getDeviceTypes(item);
-                const wide = options.wide || devices.includes('desktop') || isWideWallpaper(item);
-                const size = getResolutionSize(item);
-                const aspect = size.width && size.height
-                    ? `${size.width} / ${size.height}`
-                    : (wide ? '16 / 9' : '9 / 16');
-                return `
+        function getWallpaperCardMarkup(item, options = {}) {
+            const devices = getDeviceTypes(item);
+            const wide = options.wide || devices.includes('desktop') || isWideWallpaper(item);
+            const size = getResolutionSize(item);
+            const aspect = size.width && size.height
+                ? `${size.width} / ${size.height}`
+                : (wide ? '16 / 9' : '9 / 16');
+            return `
                 <a class="wallpaper-card" data-id="${escapeHtml(item.id)}" data-panel-only="${opensPanelOnly(item) ? 'true' : 'false'}" href="${escapeHtml(getWallpaperPageUrl(item))}" style="--wallpaper-aspect: ${escapeHtml(aspect)}">
                     <div class="wallpaper-thumb">
                         <img src="${escapeHtml(item.thumbnail)}" alt="${escapeHtml(item.title)}" loading="lazy">
@@ -1481,32 +1456,11 @@
                         <h3 class="wallpaper-card-title">${escapeHtml(item.title)}</h3>
                     </div>
                 </a>
-            `}).join('');
+            `;
         }
 
-        function renderWallpapers() {
-            const items = getFilteredWallpapers();
-            const firstCount = window.matchMedia('(max-width: 768px)').matches ? 4 : 10;
-            const midCount = 4;
-            const desktopInsertCount = activeDevice === 'desktop' ? 4 : 0;
-            const firstItems = items.slice(0, firstCount);
-            const midItems = items.slice(firstCount, firstCount + midCount);
-            const desktopItems = items.slice(firstCount + midCount, firstCount + midCount + desktopInsertCount);
-            const restItems = items.slice(firstCount + midCount + desktopInsertCount, 48);
-
-            renderWallpaperGrid(grid, firstItems);
-            renderWallpaperGrid(midGrid, midItems, { empty: false });
-            renderWallpaperGrid(desktopGrid, desktopItems, { wide: activeDevice === 'desktop', empty: false });
-            renderWallpaperGrid(restGrid, restItems, { empty: false });
-            renderFilters();
-        }
-
-        function findPreviewItem(matchFn) {
-            return randomizedWallpapers.find(matchFn) || randomizedWallpapers[0] || null;
-        }
-
-        function renderCategoryCards() {
-            const cards = featuredCategories.map(config => {
+        function getCategoryCardsMarkup() {
+            return featuredCategories.map(config => {
                 const item = findPreviewItem(wallpaper => matchesCategory(wallpaper, config.value) || matchesAliasText(wallpaper, config.aliases));
                 const image = item ? item.thumbnail : '';
                 return `
@@ -1518,7 +1472,67 @@
                     </a>
                 `;
             }).join('');
-            categoryCards.innerHTML = cards + cards;
+        }
+
+        function getCategoryMarqueeMarkup() {
+            const cards = getCategoryCardsMarkup();
+            return `
+                <div class="category-marquee feed-insert" aria-label="Browse wallpaper categories">
+                    <div class="category-card-grid category-marquee-track" aria-live="polite">
+                        ${cards}${cards}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getDesktopRowMarkup(items) {
+            if (activeDevice !== 'desktop' || !items.length) return '';
+            return `
+                <section class="desktop-wallpapers-row feed-insert" aria-label="Desktop wallpaper picks">
+                    ${items.map(item => getWallpaperCardMarkup(item, { wide: true })).join('')}
+                </section>
+            `;
+        }
+
+        function getFeedColumnCount() {
+            const columns = window.getComputedStyle(grid).gridTemplateColumns
+                .split(' ')
+                .filter(Boolean).length;
+            return columns || (window.matchMedia('(max-width: 768px)').matches ? 2 : 4);
+        }
+
+        function renderWallpapers() {
+            const items = getFilteredWallpapers();
+            const columns = getFeedColumnCount();
+            const firstCount = Math.max(columns * 2, window.matchMedia('(max-width: 768px)').matches ? 4 : 8);
+            const midCount = Math.max(columns, window.matchMedia('(max-width: 768px)').matches ? 4 : 4);
+            const desktopInsertCount = activeDevice === 'desktop' ? 4 : 0;
+            const firstItems = items.slice(0, firstCount);
+            const midItems = items.slice(firstCount, firstCount + midCount);
+            const desktopItems = items.slice(firstCount + midCount, firstCount + midCount + desktopInsertCount);
+            const restItems = items.slice(firstCount + midCount + desktopInsertCount);
+
+            if (!items.length) {
+                const message = wallpapers.length
+                    ? 'No wallpapers found. Try another search or category.'
+                    : 'No wallpapers loaded yet. Firestore is empty and the static fallback has no visible free wallpapers.';
+                grid.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
+                renderFilters();
+                return;
+            }
+
+            grid.innerHTML = [
+                firstItems.map(item => getWallpaperCardMarkup(item)).join(''),
+                getCategoryMarqueeMarkup(),
+                midItems.map(item => getWallpaperCardMarkup(item)).join(''),
+                getDesktopRowMarkup(desktopItems),
+                restItems.map(item => getWallpaperCardMarkup(item)).join('')
+            ].join('');
+            renderFilters();
+        }
+
+        function findPreviewItem(matchFn) {
+            return randomizedWallpapers.find(matchFn) || randomizedWallpapers[0] || null;
         }
 
         function updateHeroImage() {
@@ -1530,7 +1544,6 @@
 
         function renderBrowseSections() {
             updateHeroImage();
-            renderCategoryCards();
         }
 
         function openPanel(id) {
@@ -1593,15 +1606,6 @@
             document.getElementById('latest-wallpapers').scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
-        categoryCards.addEventListener('click', event => {
-            const card = event.target.closest('.category-card');
-            if (!card) return;
-            event.preventDefault();
-            activeCategory = card.dataset.category || 'All';
-            renderWallpapers();
-            document.getElementById('latest-wallpapers').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-
         categoryFilterSelect.addEventListener('change', event => {
             activeCategory = event.target.value;
             renderWallpapers();
@@ -1630,15 +1634,22 @@
         });
 
         function handleWallpaperGridClick(event) {
+            const categoryCard = event.target.closest('.category-card');
+            if (categoryCard) {
+                event.preventDefault();
+                activeCategory = categoryCard.dataset.category || 'All';
+                renderWallpapers();
+                document.getElementById('latest-wallpapers').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
+            }
+
             const card = event.target.closest('.wallpaper-card');
             if (!card || card.dataset.panelOnly !== 'true') return;
             event.preventDefault();
             openPanel(card.dataset.id);
         }
 
-        [grid, midGrid, desktopGrid, restGrid].forEach(feedGrid => {
-            feedGrid.addEventListener('click', handleWallpaperGridClick);
-        });
+        grid.addEventListener('click', handleWallpaperGridClick);
 
         panelDownload.addEventListener('click', () => {
             if (!selectedWallpaper) return;

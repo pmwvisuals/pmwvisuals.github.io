@@ -24,6 +24,7 @@
   const resultMeta = document.getElementById("toolResultMeta");
   const resultDownload = document.getElementById("toolDownload");
   const message = document.getElementById("toolMessage");
+  const toolParams = new URLSearchParams(window.location.search);
 
   const state = {
     file: null,
@@ -103,6 +104,59 @@
 
   function safeBaseName(name) {
     return (name || "pmw-image").replace(/\.[^.]+$/, "").replace(/[^a-z0-9_-]+/gi, "-").replace(/^-+|-+$/g, "") || "pmw-image";
+  }
+
+  function requestedFormatType() {
+    const format = String(toolParams.get("format") || "").toLowerCase();
+    if (format === "jpg" || format === "jpeg") return "image/jpeg";
+    if (format === "png") return "image/png";
+    if (format === "webp") return "image/webp";
+    return "";
+  }
+
+  function applyRequestedFormat(selectId) {
+    const select = document.getElementById(selectId);
+    const type = requestedFormatType();
+    if (select && type) {
+      select.value = type;
+      select.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+  }
+
+  function applyRequestedResizePreset() {
+    const width = Number.parseInt(toolParams.get("width") || "", 10);
+    const height = Number.parseInt(toolParams.get("height") || "", 10);
+    const widthInput = document.getElementById("resizeWidth");
+    const heightInput = document.getElementById("resizeHeight");
+    if (Number.isFinite(width) && width > 0 && widthInput) widthInput.value = String(width);
+    if (Number.isFinite(height) && height > 0 && heightInput) heightInput.value = String(height);
+  }
+
+  function sourceFileNameFromParams(type) {
+    const title = safeBaseName(toolParams.get("title") || "pmw-wallpaper");
+    const extension = extensionFor(type || "image/png");
+    return `${title}.${extension}`;
+  }
+
+  async function fileFromRequestedSource() {
+    const source = toolParams.get("source");
+    if (!source || !/^https?:\/\//i.test(source)) return null;
+    const response = await fetch(source, { mode: "cors", credentials: "omit" });
+    if (!response.ok) throw new Error("Could not load this wallpaper in the tool. Please download it and upload it manually.");
+    const blob = await response.blob();
+    const type = blob.type && blob.type.startsWith("image/") ? blob.type : "image/png";
+    return new File([blob], sourceFileNameFromParams(type), { type });
+  }
+
+  async function loadRequestedSource(handler) {
+    if (!toolParams.get("source")) return;
+    try {
+      setMessage("Loading selected PMW wallpaper...");
+      const file = await fileFromRequestedSource();
+      if (file) await handler(file);
+    } catch (error) {
+      setMessage(error.message || "Could not load this wallpaper automatically. You can still upload it manually.", "error");
+    }
   }
 
   function clearOutput() {
@@ -1495,10 +1549,13 @@
     bindResizeAspectRatio();
     bindPresets();
     document.getElementById("resizeFormat").addEventListener("change", updateResizeQualityVisibility);
+    applyRequestedFormat("resizeFormat");
+    applyRequestedResizePreset();
     action.addEventListener("click", runResizer);
     document.getElementById("toolReset")?.addEventListener("click", resetResizer);
     initializeResizerMembership();
     updateResizeButtonState();
+    loadRequestedSource((file) => addResizeFiles([file]));
   }
 
   if (!page || !input || !dropzone || !action) return;
@@ -1507,10 +1564,13 @@
     initResizer();
   } else if (page === "compressor") {
     initCompressor();
+    loadRequestedSource((file) => addCompressFiles([file]));
   } else {
     bindBasicDropzone();
     bindRanges();
+    applyRequestedFormat("outputFormat");
     action.addEventListener("click", runBasicTool);
+    loadRequestedSource((file) => setFile(file));
   }
 
   drawIcons();
