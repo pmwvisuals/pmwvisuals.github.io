@@ -221,7 +221,7 @@
         .wallpaper-hero {
             position: relative;
             overflow: hidden;
-            margin-bottom: 54px;
+            margin-bottom: 28px;
             padding: clamp(28px, 4.5vw, 52px);
             border: 1px solid var(--border);
             border-radius: var(--radius-xl);
@@ -344,6 +344,9 @@
         .wallpaper-section {
             margin-top: 54px;
         }
+        .wallpaper-results-section {
+            margin-top: 0;
+        }
         .wallpaper-section-head {
             display: flex;
             align-items: end;
@@ -416,6 +419,30 @@
             font-size: 0.78rem;
             font-weight: 700;
         }
+        .category-marquee {
+            overflow: hidden;
+            margin: 24px 0;
+            padding: 2px 0;
+            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+        }
+        .category-marquee-track {
+            display: flex;
+            width: max-content;
+            gap: 14px;
+            animation: categoryScroll 34s linear infinite;
+        }
+        .category-marquee:hover .category-marquee-track {
+            animation-play-state: paused;
+        }
+        .category-marquee .category-card {
+            width: min(320px, 72vw);
+            min-height: 150px;
+            flex: 0 0 auto;
+        }
+        @keyframes categoryScroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(-50% - 7px)); }
+        }
         .filter-panel {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -425,6 +452,12 @@
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
             background: linear-gradient(145deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01));
+        }
+        .wallpaper-hero .filter-panel {
+            max-width: 1120px;
+            margin: 18px auto 0;
+            background: rgba(0,0,0,0.38);
+            backdrop-filter: blur(16px);
         }
         .filter-field {
             display: grid;
@@ -448,9 +481,47 @@
             font-size: 0.84rem;
             font-weight: 700;
         }
+        .device-toggle {
+            min-height: 44px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 6px;
+            padding: 5px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #101010;
+        }
+        .device-toggle-btn {
+            display: grid;
+            place-items: center;
+            min-height: 32px;
+            border: 1px solid transparent;
+            border-radius: 9px;
+            color: var(--text-secondary);
+            background: transparent;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+        .device-toggle-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+        .device-toggle-btn.active {
+            color: #050505;
+            background: var(--text-primary);
+            box-shadow: 0 10px 26px rgba(255,255,255,0.16);
+        }
         .wallpapers-grid {
             column-count: 5;
             column-gap: 18px;
+        }
+        .feed-grid {
+            margin-bottom: 0;
         }
         .desktop-wallpapers-row {
             display: grid;
@@ -742,7 +813,9 @@
             .search-box input { padding: 16px 0; }
             .quick-filter-chips { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; padding-bottom: 4px; }
             .category-card-grid { display: flex; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
+            .category-marquee-track { overflow: visible; padding-bottom: 0; scroll-snap-type: none; }
             .category-card { min-width: 220px; scroll-snap-align: start; }
+            .category-marquee .category-card { min-width: 230px; }
             .filter-panel { grid-template-columns: 1fr; }
             .wallpapers-grid { column-count: 2; column-gap: 12px; }
             .desktop-wallpapers-row { display: flex; overflow-x: auto; gap: 12px; }
@@ -827,8 +900,6 @@
                     <input id="wallpaperSearch" type="text" placeholder="Search anime, nature, galaxy, dark, aesthetic..." autocomplete="off">
                 </label>
                     <div class="filter-chips quick-filter-chips" id="quickFilters" aria-label="Quick wallpaper filters">
-                        <button class="filter-chip" type="button" data-filter-type="device" data-filter-value="desktop">Desktop</button>
-                        <button class="filter-chip" type="button" data-filter-type="device" data-filter-value="mobile">Mobile</button>
                         <button class="filter-chip" type="button" data-filter-type="tag" data-filter-value="4k">4K</button>
                         <button class="filter-chip" type="button" data-filter-type="category" data-filter-value="Anime">Anime</button>
                         <button class="filter-chip" type="button" data-filter-type="category" data-filter-value="Nature">Nature</button>
@@ -836,65 +907,46 @@
                         <button class="filter-chip" type="button" data-filter-type="tag" data-filter-value="dark">Dark</button>
                         <button class="filter-chip" type="button" data-filter-type="tag" data-filter-value="aesthetic">Aesthetic</button>
                     </div>
+                    <div class="filter-panel" aria-label="Wallpaper filters">
+                        <div class="filter-field">
+                            <label for="categoryFilterSelect">Category</label>
+                            <select id="categoryFilterSelect"></select>
+                        </div>
+                        <div class="filter-field">
+                            <label>Device</label>
+                            <div class="device-toggle" id="deviceToggle" aria-label="Choose wallpaper screen format">
+                                <button class="device-toggle-btn" type="button" data-device-value="mobile" aria-label="Show mobile wallpapers">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"></rect><path d="M11 18h2"></path></svg>
+                                </button>
+                                <button class="device-toggle-btn" type="button" data-device-value="desktop" aria-label="Show desktop wallpapers">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8"></path><path d="M12 16v4"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="filter-field">
+                            <label for="styleFilterSelect">Style / tag</label>
+                            <select id="styleFilterSelect"></select>
+                        </div>
+                        <div class="filter-field">
+                            <label for="accessFilterSelect">Free / Premium</label>
+                            <select id="accessFilterSelect">
+                                <option value="All">All access</option>
+                                <option value="free">Free</option>
+                                <option value="premium">Premium</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </header>
 
-            <section class="wallpaper-section" aria-labelledby="categoryBrowseTitle">
-                <div class="wallpaper-section-head">
-                    <div>
-                        <span class="wallpaper-kicker">Category browsing</span>
-                        <h2 id="categoryBrowseTitle">Browse by Category</h2>
-                    </div>
+            <section class="wallpaper-section wallpaper-results-section" id="latest-wallpapers" aria-label="Wallpaper results">
+                <section class="wallpapers-grid feed-grid" id="wallpapersGrid" aria-live="polite"></section>
+                <div class="category-marquee" aria-label="Browse wallpaper categories">
+                    <div class="category-card-grid category-marquee-track" id="categoryCards" aria-live="polite"></div>
                 </div>
-                <div class="category-card-grid" id="categoryCards" aria-live="polite"></div>
-            </section>
-
-            <section class="wallpaper-section" aria-labelledby="desktopWallpapersTitle">
-                <div class="wallpaper-section-head">
-                    <div>
-                        <span class="wallpaper-kicker">Wide screens</span>
-                        <h2 id="desktopWallpapersTitle">Desktop Wallpapers</h2>
-                    </div>
-                    <p>Wide 16:9 wallpapers designed for desktops and large screens.</p>
-                </div>
-                <section class="wallpapers-grid desktop-wallpapers-row" id="desktopWallpapersGrid" aria-live="polite"></section>
-            </section>
-
-            <section class="wallpaper-section" id="latest-wallpapers" aria-labelledby="latestWallpapersTitle">
-                <div class="wallpaper-section-head">
-                    <div>
-                        <span class="wallpaper-kicker">Fresh picks</span>
-                        <h2 id="latestWallpapersTitle">Latest Wallpapers</h2>
-                    </div>
-                    <p>Use search and filters to find anime, nature, galaxy, dark aesthetic, desktop, mobile, free, and premium wallpapers.</p>
-                </div>
-                <div class="filter-panel" aria-label="Wallpaper filters">
-                    <div class="filter-field">
-                        <label for="categoryFilterSelect">Category</label>
-                        <select id="categoryFilterSelect"></select>
-                    </div>
-                    <div class="filter-field">
-                        <label for="deviceFilterSelect">Device type</label>
-                        <select id="deviceFilterSelect">
-                            <option value="All">All devices</option>
-                            <option value="desktop">Desktop</option>
-                            <option value="mobile">Mobile</option>
-                        </select>
-                    </div>
-                    <div class="filter-field">
-                        <label for="styleFilterSelect">Style / tag</label>
-                        <select id="styleFilterSelect"></select>
-                    </div>
-                    <div class="filter-field">
-                        <label for="accessFilterSelect">Free / Premium</label>
-                        <select id="accessFilterSelect">
-                            <option value="All">All access</option>
-                            <option value="free">Free</option>
-                            <option value="premium">Premium</option>
-                        </select>
-                    </div>
-                </div>
-                <section class="wallpapers-grid" id="wallpapersGrid" aria-live="polite"></section>
+                <section class="wallpapers-grid feed-grid" id="wallpapersMidGrid" aria-live="polite"></section>
+                <section class="wallpapers-grid desktop-wallpapers-row" id="desktopWallpapersGrid" aria-label="Desktop wallpaper picks" aria-live="polite"></section>
+                <section class="wallpapers-grid feed-grid" id="wallpapersRestGrid" aria-live="polite"></section>
             </section>
         </div>
     </main>
@@ -1005,7 +1057,7 @@
         const requestedCategory = pageParams.get('category');
         const requestedDevice = pageParams.get('device');
         let activeCategory = 'All';
-        let activeDevice = 'All';
+        let activeDevice = 'mobile';
         let activeStyle = 'All';
         let activeAccess = 'All';
         let searchQuery = '';
@@ -1014,11 +1066,13 @@
         let isPremiumMember = false;
 
         const grid = document.getElementById('wallpapersGrid');
+        const midGrid = document.getElementById('wallpapersMidGrid');
+        const restGrid = document.getElementById('wallpapersRestGrid');
         const desktopGrid = document.getElementById('desktopWallpapersGrid');
         const quickFilters = document.getElementById('quickFilters');
         const categoryCards = document.getElementById('categoryCards');
         const categoryFilterSelect = document.getElementById('categoryFilterSelect');
-        const deviceFilterSelect = document.getElementById('deviceFilterSelect');
+        const deviceToggle = document.getElementById('deviceToggle');
         const styleFilterSelect = document.getElementById('styleFilterSelect');
         const accessFilterSelect = document.getElementById('accessFilterSelect');
         const search = document.getElementById('wallpaperSearch');
@@ -1361,14 +1415,17 @@
                 <option value="${escapeHtml(style)}" ${normalize(style) === normalize(activeStyle) ? 'selected' : ''}>${style === 'All' ? 'All styles' : escapeHtml(style)}</option>
             `).join('');
 
-            deviceFilterSelect.value = activeDevice;
             accessFilterSelect.value = activeAccess;
+            deviceToggle.querySelectorAll('.device-toggle-btn').forEach(button => {
+                const active = normalize(button.dataset.deviceValue) === normalize(activeDevice);
+                button.classList.toggle('active', active);
+                button.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
 
             quickFilters.querySelectorAll('.filter-chip').forEach(button => {
                 const type = button.dataset.filterType;
                 const value = button.dataset.filterValue;
                 const active = (type === 'category' && normalize(activeCategory) === normalize(value))
-                    || (type === 'device' && normalize(activeDevice) === normalize(value))
                     || (type === 'tag' && normalize(activeStyle) === normalize(value));
                 button.classList.toggle('active', active);
             });
@@ -1388,11 +1445,17 @@
 
         function renderLoading(message = 'Loading wallpapers...') {
             grid.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
-            desktopGrid.innerHTML = `<div class="empty-state">${escapeHtml(message)}</div>`;
+            midGrid.innerHTML = '';
+            desktopGrid.innerHTML = '';
+            restGrid.innerHTML = '';
         }
 
         function renderWallpaperGrid(target, items, options = {}) {
             if (!items.length) {
+                if (options.empty === false) {
+                    target.innerHTML = '';
+                    return;
+                }
                 const message = wallpapers.length
                     ? 'No wallpapers found. Try another search or category.'
                     : 'No wallpapers loaded yet. Firestore is empty and the static fallback has no visible free wallpapers.';
@@ -1423,9 +1486,18 @@
 
         function renderWallpapers() {
             const items = getFilteredWallpapers();
-            const desktopItems = wallpapers.filter(item => matchesDevice(item, 'desktop') || isWideWallpaper(item));
-            renderWallpaperGrid(grid, items.slice(0, 36));
-            renderWallpaperGrid(desktopGrid, desktopItems.slice(0, 4), { wide: true });
+            const firstCount = window.matchMedia('(max-width: 768px)').matches ? 4 : 10;
+            const midCount = 4;
+            const desktopInsertCount = activeDevice === 'desktop' ? 4 : 0;
+            const firstItems = items.slice(0, firstCount);
+            const midItems = items.slice(firstCount, firstCount + midCount);
+            const desktopItems = items.slice(firstCount + midCount, firstCount + midCount + desktopInsertCount);
+            const restItems = items.slice(firstCount + midCount + desktopInsertCount, 48);
+
+            renderWallpaperGrid(grid, firstItems);
+            renderWallpaperGrid(midGrid, midItems, { empty: false });
+            renderWallpaperGrid(desktopGrid, desktopItems, { wide: activeDevice === 'desktop', empty: false });
+            renderWallpaperGrid(restGrid, restItems, { empty: false });
             renderFilters();
         }
 
@@ -1434,7 +1506,7 @@
         }
 
         function renderCategoryCards() {
-            categoryCards.innerHTML = featuredCategories.map(config => {
+            const cards = featuredCategories.map(config => {
                 const item = findPreviewItem(wallpaper => matchesCategory(wallpaper, config.value) || matchesAliasText(wallpaper, config.aliases));
                 const image = item ? item.thumbnail : '';
                 return `
@@ -1446,6 +1518,7 @@
                     </a>
                 `;
             }).join('');
+            categoryCards.innerHTML = cards + cards;
         }
 
         function updateHeroImage() {
@@ -1515,7 +1588,6 @@
             const type = button.dataset.filterType;
             const value = button.dataset.filterValue;
             if (type === 'category') activeCategory = activeCategory === value ? 'All' : value;
-            if (type === 'device') activeDevice = activeDevice === value ? 'All' : value;
             if (type === 'tag') activeStyle = normalize(activeStyle) === normalize(value) ? 'All' : value;
             renderWallpapers();
             document.getElementById('latest-wallpapers').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1535,8 +1607,10 @@
             renderWallpapers();
         });
 
-        deviceFilterSelect.addEventListener('change', event => {
-            activeDevice = event.target.value;
+        deviceToggle.addEventListener('click', event => {
+            const button = event.target.closest('.device-toggle-btn');
+            if (!button) return;
+            activeDevice = button.dataset.deviceValue || 'mobile';
             renderWallpapers();
         });
 
@@ -1555,18 +1629,15 @@
             renderWallpapers();
         });
 
-        grid.addEventListener('click', event => {
+        function handleWallpaperGridClick(event) {
             const card = event.target.closest('.wallpaper-card');
             if (!card || card.dataset.panelOnly !== 'true') return;
             event.preventDefault();
             openPanel(card.dataset.id);
-        });
+        }
 
-        desktopGrid.addEventListener('click', event => {
-            const card = event.target.closest('.wallpaper-card');
-            if (!card || card.dataset.panelOnly !== 'true') return;
-            event.preventDefault();
-            openPanel(card.dataset.id);
+        [grid, midGrid, desktopGrid, restGrid].forEach(feedGrid => {
+            feedGrid.addEventListener('click', handleWallpaperGridClick);
         });
 
         panelDownload.addEventListener('click', () => {
@@ -1611,7 +1682,7 @@
                     : 'All';
             activeDevice = requestedDevice && ['desktop', 'mobile'].includes(normalize(requestedDevice))
                 ? normalize(requestedDevice)
-                : 'All';
+                : 'mobile';
             updateCategorySeo(activeCategory);
         }
 
