@@ -11,7 +11,7 @@ import {
   updateDoc
 } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
-const CLOUDINARY_CLOUD_NAME = "dlmjetz3s";
+const CLOUDINARY_CLOUD_NAME = "udl5ib1p";
 const CLOUDINARY_UPLOAD_PRESET = "PMWVISUALS";
 
 const loadingPanel = document.querySelector("#adminLoadingPanel");
