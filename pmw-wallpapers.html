@@ -1424,7 +1424,7 @@
 
         function getFilteredWallpapers() {
             const q = normalize(searchQuery);
-            return wallpapers.filter(item => {
+            return randomizedWallpapers.filter(item => {
                 const categoryMatch = matchesCategory(item, activeCategory);
                 const deviceMatch = matchesDevice(item, activeDevice);
                 const styleMatch = matchesStyle(item, activeStyle);

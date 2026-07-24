@@ -1,4 +1,24 @@
 (function () {
+  const shuffleElements = (items) => {
+    const shuffled = [...items];
+    for (let index = shuffled.length - 1; index > 0; index -= 1) {
+      const randomIndex = Math.floor(Math.random() * (index + 1));
+      [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+    }
+    return shuffled;
+  };
+
+  const randomizeRelatedWallpapers = () => {
+    document.querySelectorAll('.related-grid').forEach((grid) => {
+      const cards = Array.from(grid.querySelectorAll('.related-card'));
+      if (cards.length < 2 || grid.dataset.randomized === 'true') return;
+      shuffleElements(cards).forEach((card) => grid.appendChild(card));
+      grid.dataset.randomized = 'true';
+    });
+  };
+
+  randomizeRelatedWallpapers();
+
   const actions = document.querySelector('.actions');
   const title = document.querySelector('h1')?.textContent?.trim() || 'PMW Wallpaper';
   const image = document.querySelector('.preview-card img')?.getAttribute('src') || '';
