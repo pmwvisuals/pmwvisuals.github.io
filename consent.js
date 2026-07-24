@@ -1,4 +1,23 @@
 (() => {
+  const loadWallpaperToolsPanel = () => {
+    if (!document.getElementById('downloadButton')) return;
+    if (document.querySelector('script[src$="js/wallpaper-tools-panel.js"]')) return;
+
+    const rootPrefix = window.location.protocol === 'file:'
+      ? `${'../'.repeat(Math.max(0, window.location.pathname.split('/').filter(Boolean).length - 1))}`
+      : '/';
+    const script = document.createElement('script');
+    script.src = `${rootPrefix}js/wallpaper-tools-panel.js`;
+    script.defer = true;
+    document.head.appendChild(script);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadWallpaperToolsPanel, { once: true });
+  } else {
+    loadWallpaperToolsPanel();
+  }
+
   const key = 'pmw_cookie_consent';
   const existing = localStorage.getItem(key);
 
