@@ -29,6 +29,7 @@ const hashtagsInput = document.querySelector("#wallpaperHashtags");
 const accessInput = document.querySelector("#wallpaperAccess");
 const visibleInput = document.querySelector("#wallpaperVisible");
 const typeList = document.querySelector("#wallpaperTypes");
+const deviceTypeList = document.querySelector("#wallpaperDeviceTypes");
 const uploadButton = document.querySelector("#cloudinaryUploadButton");
 const uploadStatus = document.querySelector("#uploadStatus");
 const previewPanel = document.querySelector("#imagePreviewPanel");
@@ -52,6 +53,7 @@ const editHashtagsInput = document.querySelector("#editWallpaperHashtags");
 const editAccessInput = document.querySelector("#editWallpaperAccess");
 const editVisibleInput = document.querySelector("#editWallpaperVisible");
 const editTypeList = document.querySelector("#editWallpaperTypes");
+const editDeviceTypeList = document.querySelector("#editWallpaperDeviceTypes");
 const editPreviewPanel = document.querySelector("#editImagePreviewPanel");
 const editPreviewImage = document.querySelector("#editImagePreview");
 const saveEditButton = document.querySelector("#saveEditWallpaperButton");
@@ -68,6 +70,11 @@ let imageDetails = {
   height: 0,
   format: ""
 };
+
+const DEVICE_TYPES = [
+  { value: "mobile", label: "Mobile / Phone" },
+  { value: "desktop", label: "Desktop / Wide screen" }
+];
 
 function showPanel(panel) {
   [loadingPanel, deniedPanel, dashboardPanel].forEach((item) => {
@@ -90,14 +97,25 @@ function setPublishState() {
 }
 
 function getCategories() {
-  return window.PMW_WALLPAPER_CATEGORIES || [
+  const categories = [
+    ...(window.PMW_WALLPAPER_CATEGORIES || []),
+    ...(window.PMW_DESKTOP_WALLPAPER_CATEGORIES || [])
+  ].filter(Boolean);
+
+  if (categories.length) return Array.from(new Set(categories));
+
+  return [
     "AMOLED",
     "Anime",
     "Celestial Samurai",
     "Dark Aesthetic",
     "Dark Fantasy",
+    "Fantasy",
+    "Minimalist",
     "Nature",
+    "Nature Desktop",
     "Romantic",
+    "Space",
     "Space and Galaxy"
   ];
 }
@@ -118,6 +136,63 @@ function renderTypeOptions() {
 
 function getSelectedTypes(container = typeList) {
   return Array.from(container.querySelectorAll("input:checked")).map((input) => input.value);
+}
+
+function normalizeDeviceTypes(values) {
+  const allowed = new Set(DEVICE_TYPES.map((item) => item.value));
+  const normalized = Array.isArray(values) ? values : [values];
+  return Array.from(new Set(
+    normalized
+      .flat()
+      .map((value) => String(value || "").trim().toLowerCase())
+      .filter((value) => allowed.has(value))
+  ));
+}
+
+function inferDeviceTypes(data = {}) {
+  const explicit = normalizeDeviceTypes([
+    data.deviceTypes || [],
+    data.deviceType || "",
+    data.device || ""
+  ]);
+  if (explicit.length) return explicit;
+
+  const width = Number(data.width) || 0;
+  const height = Number(data.height) || 0;
+  if (width && height && width > height) return ["desktop"];
+  return ["mobile"];
+}
+
+function renderDeviceOptions(container, idPrefix, selectedTypes = ["mobile"]) {
+  const selected = new Set(normalizeDeviceTypes(selectedTypes));
+  if (!selected.size) selected.add("mobile");
+
+  container.innerHTML = DEVICE_TYPES.map((item, index) => `
+    <label class="admin-check" for="${idPrefix}${index}">
+      <input id="${idPrefix}${index}" type="checkbox" value="${item.value}" ${selected.has(item.value) ? "checked" : ""}>
+      <span>${item.label}</span>
+    </label>
+  `).join("");
+}
+
+function renderDeviceTypeOptions() {
+  renderDeviceOptions(deviceTypeList, "wallpaperDeviceType", ["mobile"]);
+}
+
+function getSelectedDeviceTypes(container = deviceTypeList) {
+  return normalizeDeviceTypes(Array.from(container.querySelectorAll("input:checked")).map((input) => input.value));
+}
+
+function setSelectedDeviceTypes(container, selectedTypes) {
+  const selected = new Set(normalizeDeviceTypes(selectedTypes));
+  container.querySelectorAll("input").forEach((input) => {
+    input.checked = selected.has(input.value);
+  });
+}
+
+function setDeviceTypesFromDimensions(width, height) {
+  if (!width || !height) return;
+  setSelectedDeviceTypes(deviceTypeList, width > height ? ["desktop"] : ["mobile"]);
 }
 
 function parseHashtags(value) {
@@ -155,6 +230,7 @@ function updatePreview() {
   const details = [];
   if (imageDetails.width && imageDetails.height) details.push(`${imageDetails.width}x${imageDetails.height}`);
   if (imageDetails.format) details.push(imageDetails.format.toUpperCase());
+  if (imageDetails.width && imageDetails.height) details.push(imageDetails.width > imageDetails.height ? "desktop" : "mobile");
   imageMeta.textContent = details.length
     ? details.join(" - ")
     : "Preview loaded from the image URL. Width, height, and format are saved when available from upload.";
@@ -176,6 +252,7 @@ function fillFromCloudinaryUpload(info) {
     height: Number(info.height) || 0,
     format: String(info.format || "").toUpperCase()
   };
+  setDeviceTypesFromDimensions(imageDetails.width, imageDetails.height);
   updatePreview();
 }
 
@@ -235,12 +312,14 @@ function validateWallpaper() {
   const title = titleInput.value.trim();
   const imageUrl = imageUrlInput.value.trim();
   const types = getSelectedTypes();
+  const deviceTypes = getSelectedDeviceTypes();
   const access = accessInput.value;
 
   if (!title) return "Title is required.";
   if (!imageUrl) return "Image URL is required.";
   if (!isCloudinaryUrl(imageUrl)) return "Image URL must be a secure Cloudinary URL.";
   if (!types.length) return "Select at least one image type.";
+  if (!deviceTypes.length) return "Select at least one wallpaper screen type.";
   if (!["free", "premium"].includes(access)) return "Choose a valid access level.";
   if (uploadInProgress) return "Wait for the Cloudinary upload to finish before publishing.";
   return "";
@@ -253,6 +332,7 @@ function getWallpaperPayload() {
     imageUrl: imageUrlInput.value.trim(),
     cloudinaryPublicId: publicIdInput.value.trim(),
     types: getSelectedTypes(),
+    deviceTypes: getSelectedDeviceTypes(),
     hashtags: parseHashtags(hashtagsInput.value),
     access: accessInput.value,
     visible: visibleInput.value === "true",
@@ -267,6 +347,7 @@ function getWallpaperPayload() {
 function resetForm() {
   form.reset();
   resetImageDetails();
+  renderDeviceTypeOptions();
   previewPanel.hidden = true;
   previewImage.removeAttribute("src");
   setMessage(uploadStatus, CLOUDINARY_UPLOAD_PRESET ? "" : "Add your unsigned Cloudinary upload preset in js/admin.js to enable direct uploads.");
@@ -301,6 +382,7 @@ function normalizeWallpaper(docSnap) {
     imageUrl: String(data.imageUrl || ""),
     cloudinaryPublicId: String(data.cloudinaryPublicId || ""),
     types: Array.isArray(data.types) ? data.types.map(String) : [],
+    deviceTypes: inferDeviceTypes(data),
     hashtags: Array.isArray(data.hashtags) ? data.hashtags.map(String) : [],
     access: data.access === "premium" ? "premium" : "free",
     visible: data.visible !== false,
@@ -387,8 +469,12 @@ function renderWallpapers() {
     const tags = document.createElement("div");
     tags.className = "admin-wallpaper-tags";
     const typeText = wallpaper.types.length ? wallpaper.types.join(", ") : "No type";
+    const deviceText = wallpaper.deviceTypes.length
+      ? wallpaper.deviceTypes.map((type) => type === "desktop" ? "Desktop" : "Mobile").join(", ")
+      : "No screen type";
     tags.append(
       createPill(typeText, !wallpaper.types.length),
+      createPill(deviceText, !wallpaper.deviceTypes.length),
       createPill(wallpaper.access === "premium" ? "Premium" : "Free"),
       createPill(wallpaper.visible ? "Visible" : "Hidden", !wallpaper.visible)
     );
@@ -459,6 +545,7 @@ function openEditWallpaper(id) {
   editAccessInput.value = wallpaper.access;
   editVisibleInput.value = String(wallpaper.visible);
   renderCheckboxOptions(editTypeList, "editWallpaperType", wallpaper.types);
+  renderDeviceOptions(editDeviceTypeList, "editWallpaperDeviceType", wallpaper.deviceTypes);
   updateEditPreview();
   setMessage(editMessage, "");
   editPanel.hidden = false;
@@ -478,6 +565,7 @@ function validateEditWallpaper() {
   const title = editTitleInput.value.trim();
   const imageUrl = editImageUrlInput.value.trim();
   const types = getSelectedTypes(editTypeList);
+  const deviceTypes = getSelectedDeviceTypes(editDeviceTypeList);
   const access = editAccessInput.value;
 
   if (!editingWallpaperId) return "Choose a wallpaper to edit first.";
@@ -485,6 +573,7 @@ function validateEditWallpaper() {
   if (!imageUrl) return "Image URL is required.";
   if (!isCloudinaryUrl(imageUrl)) return "Image URL must be a secure Cloudinary URL.";
   if (!types.length) return "Select at least one image type.";
+  if (!deviceTypes.length) return "Select at least one wallpaper screen type.";
   if (!["free", "premium"].includes(access)) return "Choose a valid access level.";
   return "";
 }
@@ -497,6 +586,7 @@ function getEditPayload() {
     imageUrl: editImageUrlInput.value.trim(),
     cloudinaryPublicId: editPublicIdInput.value.trim(),
     types: getSelectedTypes(editTypeList),
+    deviceTypes: getSelectedDeviceTypes(editDeviceTypeList),
     hashtags: parseHashtags(editHashtagsInput.value),
     access: editAccessInput.value,
     visible: editVisibleInput.value === "true",

@@ -34,6 +34,17 @@ service cloud.firestore {
       return hasPremiumClaim() || hasPremiumAccountDoc();
     }
 
+    function isValidDeviceTypes() {
+      return request.resource.data.deviceTypes is list
+        && request.resource.data.deviceTypes.size() > 0
+        && request.resource.data.deviceTypes.size() <= 2
+        && request.resource.data.deviceTypes[0] in ['mobile', 'desktop']
+        && (
+          request.resource.data.deviceTypes.size() == 1
+          || request.resource.data.deviceTypes[1] in ['mobile', 'desktop']
+        );
+    }
+
     function canReadWallpaper() {
       return isAdmin()
         || resource.data.visible == true;
@@ -46,6 +57,7 @@ service cloud.firestore {
           'imageUrl',
           'cloudinaryPublicId',
           'types',
+          'deviceTypes',
           'hashtags',
           'access',
           'visible',
@@ -64,6 +76,10 @@ service cloud.firestore {
         && request.resource.data.cloudinaryPublicId is string
         && request.resource.data.types is list
         && request.resource.data.types.size() > 0
+        && (
+          !request.resource.data.keys().hasAny(['deviceTypes'])
+          || isValidDeviceTypes()
+        )
         && request.resource.data.hashtags is list
         && request.resource.data.access in ['free', 'premium']
         && request.resource.data.visible is bool
