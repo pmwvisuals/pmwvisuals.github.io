@@ -682,6 +682,7 @@ logoutButton.addEventListener("click", logout);
 deniedLogoutButton.addEventListener("click", logout);
 
 renderTypeOptions();
+renderDeviceTypeOptions();
 initCloudinaryWidget();
 setPublishState();
 
