@@ -177,7 +177,7 @@ function relatedItems(item, items) {
 
 function renderPage(item, related) {
   const canonical = `${siteOrigin}/${item.pageUrl}`;
-  const categoryUrl = `../../../pmw-wallpapers.html?category=${encodeURIComponent(item.category)}&device=desktop#latest-wallpapers`;
+  const categoryUrl = `/?category=${encodeURIComponent(item.category)}&device=desktop#latest-wallpapers`;
   const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "ImageObject",
@@ -231,10 +231,10 @@ function renderPage(item, related) {
 <body>
   <nav class="navbar"><div class="nav-inner">
     <a class="brand" href="../../../index.html"><img src="../../../pmw-wordmark.png" alt="PMW"><span>Visuals</span></a>
-    <div class="nav-links"><a href="../../../pmw-wallpapers.html">PMW Wallpapers</a><a href="../../../pmw-studio.html">PMW Studio</a></div>
+    <div class="nav-links"><a href="/">PMW Wallpapers</a><a href="../../../pmw-studio.html">PMW Studio</a></div>
   </div></nav>
   <main>
-    <div class="breadcrumb"><a href="../../../index.html">Home</a><span>/</span><a href="../../../pmw-wallpapers.html">PMW Wallpapers</a><span>/</span><a href="${categoryUrl}">${escapeHtml(item.category)}</a><span>/</span><span>${escapeHtml(item.title)}</span></div>
+    <div class="breadcrumb"><a href="/">PMW Wallpapers</a><span>/</span><a href="${categoryUrl}">${escapeHtml(item.category)}</a><span>/</span><span>${escapeHtml(item.title)}</span></div>
     <section class="wallpaper-layout">
       <div class="preview-card"><img src="${escapeAttribute(item.preview)}" alt="${escapeAttribute(item.title)}"></div>
       <article>

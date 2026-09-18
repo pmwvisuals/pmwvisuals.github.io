@@ -28,11 +28,10 @@
     {
       title: "Platform",
       links: [
-        ["Home", "index.html"],
-        ["PMW Tools", "tools/"],
-        ["PMW Wallpapers", "pmw-wallpapers.html"],
+        ["PMW Wallpapers", ""],
         ["PMW Studio", "pmw-studio.html"],
-        ["About", "index.html?section=about"]
+        ["PMW Converter", "pmw-converter.html"],
+        ["PMW Tools", "tools/"]
       ]
     },
     {
@@ -47,9 +46,9 @@
     {
       title: "Wallpapers",
       links: [
-        ["PMW Wallpapers", "pmw-wallpapers.html"],
-        ["Mobile Wallpapers", "pmw-wallpapers.html?device=mobile#latest-wallpapers"],
-        ["Laptop & Desktop", "pmw-wallpapers.html?device=desktop#latest-wallpapers"],
+        ["PMW Wallpapers", "/"],
+        ["Mobile Wallpapers", "/?device=mobile#latest-wallpapers"],
+        ["Laptop & Desktop", "/?device=desktop#latest-wallpapers"],
         ["AMOLED Wallpapers", "wallpapers/amoled/"],
         ["Anime Wallpapers", "wallpapers/anime/"],
         ["Nature Wallpapers", "wallpapers/nature/"],
@@ -59,7 +58,6 @@
     {
       title: "Support & Legal",
       links: [
-        ["Contact", "index.html?section=contact"],
         ["Privacy Policy", "privacy-policy.html"],
         ["Terms of Service", "terms.html"],
         ["Cookie Policy", "cookie-policy.html"],
@@ -77,7 +75,7 @@
     <div class="pmw-platform-footer__inner">
       <div class="pmw-platform-footer__grid">
         <div class="pmw-platform-footer__brand">
-          <a class="pmw-platform-footer__brand-link" href="${siteUrl("index.html")}" aria-label="PMW Visuals home">
+          <a class="pmw-platform-footer__brand-link" href="${siteUrl("")}" aria-label="PMW Wallpapers">
             <img class="pmw-platform-footer__logo" src="${siteUrl("pmw-wordmark.png")}" alt="PMW">
             <span class="pmw-platform-footer__brand-name">Visuals</span>
           </a>

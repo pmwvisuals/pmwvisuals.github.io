@@ -47,20 +47,20 @@ for (const categoryIndex of findFiles(path.join(root, "wallpapers"), "index.html
   }
 }
 
-const mainGallery = fs.readFileSync(path.join(root, "pmw-wallpapers.html"), "utf8");
+const mainGallery = fs.readFileSync(path.join(root, "index.html"), "utf8");
 if (/wallpaper-(?:card|thumb)[^{]*\{[^}]*has-premium-watermark/s.test(mainGallery)) {
-  failures.push("pmw-wallpapers.html: gallery cards contain a watermark overlay");
+  failures.push("index.html: gallery cards contain a watermark overlay");
 }
 assertCount(
   mainGallery,
   ".panel-image-frame.has-premium-watermark::after",
   1,
-  "pmw-wallpapers.html"
+  "index.html"
 );
 if (!mainGallery.includes(
   "panelImageFrame.classList.toggle('has-premium-watermark', isPremiumWallpaper(item))"
 )) {
-  failures.push("pmw-wallpapers.html: premium quick-view watermark toggle is missing");
+  failures.push("index.html: premium quick-view watermark toggle is missing");
 }
 
 const mobileData = fs.readFileSync(path.join(root, "wallpapers-data.js"), "utf8");

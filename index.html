@@ -30,17 +30,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PMW Wallpapers - Desktop, Mobile &amp; 4K Wallpapers</title>
     <meta name="description" content="Browse high-quality PMW wallpapers for desktops, phones, and creative projects. Search anime, nature, galaxy, dark aesthetic, AMOLED, and 4K wallpapers.">
-    <link rel="canonical" href="https://pmwvisuals.com/pmw-wallpapers.html">
+    <link rel="canonical" href="https://pmwvisuals.com/">
     <meta property="og:type" content="website">
     <meta property="og:title" content="PMW Wallpapers - Desktop, Mobile &amp; 4K Wallpapers">
     <meta property="og:description" content="Browse high-quality wallpapers for desktops, phones, anime, nature, galaxy, dark aesthetic, AMOLED, and 4K screens.">
-    <meta property="og:url" content="https://pmwvisuals.com/pmw-wallpapers.html">
+    <meta property="og:url" content="https://pmwvisuals.com/">
     <meta property="og:image" content="https://pmwvisuals.com/pmw-logo.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="PMW Wallpapers - Desktop, Mobile &amp; 4K Wallpapers">
     <meta name="twitter:description" content="Browse high-quality wallpapers for desktops, phones, anime, nature, galaxy, dark aesthetic, AMOLED, and 4K screens.">
     <meta name="twitter:image" content="https://pmwvisuals.com/pmw-logo.png">
-    <script type="application/ld+json" data-seo-schema>{"@context":"https://schema.org","@type":"CollectionPage","name":"PMW Wallpapers","url":"https://pmwvisuals.com/pmw-wallpapers.html","description":"A searchable PMW Visuals wallpaper collection for desktops, phones, and creative projects.","isPartOf":{"@type":"WebSite","name":"PMW Visuals","url":"https://pmwvisuals.com/"}}</script>
+    <script type="application/ld+json" data-seo-schema>{"@context":"https://schema.org","@type":"CollectionPage","name":"PMW Wallpapers","url":"https://pmwvisuals.com/","description":"A searchable PMW Visuals wallpaper collection for desktops, phones, and creative projects.","isPartOf":{"@type":"WebSite","name":"PMW Visuals","url":"https://pmwvisuals.com/"}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -917,10 +917,9 @@
                     <img class="pmw-brand-wordmark" src="pmw-wordmark.png" alt="PMW"><span class="pmw-brand-text">Visuals</span>
             </a>
             <div class="nav-links">
-                <button class="nav-link" onclick="window.location.href='index.html'">Home</button>
                 <button class="nav-link" onclick="window.location.href='pmw-studio.html'">PMW Studio</button>
                 <button class="nav-link active">PMW Wallpapers</button>
-                <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html?device=desktop#latest-wallpapers'">Desktop Wallpapers</button>
+                <button class="nav-link" onclick="window.location.href='/?device=desktop#latest-wallpapers'">Desktop Wallpapers</button>
                 <button class="nav-link" onclick="window.location.href='tools/'">PMW Tools</button>
             </div>
             <div class="nav-actions" aria-hidden="true"></div>
@@ -929,12 +928,6 @@
 
     <main class="page">
         <div class="page-inner">
-            <div class="breadcrumb">
-                <a href="index.html">Home</a>
-                <span>/</span>
-                <span>PMW Wallpapers</span>
-            </div>
-
             <header class="wallpaper-hero" id="wallpaperHero">
                 <div class="wallpaper-hero-content">
                     <span class="wallpaper-kicker">Wallpapers for every screen</span>
@@ -1535,7 +1528,7 @@
                 const item = findPreviewItem(wallpaper => matchesCategory(wallpaper, config.value) || matchesAliasText(wallpaper, config.aliases));
                 const image = item ? item.thumbnail : '';
                 return `
-                    <a class="category-card" href="pmw-wallpapers.html?category=${encodeURIComponent(config.value)}#latest-wallpapers" data-category="${escapeHtml(config.value)}" style="--card-image: url('${escapeHtml(image)}')">
+                    <a class="category-card" href="/?category=${encodeURIComponent(config.value)}#latest-wallpapers" data-category="${escapeHtml(config.value)}" style="--card-image: url('${escapeHtml(image)}')">
                         <div class="category-card-body">
                             <h3>${escapeHtml(config.label)}</h3>
                             <span>Browse ${escapeHtml(config.label)} wallpapers</span>

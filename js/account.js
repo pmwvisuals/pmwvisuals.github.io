@@ -104,7 +104,7 @@ const renderSavedWallpapers = (savedWallpapers) => {
 
   if (savedWallpaperPreviewStrip) {
     savedWallpaperPreviewStrip.innerHTML = previewItems.map((item) => `
-      <a href="${escapeHtml(item.url || "pmw-wallpapers.html")}" title="${escapeHtml(item.title || "Saved wallpaper")}">
+      <a href="${escapeHtml(item.url || "/")}" title="${escapeHtml(item.title || "Saved wallpaper")}">
         <img src="${escapeHtml(item.image || "")}" alt="${escapeHtml(item.title || "Saved wallpaper")}">
       </a>
     `).join("");
@@ -127,7 +127,7 @@ const renderDownloadedWallpapers = () => {
 
   if (downloadedWallpaperPreviewStrip && previewItems.length) {
     downloadedWallpaperPreviewStrip.innerHTML = previewItems.map((item) => `
-      <a href="${escapeHtml(item.url || "pmw-wallpapers.html")}" title="${escapeHtml(item.title || "Downloaded wallpaper")}">
+      <a href="${escapeHtml(item.url || "/")}" title="${escapeHtml(item.title || "Downloaded wallpaper")}">
         <img src="${escapeHtml(item.image || "")}" alt="${escapeHtml(item.title || "Downloaded wallpaper")}">
       </a>
     `).join("");

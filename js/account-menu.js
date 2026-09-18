@@ -341,10 +341,9 @@
           <a class="pmw-account-button pmw-account-primary" href="${href("login.html")}">Sign In</a>
           <a class="pmw-account-button pmw-account-secondary" href="${href("signup.html")}">Create Account</a>
         </div>
-        ${menuLink("PMW Wallpapers", "pmw-wallpapers.html")}
+        ${menuLink("PMW Wallpapers", "/")}
         ${menuLink("PMW Tools", "tools/")}
         ${menuLink(premiumLabel, "premium.html")}
-        ${menuLink("Contact Us", "index.html#contact")}
       </div>
     `;
   };
@@ -366,7 +365,7 @@
         ${menuLink("My Profile", "account.html")}
         ${menuLink(premiumLabel, "premium.html")}
         ${menuLink("PMW Tools", "tools/")}
-        ${menuLink("PMW Wallpapers", "pmw-wallpapers.html")}
+        ${menuLink("PMW Wallpapers", "/")}
         <button class="pmw-account-link pmw-account-signout" type="button" data-pmw-signout>${iconSignOut} Sign Out</button>
       </div>
     `;

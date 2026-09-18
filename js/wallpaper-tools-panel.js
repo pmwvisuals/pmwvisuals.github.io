@@ -67,8 +67,7 @@
   const detailNav = document.querySelector('.nav-links');
   if (detailNav) {
     detailNav.innerHTML = `
-      <a href="${rootPrefix}index.html">Home Page</a>
-      <a href="${rootPrefix}pmw-wallpapers.html">Browse Wallpapers</a>
+      <a href="${rootPrefix}">PMW Wallpapers</a>
     `;
   }
 
