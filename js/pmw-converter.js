@@ -53,10 +53,11 @@
   let ffmpegFetchFile = null;
   let ffmpegLogs = [];
   const memoryUsage = new Map();
-  const ffmpegModuleUrl = new URL("vendor/ffmpeg/ffmpeg/index.js", document.baseURI).href;
-  const ffmpegUtilUrl = new URL("vendor/ffmpeg/util/index.js", document.baseURI).href;
-  const ffmpegCoreUrl = new URL("vendor/ffmpeg/core/ffmpeg-core.js", document.baseURI).href;
-  const ffmpegWasmUrl = new URL("vendor/ffmpeg/core/ffmpeg-core.wasm", document.baseURI).href;
+  const siteRootUrl = new URL("../../", document.baseURI);
+  const ffmpegModuleUrl = new URL("vendor/ffmpeg/ffmpeg/index.js", siteRootUrl).href;
+  const ffmpegUtilUrl = new URL("vendor/ffmpeg/util/index.js", siteRootUrl).href;
+  const ffmpegCoreUrl = new URL("vendor/ffmpeg/core/ffmpeg-core.js", siteRootUrl).href;
+  const ffmpegWasmUrl = new URL("vendor/ffmpeg/core/ffmpeg-core.wasm", siteRootUrl).href;
 
   function redrawIcons() { if (window.lucide) window.lucide.createIcons(); }
   function escapeHtml(value) { return String(value).replace(/[&<>"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[character]); }
@@ -124,9 +125,9 @@
   async function initializeMembership() {
     try {
       const [{ auth }, { onAuthStateChanged }, { isPremiumUser }] = await Promise.all([
-        import(new URL("js/firebase.js", document.baseURI).href),
+        import(new URL("js/firebase.js", siteRootUrl).href),
         import("https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js"),
-        import(new URL("js/premium-access.js?v=20260718-premium-gate", document.baseURI).href)
+        import(new URL("js/premium-access.js?v=20260718-premium-gate", siteRootUrl).href)
       ]);
       onAuthStateChanged(auth, async (user) => {
         accountKey = user ? user.uid : "guest";
@@ -370,7 +371,9 @@
   upgradeClose.addEventListener("click", closeUpgradePrompt); upgradeLater.addEventListener("click", closeUpgradePrompt);
   upgradeOverlay.addEventListener("click", (event) => { if (event.target === upgradeOverlay) closeUpgradePrompt(); });
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !upgradeOverlay.hidden) closeUpgradePrompt(); });
-  menuButton.addEventListener("click", () => { const open = nav.classList.toggle("mobile-open"); menuButton.setAttribute("aria-expanded", String(open)); });
+  if (nav && menuButton) {
+    menuButton.addEventListener("click", () => { const open = nav.classList.toggle("mobile-open"); menuButton.setAttribute("aria-expanded", String(open)); });
+  }
 
   setMode("image"); updateUsageDisplay(); updateOptionAccess(true);
   if (location.hostname !== "127.0.0.1") initializeMembership();

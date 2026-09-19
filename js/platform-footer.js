@@ -30,7 +30,7 @@
       links: [
         ["PMW Wallpapers", ""],
         ["PMW Studio", "pmw-studio.html"],
-        ["PMW Converter", "pmw-converter.html"],
+        ["PMW Converter", "tools/image-converter/"],
         ["PMW Tools", "tools/"]
       ]
     },
