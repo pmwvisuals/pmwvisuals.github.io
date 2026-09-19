@@ -42,7 +42,12 @@
     <meta name="twitter:description" content="Browse high-quality wallpapers for desktops, phones, anime, nature, galaxy, dark aesthetic, AMOLED, and 4K screens.">
     <meta name="twitter:image" content="https://pmwvisuals.com/pmw-logo.png">
     <script type="application/ld+json" data-seo-schema>{"@context":"https://schema.org","@type":"CollectionPage","name":"PMW Wallpapers","url":"https://pmwvisuals.com/","description":"A searchable PMW Visuals wallpaper collection for desktops, phones, and creative projects.","isPartOf":{"@type":"WebSite","name":"PMW Visuals","url":"https://pmwvisuals.com/"}}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preload" href="wallpapers-data.js" as="script" fetchpriority="high">
+    <link rel="preconnect" href="https://lh3.googleusercontent.com" crossorigin>
+    <link rel="dns-prefetch" href="//lh3.googleusercontent.com">
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+    <link rel="dns-prefetch" href="//res.cloudinary.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -643,6 +648,37 @@
             margin: 0;
             line-height: 1.32;
         }
+        .wallpaper-feed-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 20px 0 6px;
+        }
+        .load-more-wallpapers {
+            min-width: 210px;
+            min-height: 48px;
+            padding: 12px 22px;
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 999px;
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.07);
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        .load-more-wallpapers:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.34);
+            background: rgba(255,255,255,0.12);
+        }
+        .wallpaper-feed-count {
+            color: var(--text-muted);
+            font-size: 0.76rem;
+            font-weight: 700;
+        }
 
         .panel-overlay {
             position: fixed;
@@ -1027,9 +1063,8 @@
         </div>
     </div>
 
-    <script src="wallpapers-data.js"></script>
+    <script src="wallpapers-data.js" fetchpriority="high"></script>
     <script src="wallpaper-pages.js"></script>
-    <script src="desktop-wallpapers-data.js"></script>
     <script src="download-tracking.js"></script>
     <script>
         const canvas = document.getElementById('canvas-bg');
@@ -1093,6 +1128,12 @@
         const configuredCategories = window.PMW_WALLPAPER_CATEGORIES || [];
         let wallpapers = [];
         let randomizedWallpapers = [];
+        let freeWallpaperItems = [];
+        let premiumWallpaperItems = [];
+        let desktopWallpaperItems = [];
+        let filteredWallpaperItems = [];
+        let renderedWallpaperCount = 0;
+        let desktopDataPromise = null;
         const pageParams = new URLSearchParams(window.location.search);
         const requestedCategory = pageParams.get('category');
         const requestedDevice = pageParams.get('device');
@@ -1174,6 +1215,27 @@
             return String(value || '').toLowerCase().trim();
         }
 
+        function getDisplayImageUrl(value) {
+            const source = String(value || '').trim();
+            if (!source) return '';
+
+            try {
+                const url = new URL(source, window.location.href);
+                if (url.hostname === 'drive.google.com' && url.pathname === '/thumbnail') {
+                    const id = String(url.searchParams.get('id') || '').trim();
+                    const size = String(url.searchParams.get('sz') || '').trim();
+                    if (id) {
+                        const safeSize = /^w\d+$/i.test(size) ? size.toLowerCase() : 'w1600';
+                        return `https://lh3.googleusercontent.com/d/${encodeURIComponent(id)}=${safeSize}`;
+                    }
+                }
+            } catch (error) {
+                return source;
+            }
+
+            return source;
+        }
+
         function escapeHtml(value) {
             return String(value || '')
                 .replace(/&/g, '&amp;')
@@ -1234,8 +1296,8 @@
                     title: item.title || 'Desktop Wallpaper',
                     description: item.description || 'A wide desktop wallpaper from PMW Visuals.',
                     imageUrl,
-                    preview: item.preview || imageUrl,
-                    thumbnail: item.thumbnail || item.preview || imageUrl,
+                    preview: getDisplayImageUrl(item.preview || imageUrl),
+                    thumbnail: getDisplayImageUrl(item.thumbnail || item.preview || imageUrl),
                     download: item.download || imageUrl,
                     category,
                     types,
@@ -1251,6 +1313,26 @@
                     source: 'desktop-static'
                 };
             }).filter(item => item.visible !== false);
+        }
+
+        function ensureDesktopWallpaperData() {
+            if (Array.isArray(window.PMW_DESKTOP_WALLPAPERS)) {
+                return Promise.resolve(window.PMW_DESKTOP_WALLPAPERS);
+            }
+            if (desktopDataPromise) return desktopDataPromise;
+
+            desktopDataPromise = new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'desktop-wallpapers-data.js';
+                script.async = true;
+                script.fetchPriority = 'high';
+                script.dataset.wallpaperDesktopData = 'true';
+                script.addEventListener('load', () => resolve(window.PMW_DESKTOP_WALLPAPERS || []), { once: true });
+                script.addEventListener('error', () => reject(new Error('Unable to load the desktop wallpaper catalog.')), { once: true });
+                document.head.appendChild(script);
+            });
+
+            return desktopDataPromise;
         }
 
         function mergeWallpaperLists(...lists) {
@@ -1296,6 +1378,17 @@
                 }
             });
             return mergeWallpaperLists(mixed, availableDesktopItems.slice(desktopIndex));
+        }
+
+        function rebuildWallpaperCatalog({ shuffle = true } = {}) {
+            wallpapers = mixWallpaperLists(
+                mergeWallpaperLists(freeWallpaperItems, premiumWallpaperItems),
+                desktopWallpaperItems
+            );
+            randomizedWallpapers = shuffle
+                ? shuffleWallpapers(wallpapers)
+                : mergeWallpaperLists(randomizedWallpapers, wallpapers);
+            wallpaperPageUrls = buildWallpaperPageUrls(freeWallpaperItems.filter(item => item.source === 'static'));
         }
 
         function getResolutionSize(item) {
@@ -1511,12 +1604,14 @@
             const wide = options.wide || devices.includes('desktop') || isWideWallpaper(item);
             const orientationClass = wide ? 'is-desktop' : 'is-mobile';
             const aspect = wide ? '16 / 9' : '9 / 16';
+            const displayImage = getDisplayImageUrl(item.thumbnail || item.preview || item.imageUrl);
+            const priority = options.priority === true;
             return `
                 <a class="wallpaper-card ${orientationClass}" data-id="${escapeHtml(item.id)}" data-panel-only="${opensPanelOnly(item) ? 'true' : 'false'}" href="${escapeHtml(getWallpaperPageUrl(item))}" style="--wallpaper-aspect: ${escapeHtml(aspect)}">
                     <div class="wallpaper-thumb">
-                        <img src="${escapeHtml(item.thumbnail)}" alt="${escapeHtml(item.title)}" loading="lazy">
+                        <img src="${escapeHtml(displayImage)}" alt="${escapeHtml(item.title)}" loading="${priority ? 'eager' : 'lazy'}" fetchpriority="${priority ? 'high' : 'low'}" decoding="async">
                         <span class="wallpaper-hd-badge">HD</span>
-                        <span class="wallpaper-save-chip" role="button" tabindex="0" data-save-wallpaper data-wallpaper-id="${escapeHtml(item.id)}" data-wallpaper-title="${escapeHtml(item.title)}" data-wallpaper-image="${escapeHtml(item.thumbnail || item.preview)}" data-wallpaper-url="${escapeHtml(getWallpaperPageUrl(item))}" data-wallpaper-category="${escapeHtml(getItemTypes(item).map(getCategoryLabel).join(', '))}" aria-pressed="false" aria-label="Save wallpaper"></span>
+                        <span class="wallpaper-save-chip" role="button" tabindex="0" data-save-wallpaper data-wallpaper-id="${escapeHtml(item.id)}" data-wallpaper-title="${escapeHtml(item.title)}" data-wallpaper-image="${escapeHtml(displayImage)}" data-wallpaper-url="${escapeHtml(getWallpaperPageUrl(item))}" data-wallpaper-category="${escapeHtml(getItemTypes(item).map(getCategoryLabel).join(', '))}" aria-pressed="false" aria-label="Save wallpaper"></span>
                         ${isPremiumWallpaper(item) ? crownIconMarkup() : ''}
                     </div>
                     <div class="wallpaper-card-info">
@@ -1568,18 +1663,61 @@
             return columns || (window.matchMedia('(max-width: 768px)').matches ? 2 : 4);
         }
 
-        function renderWallpapers() {
-            const items = getFilteredWallpapers();
+        function getInitialWallpaperCount() {
             const columns = getFeedColumnCount();
-            const firstCount = Math.max(columns * 2, window.matchMedia('(max-width: 768px)').matches ? 4 : 8);
-            const midCount = Math.max(columns, window.matchMedia('(max-width: 768px)').matches ? 4 : 4);
-            const desktopInsertCount = activeDevice === 'desktop' ? 4 : 0;
-            const firstItems = items.slice(0, firstCount);
-            const midItems = items.slice(firstCount, firstCount + midCount);
-            const desktopItems = items.slice(firstCount + midCount, firstCount + midCount + desktopInsertCount);
-            const restItems = items.slice(firstCount + midCount + desktopInsertCount);
+            return window.matchMedia('(max-width: 768px)').matches
+                ? Math.max(4, columns * 2)
+                : Math.max(6, columns);
+        }
 
-            if (!items.length) {
+        function getNextWallpaperCount() {
+            const columns = getFeedColumnCount();
+            return window.matchMedia('(max-width: 768px)').matches
+                ? Math.max(6, columns * 3)
+                : Math.max(12, columns * 2);
+        }
+
+        function renderWallpaperFeedActions() {
+            const existing = grid.querySelector('.wallpaper-feed-actions');
+            if (existing) existing.remove();
+            if (renderedWallpaperCount >= filteredWallpaperItems.length) return;
+
+            const remaining = filteredWallpaperItems.length - renderedWallpaperCount;
+            grid.insertAdjacentHTML('beforeend', `
+                <div class="wallpaper-feed-actions">
+                    <button class="load-more-wallpapers" type="button" data-load-more-wallpapers>
+                        Show more wallpapers
+                    </button>
+                    <span class="wallpaper-feed-count">
+                        Showing ${renderedWallpaperCount} of ${filteredWallpaperItems.length} · ${remaining} more available
+                    </span>
+                </div>
+            `);
+        }
+
+        function appendWallpaperBatch(count, { prioritizeFirstImages = false } = {}) {
+            const actions = grid.querySelector('.wallpaper-feed-actions');
+            if (actions) actions.remove();
+
+            const start = renderedWallpaperCount;
+            const end = Math.min(start + count, filteredWallpaperItems.length);
+            const priorityLimit = Math.min(3, getFeedColumnCount());
+            const markup = filteredWallpaperItems.slice(start, end)
+                .map((item, index) => getWallpaperCardMarkup(item, {
+                    priority: prioritizeFirstImages && index < priorityLimit
+                }))
+                .join('');
+
+            grid.insertAdjacentHTML('beforeend', markup);
+            renderedWallpaperCount = end;
+            renderWallpaperFeedActions();
+        }
+
+        function renderWallpapers() {
+            filteredWallpaperItems = getFilteredWallpapers();
+            renderedWallpaperCount = 0;
+
+            if (!filteredWallpaperItems.length) {
                 const message = wallpapers.length
                     ? 'No wallpapers match these filters. Try a different search or category.'
                     : 'The wallpaper collection is taking a little longer to load. Please refresh the page in a moment.';
@@ -1588,13 +1726,8 @@
                 return;
             }
 
-            grid.innerHTML = [
-                firstItems.map(item => getWallpaperCardMarkup(item)).join(''),
-                getCategoryMarqueeMarkup(),
-                midItems.map(item => getWallpaperCardMarkup(item)).join(''),
-                getDesktopRowMarkup(desktopItems),
-                restItems.map(item => getWallpaperCardMarkup(item)).join('')
-            ].join('');
+            grid.replaceChildren();
+            appendWallpaperBatch(getInitialWallpaperCount(), { prioritizeFirstImages: true });
             renderFilters();
         }
 
@@ -1605,7 +1738,7 @@
         function updateHeroImage() {
             const item = randomizedWallpapers.find(wallpaper => matchesStyle(wallpaper, 'galaxy') || matchesStyle(wallpaper, 'fantasy') || matchesStyle(wallpaper, 'dark')) || randomizedWallpapers[0];
             if (item && hero) {
-                hero.style.setProperty('--hero-image', `url('${item.preview || item.thumbnail}')`);
+                hero.style.setProperty('--hero-image', `url('${getDisplayImageUrl(item.preview || item.thumbnail)}')`);
             }
         }
 
@@ -1627,7 +1760,7 @@
                     type: 'wallpaper'
                 });
             }
-            document.getElementById('panelImage').src = item.preview;
+            document.getElementById('panelImage').src = getDisplayImageUrl(item.preview || item.thumbnail);
             document.getElementById('panelImage').alt = item.title;
             panelImageFrame.classList.toggle('has-premium-watermark', isPremiumWallpaper(item));
             document.getElementById('panelCategory').textContent = getItemTypes(item).map(getCategoryLabel).join(' / ');
@@ -1690,10 +1823,24 @@
             renderWallpapers();
         });
 
-        deviceToggle.addEventListener('click', event => {
+        deviceToggle.addEventListener('click', async event => {
             const button = event.target.closest('.device-toggle-btn');
             if (!button) return;
             activeDevice = button.dataset.deviceValue || 'mobile';
+
+            if (activeDevice === 'desktop' && !desktopWallpaperItems.length) {
+                renderLoading('Loading the desktop catalog...');
+                renderFilters();
+                try {
+                    const desktopData = await ensureDesktopWallpaperData();
+                    desktopWallpaperItems = normalizeDesktopWallpapers(desktopData);
+                    rebuildWallpaperCatalog();
+                    renderBrowseSections();
+                } catch (error) {
+                    console.warn('Unable to load the desktop wallpaper catalog.', error);
+                }
+            }
+
             renderWallpapers();
         });
 
@@ -1713,6 +1860,12 @@
         });
 
         function handleWallpaperGridClick(event) {
+            const loadMoreButton = event.target.closest('[data-load-more-wallpapers]');
+            if (loadMoreButton) {
+                appendWallpaperBatch(getNextWallpaperCount());
+                return;
+            }
+
             if (event.target.closest('[data-save-wallpaper]')) return;
 
             const categoryCard = event.target.closest('.category-card');
@@ -1804,25 +1957,18 @@
             renderLoading();
             try {
                 const { loadVisibleWallpapers } = await import('./js/wallpaper-source.js?v=20260718-premium-meta');
-                const [freeResult, premiumResult] = await Promise.all([
-                    loadVisibleWallpapers({
-                        access: 'free',
-                        fallback: window.PMW_WALLPAPERS || []
-                    }),
-                    loadVisibleWallpapers({
-                        access: 'premium',
-                        fallback: window.PMW_WALLPAPERS || [],
-                        allowFallback: false
-                    }).catch(error => ({
-                        items: [],
-                        source: 'firestore',
-                        error
-                    }))
-                ]);
-                const desktopItems = normalizeDesktopWallpapers(window.PMW_DESKTOP_WALLPAPERS || []);
-                wallpapers = mixWallpaperLists([...freeResult.items, ...premiumResult.items], desktopItems);
-                randomizedWallpapers = shuffleWallpapers(wallpapers);
-                wallpaperPageUrls = buildWallpaperPageUrls(wallpapers.filter(item => item.source === 'static'));
+                const freeResult = await loadVisibleWallpapers({
+                    access: 'free',
+                    fallback: window.PMW_WALLPAPERS || []
+                });
+
+                freeWallpaperItems = freeResult.items;
+                if (normalize(requestedDevice) === 'desktop') {
+                    const desktopData = await ensureDesktopWallpaperData();
+                    desktopWallpaperItems = normalizeDesktopWallpapers(desktopData);
+                }
+
+                rebuildWallpaperCatalog();
                 setActiveCategoryFromAvailable();
                 renderBrowseSections();
                 renderFilters();
@@ -1831,18 +1977,45 @@
                 if (freeResult.error) {
                     console.warn('Firestore free wallpaper loading failed; static fallback was used.', freeResult.error);
                 }
-                if (premiumResult.error) {
-                    console.warn('Firestore premium wallpaper loading failed.', premiumResult.error);
-                }
+
+                loadVisibleWallpapers({
+                    access: 'premium',
+                    fallback: window.PMW_WALLPAPERS || [],
+                    allowFallback: false
+                }).then(premiumResult => {
+                    premiumWallpaperItems = premiumResult.items;
+                    rebuildWallpaperCatalog({ shuffle: false });
+                    if (activeAccess === 'Premium') {
+                        renderWallpapers();
+                    } else {
+                        renderFilters();
+                    }
+                    if (premiumResult.error) {
+                        console.warn('Firestore premium wallpaper loading failed.', premiumResult.error);
+                    }
+                }).catch(error => {
+                    console.warn('Firestore premium wallpaper loading failed.', error);
+                });
             } catch (error) {
                 console.warn('Unable to initialize Firestore wallpaper loading; static fallback was used.', error);
-                const desktopItems = normalizeDesktopWallpapers(window.PMW_DESKTOP_WALLPAPERS || []);
-                wallpapers = mixWallpaperLists(
-                    (window.PMW_WALLPAPERS || []).filter(item => item.visible !== false),
-                    desktopItems
-                );
-                randomizedWallpapers = shuffleWallpapers(wallpapers);
-                wallpaperPageUrls = buildWallpaperPageUrls(wallpapers.filter(item => item.source !== 'desktop-static'));
+                freeWallpaperItems = (window.PMW_WALLPAPERS || [])
+                    .filter(item => item.visible !== false && !isPremiumWallpaper(item))
+                    .map(item => ({
+                        ...item,
+                        access: 'free',
+                        source: 'static',
+                        thumbnail: getDisplayImageUrl(item.thumbnail || item.preview || item.imageUrl),
+                        preview: getDisplayImageUrl(item.preview || item.thumbnail || item.imageUrl)
+                    }));
+                if (normalize(requestedDevice) === 'desktop') {
+                    try {
+                        const desktopData = await ensureDesktopWallpaperData();
+                        desktopWallpaperItems = normalizeDesktopWallpapers(desktopData);
+                    } catch (desktopError) {
+                        console.warn('Unable to load the desktop wallpaper catalog.', desktopError);
+                    }
+                }
+                rebuildWallpaperCatalog();
                 setActiveCategoryFromAvailable();
                 renderBrowseSections();
                 renderFilters();
@@ -1862,7 +2035,6 @@
                     signedInUser = user;
                     isPremiumMember = user ? await isPremiumUser(user) : false;
                     authReady = true;
-                    renderWallpapers();
                     if (selectedWallpaper) {
                         openPanel(selectedWallpaper.id);
                     }

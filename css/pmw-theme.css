@@ -258,6 +258,22 @@ html[data-theme="light"] body.pmw-wallpaper-page .empty-state {
   color: #74776f;
 }
 
+html[data-theme="light"] body.pmw-wallpaper-page .load-more-wallpapers {
+  border-color: rgba(126, 94, 25, 0.24);
+  color: #231f16;
+  background: rgba(255, 253, 248, 0.94);
+  box-shadow: 0 14px 34px rgba(65, 55, 32, 0.1);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .load-more-wallpapers:hover {
+  border-color: rgba(126, 94, 25, 0.44);
+  background: #fffaf0;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .wallpaper-feed-count {
+  color: #6c685d;
+}
+
 /* Homepage account control, which is injected after the base stylesheet. */
 html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-menu-root {
   color: #1b1914;

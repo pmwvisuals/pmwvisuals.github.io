@@ -1,4 +1,4 @@
-const CACHE_TTL_MS = 0;
+const CACHE_TTL_MS = 10 * 60 * 1000;
 const FUNCTIONS_BASE_URL = window.PMW_FUNCTIONS_BASE_URL
   || "https://us-central1-pmw-visuals-b14e8.cloudfunctions.net";
 
@@ -8,6 +8,27 @@ function normalizeText(value) {
 
 function normalizeAccess(value) {
   return normalizeText(value).toLowerCase() === "premium" ? "premium" : "free";
+}
+
+function normalizeDisplayUrl(value) {
+  const source = normalizeText(value);
+  if (!source) return "";
+
+  try {
+    const url = new URL(source);
+    if (url.hostname === "drive.google.com" && url.pathname === "/thumbnail") {
+      const id = normalizeText(url.searchParams.get("id"));
+      const size = normalizeText(url.searchParams.get("sz"));
+      if (id) {
+        const safeSize = /^w\d+$/i.test(size) ? size.toLowerCase() : "w1600";
+        return `https://lh3.googleusercontent.com/d/${encodeURIComponent(id)}=${safeSize}`;
+      }
+    }
+  } catch (error) {
+    return source;
+  }
+
+  return source;
 }
 
 function cleanList(values) {
@@ -76,8 +97,8 @@ function normalizeWallpaper(id, item, source) {
     height: Number(item.height) || 0,
     resolution: buildResolution(item),
     format: normalizeText(item.format).toUpperCase() || "Image",
-    thumbnail: normalizeText(item.thumbnail) || imageUrl,
-    preview: normalizeText(item.preview) || imageUrl,
+    thumbnail: normalizeDisplayUrl(item.thumbnail || item.preview || imageUrl),
+    preview: normalizeDisplayUrl(item.preview || item.thumbnail || imageUrl),
     download: source === "static"
       ? normalizeText(item.download) || imageUrl
       : "",
