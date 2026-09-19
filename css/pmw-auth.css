@@ -1606,6 +1606,12 @@ a {
     grid-template-columns: 1fr;
   }
 
+  .pmw-dashboard-sidebar,
+  .pmw-dashboard-main,
+  .pmw-dashboard-aside {
+    min-width: 0;
+  }
+
   .pmw-dashboard-sidebar {
     position: static;
     min-height: auto;
@@ -1614,6 +1620,9 @@ a {
 
   .pmw-dashboard-menu {
     display: flex;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
     overflow-x: auto;
     padding-bottom: 4px;
   }
@@ -1627,6 +1636,11 @@ a {
   .pmw-sidebar-upgrade,
   .pmw-theme-control {
     display: flex;
+  }
+
+  .pmw-sidebar-upgrade {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .pmw-dashboard-main,

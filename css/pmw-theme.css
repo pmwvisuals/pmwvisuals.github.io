@@ -1,319 +1,572 @@
-/* Shared PMW light palette. Dark mode remains the site's unchanged default. */
-html[data-theme="light"] {
+/*
+ * PMW light theme
+ * Dark mode remains the default and keeps every existing page unchanged.
+ * Light styling is scoped to the wallpaper catalogue and account dashboard.
+ */
+
+html[data-theme="light"] body.pmw-wallpaper-page,
+html[data-theme="light"] body.pmw-account-dashboard-page {
   color-scheme: light;
-  --bg: #f5f7fb;
-  --bg-primary: #f5f7fb;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #edf1f6;
-  --bg-card: #ffffff;
-  --bg-hover: #e8edf3;
-  --bg-glass: rgba(255, 255, 255, 0.88);
-  --card: #ffffff;
-  --surface: #ffffff;
-  --surface-soft: #eef2f7;
-  --text: #171a20;
-  --text-primary: #171a20;
-  --text-secondary: #566170;
-  --text-muted: #747f8d;
-  --muted: #687382;
-  --border: rgba(20, 29, 43, 0.14);
-  --border-hover: rgba(20, 29, 43, 0.28);
-  --line: rgba(20, 29, 43, 0.14);
-  --accent: #171a20;
-  --accent-dim: rgba(20, 29, 43, 0.08);
-  --gold: #8a6200;
-  --gold-bright: #a97700;
-  --glow-white: 0 10px 35px rgba(36, 49, 68, 0.10);
-  --glow-strong: 0 16px 50px rgba(36, 49, 68, 0.15);
-}
-
-html[data-theme="light"] body,
-html[data-theme="light"] .pmw-home-page,
-html[data-theme="light"] .pmw-auth-page,
-html[data-theme="light"] .pmw-account-dashboard-page,
-html[data-theme="light"] .tools-page,
-html[data-theme="light"] .converter-page {
+  --bg: #f5f2ea;
+  --bg-primary: #f5f2ea;
+  --bg-secondary: #fffdf8;
+  --bg-card: #fffdf8;
+  --bg-hover: #f0ebdf;
+  --panel: rgba(255, 253, 248, 0.92);
+  --panel-strong: #fffdf8;
+  --text: #191813;
+  --text-primary: #191813;
+  --text-secondary: #5f625c;
+  --text-muted: #7b7e77;
+  --muted: #6e726c;
+  --soft: #8a8d86;
+  --border: rgba(54, 48, 34, 0.13);
+  --border-hover: rgba(54, 48, 34, 0.28);
+  --line: rgba(54, 48, 34, 0.13);
+  --line-strong: rgba(54, 48, 34, 0.24);
+  --gold: #966a09;
+  --gold-soft: rgba(184, 132, 18, 0.12);
+  --success: #137a43;
   color: var(--text-primary);
-  background-color: var(--bg-primary);
 }
 
-html[data-theme="light"] body::before,
-html[data-theme="light"] body::after {
-  opacity: 0.18;
+/* Wallpaper catalogue */
+html[data-theme="light"] body.pmw-wallpaper-page {
+  background:
+    radial-gradient(circle at 8% 4%, rgba(211, 167, 63, 0.15), transparent 24rem),
+    radial-gradient(circle at 88% 7%, rgba(98, 139, 191, 0.12), transparent 28rem),
+    linear-gradient(180deg, #faf8f3 0%, #f3efe6 52%, #f8f5ef 100%);
 }
 
-html[data-theme="light"] :where(
-  .main-nav,
-  .navbar,
-  .nav-bar,
-  .pmw-home-nav,
-  .pmw-auth-nav,
-  .tools-nav,
-  .converter-nav,
-  .wallpaper-nav,
-  .pmw-dashboard-sidebar,
-  .account-menu-panel
-) {
+html[data-theme="light"] body.pmw-wallpaper-page .noise-overlay {
+  opacity: 0.018;
+  filter: invert(1);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page #canvas-bg {
+  opacity: 0.72;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page::selection,
+html[data-theme="light"] body.pmw-wallpaper-page ::selection {
+  color: #17150f;
+  background: rgba(216, 173, 76, 0.28);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .navbar {
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.92);
-  border-color: var(--border);
-  box-shadow: 0 12px 36px rgba(33, 44, 60, 0.10);
+  background: transparent;
+  box-shadow: none;
 }
 
-html[data-theme="light"] :where(
-  .main-nav a,
-  .navbar a,
-  .nav-bar a,
-  .pmw-home-nav a,
-  .pmw-auth-nav a,
-  .tools-nav a,
-  .converter-nav a,
-  .wallpaper-nav a,
-  .account-menu-panel a
-) {
+html[data-theme="light"] body.pmw-wallpaper-page .nav-inner,
+html[data-theme="light"] body.pmw-wallpaper-page .navbar.scrolled .nav-inner {
+  border-color: rgba(54, 48, 34, 0.13);
+  background: rgba(255, 253, 248, 0.88);
+  box-shadow: 0 12px 38px rgba(57, 49, 31, 0.10);
+  backdrop-filter: blur(24px) saturate(1.15);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .nav-links {
+  border-color: rgba(54, 48, 34, 0.09);
+  background: rgba(61, 52, 32, 0.045);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .nav-link {
+  color: #62645f;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .nav-link:hover,
+html[data-theme="light"] body.pmw-wallpaper-page .nav-link.active {
+  color: #17150f;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(57, 49, 31, 0.08);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .wallpaper-hero {
+  border-color: rgba(76, 61, 28, 0.15);
+  background:
+    radial-gradient(circle at 82% 16%, rgba(87, 167, 165, 0.13), transparent 30rem),
+    radial-gradient(circle at 15% 13%, rgba(216, 173, 76, 0.17), transparent 29rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(247, 241, 228, 0.93));
+  box-shadow: 0 30px 80px rgba(67, 55, 28, 0.13), inset 0 1px rgba(255, 255, 255, 0.85);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .wallpaper-hero::before {
+  opacity: 0.19;
+  background:
+    linear-gradient(90deg, rgba(255, 253, 247, 0.96), rgba(255, 253, 247, 0.76) 52%, rgba(255, 253, 247, 0.93)),
+    var(--hero-image, none);
+  filter: saturate(0.72) contrast(0.9);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .wallpaper-kicker {
+  color: #6f654f;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .section-title {
+  color: #17150f;
+  background: linear-gradient(180deg, #17150f 0%, #5e584d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .section-subtitle,
+html[data-theme="light"] body.pmw-wallpaper-page .wallpaper-section-head p,
+html[data-theme="light"] body.pmw-wallpaper-page .panel-description {
   color: var(--text-secondary);
 }
 
-html[data-theme="light"] :where(
-  .main-nav a:hover,
-  .main-nav a.active,
-  .navbar a:hover,
-  .navbar a.active,
-  .nav-bar a:hover,
-  .nav-bar a.active,
-  .pmw-home-nav a:hover,
-  .pmw-home-nav a.active,
-  .tools-nav a:hover,
-  .tools-nav a.active,
-  .converter-nav a:hover,
-  .converter-nav a.active,
-  .wallpaper-nav a:hover,
-  .wallpaper-nav a.active
-) {
-  color: var(--text-primary);
-  background: var(--bg-hover);
+html[data-theme="light"] body.pmw-wallpaper-page .search-box {
+  border-color: rgba(64, 54, 32, 0.16);
+  background: rgba(255, 255, 255, 0.90);
+  box-shadow: 0 16px 38px rgba(57, 49, 31, 0.10), inset 0 1px rgba(255, 255, 255, 0.9);
 }
 
-html[data-theme="light"] :where(
-  .pmw-home-card,
-  .platform-card,
-  .tool-card,
-  .tools-card,
-  .feature-card,
-  .pmw-auth-card,
-  .pmw-auth-form-card,
-  .pmw-auth-feature,
-  .pmw-dashboard-panel,
-  .pmw-account-card,
-  .pmw-stat-card,
-  .pmw-member-card,
-  .pmw-overview-card,
-  .pmw-help-card,
-  .pmw-premium-dashboard-card,
-  .wallpaper-card,
-  .asset-card,
-  .detail-card,
-  .tool-panel,
-  .tool-card-panel,
-  .upload-panel,
-  .settings-panel,
-  .result-panel,
-  .legal-card,
-  .policy-card,
-  .modal-content,
-  .wallpaper-modal,
-  .wallpaper-panel
-) {
-  color: var(--text-primary);
-  background-color: var(--bg-card);
-  border-color: var(--border);
-  box-shadow: 0 12px 34px rgba(36, 49, 68, 0.08);
+html[data-theme="light"] body.pmw-wallpaper-page .search-box svg {
+  color: #817866;
 }
 
-html[data-theme="light"] :where(
-  input,
-  select,
-  textarea,
-  .search-input,
-  .search-bar,
-  .filter-select,
-  .tool-input
-) {
-  color: var(--text-primary);
-  background-color: #ffffff;
-  border-color: var(--border);
+html[data-theme="light"] body.pmw-wallpaper-page .search-box input,
+html[data-theme="light"] body.pmw-wallpaper-page .filter-field select {
+  color: #1b1914;
 }
 
-html[data-theme="light"] :where(input, textarea)::placeholder {
-  color: #8a94a1;
+html[data-theme="light"] body.pmw-wallpaper-page .search-box input::placeholder {
+  color: #898b84;
 }
 
-html[data-theme="light"] :where(
-  .chip,
-  .filter-chip,
-  .tag,
-  .badge,
-  .tool-tab,
-  .preset-button,
-  .format-button,
-  .icon-button,
-  .pmw-outline-button
-) {
-  color: var(--text-secondary);
-  background-color: #ffffff;
-  border-color: var(--border);
+html[data-theme="light"] body.pmw-wallpaper-page .filter-chip {
+  color: #5e625c;
+  border-color: rgba(64, 54, 32, 0.14);
+  background: rgba(255, 255, 255, 0.72);
 }
 
-html[data-theme="light"] :where(
-  .chip:hover,
-  .chip.active,
-  .filter-chip:hover,
-  .filter-chip.active,
-  .tool-tab:hover,
-  .tool-tab.active,
-  .preset-button:hover,
-  .preset-button.active,
-  .format-button:hover,
-  .format-button.active
-) {
-  color: var(--text-primary);
-  background-color: var(--bg-hover);
-  border-color: var(--border-hover);
+html[data-theme="light"] body.pmw-wallpaper-page .filter-chip:hover {
+  color: #17150f;
+  border-color: rgba(150, 106, 9, 0.4);
+  background: #fffdf8;
 }
 
-html[data-theme="light"] :where(
-  .hero-title,
-  .section-title,
-  h1,
-  h2,
-  h3,
-  strong
-) {
-  color: var(--text-primary);
-}
-
-html[data-theme="light"] :where(p, .subtitle, .description, .meta, small) {
-  color: var(--text-secondary);
-}
-
-/* The homepage hero deliberately remains a cinematic dark canvas in both
-   themes. Keep its foreground palette bright while the surrounding shell,
-   navigation, sections, and controls follow the selected light theme. */
-html[data-theme="light"] .pmw-home-hero-copy h1,
-html[data-theme="light"] .pmw-home-hero-copy h1::first-line {
+html[data-theme="light"] body.pmw-wallpaper-page .filter-chip.active {
   color: #ffffff;
+  border-color: #2b2922;
+  background: #2b2922;
+  box-shadow: 0 8px 20px rgba(43, 41, 34, 0.18);
 }
 
-html[data-theme="light"] .pmw-home-hero-copy .pmw-home-lead {
-  color: #c4cad4;
+html[data-theme="light"] body.pmw-wallpaper-page .wallpaper-hero .filter-panel,
+html[data-theme="light"] body.pmw-wallpaper-page .filter-panel {
+  border-color: rgba(64, 54, 32, 0.13);
+  background: rgba(255, 253, 248, 0.74);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.82);
 }
 
-html[data-theme="light"] .pmw-home-hero-copy .pmw-home-kicker,
-html[data-theme="light"] .pmw-home-hero-copy .pmw-home-proof {
-  color: #e2e6ec;
+html[data-theme="light"] body.pmw-wallpaper-page .filter-field label,
+html[data-theme="light"] body.pmw-wallpaper-page .panel-kicker,
+html[data-theme="light"] body.pmw-wallpaper-page .detail-label {
+  color: #74776f;
 }
 
-html[data-theme="light"] :where(
-  .pmw-tools-dashboard,
-  .pmw-wallpaper-float,
-  .pmw-studio-float,
-  .pmw-floating-mini,
-  .pmw-eye-mark
+html[data-theme="light"] body.pmw-wallpaper-page .filter-field select,
+html[data-theme="light"] body.pmw-wallpaper-page .device-toggle {
+  border-color: rgba(64, 54, 32, 0.14);
+  background: #ffffff;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .device-toggle-btn {
+  color: #696c66;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .device-toggle-btn:hover {
+  color: #17150f;
+  background: #f4efe4;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .device-toggle-btn.active {
+  color: #ffffff;
+  background: #2b2922;
+  box-shadow: 0 7px 18px rgba(43, 41, 34, 0.18);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .wallpaper-card {
+  color: #1b1914;
+  border-color: rgba(54, 48, 34, 0.12);
+  background: #fffdf8;
+  box-shadow: 0 8px 24px rgba(57, 49, 31, 0.07);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .wallpaper-card:hover {
+  border-color: rgba(150, 106, 9, 0.38);
+  box-shadow: 0 22px 52px rgba(57, 49, 31, 0.16);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .wallpaper-thumb {
+  background: #e9e4da;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .panel-overlay {
+  background: rgba(44, 41, 34, 0.58);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .wallpaper-panel {
+  color: #1b1914;
+  border-color: rgba(54, 48, 34, 0.17);
+  background: #fffdf8;
+  box-shadow: 0 36px 90px rgba(31, 28, 21, 0.30);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .panel-preview {
+  background: #ece7dd;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .panel-close,
+html[data-theme="light"] body.pmw-wallpaper-page .detail-item,
+html[data-theme="light"] body.pmw-wallpaper-page .hashtag {
+  color: #62655f;
+  border-color: rgba(54, 48, 34, 0.13);
+  background: #f5f1e8;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .panel-close:hover {
+  color: #17150f;
+  background: #ebe5da;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .panel-title,
+html[data-theme="light"] body.pmw-wallpaper-page .detail-value {
+  color: #191813;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .download-btn {
+  color: #ffffff;
+  background: #2b2922;
+  box-shadow: 0 13px 30px rgba(43, 41, 34, 0.18);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .download-btn:hover {
+  box-shadow: 0 16px 34px rgba(43, 41, 34, 0.26);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .download-btn.locked {
+  color: #211b0d;
+  background: linear-gradient(135deg, #fff2bd, #dfb84f);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .empty-state {
+  color: #74776f;
+}
+
+/* Homepage account control, which is injected after the base stylesheet. */
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-menu-root {
+  color: #1b1914;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-trigger {
+  color: #2b2922;
+  border-color: rgba(54, 48, 34, 0.17);
+  background: rgba(255, 253, 248, 0.94);
+  box-shadow: 0 12px 30px rgba(57, 49, 31, 0.14), inset 0 1px rgba(255, 255, 255, 0.9);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-trigger:hover,
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-trigger[aria-expanded="true"] {
+  color: #17150f;
+  border-color: rgba(150, 106, 9, 0.42);
+  background: #ffffff;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-avatar-initial,
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-head-avatar {
+  color: #ffffff;
+  border-color: rgba(150, 106, 9, 0.42);
+  background: linear-gradient(145deg, #9f792d, #332c1d);
+  text-shadow: none;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-panel {
+  border-color: rgba(54, 48, 34, 0.15);
+  background:
+    radial-gradient(circle at top right, rgba(216, 173, 76, 0.18), transparent 38%),
+    linear-gradient(145deg, rgba(255, 254, 250, 0.99), rgba(247, 242, 232, 0.99));
+  box-shadow: 0 26px 70px rgba(57, 49, 31, 0.20), inset 0 1px rgba(255, 255, 255, 0.9);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-head {
+  border-color: rgba(54, 48, 34, 0.10);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-head strong {
+  color: #191813;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-head div > span,
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-head div > p {
+  color: #6d706a;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-button,
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-link {
+  color: #3e403b;
+  border-color: rgba(54, 48, 34, 0.11);
+  background: rgba(255, 255, 255, 0.68);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-button:hover,
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-link:hover {
+  color: #17150f;
+  border-color: rgba(150, 106, 9, 0.31);
+  background: #ffffff;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-primary {
+  color: #ffffff;
+  border-color: #2b2922;
+  background: #2b2922;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-secondary,
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-stars {
+  color: #855d08;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-account-signout {
+  color: #3e403b;
+}
+
+/* Account dashboard */
+html[data-theme="light"] body.pmw-account-dashboard-page {
+  background:
+    radial-gradient(circle at 10% 7%, rgba(216, 173, 76, 0.17), transparent 28rem),
+    radial-gradient(circle at 86% 6%, rgba(100, 145, 202, 0.13), transparent 30rem),
+    linear-gradient(135deg, #f8f5ee 0%, #eef2f6 50%, #f7f3ea 100%);
+}
+
+html[data-theme="light"] body.pmw-account-dashboard-page::before {
+  z-index: 0;
+  opacity: 0.20;
+  background-image:
+    radial-gradient(circle, rgba(91, 76, 43, 0.22) 1px, transparent 1.4px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent 36%);
+}
+
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-dashboard-shell,
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-dashboard-footer {
+  position: relative;
+  z-index: 1;
+}
+
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-dashboard-sidebar,
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-dashboard-panel,
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-dashboard-stats article,
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-member-card,
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-overview-card,
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-help-card {
+  color: #191813;
+  border-color: rgba(54, 48, 34, 0.12);
+  background: rgba(255, 253, 248, 0.91);
+  box-shadow: 0 20px 55px rgba(57, 49, 31, 0.09), inset 0 1px rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(18px);
+}
+
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-dashboard-sidebar {
+  background: rgba(255, 253, 248, 0.94);
+}
+
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-dashboard-brand {
+  color: #1b1914;
+}
+
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-dashboard-menu a {
+  color: #5d615b;
+}
+
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-dashboard-menu a:hover,
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-dashboard-menu a.is-active {
+  color: #241e10;
+  border-color: rgba(150, 106, 9, 0.22);
+  background: linear-gradient(135deg, rgba(216, 173, 76, 0.20), rgba(216, 173, 76, 0.06));
+}
+
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-menu-icon,
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-stat-icon,
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-member-icon,
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-crown {
+  color: #8d6206;
+  border-color: rgba(150, 106, 9, 0.24);
+  background: rgba(216, 173, 76, 0.11);
+  box-shadow: none;
+}
+
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-sidebar-upgrade,
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-premium-dashboard-card {
+  color: #262116;
+  border-color: rgba(150, 106, 9, 0.24);
+  background:
+    radial-gradient(circle at top right, rgba(216, 173, 76, 0.25), transparent 44%),
+    linear-gradient(145deg, rgba(255, 250, 231, 0.98), rgba(247, 239, 217, 0.93));
+  box-shadow: 0 20px 55px rgba(114, 82, 16, 0.10), inset 0 1px rgba(255, 255, 255, 0.9);
+}
+
+html[data-theme="light"] body.pmw-account-dashboard-page :where(
+  .pmw-sidebar-upgrade h2,
+  .pmw-premium-dashboard-card h2,
+  .pmw-overview-card h2,
+  .pmw-help-card h2,
+  .pmw-dashboard-panel h2,
+  .pmw-member-card h2,
+  .pmw-profile-hero h1,
+  .pmw-dashboard-stats strong,
+  .pmw-dashboard-stats p,
+  .pmw-empty-activity strong,
+  .pmw-overview-card strong
 ) {
-  color: #f5f7fb;
+  color: #191813;
 }
 
-html[data-theme="light"] :where(
-  .pmw-tools-dashboard,
-  .pmw-wallpaper-float,
-  .pmw-studio-float,
-  .pmw-floating-mini
-) :where(h2, h3, strong, p, small, span) {
-  color: inherit;
+html[data-theme="light"] body.pmw-account-dashboard-page :where(
+  .pmw-sidebar-upgrade p,
+  .pmw-premium-dashboard-card p,
+  .pmw-help-card p,
+  .pmw-panel-heading p,
+  .pmw-member-card p,
+  .pmw-dashboard-stats small,
+  .pmw-empty-activity p,
+  .pmw-overview-card div,
+  .pmw-profile-hero p,
+  .pmw-profile-hero > div > span
+) {
+  color: #656a64;
 }
 
-html[data-theme="light"] :where(.pmw-dashboard-sidebar, .pmw-dashboard-main, .pmw-dashboard-aside) {
-  --text-primary: #171a20;
-  --text-secondary: #5d6876;
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-premium-dashboard-card li {
+  color: #4f514c;
 }
 
-html[data-theme="light"] .pmw-profile-avatar {
-  color: #ffffff;
-  background: radial-gradient(circle at 50% 28%, #7d8794, #222831 58%, #101318);
-  box-shadow: 0 12px 32px rgba(26, 34, 45, 0.22);
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-profile-avatar {
+  border-color: rgba(150, 106, 9, 0.46);
+  background:
+    radial-gradient(circle at 46% 28%, rgba(255, 255, 255, 0.30), transparent 28%),
+    linear-gradient(145deg, #4d514e, #171b1c);
+  box-shadow: 0 13px 32px rgba(40, 43, 42, 0.20), inset 0 0 26px rgba(0, 0, 0, 0.30);
 }
 
-html[data-theme="light"] :where(.pmw-dashboard-link, .pmw-theme-control) {
-  color: var(--text-primary);
-  background: rgba(20, 29, 43, 0.035);
-  border-color: var(--border);
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-profile-avatar span {
+  color: #e7c96f;
 }
 
-html[data-theme="light"] .pmw-dashboard-link:hover,
-html[data-theme="light"] .pmw-dashboard-link.is-active {
-  color: #171a20;
-  background: rgba(199, 148, 24, 0.14);
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-theme-control {
+  color: #25231e;
+  border-color: rgba(54, 48, 34, 0.13);
+  background: rgba(69, 60, 40, 0.045);
 }
 
-html[data-theme="light"] :where(.drop-zone, .upload-area, .tool-dropzone) {
-  color: var(--text-primary);
-  background: #f8fafc;
-  border-color: rgba(20, 29, 43, 0.2);
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-theme-control small {
+  color: #73766f;
 }
 
-html[data-theme="light"] :where(.wallpaper-card, .asset-card) {
-  overflow: hidden;
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-theme-control button {
+  border-color: rgba(150, 106, 9, 0.34);
+  background: #d7d2c7;
 }
 
-html[data-theme="light"] :where(.wallpaper-card img, .asset-card img, .wallpaper-preview img) {
-  background-color: #e7ebf0;
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-theme-control button[aria-checked="true"] {
+  background: linear-gradient(135deg, #b78418, #f0cf70);
 }
 
-html[data-theme="light"] :where(.modal-backdrop, .wallpaper-modal-backdrop) {
-  background: rgba(35, 42, 52, 0.52);
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-empty-activity {
+  color: #6e726c;
+  border-color: rgba(54, 48, 34, 0.12);
+  background: rgba(82, 70, 44, 0.025);
 }
 
-html[data-theme="light"] dialog::backdrop {
-  background: rgba(35, 42, 52, 0.52);
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-explore-strip a {
+  border-color: rgba(54, 48, 34, 0.14);
+  background: #e8e3d9;
+  box-shadow: 0 8px 24px rgba(57, 49, 31, 0.08);
 }
 
-html[data-theme="light"] :where(.cookie-consent, .cookie-bar, #cookieConsent) {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.96);
-  border-color: var(--border);
-  box-shadow: 0 -8px 28px rgba(36, 49, 68, 0.1);
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-outline-button {
+  color: #6f4d05;
+  border-color: rgba(150, 106, 9, 0.30);
+  background: rgba(216, 173, 76, 0.08);
 }
 
-html[data-theme="light"] :where(.platform-footer, footer) {
-  color: var(--text-secondary);
-  background-color: #eef2f7;
-  border-color: var(--border);
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-outline-button:hover {
+  color: #261f10;
+  border-color: rgba(150, 106, 9, 0.48);
+  background: rgba(216, 173, 76, 0.16);
 }
 
-html[data-theme="light"] :where(.platform-footer a, footer a) {
-  color: var(--text-secondary);
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-gold-button {
+  color: #211b0d;
+  border-color: rgba(150, 106, 9, 0.25);
+  background: linear-gradient(135deg, #fff0b8, #dfb94e);
+  box-shadow: 0 14px 32px rgba(150, 106, 9, 0.17);
 }
 
-html[data-theme="light"] :where(.platform-footer a:hover, footer a:hover) {
-  color: var(--text-primary);
+html[data-theme="light"] body.pmw-account-dashboard-page #accountTierStat {
+  color: #176b3c;
+  background: rgba(30, 154, 84, 0.11);
 }
 
-html[data-theme="light"] :where(.pmw-primary-button, .primary-button, .download-button) {
-  color: #ffffff;
-  background: #171a20;
-  border-color: #171a20;
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-overview-card div {
+  align-items: flex-start;
+  border-color: rgba(54, 48, 34, 0.11);
 }
 
-html[data-theme="light"] :where(.pmw-primary-button, .primary-button, .download-button):hover {
-  color: #ffffff;
-  background: #303640;
-  border-color: #303640;
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-overview-card strong {
+  max-width: 68%;
+  font-size: 0.88rem;
+}
+
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-dashboard-footer,
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-dashboard-footer a {
+  color: #666a64;
+}
+
+html[data-theme="light"] body.pmw-account-dashboard-page .pmw-dashboard-footer a:hover {
+  color: #241e10;
+}
+
+/* Homepage footer is loaded dynamically after this stylesheet. */
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-platform-footer {
+  --pmw-footer-gold: #8d6206;
+  --pmw-footer-gold-soft: rgba(184, 132, 18, 0.12);
+  --pmw-footer-line: rgba(54, 48, 34, 0.12);
+  --pmw-footer-muted: #686b65;
+  color: #24221d;
+  background: #eee9df;
+  border-color: var(--pmw-footer-line);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-platform-footer__brand-link,
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-platform-footer__column h2 {
+  color: #1b1914;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-platform-footer__social {
+  color: #52554f;
+  background: rgba(255, 255, 255, 0.52);
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-platform-footer__bottom,
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-platform-footer__top {
+  color: #666a64;
+}
+
+html[data-theme="light"] body.pmw-wallpaper-page .pmw-platform-footer__top:hover {
+  color: #6f4d05;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html[data-theme="light"] *,
-  html[data-theme="light"] *::before,
-  html[data-theme="light"] *::after {
+  html[data-theme="light"] body.pmw-wallpaper-page *,
+  html[data-theme="light"] body.pmw-wallpaper-page *::before,
+  html[data-theme="light"] body.pmw-wallpaper-page *::after,
+  html[data-theme="light"] body.pmw-account-dashboard-page *,
+  html[data-theme="light"] body.pmw-account-dashboard-page *::before,
+  html[data-theme="light"] body.pmw-account-dashboard-page *::after {
     transition-duration: 0.01ms !important;
   }
 }

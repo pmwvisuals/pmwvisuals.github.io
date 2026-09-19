@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="js/pmw-theme.js"></script>
      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4633082836143342"
      crossorigin="anonymous"></script>
     <link rel="icon" type="image/png" href="/favicon.png">
@@ -907,7 +908,7 @@
   <link rel="stylesheet" href="css/pmw-buttons.css">
   <link rel="stylesheet" href="css/pmw-theme.css">
 </head>
-<body>
+<body class="pmw-wallpaper-page">
     <canvas id="canvas-bg"></canvas>
     <div class="noise-overlay"></div>
 
@@ -1059,7 +1060,9 @@
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255,255,255,0.28)';
+                ctx.fillStyle = document.documentElement.dataset.theme === 'light'
+                    ? 'rgba(74,62,38,0.16)'
+                    : 'rgba(255,255,255,0.28)';
                 ctx.fill();
             }
         }
