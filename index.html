@@ -575,7 +575,16 @@
             height: 100%;
             display: block;
             object-fit: cover;
-            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: filter 0.45s ease, opacity 0.45s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .wallpaper-thumb img.progressive-image:not(.is-full-quality) {
+            opacity: 0.88;
+            filter: blur(9px) saturate(0.9);
+            transform: scale(1.055);
+        }
+        .wallpaper-thumb img.progressive-image.is-full-quality {
+            opacity: 1;
+            filter: none;
         }
         .wallpaper-card:hover img { transform: scale(1.06); }
         .wallpaper-card.is-mobile .wallpaper-thumb {
@@ -648,36 +657,11 @@
             margin: 0;
             line-height: 1.32;
         }
-        .wallpaper-feed-actions {
+        .wallpaper-feed-sentinel {
             grid-column: 1 / -1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            padding: 20px 0 6px;
-        }
-        .load-more-wallpapers {
-            min-width: 210px;
-            min-height: 48px;
-            padding: 12px 22px;
-            border: 1px solid rgba(255,255,255,0.16);
-            border-radius: 999px;
-            color: var(--text-primary);
-            background: rgba(255,255,255,0.07);
-            font: inherit;
-            font-weight: 800;
-            cursor: pointer;
-            transition: var(--transition-fast);
-        }
-        .load-more-wallpapers:hover {
-            transform: translateY(-2px);
-            border-color: rgba(255,255,255,0.34);
-            background: rgba(255,255,255,0.12);
-        }
-        .wallpaper-feed-count {
-            color: var(--text-muted);
-            font-size: 0.76rem;
-            font-weight: 700;
+            width: 100%;
+            height: 1px;
+            pointer-events: none;
         }
 
         .panel-overlay {
@@ -942,7 +926,7 @@
         }
     </style>
   <link rel="stylesheet" href="css/pmw-buttons.css">
-  <link rel="stylesheet" href="css/pmw-theme.css">
+  <link rel="stylesheet" href="css/pmw-theme.css?v=20260919-light-fix-2">
 </head>
 <body class="pmw-wallpaper-page">
     <canvas id="canvas-bg"></canvas>
@@ -1134,6 +1118,19 @@
         let filteredWallpaperItems = [];
         let renderedWallpaperCount = 0;
         let desktopDataPromise = null;
+        let wallpaperFeedObserver = null;
+        let progressiveImageObserver = null;
+        let isAppendingWallpaperBatch = false;
+        let wallpaperFeedNeedsScroll = false;
+        let wallpaperFeedResumeAt = 0;
+        let lastAutomaticFeedScrollY = 0;
+        let activeProgressiveUpgrades = 0;
+        const progressiveUpgradeQueue = [];
+        const INITIAL_WALLPAPER_COUNT = 24;
+        const WALLPAPER_BATCH_SIZE = 12;
+        const PROGRESSIVE_LOW_WIDTH = 96;
+        const PROGRESSIVE_MEDIUM_WIDTH = 480;
+        const PROGRESSIVE_HIGH_WIDTH = 960;
         const pageParams = new URLSearchParams(window.location.search);
         const requestedCategory = pageParams.get('category');
         const requestedDevice = pageParams.get('device');
@@ -1234,6 +1231,153 @@
             }
 
             return source;
+        }
+
+        function getGoogleImageVariant(source, width) {
+            try {
+                const url = new URL(source, window.location.href);
+                if (url.hostname !== 'lh3.googleusercontent.com') return '';
+                return url.href.replace(/=w\d+(?:-[^/?#]+)?(?=\?|#|$)/i, `=w${width}`);
+            } catch (error) {
+                return '';
+            }
+        }
+
+        function getCloudinaryImageVariant(source, width, wide, quality = 'auto:low') {
+            const marker = '/image/upload/';
+            const markerIndex = source.indexOf(marker);
+            if (markerIndex < 0) return '';
+
+            const prefix = source.slice(0, markerIndex + marker.length);
+            const segments = source.slice(markerIndex + marker.length).split('/');
+            const firstSegment = segments[0] || '';
+            const hasTransform = !/^v\d+$/i.test(firstSegment)
+                && /(?:^|,)(?:c|w|h|q|f|e|g|ar|dpr)_/i.test(firstSegment);
+            if (hasTransform) segments.shift();
+
+            const height = Math.max(1, Math.round(width * (wide ? 9 / 16 : 16 / 9)));
+            const transform = `c_fill,w_${width},h_${height},q_${quality},f_auto`;
+            return `${prefix}${transform}/${segments.join('/')}`;
+        }
+
+        function getProgressiveImageVariant(source, width, wide, quality) {
+            const displaySource = getDisplayImageUrl(source);
+            return getGoogleImageVariant(displaySource, width)
+                || getCloudinaryImageVariant(displaySource, width, wide, quality)
+                || displaySource;
+        }
+
+        function getProgressiveImageSources(item, wide) {
+            const source = item.thumbnail || item.preview || item.imageUrl;
+            return {
+                low: getProgressiveImageVariant(source, PROGRESSIVE_LOW_WIDTH, wide, 'auto:low'),
+                medium: getProgressiveImageVariant(source, PROGRESSIVE_MEDIUM_WIDTH, wide, 'auto:eco'),
+                full: getProgressiveImageVariant(source, PROGRESSIVE_HIGH_WIDTH, wide, 'auto:good')
+            };
+        }
+
+        function getPreferredProgressiveSource(image) {
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const effectiveType = normalize(connection && connection.effectiveType);
+            const downlink = Number(connection && connection.downlink);
+            const useMedium = Boolean(connection && connection.saveData)
+                || effectiveType.includes('2g')
+                || effectiveType === '3g'
+                || (Number.isFinite(downlink) && downlink > 0 && downlink < 3);
+            return useMedium ? image.dataset.mediumSrc : image.dataset.fullSrc;
+        }
+
+        function getProgressiveUpgradeConcurrency() {
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const effectiveType = normalize(connection && connection.effectiveType);
+            if ((connection && connection.saveData) || effectiveType.includes('2g') || effectiveType === '3g') return 1;
+            return 2;
+        }
+
+        function runProgressiveUpgradeQueue() {
+            const concurrency = getProgressiveUpgradeConcurrency();
+            while (activeProgressiveUpgrades < concurrency && progressiveUpgradeQueue.length) {
+                const image = progressiveUpgradeQueue.shift();
+                if (!image || !image.isConnected || image.classList.contains('is-full-quality')) {
+                    if (image) image.removeAttribute('data-upgrading');
+                    continue;
+                }
+
+                const targetSource = getPreferredProgressiveSource(image);
+                if (!targetSource || targetSource === image.currentSrc || targetSource === image.src) {
+                    image.classList.add('is-full-quality');
+                    image.removeAttribute('data-upgrading');
+                    continue;
+                }
+
+                image.dataset.upgrading = 'true';
+                activeProgressiveUpgrades += 1;
+                const preloader = new Image();
+                preloader.decoding = 'async';
+                preloader.fetchPriority = 'low';
+
+                const finishUpgrade = () => {
+                    activeProgressiveUpgrades = Math.max(0, activeProgressiveUpgrades - 1);
+                    image.__progressivePreloader = null;
+                    runProgressiveUpgradeQueue();
+                };
+
+                preloader.onload = () => {
+                    image.src = targetSource;
+                    image.classList.add('is-full-quality');
+                    image.removeAttribute('data-upgrading');
+                    image.removeAttribute('data-medium-src');
+                    image.removeAttribute('data-full-src');
+                    finishUpgrade();
+                };
+                preloader.onerror = () => {
+                    image.removeAttribute('data-upgrading');
+                    finishUpgrade();
+                };
+                image.__progressivePreloader = preloader;
+                preloader.src = targetSource;
+            }
+        }
+
+        function upgradeProgressiveImage(image) {
+            if (!image || image.dataset.upgrading || image.classList.contains('is-full-quality')) return;
+            const targetSource = getPreferredProgressiveSource(image);
+            if (!targetSource || targetSource === image.currentSrc || targetSource === image.src) {
+                image.classList.add('is-full-quality');
+                return;
+            }
+
+            image.dataset.upgrading = 'queued';
+            progressiveUpgradeQueue.push(image);
+            runProgressiveUpgradeQueue();
+        }
+
+        function initializeProgressiveImages(container = grid) {
+            const images = container.querySelectorAll('img.progressive-image:not([data-progressive-ready])');
+            if (!images.length) return;
+
+            if (!progressiveImageObserver && 'IntersectionObserver' in window) {
+                progressiveImageObserver = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (!entry.isIntersecting) return;
+                        progressiveImageObserver.unobserve(entry.target);
+                        upgradeProgressiveImage(entry.target);
+                    });
+                }, { rootMargin: '320px 0px', threshold: 0.01 });
+            }
+
+            images.forEach(image => {
+                image.dataset.progressiveReady = 'true';
+                if (image.classList.contains('is-full-quality')) return;
+
+                const observeForUpgrade = () => {
+                    if (progressiveImageObserver) progressiveImageObserver.observe(image);
+                    else upgradeProgressiveImage(image);
+                };
+
+                if (image.complete && image.naturalWidth > 0) observeForUpgrade();
+                else image.addEventListener('load', observeForUpgrade, { once: true });
+            });
         }
 
         function escapeHtml(value) {
@@ -1604,14 +1748,15 @@
             const wide = options.wide || devices.includes('desktop') || isWideWallpaper(item);
             const orientationClass = wide ? 'is-desktop' : 'is-mobile';
             const aspect = wide ? '16 / 9' : '9 / 16';
-            const displayImage = getDisplayImageUrl(item.thumbnail || item.preview || item.imageUrl);
+            const imageSources = getProgressiveImageSources(item, wide);
+            const isProgressive = imageSources.low !== imageSources.full;
             const priority = options.priority === true;
             return `
                 <a class="wallpaper-card ${orientationClass}" data-id="${escapeHtml(item.id)}" data-panel-only="${opensPanelOnly(item) ? 'true' : 'false'}" href="${escapeHtml(getWallpaperPageUrl(item))}" style="--wallpaper-aspect: ${escapeHtml(aspect)}">
                     <div class="wallpaper-thumb">
-                        <img src="${escapeHtml(displayImage)}" alt="${escapeHtml(item.title)}" loading="${priority ? 'eager' : 'lazy'}" fetchpriority="${priority ? 'high' : 'low'}" decoding="async">
+                        <img class="progressive-image${isProgressive ? '' : ' is-full-quality'}" src="${escapeHtml(imageSources.low)}" data-medium-src="${escapeHtml(imageSources.medium)}" data-full-src="${escapeHtml(imageSources.full)}" alt="${escapeHtml(item.title)}" loading="${priority ? 'eager' : 'lazy'}" fetchpriority="${priority ? 'high' : 'low'}" decoding="async">
                         <span class="wallpaper-hd-badge">HD</span>
-                        <span class="wallpaper-save-chip" role="button" tabindex="0" data-save-wallpaper data-wallpaper-id="${escapeHtml(item.id)}" data-wallpaper-title="${escapeHtml(item.title)}" data-wallpaper-image="${escapeHtml(displayImage)}" data-wallpaper-url="${escapeHtml(getWallpaperPageUrl(item))}" data-wallpaper-category="${escapeHtml(getItemTypes(item).map(getCategoryLabel).join(', '))}" aria-pressed="false" aria-label="Save wallpaper"></span>
+                        <span class="wallpaper-save-chip" role="button" tabindex="0" data-save-wallpaper data-wallpaper-id="${escapeHtml(item.id)}" data-wallpaper-title="${escapeHtml(item.title)}" data-wallpaper-image="${escapeHtml(imageSources.full)}" data-wallpaper-url="${escapeHtml(getWallpaperPageUrl(item))}" data-wallpaper-category="${escapeHtml(getItemTypes(item).map(getCategoryLabel).join(', '))}" aria-pressed="false" aria-label="Save wallpaper"></span>
                         ${isPremiumWallpaper(item) ? crownIconMarkup() : ''}
                     </div>
                     <div class="wallpaper-card-info">
@@ -1663,57 +1808,74 @@
             return columns || (window.matchMedia('(max-width: 768px)').matches ? 2 : 4);
         }
 
-        function getInitialWallpaperCount() {
-            const columns = getFeedColumnCount();
-            return window.matchMedia('(max-width: 768px)').matches
-                ? Math.max(4, columns * 2)
-                : Math.max(6, columns);
+        function stopWallpaperFeedObserver() {
+            if (wallpaperFeedObserver) {
+                wallpaperFeedObserver.disconnect();
+                wallpaperFeedObserver = null;
+            }
         }
 
-        function getNextWallpaperCount() {
-            const columns = getFeedColumnCount();
-            return window.matchMedia('(max-width: 768px)').matches
-                ? Math.max(6, columns * 3)
-                : Math.max(12, columns * 2);
+        function appendNextWallpaperBatchAutomatically() {
+            if (wallpaperFeedNeedsScroll || isAppendingWallpaperBatch) return;
+            wallpaperFeedNeedsScroll = true;
+            wallpaperFeedResumeAt = window.performance.now() + 900;
+            lastAutomaticFeedScrollY = window.scrollY;
+            appendWallpaperBatch(WALLPAPER_BATCH_SIZE);
         }
 
-        function renderWallpaperFeedActions() {
-            const existing = grid.querySelector('.wallpaper-feed-actions');
+        function rearmWallpaperFeedAfterScroll() {
+            if (!wallpaperFeedNeedsScroll || window.performance.now() < wallpaperFeedResumeAt) return;
+            const minimumTravel = Math.max(280, window.innerHeight * 0.4);
+            if (window.scrollY < lastAutomaticFeedScrollY + minimumTravel) return;
+
+            wallpaperFeedNeedsScroll = false;
+            const sentinel = grid.querySelector('[data-wallpaper-feed-sentinel]');
+            if (sentinel && sentinel.getBoundingClientRect().top <= window.innerHeight + 480) {
+                appendNextWallpaperBatchAutomatically();
+            }
+        }
+
+        function renderWallpaperFeedSentinel() {
+            stopWallpaperFeedObserver();
+            const existing = grid.querySelector('[data-wallpaper-feed-sentinel]');
             if (existing) existing.remove();
-            if (renderedWallpaperCount >= filteredWallpaperItems.length) return;
+            if (renderedWallpaperCount >= filteredWallpaperItems.length || !('IntersectionObserver' in window)) return;
 
-            const remaining = filteredWallpaperItems.length - renderedWallpaperCount;
-            grid.insertAdjacentHTML('beforeend', `
-                <div class="wallpaper-feed-actions">
-                    <button class="load-more-wallpapers" type="button" data-load-more-wallpapers>
-                        Show more wallpapers
-                    </button>
-                    <span class="wallpaper-feed-count">
-                        Showing ${renderedWallpaperCount} of ${filteredWallpaperItems.length} · ${remaining} more available
-                    </span>
-                </div>
-            `);
+            grid.insertAdjacentHTML('beforeend', '<div class="wallpaper-feed-sentinel" data-wallpaper-feed-sentinel aria-hidden="true"></div>');
+            const sentinel = grid.querySelector('[data-wallpaper-feed-sentinel]');
+            wallpaperFeedObserver = new IntersectionObserver(entries => {
+                if (!entries.some(entry => entry.isIntersecting) || isAppendingWallpaperBatch) return;
+                appendNextWallpaperBatchAutomatically();
+            }, { rootMargin: '480px 0px', threshold: 0 });
+            wallpaperFeedObserver.observe(sentinel);
         }
 
         function appendWallpaperBatch(count, { prioritizeFirstImages = false } = {}) {
-            const actions = grid.querySelector('.wallpaper-feed-actions');
-            if (actions) actions.remove();
+            if (isAppendingWallpaperBatch) return;
+            isAppendingWallpaperBatch = true;
+            stopWallpaperFeedObserver();
+            const sentinel = grid.querySelector('[data-wallpaper-feed-sentinel]');
+            if (sentinel) sentinel.remove();
 
             const start = renderedWallpaperCount;
             const end = Math.min(start + count, filteredWallpaperItems.length);
-            const priorityLimit = Math.min(3, getFeedColumnCount());
+            const priorityLimit = prioritizeFirstImages ? Math.min(12, end - start) : 0;
             const markup = filteredWallpaperItems.slice(start, end)
                 .map((item, index) => getWallpaperCardMarkup(item, {
-                    priority: prioritizeFirstImages && index < priorityLimit
+                    priority: index < priorityLimit
                 }))
                 .join('');
 
             grid.insertAdjacentHTML('beforeend', markup);
             renderedWallpaperCount = end;
-            renderWallpaperFeedActions();
+            initializeProgressiveImages(grid);
+            isAppendingWallpaperBatch = false;
+            renderWallpaperFeedSentinel();
         }
 
         function renderWallpapers() {
+            stopWallpaperFeedObserver();
+            wallpaperFeedNeedsScroll = false;
             filteredWallpaperItems = getFilteredWallpapers();
             renderedWallpaperCount = 0;
 
@@ -1727,7 +1889,7 @@
             }
 
             grid.replaceChildren();
-            appendWallpaperBatch(getInitialWallpaperCount(), { prioritizeFirstImages: true });
+            appendWallpaperBatch(INITIAL_WALLPAPER_COUNT, { prioritizeFirstImages: true });
             renderFilters();
         }
 
@@ -1860,12 +2022,6 @@
         });
 
         function handleWallpaperGridClick(event) {
-            const loadMoreButton = event.target.closest('[data-load-more-wallpapers]');
-            if (loadMoreButton) {
-                appendWallpaperBatch(getNextWallpaperCount());
-                return;
-            }
-
             if (event.target.closest('[data-save-wallpaper]')) return;
 
             const categoryCard = event.target.closest('.category-card');
@@ -1934,6 +2090,7 @@
         });
         window.addEventListener('scroll', () => {
             document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+            rearmWallpaperFeedAfterScroll();
         });
 
         function setActiveCategoryFromAvailable() {
