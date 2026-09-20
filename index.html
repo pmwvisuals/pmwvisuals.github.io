@@ -578,9 +578,14 @@
             transition: filter 0.45s ease, opacity 0.45s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .wallpaper-thumb img.progressive-image:not(.is-full-quality) {
-            opacity: 0.88;
-            filter: blur(9px) saturate(0.9);
-            transform: scale(1.055);
+            opacity: 1;
+            filter: none;
+            transform: none;
+        }
+        .wallpaper-thumb img.progressive-image.is-medium-quality {
+            opacity: 1;
+            filter: none;
+            transform: none;
         }
         .wallpaper-thumb img.progressive-image.is-full-quality {
             opacity: 1;
@@ -1128,9 +1133,9 @@
         const progressiveUpgradeQueue = [];
         const INITIAL_WALLPAPER_COUNT = 24;
         const WALLPAPER_BATCH_SIZE = 12;
-        const PROGRESSIVE_LOW_WIDTH = 96;
+        const PROGRESSIVE_LOW_WIDTH = 240;
         const PROGRESSIVE_MEDIUM_WIDTH = 480;
-        const PROGRESSIVE_HIGH_WIDTH = 960;
+        const PROGRESSIVE_HIGH_WIDTH = 720;
         const pageParams = new URLSearchParams(window.location.search);
         const requestedCategory = pageParams.get('category');
         const requestedDevice = pageParams.get('device');
@@ -1276,79 +1281,166 @@
             };
         }
 
-        function getPreferredProgressiveSource(image) {
+        function getProgressiveMaximumStage() {
             const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-            const effectiveType = normalize(connection && connection.effectiveType);
-            const downlink = Number(connection && connection.downlink);
-            const useMedium = Boolean(connection && connection.saveData)
-                || effectiveType.includes('2g')
-                || effectiveType === '3g'
-                || (Number.isFinite(downlink) && downlink > 0 && downlink < 3);
-            return useMedium ? image.dataset.mediumSrc : image.dataset.fullSrc;
+            const stopAtMedium = Boolean(connection && connection.saveData);
+            return stopAtMedium ? 'medium' : 'full';
         }
 
         function getProgressiveUpgradeConcurrency() {
             const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
             const effectiveType = normalize(connection && connection.effectiveType);
-            if ((connection && connection.saveData) || effectiveType.includes('2g') || effectiveType === '3g') return 1;
-            return 2;
+            if ((connection && connection.saveData) || effectiveType.includes('2g')) return 2;
+            if (effectiveType === '3g') return 3;
+            return window.matchMedia('(max-width: 768px)').matches ? 4 : 6;
+        }
+
+        function getProgressiveStageDelay() {
+            const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const effectiveType = normalize(connection && connection.effectiveType);
+            if ((connection && connection.saveData) || effectiveType.includes('2g')) return 1800;
+            if (effectiveType === '3g') return 1100;
+            return 650;
+        }
+
+        function imageSourcesMatch(first, second) {
+            if (!first || !second) return false;
+            try {
+                return new URL(first, window.location.href).href === new URL(second, window.location.href).href;
+            } catch (error) {
+                return first === second;
+            }
+        }
+
+        function markProgressiveImageComplete(image) {
+            image.classList.add('is-full-quality');
+            image.removeAttribute('data-upgrading');
+            image.removeAttribute('data-medium-src');
+            image.removeAttribute('data-full-src');
+            image.dataset.progressiveComplete = 'true';
+        }
+
+        function getNextProgressiveStage(image) {
+            if (!image || image.dataset.progressiveComplete === 'true') return null;
+
+            const currentStage = image.dataset.progressiveStage || 'low';
+            const maximumStage = getProgressiveMaximumStage();
+            const stages = [
+                { name: 'medium', source: image.dataset.mediumSrc },
+                { name: 'full', source: image.dataset.fullSrc }
+            ];
+            let startIndex = currentStage === 'medium' ? 1 : currentStage === 'full' ? stages.length : 0;
+
+            for (let index = startIndex; index < stages.length; index += 1) {
+                const stage = stages[index];
+                if (stage.name === 'full' && maximumStage === 'medium') break;
+                if (!stage.source || imageSourcesMatch(stage.source, image.src)) {
+                    image.dataset.progressiveStage = stage.name;
+                    if (stage.name === 'medium') image.classList.add('is-medium-quality');
+                    continue;
+                }
+                return stage;
+            }
+
+            markProgressiveImageComplete(image);
+            return null;
         }
 
         function runProgressiveUpgradeQueue() {
             const concurrency = getProgressiveUpgradeConcurrency();
             while (activeProgressiveUpgrades < concurrency && progressiveUpgradeQueue.length) {
-                const image = progressiveUpgradeQueue.shift();
-                if (!image || !image.isConnected || image.classList.contains('is-full-quality')) {
+                const job = progressiveUpgradeQueue.shift();
+                const image = job && job.image;
+                if (!image || !image.isConnected || image.dataset.progressiveComplete === 'true') {
                     if (image) image.removeAttribute('data-upgrading');
                     continue;
                 }
 
-                const targetSource = getPreferredProgressiveSource(image);
-                if (!targetSource || targetSource === image.currentSrc || targetSource === image.src) {
-                    image.classList.add('is-full-quality');
+                const stage = job.stage;
+                const targetSource = job.source;
+                if (!targetSource || imageSourcesMatch(targetSource, image.src)) {
+                    image.dataset.progressiveStage = stage;
                     image.removeAttribute('data-upgrading');
+                    upgradeProgressiveImage(image);
                     continue;
                 }
 
-                image.dataset.upgrading = 'true';
+                image.dataset.upgrading = stage;
                 activeProgressiveUpgrades += 1;
-                const preloader = new Image();
-                preloader.decoding = 'async';
-                preloader.fetchPriority = 'low';
+                let settled = false;
+                let renderCheckId = 0;
+                let targetImage = null;
 
-                const finishUpgrade = () => {
+                const releaseUpgrade = () => {
+                    if (settled) return false;
+                    settled = true;
+                    if (renderCheckId) window.clearInterval(renderCheckId);
                     activeProgressiveUpgrades = Math.max(0, activeProgressiveUpgrades - 1);
-                    image.__progressivePreloader = null;
+                    image.removeAttribute('data-upgrading');
                     runProgressiveUpgradeQueue();
+                    return true;
                 };
 
-                preloader.onload = () => {
-                    image.src = targetSource;
-                    image.classList.add('is-full-quality');
-                    image.removeAttribute('data-upgrading');
-                    image.removeAttribute('data-medium-src');
-                    image.removeAttribute('data-full-src');
-                    finishUpgrade();
+                const promoteStage = () => {
+                    if (!releaseUpgrade()) return;
+                    if (image.isConnected) {
+                        image.src = targetSource;
+                        image.dataset.progressiveStage = stage;
+                        image.classList.toggle('is-medium-quality', stage === 'medium');
+                        if (stage === 'full') markProgressiveImageComplete(image);
+                        else window.setTimeout(() => upgradeProgressiveImage(image), getProgressiveStageDelay());
+                    }
                 };
-                preloader.onerror = () => {
-                    image.removeAttribute('data-upgrading');
-                    finishUpgrade();
+
+                const abandonUpgrade = () => {
+                    if (!releaseUpgrade()) return;
+                    if (image.isConnected) markProgressiveImageComplete(image);
                 };
-                image.__progressivePreloader = preloader;
-                preloader.src = targetSource;
+
+                const preloadTargetStage = () => {
+                    if (settled || !image.isConnected) {
+                        abandonUpgrade();
+                        return;
+                    }
+
+                    targetImage = new Image();
+                    targetImage.decoding = 'async';
+                    targetImage.fetchPriority = stage === 'medium' ? 'high' : 'auto';
+                    targetImage.addEventListener('error', abandonUpgrade, { once: true });
+                    targetImage.src = targetSource;
+                    renderCheckId = window.setInterval(() => {
+                        if (!image.isConnected) abandonUpgrade();
+                        else if (targetImage.naturalWidth > 0) promoteStage();
+                    }, 100);
+                    if (targetImage.naturalWidth > 0) promoteStage();
+                };
+
+                const currentStageIsVisible = () => {
+                    if (stage === 'medium') return image.naturalWidth > 0;
+                    return image.naturalWidth >= PROGRESSIVE_MEDIUM_WIDTH;
+                };
+
+                if (currentStageIsVisible()) preloadTargetStage();
+                else {
+                    renderCheckId = window.setInterval(() => {
+                        if (!image.isConnected) abandonUpgrade();
+                        else if (currentStageIsVisible()) {
+                            window.clearInterval(renderCheckId);
+                            renderCheckId = 0;
+                            preloadTargetStage();
+                        }
+                    }, 100);
+                }
             }
         }
 
         function upgradeProgressiveImage(image) {
-            if (!image || image.dataset.upgrading || image.classList.contains('is-full-quality')) return;
-            const targetSource = getPreferredProgressiveSource(image);
-            if (!targetSource || targetSource === image.currentSrc || targetSource === image.src) {
-                image.classList.add('is-full-quality');
-                return;
-            }
+            if (!image || image.dataset.upgrading || image.dataset.progressiveComplete === 'true') return;
+            const nextStage = getNextProgressiveStage(image);
+            if (!nextStage) return;
 
-            image.dataset.upgrading = 'queued';
-            progressiveUpgradeQueue.push(image);
+            image.dataset.upgrading = `queued-${nextStage.name}`;
+            progressiveUpgradeQueue.push({ image, stage: nextStage.name, source: nextStage.source });
             runProgressiveUpgradeQueue();
         }
 
@@ -1363,7 +1455,7 @@
                         progressiveImageObserver.unobserve(entry.target);
                         upgradeProgressiveImage(entry.target);
                     });
-                }, { rootMargin: '320px 0px', threshold: 0.01 });
+                }, { rootMargin: '240px 0px', threshold: 0.01 });
             }
 
             images.forEach(image => {
@@ -1371,12 +1463,17 @@
                 if (image.classList.contains('is-full-quality')) return;
 
                 const observeForUpgrade = () => {
+                    if (!image.isConnected || image.dataset.progressiveObserved === 'true') return;
+                    image.dataset.progressiveObserved = 'true';
                     if (progressiveImageObserver) progressiveImageObserver.observe(image);
                     else upgradeProgressiveImage(image);
                 };
 
                 if (image.complete && image.naturalWidth > 0) observeForUpgrade();
-                else image.addEventListener('load', observeForUpgrade, { once: true });
+                else {
+                    image.addEventListener('load', observeForUpgrade, { once: true });
+                    window.setTimeout(observeForUpgrade, 500);
+                }
             });
         }
 
@@ -1751,10 +1848,11 @@
             const imageSources = getProgressiveImageSources(item, wide);
             const isProgressive = imageSources.low !== imageSources.full;
             const priority = options.priority === true;
+            const eager = options.eager === true || priority;
             return `
                 <a class="wallpaper-card ${orientationClass}" data-id="${escapeHtml(item.id)}" data-panel-only="${opensPanelOnly(item) ? 'true' : 'false'}" href="${escapeHtml(getWallpaperPageUrl(item))}" style="--wallpaper-aspect: ${escapeHtml(aspect)}">
                     <div class="wallpaper-thumb">
-                        <img class="progressive-image${isProgressive ? '' : ' is-full-quality'}" src="${escapeHtml(imageSources.low)}" data-medium-src="${escapeHtml(imageSources.medium)}" data-full-src="${escapeHtml(imageSources.full)}" alt="${escapeHtml(item.title)}" loading="${priority ? 'eager' : 'lazy'}" fetchpriority="${priority ? 'high' : 'low'}" decoding="async">
+                        <img class="progressive-image${isProgressive ? '' : ' is-full-quality'}" src="${escapeHtml(imageSources.low)}" data-progressive-stage="low" data-medium-src="${escapeHtml(imageSources.medium)}" data-full-src="${escapeHtml(imageSources.full)}" alt="${escapeHtml(item.title)}" loading="${eager ? 'eager' : 'lazy'}" fetchpriority="${priority ? 'high' : 'auto'}" decoding="async">
                         <span class="wallpaper-hd-badge">HD</span>
                         <span class="wallpaper-save-chip" role="button" tabindex="0" data-save-wallpaper data-wallpaper-id="${escapeHtml(item.id)}" data-wallpaper-title="${escapeHtml(item.title)}" data-wallpaper-image="${escapeHtml(imageSources.full)}" data-wallpaper-url="${escapeHtml(getWallpaperPageUrl(item))}" data-wallpaper-category="${escapeHtml(getItemTypes(item).map(getCategoryLabel).join(', '))}" aria-pressed="false" aria-label="Save wallpaper"></span>
                         ${isPremiumWallpaper(item) ? crownIconMarkup() : ''}
@@ -1859,7 +1957,7 @@
 
             const start = renderedWallpaperCount;
             const end = Math.min(start + count, filteredWallpaperItems.length);
-            const priorityLimit = prioritizeFirstImages ? Math.min(12, end - start) : 0;
+            const priorityLimit = prioritizeFirstImages ? Math.min(8, end - start) : 0;
             const markup = filteredWallpaperItems.slice(start, end)
                 .map((item, index) => getWallpaperCardMarkup(item, {
                     priority: index < priorityLimit
