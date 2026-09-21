@@ -2,7 +2,7 @@ import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 import { isPremiumUser } from "./premium-access.js?v=20260718-premium-gate";
-import { PADDLE_CONFIG, PRICING_TIERS } from "./paddle-config.js?v=20260718-yearly-savings";
+import { PADDLE_CONFIG, PRICING_TIERS } from "./paddle-config.js?v=20260920-plan-benefits";
 
 const statusBox = document.querySelector("#premiumStatus");
 const message = document.querySelector("#premiumMessage");
@@ -109,7 +109,7 @@ function renderPricing() {
     const disabled = checkoutDisabled() ? " disabled" : "";
     const buttonText = isPremiumMember ? "Active Plan" : "Subscribe";
     const badge = tier.featured ? '<div class="pmw-recommend-badge">Best Value</div>' : "";
-    const features = tier.features.map((feature) => `<li><span>OK</span>${feature}</li>`).join("");
+    const features = tier.features.map((feature) => `<li><span aria-hidden="true">&#10003;</span>${feature}</li>`).join("");
 
     return `
       <article class="pmw-plan-card${highlight}" data-tier="${tier.name}">

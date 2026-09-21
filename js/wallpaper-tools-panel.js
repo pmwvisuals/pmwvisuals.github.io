@@ -39,7 +39,9 @@
   document.querySelector('.download-btn')?.classList.add('pmw-command-primary');
   document.querySelector('.secondary-link')?.classList.add('pmw-command-secondary');
   const title = document.querySelector('h1')?.textContent?.trim() || 'PMW Wallpaper';
-  const image = document.querySelector('.preview-card img')?.getAttribute('src') || '';
+  const image = window.wallpaperDownloadItem?.image
+    || document.querySelector('.preview-card img')?.getAttribute('src')
+    || '';
   const toolImage = image
     .replace('/q_auto,f_auto/', '/q_auto/')
     .replace(/\/c_fill,g_auto,w_\d+,h_\d+,q_auto,f_auto\//, '/q_auto/');

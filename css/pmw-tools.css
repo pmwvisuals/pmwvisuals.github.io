@@ -103,7 +103,7 @@ a { color: inherit; text-decoration: none; }
   max-width: 740px;
   margin: 20px 0 18px;
   font-family: "Space Grotesk", Inter, sans-serif;
-  font-size: clamp(3.6rem, 8vw, 7rem);
+  font-size: clamp(3.2rem, 7vw, 5.8rem);
   line-height: .9;
   letter-spacing: 0;
 }
@@ -201,7 +201,7 @@ a { color: inherit; text-decoration: none; }
 
 .tool-workspace { padding: 82px 0 110px; }
 .tool-header { max-width: 880px; margin-bottom: 28px; }
-.tool-header h1 { margin: 18px 0 14px; font-family: "Space Grotesk", sans-serif; font-size: clamp(3rem, 7vw, 6rem); line-height: .9; }
+.tool-header h1 { margin: 18px 0 14px; font-family: "Space Grotesk", sans-serif; font-size: clamp(2.8rem, 6vw, 5rem); line-height: .94; }
 .tool-header p { margin: 0; color: var(--muted); font-size: 1rem; line-height: 1.75; }
 .tool-tabs {
   display: inline-flex;
@@ -847,7 +847,7 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 560px) {
   .tools-shell { width: min(100% - 28px, 1280px); }
   .tools-nav-link { padding: 0 11px; font-size: .78rem; }
-  .tools-hero h1, .tool-header h1 { font-size: clamp(3rem, 15vw, 4.6rem); }
+  .tools-hero h1, .tool-header h1 { font-size: clamp(2.35rem, 11vw, 2.9rem); line-height: 1; }
   .tools-mini-grid, .tool-row { grid-template-columns: 1fr; }
   .tool-action-row { grid-template-columns: 1fr; }
   .preset-grid, .quality-preset-grid, .compress-estimate dl { grid-template-columns: 1fr; }

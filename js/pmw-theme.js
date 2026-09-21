@@ -1,6 +1,18 @@
 (function () {
   "use strict";
 
+  if (/\/wallpapers\//i.test(window.location.pathname)) {
+    const googleImagesPreconnect = document.createElement("link");
+    googleImagesPreconnect.rel = "preconnect";
+    googleImagesPreconnect.href = "https://lh3.googleusercontent.com";
+    googleImagesPreconnect.crossOrigin = "anonymous";
+    document.head.appendChild(googleImagesPreconnect);
+
+    const progressiveImages = document.createElement("script");
+    progressiveImages.src = new URL("progressive-wallpaper-images.js", document.currentScript.src).href;
+    document.head.appendChild(progressiveImages);
+  }
+
   const STORAGE_KEY = "pmw_theme_preference";
   const DARK_COLOR = "#050505";
   const LIGHT_COLOR = "#f5f7fb";

@@ -1148,7 +1148,17 @@
             .assets-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; padding: 0 16px 60px; }
             .section-header { padding: 100px 16px 36px; }
             .asset-info { padding: 14px; }
-            .asset-title { font-size: 0.875rem; }
+            .section-title { font-size: clamp(1.9rem, 9vw, 2.35rem); line-height: 1.05; }
+            .asset-title {
+                min-height: 2.7em;
+                font-size: 0.875rem;
+                line-height: 1.35;
+                white-space: normal;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                overflow: hidden;
+            }
             .asset-desc { display: none; }
             .asset-meta { flex-direction: column; gap: 10px; align-items: flex-start; } .asset-meta .download-btn { margin-left: 0; }
             .editz-grid { grid-template-columns: 1fr; }
@@ -2043,7 +2053,6 @@
             <div class="nav-links">
                 <button class="nav-link active" data-section="studio" onclick="navigateTo('studio')"><span>PMW Studio</span></button>
                 <button class="nav-link" onclick="window.location.href='/'"><span>PMW Wallpapers</span></button>
-                <button class="nav-link" onclick="window.location.href='pmw-desktop-wallpapers.html'"><span>Desktop Wallpapers</span></button>
                 <button class="nav-link" onclick="window.location.href='tools/'"><span>PMW Tools</span></button>
             </div>
                 <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
@@ -2059,7 +2068,6 @@
     <div class="mobile-menu" id="mobileMenu">
         <button class="nav-link" onclick="navigateTo('studio'); toggleMobileMenu();">PMW Studio</button>
         <button class="nav-link" onclick="window.location.href='/';">PMW Wallpapers</button>
-        <button class="nav-link" onclick="window.location.href='pmw-desktop-wallpapers.html';">Desktop Wallpapers</button>
         <button class="nav-link" onclick="window.location.href='tools/';">PMW Tools</button>
     </div>
 

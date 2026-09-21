@@ -21,14 +21,19 @@ export const PADDLE_CONFIG = {
 export const PRICING_TIERS = [
   {
     name: "Pro",
-    description: "A simple paid plan for more downloads and everyday creative tools.",
+    description: "For everyday wallpaper downloads and moderate image-tool use.",
     featured: false,
     features: [
-      "HD wallpaper downloads",
-      "More daily conversions",
-      "Access to pro premium releases",
-      "Personal use license",
-      "Cancel anytime"
+      "Full-resolution wallpaper downloads",
+      "Premium wallpaper collection access",
+      "50 image compressions per day",
+      "20 image resizes per day",
+      "Unlimited image, video and audio conversions",
+      "Batch image compression",
+      "Batch image resizing",
+      "Large image processing above free limits",
+      "Image and audio metadata removal",
+      "Private on-device file processing"
     ],
     priceId: PADDLE_CONFIG.prices.Pro,
     yearlyValue: {
@@ -39,14 +44,19 @@ export const PRICING_TIERS = [
   },
   {
     name: "Advance",
-    description: "The best choice for regular PMW Visuals users and creators.",
+    description: "For regular creators who need unlimited resizing and higher compression limits.",
     featured: true,
     features: [
-      "High-resolution wallpaper downloads",
-      "Premium wallpaper collections",
-      "Unlimited converter access",
-      "No ads on premium areas",
-      "Monthly wallpaper requests"
+      "Full-resolution wallpaper downloads",
+      "Premium wallpaper collection access",
+      "100 image compressions per day",
+      "Unlimited image resizing",
+      "Unlimited image, video and audio conversions",
+      "Batch image compression",
+      "Batch image resizing",
+      "Large image processing above free limits",
+      "Image and audio metadata removal",
+      "Private on-device file processing"
     ],
     priceId: PADDLE_CONFIG.prices.Advance,
     yearlyValue: {
@@ -57,14 +67,19 @@ export const PRICING_TIERS = [
   },
   {
     name: "Elite",
-    description: "Built for heavier creative use, client work, and commercial projects.",
+    description: "For heavy workflows that need unlimited access across PMW's media and image tools.",
     featured: false,
     features: [
-      "Original quality downloads",
-      "Commercial use license",
-      "All premium wallpaper collections",
-      "Video asset access",
-      "Priority support"
+      "Full-resolution wallpaper downloads",
+      "Premium wallpaper collection access",
+      "Unlimited image compression",
+      "Unlimited image resizing",
+      "Unlimited image, video and audio conversions",
+      "Batch image compression",
+      "Batch image resizing",
+      "Large image processing above free limits",
+      "Image and audio metadata removal",
+      "Private on-device file processing"
     ],
     priceId: PADDLE_CONFIG.prices.Elite,
     yearlyValue: {

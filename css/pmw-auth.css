@@ -581,7 +581,7 @@ a {
 .pmw-pricing-head h1 {
   margin: 12px 0 18px;
   color: #fff;
-  font-size: clamp(2.2rem, 4vw, 4.35rem);
+  font-size: clamp(2.1rem, 3.6vw, 3.85rem);
   line-height: 0.98;
   letter-spacing: 0;
 }
@@ -1672,7 +1672,7 @@ a {
   }
 
   .pmw-profile-hero h1 {
-    font-size: 2.15rem;
+    font-size: 1.95rem;
   }
 
   .pmw-dashboard-stats,
@@ -1739,7 +1739,12 @@ a {
   }
 
   .pmw-hero-card h1 {
-    font-size: 2.45rem;
+    font-size: 2.15rem;
+  }
+
+  .pmw-pricing-head h1 {
+    font-size: 2rem;
+    line-height: 1.05;
   }
 
   .pmw-stats,
@@ -1773,6 +1778,12 @@ a {
     padding: 24px;
     display: flex;
     flex-direction: column;
+  }
+
+  .pmw-plan-card.featured .pmw-recommend-badge {
+    top: 26px;
+    left: 24px;
+    transform: none;
   }
 
   .pmw-card-toggle {
@@ -2116,6 +2127,11 @@ body.pmw-auth-page::before {
   .pmw-form-card,
   .pmw-hero-card {
     padding: 22px;
+  }
+
+  .pmw-hero-card h1 {
+    font-size: 2.15rem;
+    line-height: 1.02;
   }
 }
 

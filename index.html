@@ -198,6 +198,8 @@
             color: var(--text-primary);
             background: rgba(255,255,255,0.06);
         }
+        .mobile-site-menu-toggle,
+        .mobile-site-menu { display: none; }
 
         .page {
             position: relative;
@@ -576,6 +578,8 @@
             display: block;
             object-fit: cover;
             transition: filter 0.45s ease, opacity 0.45s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            color: transparent;
+            font-size: 0;
         }
         .wallpaper-thumb img.progressive-image:not(.is-full-quality) {
             opacity: 1;
@@ -878,12 +882,62 @@
         }
         @media (max-width: 768px) {
             .page { padding: 104px 16px 56px; }
-            .nav-inner { grid-template-columns: 1fr; }
+            .nav-inner { grid-template-columns: 1fr auto; padding-right: 68px; }
             .nav-logo { justify-self: start; }
             .nav-links, .nav-actions { display: none; }
+            .mobile-site-menu-toggle {
+                position: fixed;
+                top: 18px;
+                right: 70px;
+                z-index: 5201;
+                width: 44px;
+                height: 44px;
+                display: grid;
+                place-items: center;
+                border: 1px solid rgba(255,255,255,0.16);
+                border-radius: 999px;
+                color: var(--text-primary);
+                background: rgba(10,10,10,0.78);
+                box-shadow: 0 12px 34px rgba(0,0,0,0.38);
+                backdrop-filter: blur(18px);
+                cursor: pointer;
+            }
+            .mobile-site-menu-toggle svg { width: 19px; height: 19px; }
+            .mobile-site-menu {
+                position: fixed;
+                top: 72px;
+                left: 16px;
+                right: 16px;
+                z-index: 5200;
+                display: grid;
+                gap: 6px;
+                padding: 10px;
+                border: 1px solid rgba(255,255,255,0.12);
+                border-radius: 20px;
+                background: rgba(8,8,8,0.96);
+                box-shadow: 0 24px 70px rgba(0,0,0,0.55);
+                backdrop-filter: blur(22px);
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-8px);
+                transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+            }
+            .mobile-site-menu.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
+            .mobile-site-menu a {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                padding: 0 14px;
+                border-radius: 13px;
+                color: var(--text-secondary);
+                text-decoration: none;
+                font-size: .9rem;
+                font-weight: 750;
+            }
+            .mobile-site-menu a[aria-current="page"] { color: var(--text-primary); background: rgba(255,255,255,.08); }
             .wallpaper-hero { padding: 26px 18px; border-radius: 18px; }
             .wallpaper-hero-content { text-align: left; }
-            .section-title { white-space: normal; font-size: clamp(2.35rem, 14vw, 4.2rem); }
+            .section-title { white-space: normal; font-size: clamp(2.35rem, 11.5vw, 2.9rem); line-height: 1; }
             .section-subtitle { margin-left: 0; margin-right: 0; }
             .search-box { margin-top: 22px; border-radius: 18px; }
             .search-box input { padding: 16px 0; }
@@ -945,12 +999,20 @@
             <div class="nav-links">
                 <button class="nav-link" onclick="window.location.href='pmw-studio.html'">PMW Studio</button>
                 <button class="nav-link active">PMW Wallpapers</button>
-                <button class="nav-link" onclick="window.location.href='/?device=desktop#latest-wallpapers'">Desktop Wallpapers</button>
                 <button class="nav-link" onclick="window.location.href='tools/'">PMW Tools</button>
             </div>
             <div class="nav-actions" aria-hidden="true"></div>
         </div>
     </nav>
+    <button class="mobile-site-menu-toggle" id="mobileSiteMenuToggle" type="button" aria-expanded="false" aria-controls="mobileSiteMenu" aria-label="Open site menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+    </button>
+    <div class="mobile-site-menu" id="mobileSiteMenu">
+        <a href="/" aria-current="page">PMW Wallpapers</a>
+        <a href="pmw-studio.html">PMW Studio</a>
+        <a href="tools/">PMW Tools</a>
+        <a href="premium.html">Premium</a>
+    </div>
 
     <main class="page">
         <div class="page-inner">
@@ -1248,6 +1310,22 @@
             }
         }
 
+        function getGoogleDriveImageId(source) {
+            try {
+                const url = new URL(source, window.location.href);
+                if (url.hostname === 'drive.google.com' && url.pathname === '/thumbnail') {
+                    return String(url.searchParams.get('id') || '').trim();
+                }
+                if (url.hostname === 'lh3.googleusercontent.com') {
+                    const match = url.pathname.match(/\/d\/([^/=]+)(?:=|\/|$)/);
+                    return match ? decodeURIComponent(match[1]) : '';
+                }
+            } catch (error) {
+                return '';
+            }
+            return '';
+        }
+
         function getCloudinaryImageVariant(source, width, wide, quality = 'auto:low') {
             const marker = '/image/upload/';
             const markerIndex = source.indexOf(marker);
@@ -1274,8 +1352,12 @@
 
         function getProgressiveImageSources(item, wide) {
             const source = item.thumbnail || item.preview || item.imageUrl;
+            const displaySource = getDisplayImageUrl(source);
+            const googleDriveId = getGoogleDriveImageId(displaySource);
             return {
-                low: getProgressiveImageVariant(source, PROGRESSIVE_LOW_WIDTH, wide, 'auto:low'),
+                low: googleDriveId
+                    ? `/thumbnails/google-drive/${encodeURIComponent(googleDriveId)}.webp`
+                    : getProgressiveImageVariant(source, PROGRESSIVE_LOW_WIDTH, wide, 'auto:low'),
                 medium: getProgressiveImageVariant(source, PROGRESSIVE_MEDIUM_WIDTH, wide, 'auto:eco'),
                 full: getProgressiveImageVariant(source, PROGRESSIVE_HIGH_WIDTH, wide, 'auto:good')
             };
@@ -2189,6 +2271,23 @@
         window.addEventListener('scroll', () => {
             document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
             rearmWallpaperFeedAfterScroll();
+        });
+
+        const mobileSiteMenuToggle = document.getElementById('mobileSiteMenuToggle');
+        const mobileSiteMenu = document.getElementById('mobileSiteMenu');
+        function closeMobileSiteMenu() {
+            mobileSiteMenu.classList.remove('is-open');
+            mobileSiteMenuToggle.setAttribute('aria-expanded', 'false');
+        }
+        mobileSiteMenuToggle.addEventListener('click', event => {
+            event.stopPropagation();
+            const open = mobileSiteMenu.classList.toggle('is-open');
+            mobileSiteMenuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        mobileSiteMenu.addEventListener('click', event => event.stopPropagation());
+        document.addEventListener('click', closeMobileSiteMenu);
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') closeMobileSiteMenu();
         });
 
         function setActiveCategoryFromAvailable() {
