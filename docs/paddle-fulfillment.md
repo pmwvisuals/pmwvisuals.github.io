@@ -1,5 +1,7 @@
 # Paddle Fulfillment Setup
 
+> Superseded for the Firebase Spark migration. Follow [the current Spark migration guide](spark-migration.md) instead. The Cloud Function endpoints below are historical.
+
 This site uses Firebase Authentication, Firestore, and Firebase Cloud Functions to mirror Paddle subscription state.
 
 ## Function Endpoints

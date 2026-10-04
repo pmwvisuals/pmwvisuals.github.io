@@ -1,6 +1,4 @@
 const CACHE_TTL_MS = 10 * 60 * 1000;
-const FUNCTIONS_BASE_URL = window.PMW_FUNCTIONS_BASE_URL
-  || "https://us-central1-pmw-visuals-b14e8.cloudfunctions.net";
 
 function normalizeText(value) {
   return String(value || "").trim();
@@ -70,10 +68,26 @@ function buildResolution(item) {
   return item.resolution || (width && height ? `${width}x${height}` : "Mobile");
 }
 
+function cloudinaryVariant(url, transformation) {
+  const marker = "/image/upload/";
+  const markerIndex = url.indexOf(marker);
+  if (markerIndex < 0) return url;
+  const prefix = url.slice(0, markerIndex + marker.length);
+  const suffix = url.slice(markerIndex + marker.length)
+    .replace(/^(?:[a-z][a-z0-9_:-]*(?:,[a-z0-9_:.()-]+)*\/)+(?=v\d+\/)/i, "");
+  return `${prefix}${transformation}/${suffix}`;
+}
+
+function directDownloadUrl(url) {
+  const marker = "/image/upload/";
+  const markerIndex = url.indexOf(marker);
+  if (markerIndex < 0 || url.includes("/fl_attachment")) return url;
+  return `${url.slice(0, markerIndex + marker.length)}fl_attachment:pmw-wallpaper/${url.slice(markerIndex + marker.length)}`;
+}
+
 function normalizeWallpaper(id, item, source) {
-  const imageUrl = source === "static"
-    ? normalizeText(item.imageUrl || item.preview || item.download || item.thumbnail)
-    : "";
+  const imageUrl = normalizeText(item.imageUrl || item.download || item.image || item.previewUrl || item.preview || item.thumbnail);
+  const previewUrl = normalizeDisplayUrl(item.previewUrl || item.preview || imageUrl);
   const types = cleanTypes(item);
   const access = normalizeAccess(item.access || (item.premium || item.isPremium ? "premium" : "free"));
   const tags = cleanList([item.hashtags || [], item.tags || []]).map((tag) => tag.toLowerCase());
@@ -84,9 +98,7 @@ function normalizeWallpaper(id, item, source) {
     title: normalizeText(item.title),
     description: normalizeText(item.description),
     imageUrl,
-    cloudinaryPublicId: source === "static"
-      ? normalizeText(item.cloudinaryPublicId || item.public_id || item.publicId)
-      : "",
+    cloudinaryPublicId: normalizeText(item.cloudinaryPublicId || item.public_id || item.publicId),
     types,
     category: types[0] || normalizeText(item.category) || "Wallpapers",
     tags,
@@ -97,11 +109,13 @@ function normalizeWallpaper(id, item, source) {
     height: Number(item.height) || 0,
     resolution: buildResolution(item),
     format: normalizeText(item.format).toUpperCase() || "Image",
-    thumbnail: normalizeDisplayUrl(item.thumbnail || item.preview || imageUrl),
-    preview: normalizeDisplayUrl(item.preview || item.thumbnail || imageUrl),
-    download: source === "static"
-      ? normalizeText(item.download) || imageUrl
-      : "",
+    thumbnail: source === "firestore"
+      ? cloudinaryVariant(previewUrl, "c_limit,w_640,q_68,f_auto")
+      : normalizeDisplayUrl(item.thumbnail || item.preview || imageUrl),
+    preview: source === "firestore"
+      ? cloudinaryVariant(previewUrl, "c_limit,w_1400,q_76,f_auto")
+      : normalizeDisplayUrl(item.preview || item.thumbnail || imageUrl),
+    download: normalizeText(item.download) || directDownloadUrl(imageUrl),
     source
   };
 }
@@ -113,7 +127,7 @@ function staticFallbackWallpapers(fallback, access) {
 }
 
 function cacheKey(access) {
-  return `pmw:wallpapers:${access}:v2`;
+  return `pmw:wallpapers:${access}:spark-v1`;
 }
 
 function readCache(access) {
@@ -139,22 +153,17 @@ function writeCache(access, items) {
   }
 }
 
-async function fetchProtectedWallpapers(access) {
+async function fetchFirestoreWallpapers(access) {
   const cached = readCache(access);
   if (cached) return cached;
 
-  const response = await fetch(`${FUNCTIONS_BASE_URL}/listWallpapers`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ access })
-  });
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new Error(payload.error || "Unable to load protected wallpaper metadata");
-  }
-
-  const items = (Array.isArray(payload.items) ? payload.items : [])
-    .map((item) => normalizeWallpaper(item.id, item, "protected"))
+  const [{ db }, { collection, getDocs, query, where }] = await Promise.all([
+    import("./firebase.js"),
+    import("https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js")
+  ]);
+  const snapshot = await getDocs(query(collection(db, "wallpapers"), where("visible", "==", true)));
+  const items = snapshot.docs
+    .map((document) => normalizeWallpaper(document.id, document.data(), "firestore"))
     .filter((item) => item.visible && item.access === access);
 
   writeCache(access, items);
@@ -174,11 +183,11 @@ export async function loadVisibleWallpapers({ access = "free", fallback = [], al
   }
 
   try {
-    const protectedItems = await fetchProtectedWallpapers(normalizedAccess);
-    if (protectedItems.length || !allowFallback) {
+    const firestoreItems = await fetchFirestoreWallpapers(normalizedAccess);
+    if (firestoreItems.length || !allowFallback) {
       return {
-        items: protectedItems,
-        source: "protected",
+        items: firestoreItems,
+        source: "firestore",
         error: null
       };
     }

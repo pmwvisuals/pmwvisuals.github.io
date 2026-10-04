@@ -35,7 +35,15 @@ service cloud.firestore {
     }
 
     function isPremium() {
-      return hasPremiumClaim() || hasPremiumAccountDoc();
+      // Paddle's current status takes precedence over any legacy role or
+      // custom claim, which may outlive a canceled subscription.
+      return signedIn()
+        && (
+          exists(/databases/$(database)/documents/users/$(request.auth.uid))
+          && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.keys().hasAny(['paddleSubscriptionStatus'])
+          ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.paddleSubscriptionStatus in ['active', 'trialing']
+          : hasPremiumClaim() || hasPremiumAccountDoc()
+        );
     }
 
     function isValidDeviceTypes() {
@@ -80,12 +88,15 @@ service cloud.firestore {
         && request.resource.data.description is string
         && request.resource.data.imageUrl is string
         && request.resource.data.imageUrl.size() > 0
-        && request.resource.data.imageUrl.matches('https://res\\.cloudinary\\.com/.*')
+        && request.resource.data.imageUrl.matches('https://.*')
         && (
           !request.resource.data.keys().hasAny(['previewUrl'])
           || (
             request.resource.data.previewUrl is string
-            && request.resource.data.previewUrl.matches('https://res\\.cloudinary\\.com/.*')
+            && (
+              request.resource.data.previewUrl == ''
+              || request.resource.data.previewUrl.matches('https://.*')
+            )
           )
         )
         && request.resource.data.cloudinaryPublicId is string
@@ -176,9 +187,9 @@ service cloud.firestore {
     }
 
     match /wallpapers/{wallpaperId} {
-      // Public pages use sanitized Cloud Functions responses. Original Cloudinary
-      // delivery fields remain visible only to administrators.
-      allow read: if isAdmin();
+      // Visible catalog records can be read directly on Spark. Their image
+      // URLs are public because the site uses direct wallpaper downloads.
+      allow get, list: if canReadWallpaper();
       allow create: if isAdmin()
         && isValidWallpaper()
         && request.resource.data.createdAt == request.time

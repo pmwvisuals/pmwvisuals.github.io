@@ -1,6 +1,6 @@
 import { auth } from "./firebase.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-import { isPremiumUser } from "./premium-access.js";
+import { isPremiumUser } from "./premium-access.js?v=20261001-spark";
 import { getSavedWallpapers } from "./saved-wallpapers.js";
 
 const nameEl = document.querySelector("#accountName");
@@ -16,7 +16,7 @@ const accountPlanSummary = document.querySelector("#accountPlanSummary");
 const accountEmailSummary = document.querySelector("#accountEmailSummary");
 const memberSince = document.querySelector("#memberSince");
 
-const BILLING_PORTAL_LABEL = "Manage or Cancel Subscription";
+const BILLING_PORTAL_LABEL = "How to Manage Billing";
 const savedWallpapersCount = document.querySelector("#savedWallpapersCount");
 const savedWallpaperPreviewStrip = document.querySelector("#savedWallpaperPreviewStrip");
 const downloadedWallpapersCount = document.querySelector("#downloadedWallpapersCount");
@@ -28,8 +28,6 @@ const themePreferenceLabel = document.querySelector("#themePreferenceLabel");
 const themeModeIcon = document.querySelector("#themeModeIcon");
 const DOWNLOAD_STORAGE_KEY = "pmw_download_events_v1";
 const VIEW_STORAGE_KEY = "pmw_view_events_v1";
-const FUNCTIONS_BASE_URL =
-  window.PMW_FUNCTIONS_BASE_URL || "https://us-central1-pmw-visuals-b14e8.cloudfunctions.net";
 
 const setText = (element, value) => {
   if (element) {
@@ -174,7 +172,7 @@ onAuthStateChanged(auth, async (user) => {
     billingPortalBtn.dataset.defaultLabel = BILLING_PORTAL_LABEL;
     setText(
       billingPortalCopy,
-      "Manage your subscription, cancel your plan, update payment details, or view invoices through the secure Paddle customer portal."
+      "Paddle emails you a receipt with a customer portal link. Open that email to manage your subscription, update payment details, view invoices, or cancel."
     );
   } else {
     premiumAction.textContent = "Go Premium";
@@ -203,38 +201,6 @@ logoutBtn.addEventListener("click", async () => {
   window.location.href = "login.html";
 });
 
-billingPortalBtn.addEventListener("click", async () => {
-  const user = auth.currentUser;
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
-
-  billingPortalBtn.disabled = true;
-  billingPortalBtn.dataset.defaultLabel = billingPortalBtn.textContent;
-  billingPortalBtn.textContent = "Opening...";
-  msg.textContent = "Opening secure Paddle billing portal...";
-
-  try {
-    const token = await user.getIdToken();
-    const response = await fetch(`${FUNCTIONS_BASE_URL}/createPaddlePortalSession`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-    const payload = await response.json().catch(() => ({}));
-
-    if (!response.ok || !payload.url) {
-      throw new Error(payload.error || "Unable to open billing portal.");
-    }
-
-    window.location.href = payload.url;
-  } catch (error) {
-    console.error(error);
-    msg.textContent = error.message || "Unable to open billing portal.";
-    billingPortalBtn.disabled = false;
-    billingPortalBtn.textContent = billingPortalBtn.dataset.defaultLabel || BILLING_PORTAL_LABEL;
-  }
+billingPortalBtn.addEventListener("click", () => {
+  msg.textContent = "Search your inbox for your Paddle or PMW Visuals receipt, then use its customer portal link to manage or cancel the subscription. Check the email used at checkout.";
 });

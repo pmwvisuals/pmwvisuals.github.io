@@ -2,7 +2,7 @@ import {
   navigateForDownloadError,
   requestWallpaperDownload,
   requestWallpaperMetadata
-} from "./secure-wallpaper-download.js";
+} from "./secure-wallpaper-download.js?v=20261001-spark";
 
 const root = document.querySelector("[data-protected-wallpaper]");
 const preview = root?.querySelector(".preview-card");
@@ -61,7 +61,7 @@ downloadButton?.addEventListener("click", async () => {
   } catch (error) {
     if (!navigateForDownloadError(error)) {
       console.error("Wallpaper download failed.", error);
-      setDownloadState(error.message || "Download failed. Try again.", false);
+      setDownloadState("Download unavailable. Try again.", false);
       return;
     }
   }

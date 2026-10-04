@@ -9,6 +9,13 @@ const submitLabel = submitButton.textContent;
 const googleButton = document.querySelector("#googleSignIn");
 const googleLabel = googleButton.innerHTML;
 
+function afterLoginUrl() {
+  const requested = new URLSearchParams(window.location.search).get("returnUrl") || "";
+  if (!requested || requested.startsWith("//") || /^[a-z][a-z0-9+.-]*:/i.test(requested)) return "account.html";
+  const url = new URL(requested, window.location.origin);
+  return url.origin === window.location.origin ? `${url.pathname}${url.search}${url.hash}` : "account.html";
+}
+
 function recaptchaToken() {
   if (!window.grecaptcha || typeof window.grecaptcha.getResponse !== "function") return "";
   return window.grecaptcha.getResponse();
@@ -56,7 +63,7 @@ googleButton.addEventListener("click", async () => {
   try {
     await signInWithGoogle();
     setMessage("Signed in successfully.", "success");
-    setTimeout(() => window.location.href = "account.html", 600);
+    setTimeout(() => window.location.href = afterLoginUrl(), 600);
   } catch (error) {
     setMessage(friendlyGoogleError(error), "error");
     googleButton.disabled = false;
@@ -82,7 +89,7 @@ form.addEventListener("submit", async (e) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
     setMessage("Signed in successfully.", "success");
-    setTimeout(() => window.location.href = "account.html", 600);
+    setTimeout(() => window.location.href = afterLoginUrl(), 600);
   } catch (error) {
     setMessage(friendlyLoginError(error), "error");
     submitButton.disabled = false;

@@ -2,6 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
 
+throw new Error("Retired after the Firebase Spark migration: wallpaper pages now use direct links. Do not rewrite them to Cloud Function URLs.");
+
 const root = path.resolve(import.meta.dirname, "..");
 const functionsBase = "https://us-central1-pmw-visuals-b14e8.cloudfunctions.net";
 const mappingSource = fs.readFileSync(path.join(root, "wallpaper-pages.js"), "utf8");

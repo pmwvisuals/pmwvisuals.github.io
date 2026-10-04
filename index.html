@@ -1181,6 +1181,7 @@
         let randomizedWallpapers = [];
         let freeWallpaperItems = [];
         let premiumWallpaperItems = [];
+        let premiumWallpaperLoadPromise = null;
         let desktopWallpaperItems = [];
         let filteredWallpaperItems = [];
         let renderedWallpaperCount = 0;
@@ -2194,6 +2195,9 @@
         accessFilterSelect.addEventListener('change', event => {
             activeAccess = event.target.value;
             renderWallpapers();
+            if (activeAccess === 'Premium') {
+                ensurePremiumWallpaperItems();
+            }
         });
 
         search.addEventListener('input', event => {
@@ -2244,16 +2248,16 @@
                     type: 'wallpaper'
                 });
             }
-            if ((selectedWallpaper.source === 'desktop-static' || selectedWallpaper.source === 'static') && selectedWallpaper.access !== 'premium') {
+            if (selectedWallpaper.download || selectedWallpaper.imageUrl) {
                 window.location.href = selectedWallpaper.download || selectedWallpaper.imageUrl;
                 return;
             }
             try {
-                const { requestWallpaperDownload, navigateForDownloadError } = await import('./js/secure-wallpaper-download.js');
+                const { requestWallpaperDownload, navigateForDownloadError } = await import('./js/secure-wallpaper-download.js?v=20261001-spark');
                 const downloadUrl = await requestWallpaperDownload(selectedWallpaper.id);
                 window.location.href = downloadUrl;
             } catch (error) {
-                const { navigateForDownloadError } = await import('./js/secure-wallpaper-download.js');
+                const { navigateForDownloadError } = await import('./js/secure-wallpaper-download.js?v=20261001-spark');
                 if (!navigateForDownloadError(error)) {
                     console.error('Unable to download wallpaper.', error);
                     panelDownload.textContent = error.message || 'Download failed. Try again.';
@@ -2307,10 +2311,36 @@
             updateCategorySeo(activeCategory);
         }
 
+        function ensurePremiumWallpaperItems() {
+            if (premiumWallpaperLoadPromise) return premiumWallpaperLoadPromise;
+
+            premiumWallpaperLoadPromise = import('./js/wallpaper-source.js?v=20261001-spark')
+                .then(({ loadVisibleWallpapers }) => loadVisibleWallpapers({
+                    access: 'premium',
+                    fallback: window.PMW_WALLPAPERS || [],
+                    allowFallback: true
+                }))
+                .then(premiumResult => {
+                    premiumWallpaperItems = premiumResult.items;
+                    rebuildWallpaperCatalog({ shuffle: false });
+                    renderFilters();
+                    renderWallpapers();
+                    if (premiumResult.error) {
+                        console.warn('Premium wallpaper loading used the static catalog.', premiumResult.error);
+                    }
+                })
+                .catch(error => {
+                    premiumWallpaperLoadPromise = null;
+                    console.warn('Premium wallpaper loading is temporarily unavailable.', error);
+                });
+
+            return premiumWallpaperLoadPromise;
+        }
+
         async function initializeWallpaperPage() {
             renderLoading();
             try {
-                const { loadVisibleWallpapers } = await import('./js/wallpaper-source.js?v=20260718-premium-meta');
+                const { loadVisibleWallpapers } = await import('./js/wallpaper-source.js?v=20261001-spark');
                 const freeResult = await loadVisibleWallpapers({
                     access: 'free',
                     fallback: window.PMW_WALLPAPERS || []
@@ -2329,29 +2359,14 @@
                 renderWallpapers();
 
                 if (freeResult.error) {
-                    console.warn('Firestore free wallpaper loading failed; static fallback was used.', freeResult.error);
+                    console.warn('Free wallpaper loading used the static catalog.', freeResult.error);
                 }
 
-                loadVisibleWallpapers({
-                    access: 'premium',
-                    fallback: window.PMW_WALLPAPERS || [],
-                    allowFallback: false
-                }).then(premiumResult => {
-                    premiumWallpaperItems = premiumResult.items;
-                    rebuildWallpaperCatalog({ shuffle: false });
-                    if (activeAccess === 'Premium') {
-                        renderWallpapers();
-                    } else {
-                        renderFilters();
-                    }
-                    if (premiumResult.error) {
-                        console.warn('Firestore premium wallpaper loading failed.', premiumResult.error);
-                    }
-                }).catch(error => {
-                    console.warn('Firestore premium wallpaper loading failed.', error);
-                });
+                if (activeAccess === 'Premium' || isPremiumMember) {
+                    ensurePremiumWallpaperItems();
+                }
             } catch (error) {
-                console.warn('Unable to initialize Firestore wallpaper loading; static fallback was used.', error);
+                console.warn('Wallpaper loading used the static catalog.', error);
                 freeWallpaperItems = (window.PMW_WALLPAPERS || [])
                     .filter(item => item.visible !== false && !isPremiumWallpaper(item))
                     .map(item => ({
@@ -2382,13 +2397,16 @@
                 const [{ auth }, { onAuthStateChanged }, { isPremiumUser }] = await Promise.all([
                     import('./js/firebase.js'),
                     import('https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js'),
-                    import('./js/premium-access.js?v=20260718-premium-gate')
+                    import('./js/premium-access.js?v=20261001-spark')
                 ]);
 
                 onAuthStateChanged(auth, async user => {
                     signedInUser = user;
                     isPremiumMember = user ? await isPremiumUser(user) : false;
                     authReady = true;
+                    if (isPremiumMember) {
+                        ensurePremiumWallpaperItems();
+                    }
                     if (selectedWallpaper) {
                         openPanel(selectedWallpaper.id);
                     }

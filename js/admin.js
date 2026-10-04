@@ -25,6 +25,7 @@ const form = document.querySelector("#addWallpaperForm");
 const titleInput = document.querySelector("#wallpaperTitle");
 const descriptionInput = document.querySelector("#wallpaperDescription");
 const imageUrlInput = document.querySelector("#wallpaperImageUrl");
+const previewUrlInput = document.querySelector("#wallpaperPreviewUrl");
 const publicIdInput = document.querySelector("#wallpaperPublicId");
 const hashtagsInput = document.querySelector("#wallpaperHashtags");
 const accessInput = document.querySelector("#wallpaperAccess");
@@ -54,6 +55,7 @@ const editId = document.querySelector("#editWallpaperId");
 const editTitleInput = document.querySelector("#editWallpaperTitle");
 const editDescriptionInput = document.querySelector("#editWallpaperDescription");
 const editImageUrlInput = document.querySelector("#editWallpaperImageUrl");
+const editPreviewUrlInput = document.querySelector("#editWallpaperPreviewUrl");
 const editPublicIdInput = document.querySelector("#editWallpaperPublicId");
 const editHashtagsInput = document.querySelector("#editWallpaperHashtags");
 const editAccessInput = document.querySelector("#editWallpaperAccess");
@@ -214,17 +216,17 @@ function parseHashtags(value) {
     });
 }
 
-function isCloudinaryUrl(value) {
+function isHttpsUrl(value) {
   try {
     const url = new URL(value);
-    return url.protocol === "https:" && url.hostname === "res.cloudinary.com";
+    return url.protocol === "https:" && Boolean(url.hostname);
   } catch (error) {
     return false;
   }
 }
 
 function updatePreview() {
-  const imageUrl = imageUrlInput.value.trim();
+  const imageUrl = previewUrlInput.value.trim() || imageUrlInput.value.trim();
   if (!imageUrl) {
     previewPanel.hidden = true;
     previewImage.removeAttribute("src");
@@ -252,6 +254,7 @@ function resetImageDetails() {
 
 function fillFromCloudinaryUpload(info) {
   imageUrlInput.value = info.secure_url || "";
+  previewUrlInput.value = info.secure_url || "";
   publicIdInput.value = info.public_id || "";
   imageDetails = {
     width: Number(info.width) || 0,
@@ -317,13 +320,15 @@ function initCloudinaryWidget() {
 function validateWallpaper() {
   const title = titleInput.value.trim();
   const imageUrl = imageUrlInput.value.trim();
+  const previewUrl = previewUrlInput.value.trim();
   const types = getSelectedTypes();
   const deviceTypes = getSelectedDeviceTypes();
   const access = accessInput.value;
 
   if (!title) return "Title is required.";
   if (!imageUrl) return "Image URL is required.";
-  if (!isCloudinaryUrl(imageUrl)) return "Image URL must be a secure Cloudinary URL.";
+  if (!isHttpsUrl(imageUrl)) return "Image URL must start with https://.";
+  if (previewUrl && !isHttpsUrl(previewUrl)) return "Preview URL must start with https://.";
   if (!types.length) return "Select at least one image type.";
   if (!deviceTypes.length) return "Select at least one wallpaper screen type.";
   if (!["free", "premium"].includes(access)) return "Choose a valid access level.";
@@ -336,6 +341,7 @@ function getWallpaperPayload() {
     title: titleInput.value.trim(),
     description: descriptionInput.value.trim(),
     imageUrl: imageUrlInput.value.trim(),
+    previewUrl: previewUrlInput.value.trim(),
     cloudinaryPublicId: publicIdInput.value.trim(),
     types: getSelectedTypes(),
     deviceTypes: getSelectedDeviceTypes(),
@@ -389,6 +395,7 @@ function normalizeWallpaper(docSnap) {
     title: String(data.title || ""),
     description: String(data.description || ""),
     imageUrl: String(data.imageUrl || ""),
+    previewUrl: String(data.previewUrl || ""),
     cloudinaryPublicId: String(data.cloudinaryPublicId || ""),
     types: Array.isArray(data.types) ? data.types.map(String) : [],
     deviceTypes: inferDeviceTypes(data),
@@ -426,6 +433,7 @@ function normalizeStaticDesktopWallpaper(item, index) {
     title: String(item.title || ""),
     description: String(item.description || ""),
     imageUrl,
+    previewUrl: String(item.preview || item.thumbnail || ""),
     cloudinaryCloudName: "nhxfoykh",
     cloudinaryPublicId: String(item.publicId || item.public_id || item.cloudinaryPublicId || ""),
     types: Array.from(new Set(types)),
@@ -469,6 +477,7 @@ function getFirestorePayloadFromWallpaper(wallpaper, access = wallpaper.access) 
     title: wallpaper.title.trim(),
     description: wallpaper.description.trim(),
     imageUrl: wallpaper.imageUrl.trim(),
+    previewUrl: wallpaper.previewUrl || "",
     cloudinaryCloudName: wallpaper.cloudinaryCloudName || "",
     cloudinaryPublicId: wallpaper.cloudinaryPublicId.trim(),
     types: wallpaper.types,
@@ -614,7 +623,7 @@ function createWallpaperItem(wallpaper) {
 
   const thumbnail = document.createElement("img");
   thumbnail.className = "admin-wallpaper-thumb";
-  thumbnail.src = wallpaper.imageUrl;
+  thumbnail.src = wallpaper.previewUrl || wallpaper.imageUrl;
   thumbnail.alt = "";
   thumbnail.loading = "lazy";
 
@@ -626,7 +635,7 @@ function createWallpaperItem(wallpaper) {
   publicId.className = "admin-wallpaper-meta";
   publicId.textContent = wallpaper.cloudinaryPublicId
     ? `Cloudinary: ${wallpaper.cloudinaryPublicId}`
-    : "Cloudinary public ID is empty";
+    : "Direct image URL";
   const docId = document.createElement("p");
   docId.className = "admin-wallpaper-id";
   docId.textContent = wallpaper.source === "static-desktop"
@@ -730,7 +739,7 @@ function findWallpaper(id) {
 }
 
 function updateEditPreview() {
-  const imageUrl = editImageUrlInput.value.trim();
+  const imageUrl = editPreviewUrlInput.value.trim() || editImageUrlInput.value.trim();
   if (!imageUrl) {
     editPreviewPanel.hidden = true;
     editPreviewImage.removeAttribute("src");
@@ -753,6 +762,7 @@ function openEditWallpaper(id) {
   editTitleInput.value = wallpaper.title;
   editDescriptionInput.value = wallpaper.description;
   editImageUrlInput.value = wallpaper.imageUrl;
+  editPreviewUrlInput.value = wallpaper.previewUrl || "";
   editPublicIdInput.value = wallpaper.cloudinaryPublicId;
   editHashtagsInput.value = wallpaper.hashtags.join(", ");
   editAccessInput.value = wallpaper.access;
@@ -777,6 +787,7 @@ function closeEditWallpaper() {
 function validateEditWallpaper() {
   const title = editTitleInput.value.trim();
   const imageUrl = editImageUrlInput.value.trim();
+  const previewUrl = editPreviewUrlInput.value.trim();
   const types = getSelectedTypes(editTypeList);
   const deviceTypes = getSelectedDeviceTypes(editDeviceTypeList);
   const access = editAccessInput.value;
@@ -784,7 +795,8 @@ function validateEditWallpaper() {
   if (!editingWallpaperId) return "Choose a wallpaper to edit first.";
   if (!title) return "Title is required.";
   if (!imageUrl) return "Image URL is required.";
-  if (!isCloudinaryUrl(imageUrl)) return "Image URL must be a secure Cloudinary URL.";
+  if (!isHttpsUrl(imageUrl)) return "Image URL must start with https://.";
+  if (previewUrl && !isHttpsUrl(previewUrl)) return "Preview URL must start with https://.";
   if (!types.length) return "Select at least one image type.";
   if (!deviceTypes.length) return "Select at least one wallpaper screen type.";
   if (!["free", "premium"].includes(access)) return "Choose a valid access level.";
@@ -797,6 +809,7 @@ function getEditPayload() {
     title: editTitleInput.value.trim(),
     description: editDescriptionInput.value.trim(),
     imageUrl: editImageUrlInput.value.trim(),
+    previewUrl: editPreviewUrlInput.value.trim(),
     cloudinaryPublicId: editPublicIdInput.value.trim(),
     types: getSelectedTypes(editTypeList),
     deviceTypes: getSelectedDeviceTypes(editDeviceTypeList),
@@ -924,6 +937,7 @@ imageUrlInput.addEventListener("input", () => {
   resetImageDetails();
   updatePreview();
 });
+previewUrlInput.addEventListener("input", updatePreview);
 
 resetButton.addEventListener("click", resetForm);
 reloadWallpapersButton.addEventListener("click", loadWallpapers);
@@ -935,6 +949,7 @@ visibleFilterInput.addEventListener("change", renderWallpapers);
 sortInput.addEventListener("change", renderWallpapers);
 wallpapersList.addEventListener("click", handleWallpaperAction);
 editImageUrlInput.addEventListener("input", updateEditPreview);
+editPreviewUrlInput.addEventListener("input", updateEditPreview);
 cancelEditButton.addEventListener("click", closeEditWallpaper);
 cancelEditButtonBottom.addEventListener("click", closeEditWallpaper);
 

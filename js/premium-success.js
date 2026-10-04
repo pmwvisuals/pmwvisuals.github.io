@@ -1,6 +1,6 @@
 import { auth } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-import { isPremiumUser } from "./premium-access.js?v=20260718-premium-gate";
+import { isPremiumUser } from "./premium-access.js?v=20261001-spark";
 
 const badge = document.querySelector("#successBadge");
 const title = document.querySelector("#successTitle");
@@ -24,5 +24,5 @@ onAuthStateChanged(auth, async (user) => {
 
   badge.textContent = "Sync Pending";
   title.textContent = "Premium is syncing.";
-  text.textContent = "If you just paid, wait a moment and refresh this page so Firebase can receive the Paddle update.";
+  text.textContent = "If you just paid, your account is updating. Please refresh in a moment. Your Paddle receipt will arrive by email.";
 });

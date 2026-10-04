@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PMW Paddle Sandbox Checkout Test</title>
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+  <style>
+    body { background: #121621; color: #f5f7fb; font: 16px/1.5 system-ui, sans-serif; margin: 0; padding: 3rem 1rem; }
+    main { max-width: 34rem; margin: auto; background: #1d2433; border: 1px solid #394256; border-radius: 1rem; padding: 2rem; }
+    h1 { font-size: 1.6rem; margin-top: 0; }
+    label { display: block; margin: 1.5rem 0 .5rem; }
+    input, button { box-sizing: border-box; width: 100%; font: inherit; border-radius: .5rem; padding: .8rem; }
+    input { color: #151a24; background: white; border: 1px solid #9aa5b7; }
+    button { background: #d8b867; color: #17130a; border: 0; margin-top: 1rem; cursor: pointer; font-weight: 700; }
+    small { display: block; color: #b8c2d1; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>PMW sandbox subscription test</h1>
+    <p>This opens the existing Pro monthly plan in Paddle's sandbox. It uses test cards only; no real payment is taken.</p>
+    <label for="email">Email of your dedicated PMW test account</label>
+    <input id="email" type="email" autocomplete="email" required>
+    <button id="checkout" type="button">Open test checkout</button>
+    <p id="status" role="status"></p>
+    <small>Use Paddle's test card 4242 4242 4242 4242, any future expiry, and any name. Never enter a real card here.</small>
+  </main>
+  <script>
+    const status = document.getElementById('status');
+    const button = document.getElementById('checkout');
+    Paddle.Environment.set('sandbox');
+    Paddle.Initialize({
+      token: 'test_9462cd67818764d9e2dc77a8831',
+      eventCallback(event) {
+        if (event.name === 'checkout.completed') {
+          status.textContent = 'Sandbox checkout completed. Check the sandbox notification log and the dedicated Firebase test account.';
+        }
+      }
+    });
+    button.addEventListener('click', () => {
+      const input = document.getElementById('email');
+      if (!input.reportValidity()) return;
+      status.textContent = 'Opening sandbox checkout...';
+      Paddle.Checkout.open({
+        items: [{ priceId: 'pri_01kx81warb6jfesz3awzzxyn4v', quantity: 1 }],
+        customer: { email: input.value.trim() },
+        customData: { product: 'pmw-premium', plan: 'Pro', billing: 'monthly' },
+        settings: { displayMode: 'overlay' }
+      });
+    });
+  </script>
+</body>
+</html>

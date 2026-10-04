@@ -960,7 +960,7 @@
       const [{ auth, db }, { onAuthStateChanged }, premiumModule, firestoreModule] = await Promise.all([
         import(new URL("../../js/firebase.js", document.baseURI).href),
         import("https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js"),
-        import(new URL("../../js/premium-access.js?v=20260718-premium-gate", document.baseURI).href),
+        import(new URL("../../js/premium-access.js?v=20261001-spark", document.baseURI).href),
         import("https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js")
       ]);
       compressorState.firestore = {
@@ -1513,7 +1513,7 @@
       const [{ auth, db }, { onAuthStateChanged }, premiumModule, firestoreModule] = await Promise.all([
         import(new URL("../../js/firebase.js", document.baseURI).href),
         import("https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js"),
-        import(new URL("../../js/premium-access.js?v=20260718-premium-gate", document.baseURI).href),
+        import(new URL("../../js/premium-access.js?v=20261001-spark", document.baseURI).href),
         import("https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js")
       ]);
       resizerState.firestore = {

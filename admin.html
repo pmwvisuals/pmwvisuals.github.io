@@ -43,7 +43,7 @@
         <div class="admin-row">
           <div>
             <h1>Admin dashboard</h1>
-            <p class="admin-subtitle">Add wallpaper metadata to Firestore. Images stay hosted in Cloudinary.</p>
+            <p class="admin-subtitle">Add wallpaper metadata to Firestore. Keep image files at the hosting service you choose.</p>
           </div>
         </div>
 
@@ -55,13 +55,13 @@
 
       <div class="admin-card-body admin-section">
         <h2>Add Wallpaper</h2>
-        <p class="admin-subtitle">Upload to Cloudinary or paste an existing Cloudinary image URL, then publish the wallpaper details.</p>
+        <p class="admin-subtitle">Paste a direct HTTPS image link and a preview link, then publish the wallpaper details.</p>
 
         <form id="addWallpaperForm" novalidate>
           <div class="admin-upload-box">
             <div>
               <h3>Image source</h3>
-              <p>Use a restricted unsigned Cloudinary preset for direct uploads, or paste a Cloudinary URL manually.</p>
+              <p>Paste URLs from your image host. The existing Cloudinary upload option is available if you still use it.</p>
             </div>
             <button class="admin-button secondary" id="cloudinaryUploadButton" type="button">Upload image</button>
           </div>
@@ -89,11 +89,16 @@
 
           <div class="admin-field">
             <label for="wallpaperImageUrl">Image URL</label>
-            <input id="wallpaperImageUrl" type="url" autocomplete="off" placeholder="https://res.cloudinary.com/..." required />
+            <input id="wallpaperImageUrl" type="url" autocomplete="off" placeholder="https://.../original-image.png" required />
           </div>
 
           <div class="admin-field">
-            <label for="wallpaperPublicId">Cloudinary public ID</label>
+            <label for="wallpaperPreviewUrl">Preview image URL (optional)</label>
+            <input id="wallpaperPreviewUrl" type="url" autocomplete="off" placeholder="https://.../preview-image.webp" />
+          </div>
+
+          <div class="admin-field">
+            <label for="wallpaperPublicId">Cloudinary public ID (optional)</label>
             <input id="wallpaperPublicId" type="text" autocomplete="off" />
           </div>
 
@@ -212,7 +217,7 @@
         <div class="admin-row">
           <div>
             <h2>Edit Wallpaper</h2>
-            <p class="admin-subtitle">Update Firestore metadata only. Images stay in Cloudinary.</p>
+            <p class="admin-subtitle">Update wallpaper metadata and direct image links.</p>
           </div>
           <button class="admin-button secondary" id="cancelEditWallpaperButton" type="button">Cancel edit</button>
         </div>
@@ -246,7 +251,12 @@
           </div>
 
           <div class="admin-field">
-            <label for="editWallpaperPublicId">Cloudinary public ID</label>
+            <label for="editWallpaperPreviewUrl">Preview image URL (optional)</label>
+            <input id="editWallpaperPreviewUrl" type="url" autocomplete="off" />
+          </div>
+
+          <div class="admin-field">
+            <label for="editWallpaperPublicId">Cloudinary public ID (optional)</label>
             <input id="editWallpaperPublicId" type="text" autocomplete="off" />
           </div>
 

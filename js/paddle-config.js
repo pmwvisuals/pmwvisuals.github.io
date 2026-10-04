@@ -1,6 +1,8 @@
 export const PADDLE_CONFIG = {
   clientToken: "live_e1acf603a496c5dc11e7662eb81",
   environment: "production",
+  // Sandbox purchase and cancellation were verified before publishing this checkout.
+  fulfillmentReady: true,
   successPath: "premium-success.html",
   prices: {
     Pro: {

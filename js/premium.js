@@ -1,8 +1,8 @@
 import { auth, db } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
-import { isPremiumUser } from "./premium-access.js?v=20260718-premium-gate";
-import { PADDLE_CONFIG, PRICING_TIERS } from "./paddle-config.js?v=20260920-plan-benefits";
+import { isPremiumUser, markCheckoutComplete } from "./premium-access.js?v=20261001-spark";
+import { PADDLE_CONFIG, PRICING_TIERS } from "./paddle-config.js?v=20261004-spark-live";
 
 const statusBox = document.querySelector("#premiumStatus");
 const message = document.querySelector("#premiumMessage");
@@ -62,7 +62,12 @@ function ensurePaddleReady() {
   if (paddleReady) return;
 
   const initOptions = {
-    token: PADDLE_CONFIG.clientToken
+    token: PADDLE_CONFIG.clientToken,
+    eventCallback: (event) => {
+      if (markCheckoutComplete(signedInUser, event)) {
+        setMessage("Payment received. Your account is being updated.", "success");
+      }
+    }
   };
 
   if (PADDLE_CONFIG.environment === "production" && signedInPaddleCustomerId) {
@@ -100,14 +105,14 @@ function frequencyText() {
 }
 
 function checkoutDisabled() {
-  return isPremiumMember || !paddleReady;
+  return isPremiumMember || !paddleReady || !PADDLE_CONFIG.fulfillmentReady;
 }
 
 function renderPricing() {
   pricingGrid.innerHTML = PRICING_TIERS.map((tier) => {
     const highlight = tier.featured ? " featured" : "";
     const disabled = checkoutDisabled() ? " disabled" : "";
-    const buttonText = isPremiumMember ? "Active Plan" : "Subscribe";
+    const buttonText = isPremiumMember ? "Active Plan" : PADDLE_CONFIG.fulfillmentReady ? "Subscribe" : "Available soon";
     const badge = tier.featured ? '<div class="pmw-recommend-badge">Best Value</div>' : "";
     const features = tier.features.map((feature) => `<li><span aria-hidden="true">&#10003;</span>${feature}</li>`).join("");
 
@@ -161,6 +166,14 @@ async function loadLocalizedPrices() {
 }
 
 async function startCheckout(tierName) {
+  if (!PADDLE_CONFIG.fulfillmentReady) {
+    setMessage("Subscriptions will reopen once account activation is ready.", "error");
+    return;
+  }
+  if (!signedInUser) {
+    window.location.href = "login.html?returnUrl=premium.html";
+    return;
+  }
   const tier = PRICING_TIERS.find((item) => item.name === tierName);
   const priceId = tier ? selectedPriceId(tier) : "";
 
@@ -214,11 +227,14 @@ onAuthStateChanged(auth, async (user) => {
   isPremiumMember = user ? await isPremiumUser(user) : false;
 
   if (!user) {
-    statusBox.textContent = "Sign in to prefill your email at checkout.";
+    statusBox.textContent = "Sign in before choosing a plan so the subscription connects to your account.";
   } else if (isPremiumMember) {
     statusBox.textContent = "Premium access is active for this account.";
   } else {
     statusBox.textContent = `Checkout will use ${user.email || "your signed-in email"}.`;
+  }
+  if (!PADDLE_CONFIG.fulfillmentReady) {
+    statusBox.textContent = "Subscriptions are temporarily paused while account activation is moved to the free plan.";
   }
 
   if (user) {

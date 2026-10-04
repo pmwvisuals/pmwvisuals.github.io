@@ -3,4 +3,8 @@ functions/.env*
 functions/.runtimeconfig.json
 functions/node_modules/
 functions/.pnpm-store/
+backend/paddle-worker/.dev.vars*
+backend/paddle-worker/.env*
+backend/paddle-worker/.wrangler/
+backend/paddle-worker/node_modules/
 work/

@@ -1,7 +1,7 @@
 import { auth } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-import { isPremiumUser } from "./premium-access.js?v=20260718-premium-gate";
-import { loadVisibleWallpapers } from "./wallpaper-source.js";
+import { isPremiumUser } from "./premium-access.js?v=20261001-spark";
+import { loadVisibleWallpapers } from "./wallpaper-source.js?v=20261001-spark";
 
 const badge = document.querySelector("#premiumGateBadge");
 const title = document.querySelector("#premiumGateTitle");
@@ -45,7 +45,7 @@ function renderPremiumWallpapers(items) {
   premiumWallpapersGrid.hidden = !items.length;
 
   if (!items.length) {
-    setState("No premium wallpapers yet", "Premium wallpaper cards will appear here after you add visible premium assets in Firestore.");
+    setState("No premium wallpapers yet", "Premium wallpaper cards will appear here when the collection has visible images.");
     premiumWallpapersGrid.replaceChildren();
     return;
   }
@@ -69,7 +69,7 @@ function renderPremiumWallpapers(items) {
 }
 
 async function loadPremiumWallpapers() {
-  setState("Loading premium wallpapers", "Checking Firestore for visible premium wallpaper records.");
+  setState("Loading premium wallpapers", "Preparing your premium collection.");
 
   try {
     const result = await loadVisibleWallpapers({
@@ -80,7 +80,7 @@ async function loadPremiumWallpapers() {
     renderPremiumWallpapers(result.items);
 
     if (result.error) {
-      console.warn("Firestore premium wallpaper loading failed; static fallback was used.", result.error);
+      console.warn("Premium wallpaper loading used the static catalog.", result.error);
     }
   } catch (error) {
     console.warn("Unable to load premium wallpapers.", error);
@@ -108,7 +108,7 @@ onAuthStateChanged(auth, async (user) => {
   if (isPremium) {
     badge.textContent = "Premium Active";
     title.textContent = "Premium collection ready";
-    text.textContent = "You have premium access. Add protected premium wallpapers later and they will appear here.";
+    text.textContent = "You have premium access. Browse and download the collection below.";
     primaryBtn.textContent = "Open Account";
     primaryBtn.href = "account.html";
     premiumAccessStat.textContent = "Active";
@@ -119,7 +119,7 @@ onAuthStateChanged(auth, async (user) => {
 
   badge.textContent = "Free Member";
   title.textContent = "Premium access required";
-  text.textContent = "Upgrade to premium when checkout is connected to unlock private wallpaper downloads.";
+  text.textContent = "Choose a premium plan to browse and download this collection.";
   premiumAccessStat.textContent = "Locked";
   premiumWallpaperCount.textContent = "0";
   setState("Premium access required", "Upgrade to premium before viewing premium wallpaper cards.");

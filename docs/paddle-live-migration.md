@@ -1,5 +1,7 @@
 # Paddle Live Migration Notes
 
+> Historical setup notes. For the current Firebase Spark migration and replacement webhook, use [the Spark migration guide](spark-migration.md).
+
 Status: live catalog created and local checkout config switched to live IDs. Do not open live checkout to customers until Paddle verifies the business and approves the checkout domain.
 
 ## Live Catalog Created

@@ -1,0 +1,13 @@
+name = "pmw-paddle-sync"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+FIREBASE_PROJECT_ID = "pmw-visuals-b14e8"
+PADDLE_ENV = "production"
+
+# Isolated Worker for no-charge Paddle sandbox testing. It must be configured
+# with PMW_SANDBOX_TEST_UID before it can update any Firebase account.
+[env.sandbox.vars]
+FIREBASE_PROJECT_ID = "pmw-visuals-b14e8"
+PADDLE_ENV = "sandbox"
