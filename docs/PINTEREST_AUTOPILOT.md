@@ -52,10 +52,11 @@ Create these secrets:
 1. `PINTEREST_APP_ID`
 2. `PINTEREST_APP_SECRET`
 3. `PINTEREST_REFRESH_TOKEN`
+4. `PINTEREST_TOKEN_KEY` — a Fernet encryption key used only to encrypt the continuously rotated refresh token stored on the private automation state branch history
 
 Do not commit these values to the repository.
 
-The workflow exchanges the refresh token for a fresh access token at run time. Credentials are never written into the Pinterest state branch.
+The workflow exchanges the refresh token for a fresh access token at run time. Pinterest also returns a replacement continuous refresh token; the workflow encrypts that token with `PINTEREST_TOKEN_KEY` before saving it to the automation state branch. Plain-text credentials are never committed.
 
 ## First activation
 
