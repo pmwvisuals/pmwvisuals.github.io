@@ -75,6 +75,7 @@ def exchange_code(app_id: str, app_secret: str, code: str) -> dict:
             "grant_type": "authorization_code",
             "code": code,
             "redirect_uri": REDIRECT_URI,
+            "continuous_refresh": "true",
         }
     ).encode("utf-8")
 
