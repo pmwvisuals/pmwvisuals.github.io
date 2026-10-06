@@ -1,0 +1,124 @@
+name: Pinterest Autopilot
+
+on:
+  schedule:
+    # 08:00, 12:00, 16:00 and 20:00 Asia/Colombo (UTC+05:30)
+    - cron: "30 2,6,10,14 * * *"
+  workflow_dispatch:
+    inputs:
+      live:
+        description: "Publish live Pins instead of dry-run only"
+        required: true
+        default: false
+        type: boolean
+  pull_request:
+    paths:
+      - "scripts/pinterest_autopilot.py"
+      - ".github/workflows/pinterest-autopilot.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pinterest-autopilot
+  cancel-in-progress: false
+
+jobs:
+  pinterest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout site
+        uses: actions/checkout@v4
+
+      - name: Checkout Pinterest state
+        uses: actions/checkout@v4
+        with:
+          ref: automation/pinterest-state
+          path: .pinterest-state
+          sparse-checkout: |
+            automation
+          sparse-checkout-cone-mode: false
+
+      - name: Restore posting state
+        shell: bash
+        run: |
+          mkdir -p automation
+          if [ -f .pinterest-state/automation/pinterest-state.json ]; then
+            cp .pinterest-state/automation/pinterest-state.json automation/pinterest-state.json
+          fi
+          if [ -f .pinterest-state/automation/pinterest-refresh-token.enc ]; then
+            cp .pinterest-state/automation/pinterest-refresh-token.enc automation/pinterest-refresh-token.enc
+          fi
+
+      - name: Validate catalog and queue
+        run: python scripts/pinterest_autopilot.py --dry-run --max-pins 4
+
+      - name: Install live-mode dependency
+        if: github.event_name != 'pull_request'
+        run: python -m pip install cryptography
+
+      - name: Check Pinterest credentials
+        id: creds
+        shell: bash
+        env:
+          PINTEREST_APP_ID: ${{ secrets.PINTEREST_APP_ID }}
+          PINTEREST_APP_SECRET: ${{ secrets.PINTEREST_APP_SECRET }}
+          PINTEREST_REFRESH_TOKEN: ${{ secrets.PINTEREST_REFRESH_TOKEN }}
+        run: |
+          if [ -n "$PINTEREST_APP_ID" ] && [ -n "$PINTEREST_APP_SECRET" ] && [ -n "$PINTEREST_REFRESH_TOKEN" ] && [ -n "$PINTEREST_TOKEN_KEY" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Pinterest credentials are not configured yet. Dry-run validation completed."
+          fi
+
+      - name: Publish Pins
+        id: publish
+        if: >-
+          steps.creds.outputs.ready == 'true' &&
+          (
+            github.event_name == 'schedule' ||
+            (github.event_name == 'workflow_dispatch' && inputs.live == true)
+          )
+        env:
+          PINTEREST_APP_ID: ${{ secrets.PINTEREST_APP_ID }}
+          PINTEREST_APP_SECRET: ${{ secrets.PINTEREST_APP_SECRET }}
+          PINTEREST_REFRESH_TOKEN: ${{ secrets.PINTEREST_REFRESH_TOKEN }}
+          PINTEREST_TIMEZONE: Asia/Colombo
+        run: python scripts/pinterest_autopilot.py --max-pins 4 --delay-seconds 300
+
+      - name: Save posting state
+        if: >-
+          always() &&
+          steps.creds.outputs.ready == 'true' &&
+          (
+            github.event_name == 'schedule' ||
+            (github.event_name == 'workflow_dispatch' && inputs.live == true)
+          )
+        shell: bash
+        run: |
+          if [ -f automation/pinterest-state.json ]; then
+            mkdir -p .pinterest-state/automation
+            cp automation/pinterest-state.json .pinterest-state/automation/pinterest-state.json
+          fi
+          if [ -f automation/pinterest-last-run.json ]; then
+            cp automation/pinterest-last-run.json .pinterest-state/automation/pinterest-last-run.json
+          fi
+          if [ -f automation/pinterest-refresh-token.enc ]; then
+            cp automation/pinterest-refresh-token.enc .pinterest-state/automation/pinterest-refresh-token.enc
+          fi
+
+          cd .pinterest-state
+          git config user.name "pmwvisuals-pinterest-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add automation/pinterest-state.json automation/pinterest-last-run.json automation/pinterest-refresh-token.enc 2>/dev/null || true
+
+          if git diff --cached --quiet; then
+            echo "No Pinterest state changes to save."
+            exit 0
+          fi
+
+          git commit -m "Update Pinterest autopilot state"
+          git push origin HEAD:automation/pinterest-state
