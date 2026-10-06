@@ -20,7 +20,7 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parents[1]
 AUTOMATION_DIR = ROOT / "automation"
 STATE_PATH = AUTOMATION_DIR / "pinterest-state.json"
-TOKEN_PATH = AUTOMATION_DIR / "pinterest-token.enc"
+TOKEN_PATH = AUTOMATION_DIR / "pinterest-refresh-token.enc"
 LAST_RUN_PATH = AUTOMATION_DIR / "pinterest-last-run.json"
 
 API_BASE = "https://api.pinterest.com/v5"
@@ -297,15 +297,40 @@ def api_request(
         raise error from exc
 
 
+def _fernet():
+    key = os.getenv("PINTEREST_TOKEN_KEY", "").strip()
+    if not key:
+        raise RuntimeError("PINTEREST_TOKEN_KEY is required for secure refresh-token persistence")
+    try:
+        from cryptography.fernet import Fernet
+    except ImportError as exc:
+        raise RuntimeError("The cryptography package is required in live mode") from exc
+    return Fernet(key.encode("ascii"))
+
+
+def load_refresh_token() -> str:
+    if TOKEN_PATH.exists():
+        payload = _fernet().decrypt(TOKEN_PATH.read_bytes().strip())
+        return str(json.loads(payload.decode("utf-8"))["refresh_token"])
+    token = os.getenv("PINTEREST_REFRESH_TOKEN", "").strip()
+    if not token:
+        raise RuntimeError("PINTEREST_REFRESH_TOKEN is required for the first live run")
+    return token
+
+
+def save_refresh_token(refresh_token: str) -> None:
+    payload = json.dumps({"refresh_token": refresh_token}).encode("utf-8")
+    TOKEN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    TOKEN_PATH.write_bytes(_fernet().encrypt(payload) + b"\n")
+
+
 def refresh_access_token() -> str:
-    """Exchange the GitHub-secret refresh token for a fresh access token."""
+    """Refresh Pinterest OAuth and securely persist the replacement continuous refresh token."""
     app_id = os.getenv("PINTEREST_APP_ID", "").strip()
     app_secret = os.getenv("PINTEREST_APP_SECRET", "").strip()
-    refresh_token = os.getenv("PINTEREST_REFRESH_TOKEN", "").strip()
-    if not app_id or not app_secret or not refresh_token:
-        raise RuntimeError(
-            "PINTEREST_APP_ID, PINTEREST_APP_SECRET and PINTEREST_REFRESH_TOKEN are required"
-        )
+    if not app_id or not app_secret:
+        raise RuntimeError("PINTEREST_APP_ID and PINTEREST_APP_SECRET are required")
+    refresh_token = load_refresh_token()
 
     credentials = base64.b64encode(f"{app_id}:{app_secret}".encode("utf-8")).decode("ascii")
     form = urllib.parse.urlencode(
@@ -329,10 +354,11 @@ def refresh_access_token() -> str:
         raise RuntimeError(f"Pinterest token refresh failed: HTTP {exc.code}: {raw}") from exc
 
     access_token = data.get("access_token")
+    replacement_refresh = data.get("refresh_token")
     if not access_token:
         raise RuntimeError(f"Pinterest token refresh returned no access token: {data}")
+    save_refresh_token(str(replacement_refresh or refresh_token))
     return str(access_token)
-
 
 def list_boards(token: str) -> dict[str, str]:
     by_name: dict[str, str] = {}
