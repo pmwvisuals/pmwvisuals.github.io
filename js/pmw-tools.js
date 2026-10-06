@@ -840,7 +840,7 @@
       `<span><strong>After:</strong> ${readableSize(output.outputSize)}</span>`,
       `<span><strong>Saved:</strong> ${readableSize(output.delta.delta)} (${output.delta.percent.toFixed(1)}%)</span>`,
       `<span><strong>Output type:</strong> ${labelForType(output.type)}</span>`,
-      `<span><strong>Quality used:</strong> ${output.quality}%</span>`,
+      `<span><strong>Requested quality:</strong> ${output.quality}%</span>`,
       `<span><strong>Resolution:</strong> ${output.width}x${output.height}</span>`,
       scaledLine
     ].filter(Boolean).join("");

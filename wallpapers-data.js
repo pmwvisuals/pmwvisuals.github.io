@@ -1398,7 +1398,7 @@ window.PMW_WALLPAPERS = [
   {
     "id": "chatgpt-image-jun-1-2026-03-42-27-pm-dovggh",
     "title": "Blue Comet Streaking Through Darkness",
-    "description": "A vertical AMOLED mobile wallpaper featuring blue comet streaking through darkness, set against deep blacks with crisp glowing contrast for phone screens.",
+    "description": "An electric-blue comet crosses a nearly black field on a steep diagonal. The bright head sits toward the lower left, with a fine trail reaching into the upper right.",
     "category": "AMOLED",
     "resolution": "941x1672",
     "width": 941,
@@ -4304,7 +4304,7 @@ window.PMW_WALLPAPERS = [
   {
     "id": "d-f-w-31-cjqhof",
     "title": "Candlelit Library Shelves",
-    "description": "A vertical dark aesthetic mobile wallpaper featuring candlelit library shelves, shaped with moonlit contrast, shadows, and a moody night atmosphere.",
+    "description": "An open book rests on a heavy desk in a shadowed, multi-level library. Amber lamps pick out shelves and railings while most of the room stays dark.",
     "category": "Dark Aesthetic",
     "resolution": "941x1672",
     "width": 941,
@@ -7273,7 +7273,7 @@ window.PMW_WALLPAPERS = [
   {
     "id": "r-d-w-43-jrsdwt",
     "title": "Gondola in a Moonlit Canal",
-    "description": "A vertical romantic mobile wallpaper featuring gondola in a moonlit canal, with soft night light, dreamy color, and an intimate phone-screen composition.",
+    "description": "A gondola fills the foreground of a narrow canal, facing a small bridge. Amber windows and lanterns reflect in the water beneath a blue night sky and full moon.",
     "category": "Romantic",
     "resolution": "941x1672",
     "width": 941,
@@ -9274,8 +9274,8 @@ window.PMW_WALLPAPERS = [
   },
   {
     "id": "chatgpt-image-jun-1-2026-10-13-14-pm-ys2sj2",
-    "title": "Blue Mushroom Forest under the Moon",
-    "description": "A vertical dark fantasy mobile wallpaper featuring blue mushroom forest under the moon, with dramatic shadows, cinematic atmosphere, and a bold phone-screen composition.",
+    "title": "Moonlit Blue Bioluminescent Forest",
+    "description": "Floating jellyfish-like forms illuminate a dense forest in blue. A moon above the canopy and a winding stream below connect the upper and lower parts of the scene.",
     "category": "Dark Fantasy",
     "resolution": "941x1672",
     "width": 941,
@@ -14453,8 +14453,8 @@ window.PMW_WALLPAPERS = [
   },
   {
     "id": "chatgpt-image-jun-2-2026-10-09-08-pm-picotz",
-    "title": "Sunlit Forest Creek",
-    "description": "A vertical nature mobile wallpaper featuring sunlit forest creek, with scenic detail, rich color, and a clean phone-screen composition.",
+    "title": "Sunlit Alpine Creek",
+    "description": "A rocky creek leads through a sunlit green valley toward sharp, snow-covered mountain peaks. Blue sky and small clouds occupy the upper part of this alpine-style digital scene.",
     "category": "Nature",
     "resolution": "941x1672",
     "width": 941,
@@ -17710,7 +17710,7 @@ window.PMW_WALLPAPERS = [
   {
     "id": "chatgpt-image-jun-4-2026-06-11-26-pm-swyu4n",
     "title": "Red Sun and Orbiting Planets",
-    "description": "A vertical space and galaxy mobile wallpaper featuring red sun and orbiting planets, with cosmic light, deep color, and a dramatic phone-screen composition.",
+    "description": "A fiery orange-red star dominates the upper half, surrounded by small dark worlds. Larger planets in the foreground add depth to this imagined planetary scene.",
     "category": "Space and Galaxy",
     "resolution": "941x1672",
     "width": 941,
@@ -19802,7 +19802,7 @@ window.PMW_WALLPAPERS = [
   {
     "id": "chatgpt-image-jun-5-2026-07-21-21-pm-gueqiz",
     "title": "Black Marble with Gold Cracks",
-    "description": "A vertical AMOLED mobile wallpaper featuring black marble with gold cracks, set against deep blacks with crisp glowing contrast for phone screens.",
+    "description": "Fine gold veins cut across a black marble-like surface. The strongest warm streak runs diagonally through the middle, while the surrounding texture stays subdued.",
     "category": "AMOLED",
     "resolution": "941x1672",
     "width": 941,
@@ -22582,7 +22582,7 @@ window.PMW_WALLPAPERS = [
   {
     "id": "chatgpt-image-jun-6-2026-10-51-46-pm-qenext",
     "title": "Samurai Entering Lantern Village at Night",
-    "description": "A vertical celestial samurai mobile wallpaper featuring samurai entering lantern village at night, with cinematic fantasy light, atmospheric detail, and a dramatic phone-screen composition.",
+    "description": "A lone robed figure looks down a stone path into a lantern-lit hillside village. Warm windows and lamps lead toward a distant tower under a cool, clouded sky.",
     "category": "Celestial Samurai",
     "resolution": "941x1672",
     "width": 941,
@@ -24392,7 +24392,7 @@ window.PMW_WALLPAPERS = [
   {
     "id": "chatgpt-image-jun-10-2026-07-17-53-pm-nnq1q3",
     "title": "Boy in A Blue Crystal Cave City",
-    "description": "A vertical anime mobile wallpaper featuring boy in a blue crystal cave city, with vivid fantasy detail, cinematic color, and a clean phone-screen composition.",
+    "description": "A cloaked young figure carrying a lantern overlooks a cavern city. Blue crystal light fills the surrounding rock, with smaller amber lamps marking buildings below.",
     "category": "Anime",
     "resolution": "941x1672",
     "width": 941,

@@ -4,7 +4,7 @@
   const DAILY_FREE_LIMIT = 13;
   const modes = {
     image: { accept: "image/*,.tif,.tiff", title: "Drop images here", copy: "JPG, PNG, WEBP, GIF, BMP or TIFF", formats: ["JPG", "PNG", "WEBP", "GIF", "BMP", "TIFF"], optionTitle: "Strip metadata", optionCopy: "Remove embedded image information", optionDefault: false, premiumOption: true },
-    video: { accept: "video/*,.mkv,.avi", title: "Drop videos here", copy: "MP4, MOV, WEBM, AVI, MKV or GIF", formats: ["MP4", "WEBM", "MOV", "AVI", "MKV", "GIF"], optionTitle: "Keep audio track", optionCopy: "Include the original sound when available", optionDefault: true, premiumOption: false },
+    video: { accept: "video/*,.mkv,.avi,.gif", title: "Drop videos here", copy: "MP4, MOV, WEBM, AVI, MKV or GIF", formats: ["MP4", "WEBM", "MOV", "AVI", "MKV", "GIF"], optionTitle: "Keep audio track", optionCopy: "Include the original sound when available", optionDefault: true, premiumOption: false },
     audio: { accept: "audio/*,.flac,.m4a,.ogg,.wav", title: "Drop audio files here", copy: "MP3, WAV, AAC, FLAC, OGG or M4A", formats: ["MP3", "WAV", "AAC", "FLAC", "OGG", "M4A"], optionTitle: "Strip metadata", optionCopy: "Remove available artist and track information", optionDefault: false, premiumOption: true }
   };
 
@@ -102,6 +102,7 @@
   function optionIsLocked() { return Boolean(modes[activeMode].premiumOption && !premiumUser); }
   function updateOptionAccess(resetValue) {
     const config = modes[activeMode];
+    converterOption.setAttribute('aria-label', config.optionTitle);
     if (resetValue) converterOption.checked = config.optionDefault;
     premiumCrown.hidden = !config.premiumOption;
     converterToggleRow.classList.toggle("is-premium-locked", optionIsLocked());
@@ -190,7 +191,7 @@
   }
   function fileIsValid(file) {
     const extension = (file.name.split(".").pop() || "").toLowerCase();
-    const extraAllowed = { image: ["tif", "tiff"], video: ["mkv", "avi"], audio: ["flac", "m4a", "ogg", "wav"] };
+    const extraAllowed = { image: ["tif", "tiff"], video: ["mkv", "avi", "gif"], audio: ["flac", "m4a", "ogg", "wav"] };
     return file.type.startsWith(`${activeMode}/`) || extraAllowed[activeMode].includes(extension);
   }
   function addFiles(fileCollection) {
@@ -314,7 +315,7 @@
     const extension = (file.name.split(".").pop() || "bin").replace(/[^a-z0-9]/gi, "").toLowerCase();
     const inputName = `pmw-input-${itemId}.${extension}`; const outputName = `pmw-output-${itemId}.${outputExtension(selectedFormat)}`;
     const sourceData = await ffmpegFetchFile(file);
-    message.textContent = "Sending the file to the on-device engine...";
+    message.textContent = "Reading the file in the on-device engine...";
     await engine.writeFile(inputName, sourceData);
     message.textContent = "Converting the file on your device...";
     try {

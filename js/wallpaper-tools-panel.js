@@ -26,6 +26,7 @@
 
   const randomizeRelatedWallpapers = () => {
     document.querySelectorAll('.related-grid').forEach((grid) => {
+      if (grid.hasAttribute('data-editorial-related')) return;
       const cards = Array.from(grid.querySelectorAll('.related-card'));
       if (cards.length < 2 || grid.dataset.randomized === 'true') return;
       shuffleElements(cards).forEach((card) => grid.appendChild(card));
@@ -67,14 +68,14 @@
   })();
 
   const detailNav = document.querySelector('.nav-links');
-  if (detailNav) {
+  if (detailNav && !document.body.classList.contains('editorial-detail')) {
     detailNav.innerHTML = `
       <a href="${rootPrefix}">PMW Wallpapers</a>
     `;
   }
 
   const collectionLink = document.querySelector('.secondary-link');
-  if (collectionLink) collectionLink.textContent = 'Browse Wallpapers';
+  if (collectionLink && !document.body.classList.contains('editorial-detail')) collectionLink.textContent = 'Browse Wallpapers';
 
   const params = new URLSearchParams({
     source: toolImage || image,
@@ -195,7 +196,7 @@
   panel.setAttribute('aria-label', 'Wallpaper editing tools');
   panel.innerHTML = `
     <h2>Customize this wallpaper</h2>
-    <p>Open this image in PMW Tools to resize it, convert the file type, or compress it for a lighter download.</p>
+    <p>Open the preview in PMW Tools to try a crop, convert its format or compress it. For the full-size file, download the original first and load it into the tool. Upscaling does not add detail.</p>
     <div class="wallpaper-tools-group">
       <div class="wallpaper-tools-row">
         <span class="wallpaper-tools-label">Format</span>

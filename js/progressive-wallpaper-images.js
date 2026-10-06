@@ -3,6 +3,7 @@
 
   if (window.PMW_PROGRESSIVE_WALLPAPER_IMAGES) return;
   window.PMW_PROGRESSIVE_WALLPAPER_IMAGES = true;
+  const editorialOnly = document.currentScript?.hasAttribute('data-pmw-editorial-only');
 
   const LOW_WIDTH = 240;
   const MEDIUM_WIDTH = 480;
@@ -100,6 +101,12 @@
       };
       preloader.onerror = () => {
         active -= 1;
+        const fallback = job.stage === 'medium'
+          ? job.image.dataset.pmwMediumFallback
+          : job.image.dataset.pmwHighFallback;
+        if (!job.retried && fallback && job.image.isConnected) {
+          queue.push({ ...job, source: fallback, retried: true });
+        }
         drainQueue();
       };
       preloader.src = job.source;
@@ -118,6 +125,7 @@
 
   function prepare(image, index) {
     if (!(image instanceof HTMLImageElement) || image.dataset.pmwProgressive === "true") return;
+    if (editorialOnly && !image.closest('#editorialHome')) return;
     const id = getDriveId.call(image, image.getAttribute("src") || image.currentSrc);
     if (!id) return;
 
@@ -125,6 +133,10 @@
     image.dataset.pmwStage = "low";
     image.dataset.pmwMedium = variant(id, MEDIUM_WIDTH);
     image.dataset.pmwHigh = variant(id, HIGH_WIDTH);
+    // One alternate delivery URL per failed stage; keep the visible local
+    // preview while trying it, with the same quality cap and queue limit.
+    image.dataset.pmwMediumFallback = `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w${MEDIUM_WIDTH}`;
+    image.dataset.pmwHighFallback = `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w${HIGH_WIDTH}`;
     image.classList.add("pmw-progressive-image");
     if (image.parentElement) image.parentElement.classList.add("pmw-progressive-frame");
 
@@ -135,7 +147,7 @@
     if (image.src !== lowSource) image.src = lowSource;
 
     const primaryPreview = Boolean(image.closest(".preview-card"));
-    if (primaryPreview || index < 6) {
+    if (primaryPreview || (!editorialOnly && index < 6)) {
       image.loading = "eager";
       image.fetchPriority = primaryPreview ? "high" : "auto";
     }
@@ -166,12 +178,14 @@
     images.forEach(prepare);
   }
 
-  const mutationObserver = new MutationObserver((records) => {
-    records.forEach((record) => record.addedNodes.forEach((node) => {
-      if (node.nodeType === 1) scan(node);
-    }));
-  });
-  mutationObserver.observe(document.documentElement, { childList: true, subtree: true });
+  if (!editorialOnly) {
+    const mutationObserver = new MutationObserver((records) => {
+      records.forEach((record) => record.addedNodes.forEach((node) => {
+        if (node.nodeType === 1) scan(node);
+      }));
+    });
+    mutationObserver.observe(document.documentElement, { childList: true, subtree: true });
+  }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => scan(document), { once: true });

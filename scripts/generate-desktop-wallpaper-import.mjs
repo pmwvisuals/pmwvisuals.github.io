@@ -3,6 +3,9 @@ import path from "node:path";
 import vm from "node:vm";
 
 const root = path.resolve(import.meta.dirname, "..");
+if (fs.existsSync(path.join(root, 'css', 'pmw-editorial.css'))) {
+  throw new Error('Legacy page generator retired: it overwrites editorial layouts and expands the sitemap without review. Preserve existing URL mappings and use scripts/build-editorial.mjs for reviewed pages.');
+}
 const manifestFile = path.join(root, "work", "desktop-wallpaper-import", "cloudinary-assets.json");
 const titlesFile = path.join(root, "scripts", "desktop-import-titles-2026-08.txt");
 const dataFile = path.join(root, "desktop-wallpapers-data.js");
@@ -231,7 +234,7 @@ function renderPage(item, related) {
 <body>
   <nav class="navbar"><div class="nav-inner">
     <a class="brand" href="../../../index.html"><img src="../../../pmw-wordmark.png" alt="PMW"><span>Visuals</span></a>
-    <div class="nav-links"><a href="/">PMW Wallpapers</a><a href="../../../pmw-studio.html">PMW Studio</a></div>
+    <div class="nav-links"><a href="/">PMW Wallpapers</a><a href="../../../tools/">PMW Tools</a></div>
   </div></nav>
   <main>
     <div class="breadcrumb"><a href="/">PMW Wallpapers</a><span>/</span><a href="${categoryUrl}">${escapeHtml(item.category)}</a><span>/</span><span>${escapeHtml(item.title)}</span></div>

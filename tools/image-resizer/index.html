@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
+<script src="/js/pmw-theme.js?v=20261006-light-v1"></script>
   <link rel="icon" type="image/png" href="../../favicon.png">
   <link rel="shortcut icon" href="../../favicon.png">
   <script data-pmw-consent-default>
@@ -17,56 +18,55 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Resizer - Resize Images Fast & Free | PMW Tools</title>
-  <meta name="description" content="Resize JPG, PNG, and WEBP images online with PMW Image Resizer. Change image width and height, keep aspect ratio, and download resized images.">
+  <title>Image Resizer &amp; Aspect Ratio Guide | PMW Tools</title>
+  <meta name="description" content="Resize JPG, PNG and WebP in your browser. Calculate aspect ratios, understand presets and stretching, and choose suitable export dimensions.">
   <link rel="canonical" href="https://pmwvisuals.com/tools/image-resizer/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Image Resizer - Resize Images Online | PMW Tools">
-  <meta property="og:description" content="Resize JPG, PNG, and WEBP images online with PMW Image Resizer.">
+  <meta property="og:title" content="Image Resizer | PMW Tools">
+  <meta property="og:description" content="Resize JPG, PNG and WebP in your browser. Calculate aspect ratios, understand presets and stretching, and choose suitable export dimensions.">
   <meta property="og:url" content="https://pmwvisuals.com/tools/image-resizer/">
   <meta property="og:image" content="https://pmwvisuals.com/pmw-wordmark.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#050505">
+  <meta name="theme-color" content="#f6f6f1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/pmw-tools.css">
   <link rel="stylesheet" href="../../css/pmw-buttons.css">
   <link rel="stylesheet" href="../../css/pmw-theme.css">
+<link rel="stylesheet" href="/css/tool-guides.css?v=20261006-tools">
+<meta name="twitter:title" content="Image Resizer | PMW Tools">
+<meta name="twitter:description" content="Resize JPG, PNG and WebP in your browser. Calculate aspect ratios, understand presets and stretching, and choose suitable export dimensions.">
+<link rel="stylesheet" href="/css/site-appearance.css?v=20261006-light-v1">
+<link rel="stylesheet" href="/css/site-navigation.css?v=20261006-menu">
+<script type="application/ld+json" data-tool-schema>{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"PMW Image Resizer","url":"https://pmwvisuals.com/tools/image-resizer/","applicationCategory":"UtilitiesApplication","operatingSystem":"Modern web browser","description":"Resize JPG, PNG and WebP in your browser. Calculate aspect ratios, understand presets and stretching, and choose suitable export dimensions.","browserRequirements":"JavaScript; browser image support","featureList":["Exact pixel dimensions","Aspect-ratio control","JPG · PNG · WebP"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"PMW Visuals","item":"https://pmwvisuals.com/"},{"@type":"ListItem","position":2,"name":"PMW Tools","item":"https://pmwvisuals.com/tools/"},{"@type":"ListItem","position":3,"name":"Image Resizer","item":"https://pmwvisuals.com/tools/image-resizer/"}]}]}</script>
 </head>
-<body data-tool="resizer">
+<body data-tool="resizer" class="tg-tool-page">
+<a class="tg-skip" href="#tool-workspace">Skip to the tool</a>
   <div class="tools-page">
-    <nav class="tools-nav tools-shell" aria-label="Primary navigation">
-      <a class="tools-brand" href="../../index.html" aria-label="PMW Visuals home"><img src="../../pmw-wordmark.png" alt="PMW"><span>Visuals</span></a>
-      <div class="tools-nav-links">
-        <a class="tools-nav-link" href="/">PMW Wallpapers</a>
-        <a class="tools-nav-link" href="../../pmw-studio.html">PMW Studio</a>
-        <a class="tools-nav-link active" href="../">PMW Tools</a>
-      </div>
+    <nav class="pmw-site-nav tools-nav tools-shell" aria-label="Primary navigation"><button class="pmw-site-menu-trigger" type="button" aria-label="Open navigation menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="pmwSiteMenu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button>
+      <a class="tools-brand" href="../../index.html" aria-label="PMW Visuals home"><img class="pmw-uploaded-logo" src="/assets/brand/pmw-visuals-logo.png" alt="PMW Visuals logo" width="64" height="64"><span>PMW Visuals</span></a>
+
       <div class="tools-nav-actions" aria-hidden="true"></div>
     </nav>
 
     <main class="tool-workspace tools-shell">
-      <header class="tool-header">
-        <span class="tools-kicker">PMW Tools</span>
-        <h1>Image Resizer</h1>
-        <p>Resize JPG, PNG, and WEBP images directly in your browser. Set exact dimensions, keep the original aspect ratio, choose export quality, and download the resized result without uploading your image to a server.</p>
-      </header>
+      <header class="tool-header"><div><span class="tools-kicker">Pixels with a purpose</span><h1>Image Resizer</h1><p>Set the dimensions your next use needs. Keep the original proportions, choose an export format and inspect your resized image on the device that will show it.</p><span class="tg-hero-line">Right size. Right proportions.</span><div class="tg-badges"><span>Exact pixel dimensions</span><span>Aspect-ratio control</span><span>JPG · PNG · WebP</span></div><div class="tg-hero-links"><a href="#tool-workspace">Open the tool</a><a href="#tool-guide">Explore the guide</a></div></div><figure class="tg-hero-art"><img class="tg-art-dark" src="/assets/tools/resize-workflow.svg" width="800" height="440" alt="Illustrated proportional resize: a 941 by 1672 portrait becomes a 480 by 853 portrait, keeping approximately the same shape." fetchpriority="high"><img class="tg-art-light" src="/assets/tools/resize-workflow-light.svg" width="800" height="440" alt="Illustrated proportional resize: a 941 by 1672 portrait becomes a 480 by 853 portrait, keeping approximately the same shape." fetchpriority="high"></figure></header>
 
       <nav class="tool-tabs" aria-label="Tool navigation">
         <a href="../image-converter/">Convert</a>
         <a class="active" href="./" aria-current="page">Resize</a>
         <a href="../image-compressor/">Compress</a>
-      </nav>
+      </nav><noscript data-tool-noscript><p class="tg-callout">The tool and interactive examples need JavaScript. The guides and diagrams below remain readable.</p></noscript>
 
-      <section class="resizer-layout" aria-label="Image resizer workspace">
+      <section class="resizer-layout" aria-label="Image resizer workspace" id="tool-workspace">
         <div class="tool-upload-side resizer-upload-card">
           <input id="toolFileInput" type="file" accept="image/*" multiple hidden>
           <div class="tool-dropzone" id="toolDropzone" role="button" tabindex="0">
             <div>
               <div class="tool-drop-icon"><i data-lucide="upload"></i></div>
               <h2>Drop image here</h2>
-              <p>Free users can resize one image up to 10MB. Premium users can batch resize larger images.</p>
+              <p>JPG, PNG or WebP · up to 10MB on the free plan.</p>
             </div>
           </div>
           <div class="tool-file-preview resizer-file-preview" id="toolFilePreview" aria-live="polite"></div>
@@ -92,7 +92,7 @@
               <button type="button" data-width="1080" data-height="1920">1080 x 1920</button>
               <button type="button" data-width="1080" data-height="1080">1080 x 1080</button>
               <button type="button" data-width="3840" data-height="2160">3840 x 2160</button>
-            </div>
+            </div><p class="tool-note" data-preset-note>Presets set both dimensions. A different ratio can stretch the image; keep aspect ratio during manual entry.</p>
           </div>
 
           <div class="tool-row">
@@ -135,19 +135,7 @@
             <a href="../../premium.html">Upgrade to Premium</a>
           </div>
 
-          <aside class="premium-feature-card" aria-label="Premium Resizer Features">
-            <div class="premium-feature-icon"><i data-lucide="crown"></i></div>
-            <div>
-              <h2>Premium Resizer Features</h2>
-              <ul>
-                <li>Batch resize multiple images</li>
-                <li>Larger image support</li>
-                <li>Higher quality exports</li>
-                <li>Faster workflow</li>
-                <li>More daily resizes</li>
-              </ul>
-            </div>
-          </aside>
+          <aside class="premium-feature-card" aria-label="Plan limits"><i data-lucide="layers" aria-hidden="true"></i><div><h2>One image or a batch?</h2><p>Free access: 13 resizes per day, one image at a time, up to 10MB. Premium enables batches and larger-image workflows. <a href="../../premium.html">Compare the current plans</a>.</p></div></aside>
         </section>
 
         <section class="resizer-result-panel" aria-label="Resize result">
@@ -165,107 +153,26 @@
         </section>
       </section>
 
-      <section class="tool-info-section resizer-info-intro" aria-labelledby="resizerInfoTitle">
-        <div class="tool-info-copy">
-          <span class="tools-section-kicker">Image Resizer Guide</span>
-          <h2 id="resizerInfoTitle">Resize Images Online with PMW Image Resizer</h2>
-          <p>PMW Image Resizer lets you resize JPG, PNG, and WEBP images directly in your browser. Change the width and height, keep aspect ratio to avoid distortion, or use preset sizes for laptop wallpapers, mobile wallpapers, and square images.</p>
-        </div>
-      </section>
-
-      <section class="tool-info-section" aria-labelledby="resizeStepsTitle">
-        <div class="tool-info-head">
-          <span class="tools-section-kicker">Simple Workflow</span>
-          <h2 id="resizeStepsTitle">How to Resize an Image</h2>
-        </div>
-        <ol class="tool-step-list">
-          <li><span>1</span><p>Upload your image.</p></li>
-          <li><span>2</span><p>Enter the new width and height.</p></li>
-          <li><span>3</span><p>Keep aspect ratio enabled if you do not want the image to stretch.</p></li>
-          <li><span>4</span><p>Choose a preset size if needed.</p></li>
-          <li><span>5</span><p>Click Resize Image and download the resized file.</p></li>
-        </ol>
-      </section>
-
-      <section class="tool-info-section" aria-labelledby="resizeBenefitsTitle">
-        <div class="tool-info-head">
-          <span class="tools-section-kicker">Why It Helps</span>
-          <h2 id="resizeBenefitsTitle">Why Use PMW Image Resizer?</h2>
-        </div>
-        <div class="tool-info-card-grid">
-          <article class="tool-info-card">
-            <div class="tool-info-icon"><i data-lucide="monitor-smartphone"></i></div>
-            <h3>Resize for Any Screen</h3>
-            <p>Prepare images for laptop wallpapers, mobile wallpapers, websites, and social media without opening a heavy editing app.</p>
-          </article>
-          <article class="tool-info-card">
-            <div class="tool-info-icon"><i data-lucide="ratio"></i></div>
-            <h3>Keep Images Proportional</h3>
-            <p>The aspect ratio option helps keep the original proportions, so resized images do not look stretched or squeezed.</p>
-          </article>
-          <article class="tool-info-card">
-            <div class="tool-info-icon"><i data-lucide="shield-check"></i></div>
-            <h3>Private Browser-Based Resizing</h3>
-            <p>Images are processed locally in the browser when possible, so basic resizing does not require uploading files to PMW Visuals servers.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="tool-info-section" aria-labelledby="resizePresetsTitle">
-        <div class="tool-info-head">
-          <span class="tools-section-kicker">Common Dimensions</span>
-          <h2 id="resizePresetsTitle">Popular Image Resize Presets</h2>
-        </div>
-        <div class="preset-info-grid">
-          <article class="preset-info-card">
-            <h3>Laptop/Desktop</h3>
-            <ul>
-              <li><strong>3840 x 2160</strong><span>4K UHD wallpaper</span></li>
-              <li><strong>2560 x 1440</strong><span>QHD desktop wallpaper</span></li>
-              <li><strong>1920 x 1080</strong><span>Full HD wallpaper</span></li>
-              <li><strong>1366 x 768</strong><span>common laptop screen size</span></li>
-            </ul>
-          </article>
-          <article class="preset-info-card">
-            <h3>Mobile</h3>
-            <ul>
-              <li><strong>1080 x 1920</strong><span>vertical phone wallpaper</span></li>
-              <li><strong>1440 x 2560</strong><span>high-resolution mobile wallpaper</span></li>
-            </ul>
-          </article>
-          <article class="preset-info-card">
-            <h3>Square</h3>
-            <ul>
-              <li><strong>1080 x 1080</strong><span>social media square image</span></li>
-              <li><strong>1200 x 1200</strong><span>high-quality square image</span></li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section class="tool-info-section" aria-labelledby="resizeFaqTitle">
-        <div class="tool-info-head">
-          <span class="tools-section-kicker">Quick Answers</span>
-          <h2 id="resizeFaqTitle">Image Resizer FAQ</h2>
-        </div>
-        <div class="tool-faq-grid">
-          <article class="tool-faq-item"><h3>Are my images safe?</h3><p>Yes. PMW Image Resizer is designed to process images in your browser, so your image does not need to be uploaded to our server for basic resizing.</p></article>
-          <article class="tool-faq-item"><h3>Where are my images stored?</h3><p>Your images are not stored by PMW Visuals during browser-based resizing. The file stays on your device while the tool processes it locally.</p></article>
-          <article class="tool-faq-item"><h3>Is PMW Image Resizer free?</h3><p>Yes. You can resize images for free with daily limits. Premium users may get higher limits and extra features.</p></article>
-          <article class="tool-faq-item"><h3>What image formats are supported?</h3><p>PMW Image Resizer supports common formats like JPG, PNG, and WEBP, depending on browser support.</p></article>
-          <article class="tool-faq-item"><h3>What does keep aspect ratio mean?</h3><p>It keeps the original image proportions, so the resized image does not look stretched or squeezed.</p></article>
-          <article class="tool-faq-item"><h3>Can I resize laptop wallpapers?</h3><p>Yes. You can use desktop presets like 1920x1080, 2560x1440, and 3840x2160.</p></article>
-          <article class="tool-faq-item"><h3>Can I resize mobile wallpapers?</h3><p>Yes. You can use vertical presets like 1080x1920 and 1440x2560.</p></article>
-          <article class="tool-faq-item"><h3>Does resizing reduce file size?</h3><p>Sometimes, but not always. Resizing changes image dimensions. If your main goal is smaller file size, use the Image Compressor tool.</p></article>
-          <article class="tool-faq-item"><h3>Will PMW Visuals see my uploaded image?</h3><p>For basic browser-based resizing, the image is processed on your device, not manually reviewed or accessed by PMW Visuals.</p></article>
-        </div>
-      </section>
+      <!-- pmw-tools-guide:start --><div><span class="tg-legacy-anchor" id="resizerInfoTitle" aria-hidden="true"></span><span class="tg-legacy-anchor" id="resizeStepsTitle" aria-hidden="true"></span><span class="tg-legacy-anchor" id="resizeBenefitsTitle" aria-hidden="true"></span><span class="tg-legacy-anchor" id="resizePresetsTitle" aria-hidden="true"></span><span class="tg-legacy-anchor" id="resizeFaqTitle" aria-hidden="true"></span><div class="tg-guide" id="tool-guide"><nav class="tg-guide-nav" aria-label="Guide contents"><span>In this guide</span><a href="#resize-workflow">How to use it</a><a href="#ratio-calculator">Ratio calculator</a><a href="#resize-presets">Size guide</a><a href="#resize-pixel-budget">Pixel example</a><a href="#resize-faq">Troubleshooting</a></nav><section class="tg-section " id="resize-workflow"><div class="tg-section-head"><div><span class="tg-eyebrow">Keep shape and size separate</span><h2>Resize with a clear destination</h2></div></div><ol class="tg-steps"><li><span class="tg-step-number">01</span><div><h3>Read the original dimensions</h3><p>Upload a JPG, PNG or WebP and check its width and height. Start from the full-size original when you have it.</p></div></li><li><span class="tg-step-number">02</span><div><h3>Change one dimension</h3><p>For a proportional resize, keep aspect ratio enabled and edit width or height manually. PMW calculates the other value from the first uploaded image.</p></div></li><li><span class="tg-step-number">03</span><div><h3>Check a preset’s shape</h3><p>A preset sets both width and height. It does not automatically crop or add padding to suit your source. Different ratios can stretch the image.</p></div></li><li><span class="tg-step-number">04</span><div><h3>Choose the export</h3><p>Keep the original format or choose JPG, PNG or WebP. Download the result, check its dimensions and view it where it will be used.</p></div></li></ol></section>
+<section class="tg-section " id="ratio-calculator"><div class="tg-section-head"><div><span class="tg-eyebrow">Try the calculation</span><h2>One width. A matching height.</h2></div><p>Enter the source dimensions and your desired width. This calculator is an example helper; it does not change your uploaded image.</p></div><div class="tg-calculator"><div class="tg-calculator-inputs"><div class="tg-input-pair"><label>Source width<input id="guideSourceWidth" type="number" min="1" max="50000" value="1920"></label><label>Source height<input id="guideSourceHeight" type="number" min="1" max="50000" value="1080"></label></div><label>Target width<input id="guideTargetWidth" type="number" min="1" max="50000" value="1200"></label><p class="tg-small">Height = target width × source height ÷ source width. Round to the nearest whole pixel.</p></div><div class="tg-calculator-result" aria-live="polite"><span class="tg-eyebrow">Matching dimensions</span><output id="guideRatioResult">1200 × 675</output><p id="guideRatioSummary">The 16:9 shape is preserved. Pixel count changes; file size depends on the format and content.</p><div class="tg-ratio-frame"><span id="guideRatioFrame" aria-hidden="true"></span></div></div></div></section>
+<section class="tg-section " id="resize-shape"><div class="tg-section-head"><div><span class="tg-eyebrow">A square is a different shape</span><h2>Proportional resize versus stretching</h2></div></div><div class="tg-shape-demo"><figure><img src="/thumbnails/google-drive/14iXY0uyDwJ68hXvBYB0KePk80Qno3m1r.webp" width="240" height="427" alt="Portrait alpine artwork in its original proportions" loading="lazy"><figcaption><strong>Keep the proportions</strong><span>The peaks and the creek retain their shapes.</span></figcaption></figure><figure><img class="tg-stretched" src="/thumbnails/google-drive/14iXY0uyDwJ68hXvBYB0KePk80Qno3m1r.webp" width="240" height="240" alt="The same portrait stretched into a square, with widened mountains" loading="lazy"><figcaption><strong>Unlock and change the ratio</strong><span>Setting a portrait to a square stretches the scene here.</span></figcaption></figure><div><h3>A resize is not an automatic crop.</h3><p>PMW draws the whole image into the requested dimensions. A crop removes part of the image; padding adds space around it. This resizer does not provide those separate modes.</p><p>For a different screen shape, prepare a crop in an image editor first, or choose <a href="../../#screen-fit">wallpaper artwork with a matching orientation</a>.</p></div></div></section>
+<section class="tg-section " id="resize-presets"><div class="tg-section-head"><div><span class="tg-eyebrow">A few useful frame shapes</span><h2>Understand the preset before selecting it</h2></div></div><div class="tg-table-wrap" role="region" aria-label="Preset shape and intended use" tabindex="0"><span class="tg-table-hint">Scroll sideways to compare all columns →</span><table><caption>Preset shape and intended use</caption><thead><tr><th scope="col">Preset</th><th scope="col">Shape</th><th scope="col">Useful starting point</th></tr></thead><tbody><tr><th scope="row">1920 × 1080</th><td>16:9 landscape</td><td>A full-HD display or a wide image layout; check your actual display resolution.</td></tr><tr><th scope="row">1366 × 768</th><td>Approximately 16:9</td><td>A matching laptop screen or a smaller wide copy.</td></tr><tr><th scope="row">1280 × 720</th><td>16:9 landscape</td><td>A smaller wide image where full-HD detail is unnecessary.</td></tr><tr><th scope="row">1080 × 1920</th><td>9:16 portrait</td><td>A portrait layout. Taller phones may still crop it when set to fill.</td></tr><tr><th scope="row">1080 × 1080</th><td>1:1 square</td><td>A square image slot. A nonsquare source will need a prepared crop or will be distorted.</td></tr><tr><th scope="row">3840 × 2160</th><td>16:9 landscape</td><td>A 4K-sized pixel frame; a smaller source does not gain real detail from upscaling.</td></tr></tbody></table></div><p class="tg-callout"><strong>Presets set exact dimensions.</strong> The aspect-ratio lock updates the other field during manual entry. Always compare both numbers after clicking a preset.</p></section>
+<section class="tg-section " id="resize-export"><div class="tg-section-head"><div><span class="tg-eyebrow">Size is only one part of the export</span><h2>Keep detail, format and transparency in view</h2></div></div><div class="tg-card-grid"><article class="tg-card"><i data-lucide="scan" aria-hidden="true"></i><h3>Avoid unnecessary upscaling</h3><p>If your source is 941 × 1672, creating 1080 × 1920 interpolates pixels. It changes the file dimensions but does not reveal detail that was absent in the source.</p></article><article class="tg-card"><i data-lucide="layers" aria-hidden="true"></i><h3>Choose an appropriate format</h3><p>PNG preserves transparency and sharp graphic edges. JPG uses a white background for transparent areas in this tool. WebP can retain alpha when supported. The PNG quality slider is hidden because it does not work like JPEG quality.</p></article><article class="tg-card"><i data-lucide="printer" aria-hidden="true"></i><h3>Think in pixels for print</h3><p>An 1800 × 1200 image printed at 300 pixels per inch is 6 × 4 inches. This page changes pixels, not a print-DPI setting; your print software decides the physical size and quality.</p></article></div></section>
+<section class="tg-section " id="resize-pixel-budget"><div class="tg-section-head"><div><span class="tg-eyebrow">Width × height tells a useful story</span><h2>Half the width is a quarter of the pixels</h2></div></div><div class="tg-feature tg-feature-pixels"><div class="tg-feature-copy"><span class="tg-eyebrow">A worked 16:9 example</span><h3>960 × 540 is not half of 1920 × 1080 in pixel count.</h3><p>A 1920 × 1080 image contains 2,073,600 pixels. Reduce both dimensions by half and the 960 × 540 copy contains 518,400 pixels: one quarter of the source pixel count, with the same 16:9 proportions.</p><p>This explains why choosing appropriate dimensions can help with web delivery. It does not predict a 75% reduction in file size. The format, encoding settings and the detail inside the picture determine how many bytes those pixels need.</p><p>For a 480-pixel-wide display slot, you might prepare a 960-pixel-wide copy for a two-times pixel-density screen when your source is large enough. The layout and device decide whether those extra pixels are useful. Avoid making every small preview as large as the original.</p></div><figure class="tg-feature-art"><div class="tg-pixel-art" aria-label="Proportional pixel example: 1920 by 1080 has four times as many pixels as 960 by 540"><div class="tg-art-topline"><span>SAME SHAPE · DIFFERENT PIXEL COUNT</span></div><div class="tg-pixel-frame"><span>1920 × 1080</span><div><span>960 × 540</span><small>¼ of the pixels</small></div></div><div class="tg-art-key"><span>2,073,600 source pixels</span><span>518,400 target pixels</span></div></div><figcaption>The smaller frame is half the width and half the height. It is not a file-size forecast.</figcaption></figure></div><div class="tg-table-wrap" role="region" aria-label="Worked proportional landscape sizes" tabindex="0"><span class="tg-table-hint">Scroll sideways to compare all columns →</span><table><caption>Worked proportional landscape sizes</caption><thead><tr><th scope="col">Width × height</th><th scope="col">Pixel count</th><th scope="col">Share of the original pixels</th></tr></thead><tbody><tr><th scope="row">1920 × 1080</th><td>2,073,600</td><td>100% — source example</td></tr><tr><th scope="row">1280 × 720</th><td>921,600</td><td>About 44.4%</td></tr><tr><th scope="row">960 × 540</th><td>518,400</td><td>25%</td></tr><tr><th scope="row">480 × 270</th><td>129,600</td><td>6.25%</td></tr></tbody></table></div></section>
+<section class="tg-section " id="resize-destinations"><div class="tg-section-head"><div><span class="tg-eyebrow">The destination sets the dimensions</span><h2>Three ways to plan a resize</h2></div></div><div class="tg-stories"><article><span class="tg-story-number">01</span><div><span class="tg-eyebrow">For the web</span><h3>Start with the displayed slot.</h3><p>Find the approximate width the image will occupy, then consider whether a higher-density version is useful. Keep its original ratio unless the layout specifically requires a crop. Review the file size after export; a large PNG and a JPG of the same dimensions can have very different byte sizes.</p><p class="tg-story-route">Display slot → proportional dimensions → inspect file size</p></div></article><article><span class="tg-story-number">02</span><div><span class="tg-eyebrow">For a wallpaper</span><h3>Match the artwork’s shape to the screen.</h3><p>A phone and a desktop usually need different orientations. Resizing a portrait into landscape does not add scenery to the sides; it stretches the source in this tool. Choose suitable artwork or prepare a crop elsewhere. Your device’s fill/fit setting can still change how the picture appears.</p><p class="tg-story-route">Screen orientation → matching artwork → suitable pixel frame</p></div></article><article><span class="tg-story-number">03</span><div><span class="tg-eyebrow">For a print</span><h3>Calculate from physical size, then check the source.</h3><p>A 6 × 4 inch print at 300 pixels per inch requires 1800 × 1200 pixels. This is an arithmetic example, not a universal print requirement. Ask the printer what it needs. If the source is smaller, increasing the numbers cannot restore missing detail.</p><p class="tg-story-route">Print size × requested pixels per inch → required pixels</p></div></article></div></section>
+<section class="tg-section " id="resize-inspection"><div class="tg-section-head"><div><span class="tg-eyebrow">Before the final download</span><h2>Check the four parts of a good resize</h2></div></div><div class="tg-inspect-grid"><article><span>01 · Shape</span><h3>Does the subject still look natural?</h3><p>Check faces, circles and familiar objects. If they look wider or taller, compare the source and target ratios. Re-enable the aspect lock and enter one dimension manually.</p></article><article><span>02 · Detail</span><h3>Are you enlarging or reducing?</h3><p>Small text can disappear when you reduce the frame. Enlarging can soften edges without adding information. View the export at its intended size rather than relying only on a zoomed-out thumbnail.</p></article><article><span>03 · Background</span><h3>Is transparency still appropriate?</h3><p>JPG output fills transparent areas with white here. Choose PNG or supported WebP if an overlay needs transparency. Check the edge against the background where the image will actually be placed.</p></article><article><span>04 · Delivery</span><h3>Does the destination accept the copy?</h3><p>Confirm the requested dimensions, accepted format and file-size limit. Keep the original and use a descriptive export filename so you can distinguish the resized version later.</p></article></div></section>
+<section class="tg-section " id="resize-faq"><div class="tg-section-head"><div><span class="tg-eyebrow">Before you export</span><h2>Resizing questions answered</h2></div></div><div class="tg-faq"><details><summary>Why does the image look stretched?</summary><p>The target ratio differs from the original. Enable keep aspect ratio and edit one dimension manually, or prepare a crop before uploading. A preset is not an automatic crop.</p></details><details><summary>Will resizing to 4K make it sharper?</summary><p>It creates a 4K-sized file, not new source detail. Upscaling estimates new pixels from existing ones. A suitable original is the better starting point.</p></details><details><summary>Does resizing guarantee a smaller file?</summary><p>No. Pixel count, output format, encoding settings and content all matter. Use the <a href="../image-compressor/">Compressor</a> when a byte limit is your main constraint.</p></details><details><summary>What can I resize on the free plan?</summary><p>The current allowance is 13 resizes per day, one image at a time, up to 10MB per input. Free output limits are width up to 3840, height up to 2160 and up to 8,294,400 pixels. Both dimensions matter, including for tall portraits.</p></details><details><summary>How do batches handle aspect ratio?</summary><p>The width and height are shared across the batch, and the manual aspect calculation uses the first image. Review mixed-orientation batches carefully rather than assuming every image will keep its own ratio.</p></details><details><summary>Are my files uploaded or kept?</summary><p>Resizing and export happen locally in the browser. PMW does not receive the file contents through this tool. Ordinary page/library/analytics requests still occur. Save the result before closing the page.</p></details></div><p class="tg-source-note">Technical references: <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob">Canvas export types and quality</a>. Tool-specific behavior follows PMW’s current implementation.</p></section>
+<section class="tg-section " id="next-step"><div class="tg-section-head"><div><span class="tg-eyebrow">One change at a time</span><h2>Choose your next step</h2></div></div><div class="tg-next-grid"><a href="../image-compressor/"><span class="tg-eyebrow">PMW Tools</span><h3>Compress<i data-lucide="arrow-up-right" aria-hidden="true"></i></h3><p>Make the file lighter. Check quality and pixel dimensions.</p></a><a href="../image-converter/"><span class="tg-eyebrow">PMW Tools</span><h3>Convert<i data-lucide="arrow-up-right" aria-hidden="true"></i></h3><p>Change the format for the app or device that will use it.</p></a><a href="../../#screen-fit"><span class="tg-eyebrow">Wallpaper guide</span><h3>Fit your screen<i data-lucide="arrow-up-right" aria-hidden="true"></i></h3><p>Compare portrait and landscape artwork with your display’s shape.</p></a></div></section></div></div><!-- pmw-tools-guide:end -->
     </main>
   </div>
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-  <script src="../../js/pmw-tools.js"></script>
+  <script src="../../js/pmw-tools.js?v=20261006-tools"></script>
   <script src="../../consent.js"></script>
   <script src="../../js/account-menu.js" defer></script>
-  <script src="../../js/platform-footer.js" defer></script>
+  <script src="../../js/platform-footer.js?v=20261006-tools" defer></script>
+<script src="/js/tool-guides.js?v=20261006-tools" defer></script>
+<script src="/js/theme-chooser.js?v=20261006-light-v1" defer></script>
+<!-- pmw-site-menu:start --><dialog class="pmw-site-drawer" id="pmwSiteMenu" aria-labelledby="pmwSiteMenuTitle"><div class="pmw-site-drawer-head"><a href="/" class="pmw-site-drawer-brand"><img class="pmw-uploaded-logo" src="/assets/brand/pmw-visuals-logo.png" width="64" height="64" alt="PMW Visuals logo"><span>PMW Visuals</span></a><button class="pmw-site-menu-close" type="button" aria-label="Close navigation menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div class="pmw-site-drawer-content"><span class="pmw-menu-eyebrow">Your creative corner</span><h2 id="pmwSiteMenuTitle">Explore PMW.</h2><nav aria-label="Main destinations" class="pmw-site-menu-main"><a class="pmw-site-menu-featured" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m5 17 5-6 4 3 3-5 3 8"/></svg><span><strong>PMW Wallpapers</strong><small>Find your next screen.</small></span><b aria-hidden="true">→</b></a><a class="pmw-site-menu-featured is-current" href="/tools/" aria-current="location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14 6 4 4m-8 3-6 6 1 2 2-1 6-6m1-8 3-3 4 4-3 3Z"/></svg><span><strong>PMW Tools</strong><small>Convert. Resize. Compress.</small></span><b aria-hidden="true">→</b></a></nav><h3>Browse & create</h3><nav aria-label="More pages" class="pmw-site-menu-links"><a href="/wallpapers/">Wallpaper collections<span aria-hidden="true">↗</span></a><a href="/tools/image-converter/">Media Converter<span aria-hidden="true">↗</span></a><a href="/tools/image-resizer/">Image Resizer<span aria-hidden="true">↗</span></a><a href="/tools/image-compressor/">Image Compressor<span aria-hidden="true">↗</span></a><a href="/premium.html">Premium plans<span aria-hidden="true">↗</span></a><a href="/account.html">Your account<span aria-hidden="true">↗</span></a><a href="/login.html">Sign in / create an account<span aria-hidden="true">↗</span></a></nav><h3>Good to know</h3><nav aria-label="Policies and license" class="pmw-site-menu-links pmw-site-menu-legal"><a href="/license.html">Wallpaper license<span aria-hidden="true">↗</span></a><a href="/privacy-policy.html">Privacy policy<span aria-hidden="true">↗</span></a><a href="/terms.html">Terms of use<span aria-hidden="true">↗</span></a><a href="/cookie-policy.html">Cookie policy<span aria-hidden="true">↗</span></a><a href="/returnmoney-policy.html">Refund policy<span aria-hidden="true">↗</span></a></nav></div><p class="pmw-site-drawer-note">Wallpapers and useful tools. One place to explore.</p></dialog><!-- pmw-site-menu:end -->
+<script src="/js/site-navigation.js?v=20261006-menu" defer></script>
 </body>
 </html>

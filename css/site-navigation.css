@@ -1,0 +1,55 @@
+.pmw-site-nav { --nav-text:#f3f2e9; --nav-panel:#131d18; --nav-line:#3d5042; --nav-accent:#d7c18a; }
+html[data-theme="light"] .pmw-site-nav { --nav-text:#243b2d; --nav-panel:#fffef9; --nav-line:#cbd7c8; --nav-accent:#806121; background:#fffef9; }
+.pmw-site-nav .nav-inner,.pmw-site-nav:not(:has(.nav-inner)) { display:flex!important; align-items:center; justify-content:flex-start; gap:20px; }
+.pmw-site-nav:not(:has(.nav-inner)) { width:min(1280px,calc(100% - 48px)); margin:14px auto 0; }
+.pmw-site-nav .nav-actions,.pmw-site-nav .tools-nav-actions { margin-left:auto; }
+.pmw-site-menu-trigger { display:inline-flex; align-items:center; justify-content:center; flex:0 0 auto; gap:9px; min-height:44px; padding:10px 15px; color:var(--nav-text); background:var(--nav-panel); border:1px solid var(--nav-line); border-radius:12px; font:650 .8rem Inter,Arial,sans-serif; cursor:pointer; }
+.pmw-site-menu-trigger svg { width:20px; height:20px; }
+.pmw-site-nav .pmw-uploaded-logo,.pmw-uploaded-logo { display:block!important; width:64px!important; height:64px!important; object-fit:contain!important; object-position:center; background:#fffef9!important; border:1px solid #d9dbc8!important; border-radius:12px!important; padding:0!important; filter:none!important; }
+.pmw-site-nav :is(.nav-logo,.tools-brand,.brand,.ed-brand,.pmw-brand) { display:inline-flex; align-items:center; gap:12px; color:var(--nav-text); font-size:1rem; font-weight:800; text-decoration:none; }
+.pmw-site-nav .nav-inner { padding:10px 20px; }
+.pmw-site-nav.ed-nav { padding:12px 0; }
+.pmw-platform-footer .pmw-uploaded-logo { width:74px!important; height:74px!important; }
+.pmw-site-drawer { --menu-bg:#fffef9; --menu-text:#243b2d; --menu-muted:#5c6d61; --menu-line:#cbd7c8; --menu-accent:#806121; position:fixed; inset:0 auto 0 0; margin:0; width:min(390px,calc(100% - 28px)); max-width:none; height:100dvh; max-height:100dvh; box-sizing:border-box; padding:0; border:0; border-right:1px solid var(--menu-line); border-radius:0 22px 22px 0; color:var(--menu-text); background:var(--menu-bg); box-shadow:18px 0 80px #0004; overflow:auto; font-family:Inter,Arial,sans-serif; }
+html[data-theme="light"] .pmw-site-drawer { --menu-bg:#fffef9; --menu-text:#243b2d; --menu-muted:#5c6d61; --menu-line:#cbd7c8; --menu-accent:#806121; }
+.pmw-site-drawer::backdrop { background:#0b201466; backdrop-filter:blur(4px); }
+.pmw-site-drawer { color-scheme:light; }
+.pmw-site-drawer-head { position:sticky; top:0; z-index:2; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:22px; border-bottom:1px solid var(--menu-line); background:var(--menu-bg); }
+.pmw-site-drawer-brand { display:inline-flex; align-items:center; gap:12px; color:var(--menu-text); text-decoration:none; font-size:1rem; font-weight:800; }
+.pmw-site-menu-close { display:grid; place-items:center; width:38px; height:38px; flex:0 0 auto; padding:0; color:var(--menu-muted); border:1px solid var(--menu-line); border-radius:50%; background:transparent; cursor:pointer; }
+.pmw-site-menu-close svg { width:19px; height:19px; }
+.pmw-site-drawer-content { padding:26px 22px; }
+.pmw-menu-eyebrow { display:block; color:var(--menu-accent); font-size:.65rem; font-weight:750; letter-spacing:.12em; text-transform:uppercase; margin-bottom:12px; }
+.pmw-site-drawer h2 { margin:0 0 25px; color:var(--menu-text); font:500 1.75rem/1.2 'Space Grotesk',Inter,sans-serif; }
+.pmw-site-menu-main { display:grid; gap:12px; }
+.pmw-site-menu-featured { display:flex; align-items:center; gap:13px; padding:20px 16px; border:1px solid var(--menu-accent); border-left:4px solid var(--menu-accent); border-radius:13px; color:var(--menu-text); background:linear-gradient(125deg,#bdad7116,#679c7b10); text-decoration:none; }
+.pmw-site-menu-featured > svg { width:27px; height:27px; flex:0 0 auto; color:var(--menu-accent); }
+.pmw-site-menu-featured > span { flex:1; min-width:0; }
+.pmw-site-menu-featured strong { display:block; font-size:1rem; line-height:1.4; }
+.pmw-site-menu-featured small { display:block; margin-top:5px; font-size:.74rem; line-height:1.5; color:var(--menu-muted); }
+.pmw-site-menu-featured b { color:var(--menu-accent); font-size:1.25rem; }
+.pmw-site-menu-featured.is-current { background:linear-gradient(125deg,#bdad7130,#679c7b18); }
+.pmw-site-drawer h3 { margin:27px 0 12px; color:var(--menu-muted); font-size:.65rem; letter-spacing:.1em; text-transform:uppercase; }
+.pmw-site-menu-links { display:grid; }
+.pmw-site-menu-links a { display:flex; align-items:center; justify-content:space-between; gap:14px; min-height:43px; padding:10px 7px; border-bottom:1px solid var(--menu-line); color:var(--menu-text); font-size:.84rem; line-height:1.5; text-decoration:none; }
+.pmw-site-menu-links a span { color:var(--menu-muted); }
+.pmw-site-menu-links a:hover { color:var(--menu-accent); background:#8199740c; }
+.pmw-site-menu-legal a { font-size:.78rem; color:var(--menu-muted); }
+.pmw-site-drawer-note { margin:0; padding:0 22px 25px; color:var(--menu-muted); font-size:.74rem; line-height:1.7; }
+.pmw-site-menu-trigger:focus-visible,.pmw-site-drawer :is(a,button):focus-visible { outline:3px solid var(--menu-accent,var(--nav-accent)); outline-offset:4px; }
+.pmw-wallpaper-page .ed-gallery-controls .filter-panel { grid-template-columns:repeat(3,minmax(0,1fr)); }
+@media(max-width:700px) {
+  .pmw-site-nav .nav-inner,.pmw-site-nav:not(:has(.nav-inner)) { gap:12px; }
+  .pmw-site-nav:not(:has(.nav-inner)) { width:calc(100% - 28px); }
+  .pmw-site-nav .pmw-uploaded-logo { width:48px!important; height:48px!important; border-radius:9px!important; }
+  .pmw-site-nav :is(.nav-logo,.tools-brand,.brand,.ed-brand,.pmw-brand) { gap:9px; font-size:.88rem; }
+  .pmw-site-menu-trigger { width:42px; padding:9px; min-height:42px; }
+  .pmw-site-menu-trigger > span { display:none; }
+  .pmw-site-nav .nav-inner { padding:8px 14px; }
+  .pmw-site-drawer-head { padding:18px; }
+  .pmw-site-drawer-content { padding:22px 18px; }
+  .pmw-site-drawer-brand .pmw-uploaded-logo { width:58px!important; height:58px!important; }
+  .pmw-wallpaper-page .ed-gallery-controls .filter-panel { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .pmw-wallpaper-page .ed-gallery-controls .filter-field:last-child { grid-column:1/-1; }
+}
+@media(prefers-reduced-motion:reduce) { .pmw-site-drawer::backdrop { backdrop-filter:none; } }

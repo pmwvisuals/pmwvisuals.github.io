@@ -14,22 +14,37 @@
   }
 
   const STORAGE_KEY = "pmw_theme_preference";
+  // Retire only this site's former third-party advertising worker.
+  // Do not request notification permission or touch other registrations.
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      registrations.forEach((registration) => {
+        const worker = registration.active || registration.waiting || registration.installing;
+        if (!worker) return;
+        const url = new URL(worker.scriptURL);
+        if (url.origin === location.origin && url.pathname === '/sw.js') {
+          registration.unregister();
+        }
+      });
+    }).catch(() => {});
+  }
   const DARK_COLOR = "#050505";
   const LIGHT_COLOR = "#f5f7fb";
 
-  const normalizeTheme = (value) => value === "light" ? "light" : "dark";
+  const normalizeTheme = (value) => value === "dark" ? "dark" : "light";
 
   const readTheme = () => {
     try {
       return normalizeTheme(window.localStorage.getItem(STORAGE_KEY));
     } catch (error) {
-      return "dark";
+      return "light";
     }
   };
 
   const updateThemeColor = (theme) => {
     let meta = document.querySelector('meta[name="theme-color"]');
     if (!meta) {
+      if (document.readyState === 'loading') return;
       meta = document.createElement("meta");
       meta.name = "theme-color";
       document.head.appendChild(meta);
@@ -100,7 +115,7 @@
   window.PMWTheme = Object.freeze({
     storageKey: STORAGE_KEY,
     get: () => normalizeTheme(document.documentElement.dataset.theme || readTheme()),
-    set: (theme) => applyTheme(theme),
+    set: (theme, options = {}) => applyTheme(theme, options),
     toggle: () => applyTheme(
       document.documentElement.dataset.theme === "light" ? "dark" : "light"
     )
@@ -108,6 +123,7 @@
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => {
+      updateThemeColor(window.PMWTheme.get());
       updateRecaptchaTheme(initialTheme);
       window.setTimeout(() => recaptchaObserver?.disconnect(), 0);
     }, { once: true });

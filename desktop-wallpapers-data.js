@@ -5555,7 +5555,7 @@ window.PMW_DESKTOP_WALLPAPERS = [
   {
     "id": "desktop-velvet-waves-in-jewel-tones-189",
     "title": "Velvet Waves in Jewel Tones",
-    "description": "Download Velvet Waves in Jewel Tones, a free 1672x941 abstract desktop wallpaper featuring polished forms, rich color, and a modern wide-screen composition.",
+    "description": "Soft folded waves layer gold, teal, violet and deep blue across a wide frame. Light catches the ridges while the troughs remain dark, suggesting a velvet-like surface.",
     "category": "Abstract",
     "categories": [
       "Abstract"

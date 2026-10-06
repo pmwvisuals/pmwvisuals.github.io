@@ -29,7 +29,6 @@
       title: "Platform",
       links: [
         ["PMW Wallpapers", ""],
-        ["PMW Studio", "pmw-studio.html"],
         ["PMW Converter", "tools/image-converter/"],
         ["PMW Tools", "tools/"]
       ]
@@ -52,7 +51,10 @@
         ["AMOLED Wallpapers", "wallpapers/amoled/"],
         ["Anime Wallpapers", "wallpapers/anime/"],
         ["Nature Wallpapers", "wallpapers/nature/"],
-        ["All Wallpaper Pages", "wallpapers/"]
+        ["Dark Fantasy Wallpapers", "wallpapers/dark-fantasy/"],
+        ["Romantic Wallpapers", "wallpapers/romantic/"],
+        ["Space & Galaxy", "wallpapers/space-and-galaxy/"],
+        ["Wallpaper Collections", "wallpapers/"]
       ]
     },
     {
@@ -76,15 +78,14 @@
       <div class="pmw-platform-footer__grid">
         <div class="pmw-platform-footer__brand">
           <a class="pmw-platform-footer__brand-link" href="${siteUrl("")}" aria-label="PMW Wallpapers">
-            <img class="pmw-platform-footer__logo" src="${siteUrl("pmw-wordmark.png")}" alt="PMW">
-            <span class="pmw-platform-footer__brand-name">Visuals</span>
+            <img class="pmw-platform-footer__logo pmw-uploaded-logo" src="${siteUrl("assets/brand/pmw-visuals-logo.png")}" alt="PMW Visuals logo">
+            <span class="pmw-platform-footer__brand-name">PMW Visuals</span>
           </a>
-          <p class="pmw-platform-footer__description">PMW Visuals brings together browser-based media tools, wallpaper collections, and PMW creative projects in one digital platform.</p>
+          <p class="pmw-platform-footer__description">PMW Visuals brings together browser-based media tools and curated wallpaper collections for the screens you use.</p>
           <div class="pmw-platform-footer__socials" aria-label="PMW Visuals social media">
             <a class="pmw-platform-footer__social" href="https://www.instagram.com/pmw_wallpapers/" target="_blank" rel="noopener noreferrer" aria-label="PMW Visuals on Instagram">${socialIcon.instagram}</a>
             <a class="pmw-platform-footer__social" href="https://uk.pinterest.com/pmw_wallpapers/" target="_blank" rel="noopener noreferrer" aria-label="PMW Visuals on Pinterest">${socialIcon.pinterest}</a>
             <a class="pmw-platform-footer__social" href="https://www.facebook.com/people/Apollo-Sounds/61579450350429/?sk=about" target="_blank" rel="noopener noreferrer" aria-label="PMW Visuals on Facebook">${socialIcon.facebook}</a>
-            <a class="pmw-platform-footer__social" href="https://www.youtube.com/@PMW_Studio" target="_blank" rel="noopener noreferrer" aria-label="PMW Visuals on YouTube">${socialIcon.youtube}</a>
           </div>
         </div>
         ${columns.map((column) => `

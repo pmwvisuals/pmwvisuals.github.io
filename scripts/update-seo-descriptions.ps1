@@ -3,6 +3,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+throw 'Retired: this script replaces specific descriptions with generic download copy. Use scripts/build-editorial.mjs and the reviewed content records instead.'
 
 function Get-PlainText([string]$Value) {
     $withoutTags = [regex]::Replace($Value, '<[^>]+>', '')

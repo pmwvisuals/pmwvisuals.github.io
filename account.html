@@ -1,7 +1,7 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <script src="js/pmw-theme.js"></script>
+  <script src="js/pmw-theme.js?v=20261006-light-v1"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Account - PMW Visuals</title>
@@ -10,13 +10,15 @@
   <link rel="stylesheet" href="css/pmw-auth.css" />
   <link rel="stylesheet" href="css/pmw-buttons.css">
   <link rel="stylesheet" href="css/pmw-theme.css?v=20260919-light-fix-2">
+<link rel="stylesheet" href="/css/site-appearance.css?v=20261006-light-v1">
+<link rel="stylesheet" href="/css/site-navigation.css?v=20261006-menu">
 </head>
 <body class="pmw-auth-page pmw-account-dashboard-page">
   <main class="pmw-dashboard-shell">
     <aside class="pmw-dashboard-sidebar" aria-label="Account navigation">
       <a class="pmw-dashboard-brand" href="index.html">
-        <img src="pmw-wordmark.png" alt="PMW" />
-        <span>Visuals</span>
+        <img class="pmw-uploaded-logo" src="/assets/brand/pmw-visuals-logo.png" alt="PMW Visuals logo" width="64" height="64" />
+        <span>PMW Visuals</span>
       </a>
 
       <nav class="pmw-dashboard-menu" aria-label="Dashboard">
@@ -195,5 +197,6 @@
   </footer>
 
   <script type="module" src="js/account.js"></script>
+<script src="/js/theme-chooser.js?v=20261006-light-v1" defer></script>
 </body>
 </html>

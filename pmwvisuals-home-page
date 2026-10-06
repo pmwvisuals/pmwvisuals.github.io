@@ -3230,7 +3230,7 @@
             }
         }
 
-    
+
         .brand img.pmw-brand-wordmark,
         .nav-logo img.pmw-brand-wordmark,
         .pmw-brand-wordmark {
@@ -3278,7 +3278,7 @@
                 <button class="nav-link active" data-section="home" onclick="navigateTo('home')"><span>Home</span></button>
                 <button class="nav-link" onclick="window.location.href='tools/'"><span>PMW Tools</span></button>
                 <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html'"><span>PMW Wallpapers</span></button>
-                <button class="nav-link" data-section="studio" onclick="window.location.href='pmw-studio.html'"><span>PMW Studio</span></button>
+
             </div>
             <div class="nav-links nav-links-right"></div>
                 <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
@@ -3295,7 +3295,7 @@
         <button class="nav-link" onclick="navigateTo('home'); toggleMobileMenu();">Home</button>
         <button class="nav-link" onclick="window.location.href='tools/';">PMW Tools</button>
         <button class="nav-link" onclick="window.location.href='pmw-wallpapers.html';">PMW Wallpapers</button>
-        <button class="nav-link" onclick="window.location.href='pmw-studio.html';">PMW Studio</button>
+
     </div>
 
     <!-- Main Content -->
@@ -3310,7 +3310,7 @@
                     <div class="pmw-home-actions" aria-label="Primary PMW Visuals actions">
                         <a class="pmw-home-button pmw-home-button-outline" href="/tools/">Open PMW Tools <span aria-hidden="true">&rarr;</span></a>
                         <a class="pmw-home-button pmw-home-button-gold" href="pmw-wallpapers.html">Browse Wallpapers <span aria-hidden="true">&rarr;</span></a>
-                        <a class="pmw-home-button pmw-home-button-outline" href="pmw-studio.html">Visit PMW Studio <span aria-hidden="true">&rarr;</span></a>
+
                     </div>
                     <div class="pmw-home-proof" aria-label="Platform qualities">
                         <span>Fast and secure</span>
@@ -3357,11 +3357,7 @@
                         <strong>Explore mobile, laptop, desktop and aesthetic wallpapers</strong>
                         <img src="https://res.cloudinary.com/dlmjetz3s/image/upload/v1780135604/D.F.W_53_dlxavf.png" alt="PMW wallpaper preview" loading="lazy">
                     </a>
-                    <a class="pmw-hero-side-card pmw-studio-card-float" href="pmw-studio.html">
-                        <span>PMW Studio</span>
-                        <strong>Discover PMW Studio releases and creative projects</strong>
-                        <div class="pmw-waveform" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                    </a>
+
                     <div class="pmw-eye-mark" aria-hidden="true"><img src="favicon.png" alt=""></div>
                     <div class="pmw-floating-mini pmw-mini-one"><strong>Media Converter</strong><span>90%</span></div>
                     <div class="pmw-floating-mini pmw-mini-two"><strong>Image Resizer</strong><span>1080&times;1920</span></div>
@@ -3386,12 +3382,7 @@
                             <p>Browse mobile, laptop, desktop, and aesthetic wallpapers from one dedicated section.</p>
                             <strong>Browse Wallpapers <span aria-hidden="true">&rarr;</span></strong>
                         </a>
-                        <a class="pmw-platform-card pmw-platform-studio" href="pmw-studio.html" data-home-reveal>
-                            <span class="pmw-platform-icon">S</span>
-                            <h3>PMW Studio</h3>
-                            <p>Discover PMW Studio music, releases, and creative media projects.</p>
-                            <strong>Visit Studio <span aria-hidden="true">&rarr;</span></strong>
-                        </a>
+
                     </div>
                 </section>
 
@@ -3521,7 +3512,7 @@
                         <a href="index.html"><span>PMW</span><h3>PMW Visuals</h3><p>The main platform for visual tools, wallpapers, and creative solutions.</p></a>
                         <a href="/tools/"><span>TO</span><h3>PMW Tools</h3><p>Use browser-based tools to convert media, resize images, and compress files.</p></a>
                         <a href="pmw-wallpapers.html"><span>WP</span><h3>PMW Wallpapers</h3><p>High-quality wallpapers for mobile, laptop, desktop, and more.</p></a>
-                        <a href="pmw-studio.html"><span>ST</span><h3>PMW Studio</h3><p>Discover PMW Studio music, releases, and creative projects.</p></a>
+
                         <a href="https://www.youtube.com/@PMW_Studio" target="_blank" rel="noopener noreferrer"><span>YT</span><h3>PMW on YouTube</h3><p>Get updates on tools, YouTube, and PMW releases.</p></a>
                     </div>
                 </section>
@@ -3768,7 +3759,7 @@
                     <h3>Explore</h3>
                     <a href="javascript:void(0)" onclick="navigateTo('home')">Home</a>
                     <a href="pmw-wallpapers.html">PMW Wallpapers</a>
-                    <a href="pmw-studio.html">PMW Studio</a>
+
                     <a href="tools/">PMW Tools</a>
                     <a href="javascript:void(0)" onclick="navigateTo('about')">About Us</a>
                     <a href="javascript:void(0)" onclick="navigateTo('contact')">Contact</a>
@@ -4059,7 +4050,7 @@
         // ===== NAVIGATION =====
         function navigateTo(section, param = null) {
             if (section === 'studio') {
-                window.location.href = 'pmw-studio.html';
+                window.location.href = '/';
                 return;
             }
             document.querySelectorAll('.section').forEach(s => {
@@ -4294,7 +4285,7 @@
             document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); }, { once: true });
         }
 
-        
+
 
         // ===== DRIVE TITLE FETCHER =====
         // Note: Google Drive requires authentication to get file metadata via API.
@@ -4524,7 +4515,7 @@
             };
         }
 
-        
+
 
         setTimeout(addTiltEffect, 500);
 
@@ -5738,6 +5729,6 @@ function initContactForm() {
     <script src="consent.js" defer></script>
     <script src="js/pmw-home.js" defer></script>
   <script src="./js/account-menu.js" defer></script>
-  <script src="./js/platform-footer.js" defer></script>
+  <script src="./js/platform-footer.js?v=20261006-gallery" defer></script>
 </body>
 </html>

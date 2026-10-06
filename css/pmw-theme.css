@@ -1,7 +1,7 @@
 /*
  * PMW light theme
- * Dark mode remains the default and keeps every existing page unchanged.
- * Light styling is scoped to the wallpaper catalogue and account dashboard.
+ * Wallpaper catalogue and account dashboard foundation.
+ * site-appearance.css adds the standard light look and themed tools.
  */
 
 html[data-theme="light"] body.pmw-wallpaper-page,
