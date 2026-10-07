@@ -67,12 +67,16 @@ jobs:
           PINTEREST_APP_SECRET: ${{ secrets.PINTEREST_APP_SECRET }}
           PINTEREST_REFRESH_TOKEN: ${{ secrets.PINTEREST_REFRESH_TOKEN }}
           PINTEREST_TOKEN_KEY: ${{ secrets.PINTEREST_TOKEN_KEY }}
+          PINTEREST_STANDARD_ENABLED: ${{ secrets.PINTEREST_STANDARD_ENABLED }}
         run: |
-          if [ -n "$PINTEREST_APP_ID" ] && [ -n "$PINTEREST_APP_SECRET" ] && [ -n "$PINTEREST_REFRESH_TOKEN" ] && [ -n "$PINTEREST_TOKEN_KEY" ]; then
-            echo "ready=true" >> "$GITHUB_OUTPUT"
-          else
+          if [ -z "$PINTEREST_APP_ID" ] || [ -z "$PINTEREST_APP_SECRET" ] || [ -z "$PINTEREST_REFRESH_TOKEN" ] || [ -z "$PINTEREST_TOKEN_KEY" ]; then
             echo "ready=false" >> "$GITHUB_OUTPUT"
             echo "::notice::Pinterest credentials are not configured yet. Dry-run validation completed."
+          elif [ "$GITHUB_EVENT_NAME" = "schedule" ] && [ "$PINTEREST_STANDARD_ENABLED" != "true" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Scheduled production publishing is paused until PINTEREST_STANDARD_ENABLED=true."
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Publish Pins
