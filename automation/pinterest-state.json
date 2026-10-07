@@ -3,9 +3,9 @@
   "posted": {},
   "failures": {
     "mobile:chatgpt-image-jun-1-2026-03-39-05-pm-vlxhic": {
-      "attempts": 2,
+      "attempts": 3,
       "last_error": "Pinterest API POST /pins failed: HTTP 403: {'code': 29, 'message': 'Apps with Trial access may not create Pins in production https://api.pinterest.com - use API Sandbox https://api-sandbox.pinterest.com instead.'}",
-      "last_attempt_at": "2026-10-07T14:29:59.576788+00:00",
+      "last_attempt_at": "2026-10-07T14:33:29.569499+00:00",
       "title": "Cosmic Lion, Dragon and Lotus Bowl",
       "link": "https://pmwvisuals.com/wallpapers/amoled/01/cosmic-lion-dragon-and-lotus-bowl.html"
     }
@@ -15,5 +15,5 @@
     "AMOLED Wallpapers": "1143984811537518000"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-10-07T14:29:59.576833+00:00"
+  "updated_at": "2026-10-07T14:33:29.569535+00:00"
 }
