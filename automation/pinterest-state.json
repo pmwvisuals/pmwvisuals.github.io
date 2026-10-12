@@ -8,15 +8,52 @@
       "title": "Cosmic Lion, Dragon and Lotus Bowl",
       "board": "AMOLED Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/amoled/01/cosmic-lion-dragon-and-lotus-bowl.html"
+    },
+    "mobile:chatgpt-image-jun-10-2026-07-33-24-pm-qqonbv": {
+      "pin_id": "1143984742884946865",
+      "posted_at": "2026-10-12T19:54:06.783407+00:00",
+      "device": "mobile",
+      "title": "Anime Boy in Glowing Enchanted Forest",
+      "board": "Anime Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/anime/01/anime-boy-in-glowing-enchanted-forest.html"
+    },
+    "mobile:chatgpt-image-jun-6-2026-10-46-34-pm-wx1gek": {
+      "pin_id": "1143984742884947232",
+      "posted_at": "2026-10-12T19:59:08.807934+00:00",
+      "device": "mobile",
+      "title": "Samurai Meditating On A Floating Cloud Island",
+      "board": "Celestial Samurai Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/celestial-samurai/01/samurai-meditating-on-a-floating-cloud-island.html"
+    },
+    "mobile:chatgpt-image-may-30-2026-06-35-03-pm-wg9jku": {
+      "pin_id": "1143984742884947605",
+      "posted_at": "2026-10-12T20:04:10.379151+00:00",
+      "device": "mobile",
+      "title": "Milky Way over Dark Mountains",
+      "board": "Dark Aesthetic Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-aesthetic/01/milky-way-over-dark-mountains.html"
+    },
+    "mobile:chatgpt-image-jun-1-2026-10-11-25-pm-qxdmxa": {
+      "pin_id": "1143984742884947930",
+      "posted_at": "2026-10-12T20:09:12.739831+00:00",
+      "device": "mobile",
+      "title": "Black Phoenix under Moonlight",
+      "board": "Dark Fantasy Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/black-phoenix-under-moonlight.html"
     }
   },
   "failures": {},
   "daily_success": {
-    "2026-10-12": 1
+    "2026-10-12": 1,
+    "2026-10-13": 4
   },
   "boards": {
-    "AMOLED Wallpapers": "1143984811537518000"
+    "AMOLED Wallpapers": "1143984811537518000",
+    "Anime Wallpapers": "1143984811537552844",
+    "Celestial Samurai Wallpapers": "1143984811538015247",
+    "Dark Aesthetic Wallpapers": "1143984811537517994",
+    "Dark Fantasy Wallpapers": "1143984811537517995"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-10-12T15:11:16.060320+00:00"
+  "updated_at": "2026-10-12T20:09:12.739876+00:00"
 }
