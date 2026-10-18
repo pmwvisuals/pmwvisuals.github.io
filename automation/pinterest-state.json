@@ -392,6 +392,38 @@
       "title": "White Feather on a Black Background",
       "board": "AMOLED Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/amoled/01/white-feather-on-a-black-background.html"
+    },
+    "mobile:chatgpt-image-jun-10-2026-07-16-29-pm-anpfgw": {
+      "pin_id": "1143984742885418190",
+      "posted_at": "2026-10-18T07:19:48.068812+00:00",
+      "device": "mobile",
+      "title": "Dark Swordsman with Purple Blade in Ruined Forest",
+      "board": "Anime Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/anime/01/dark-swordsman-with-purple-blade-in-ruined-forest.html"
+    },
+    "mobile:chatgpt-image-jun-6-2026-10-40-04-pm-yahui5": {
+      "pin_id": "1143984742885418383",
+      "posted_at": "2026-10-18T07:24:49.761063+00:00",
+      "device": "mobile",
+      "title": "Samurai On Bioluminescent Moonlit Shore",
+      "board": "Celestial Samurai Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/celestial-samurai/01/samurai-on-bioluminescent-moonlit-shore.html"
+    },
+    "mobile:chatgpt-image-may-30-2026-06-42-12-pm-oonnqy": {
+      "pin_id": "1143984742885418578",
+      "posted_at": "2026-10-18T07:29:51.501847+00:00",
+      "device": "mobile",
+      "title": "Moonlit Mountain Lake Valley",
+      "board": "Dark Aesthetic Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-aesthetic/01/moonlit-mountain-lake-valley.html"
+    },
+    "mobile:chatgpt-image-jun-1-2026-10-12-22-pm-zxrtpj": {
+      "pin_id": "1143984742885418774",
+      "posted_at": "2026-10-18T07:34:53.036664+00:00",
+      "device": "mobile",
+      "title": "Dark Throne Beneath A Blood Eclipse",
+      "board": "Dark Fantasy Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/dark-throne-beneath-a-blood-eclipse.html"
     }
   },
   "failures": {},
@@ -401,7 +433,8 @@
     "2026-10-14": 8,
     "2026-10-15": 8,
     "2026-10-16": 8,
-    "2026-10-17": 12
+    "2026-10-17": 12,
+    "2026-10-18": 4
   },
   "boards": {
     "AMOLED Wallpapers": "1143984811537518000",
@@ -414,5 +447,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-10-17T17:38:03.503143+00:00"
+  "updated_at": "2026-10-18T07:34:53.036707+00:00"
 }
