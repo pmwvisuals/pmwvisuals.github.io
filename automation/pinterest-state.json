@@ -554,7 +554,22 @@
       "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/green-glowing-forest-lantern-path.html"
     }
   },
-  "failures": {},
+  "failures": {
+    "mobile:chatgpt-image-jun-2-2026-10-08-11-pm-yscugh": {
+      "attempts": 1,
+      "last_error": "Pinterest API POST /pins failed: HTTP 400: {'code': 2787, 'message': 'Sorry! Something went wrong on our end.'}",
+      "last_attempt_at": "2026-10-20T07:47:55.886381+00:00",
+      "title": "Coastal Waterfall Dropping into Turquoise Sea",
+      "link": "https://pmwvisuals.com/wallpapers/nature/01/coastal-waterfall-dropping-into-turquoise-sea.html"
+    },
+    "mobile:r-d-w-9-clpdzl": {
+      "attempts": 1,
+      "last_error": "Pinterest API POST /pins failed: HTTP 429: {'code': 9, 'message': 'Sorry! We blocked this link because it may lead to spam.', 'details': {'source_field': None}}",
+      "last_attempt_at": "2026-10-20T07:47:57.024060+00:00",
+      "title": "Snowy Cabin under a Full Moon",
+      "link": "https://pmwvisuals.com/wallpapers/romantic/01/snowy-cabin-under-a-full-moon.html"
+    }
+  },
   "daily_success": {
     "2026-10-12": 1,
     "2026-10-13": 12,
@@ -576,5 +591,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-10-19T17:18:35.415966+00:00"
+  "updated_at": "2026-10-20T07:47:57.024103+00:00"
 }

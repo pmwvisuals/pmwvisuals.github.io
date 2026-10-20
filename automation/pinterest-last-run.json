@@ -2,10 +2,10 @@
   "dry_run": false,
   "catalog_total": 1692,
   "posted_total": 69,
-  "posted_today": 8,
-  "posted_this_run": 4,
-  "attempted_this_run": 4,
+  "posted_today": 0,
+  "posted_this_run": 0,
+  "attempted_this_run": 2,
   "remaining": 1623,
-  "failures_open": 0,
-  "timestamp": "2026-10-19T17:18:35.417605+00:00"
+  "failures_open": 2,
+  "timestamp": "2026-10-20T07:47:57.025382+00:00"
 }
