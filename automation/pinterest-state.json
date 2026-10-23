@@ -680,6 +680,38 @@
       "title": "Floating Purple Crystal Kingdom",
       "board": "Dark Fantasy Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/floating-purple-crystal-kingdom.html"
+    },
+    "mobile:chatgpt-image-jun-2-2026-10-08-13-pm-he7sgl": {
+      "pin_id": "1143984742885875880",
+      "posted_at": "2026-10-23T07:46:48.420079+00:00",
+      "device": "mobile",
+      "title": "Sunlit Coral Reef Underwater",
+      "board": "Nature Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/nature/01/sunlit-coral-reef-underwater.html"
+    },
+    "mobile:r-d-w-11-djwg6y": {
+      "pin_id": "1143984742885876110",
+      "posted_at": "2026-10-23T07:51:49.887308+00:00",
+      "device": "mobile",
+      "title": "Bride and Groom under Cherry Blossoms and Moonlight",
+      "board": "Romantic Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/romantic/01/bride-and-groom-under-cherry-blossoms-and-moonlight.html"
+    },
+    "mobile:chatgpt-image-jun-4-2026-06-09-28-pm-yqpwjn": {
+      "pin_id": "1143984742885876390",
+      "posted_at": "2026-10-23T07:56:51.161920+00:00",
+      "device": "mobile",
+      "title": "Ringed Planet among Crystals",
+      "board": "Space and Galaxy Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/space-and-galaxy/01/ringed-planet-among-crystals.html"
+    },
+    "mobile:chatgpt-image-jun-1-2026-03-39-42-pm-vqlmui": {
+      "pin_id": "1143984742885876677",
+      "posted_at": "2026-10-23T08:01:52.442317+00:00",
+      "device": "mobile",
+      "title": "Black Hole Swirl in Deep Space",
+      "board": "AMOLED Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/amoled/01/black-hole-swirl-in-deep-space.html"
     }
   },
   "failures": {},
@@ -693,7 +725,8 @@
     "2026-10-18": 12,
     "2026-10-19": 8,
     "2026-10-21": 8,
-    "2026-10-22": 8
+    "2026-10-22": 8,
+    "2026-10-23": 4
   },
   "boards": {
     "AMOLED Wallpapers": "1143984811537518000",
@@ -706,5 +739,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-10-22T15:40:21.346502+00:00"
+  "updated_at": "2026-10-23T08:01:52.442365+00:00"
 }
