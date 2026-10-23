@@ -712,9 +712,49 @@
       "title": "Black Hole Swirl in Deep Space",
       "board": "AMOLED Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/amoled/01/black-hole-swirl-in-deep-space.html"
+    },
+    "mobile:chatgpt-image-jun-6-2026-10-40-15-pm-dz25vb": {
+      "pin_id": "1143984742885910366",
+      "posted_at": "2026-10-23T15:15:30.131539+00:00",
+      "device": "mobile",
+      "title": "Samurai Before Eclipse over Cloud Valley",
+      "board": "Celestial Samurai Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/celestial-samurai/01/samurai-before-eclipse-over-cloud-valley.html"
+    },
+    "mobile:d-f-w-1-kkntne": {
+      "pin_id": "1143984742885910809",
+      "posted_at": "2026-10-23T15:20:31.728275+00:00",
+      "device": "mobile",
+      "title": "Moon Phase Celestial Chart",
+      "board": "Dark Aesthetic Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-aesthetic/01/moon-phase-celestial-chart.html"
+    },
+    "mobile:chatgpt-image-jun-1-2026-10-13-14-pm-ys2sj2": {
+      "pin_id": "1143984742885911158",
+      "posted_at": "2026-10-23T15:25:33.491127+00:00",
+      "device": "mobile",
+      "title": "Moonlit Blue Bioluminescent Forest",
+      "board": "Dark Fantasy Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/blue-mushroom-forest-under-the-moon.html"
+    },
+    "mobile:chatgpt-image-jun-2-2026-10-08-24-pm-tvpdzy": {
+      "pin_id": "1143984742885911566",
+      "posted_at": "2026-10-23T15:30:35.166559+00:00",
+      "device": "mobile",
+      "title": "Golden Desert Sandstorm",
+      "board": "Nature Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/nature/01/golden-desert-sandstorm.html"
     }
   },
-  "failures": {},
+  "failures": {
+    "mobile:chatgpt-image-jun-10-2026-07-16-39-pm-vli04l": {
+      "attempts": 1,
+      "last_error": "Pinterest API POST /pins failed: HTTP 500: {'code': 12, 'message': 'Something went wrong on our end. Sorry about that.', 'details': {'request_id': '1581454468240795'}}",
+      "last_attempt_at": "2026-10-23T15:15:28.696588+00:00",
+      "title": "Boy Steering A Ship Beneath A Sky Dragon",
+      "link": "https://pmwvisuals.com/wallpapers/anime/01/boy-steering-a-ship-beneath-a-sky-dragon.html"
+    }
+  },
   "daily_success": {
     "2026-10-12": 1,
     "2026-10-13": 12,
@@ -726,7 +766,7 @@
     "2026-10-19": 8,
     "2026-10-21": 8,
     "2026-10-22": 8,
-    "2026-10-23": 4
+    "2026-10-23": 8
   },
   "boards": {
     "AMOLED Wallpapers": "1143984811537518000",
@@ -739,5 +779,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-10-23T08:01:52.442365+00:00"
+  "updated_at": "2026-10-23T15:30:35.166587+00:00"
 }
