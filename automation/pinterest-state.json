@@ -744,17 +744,41 @@
       "title": "Golden Desert Sandstorm",
       "board": "Nature Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/nature/01/golden-desert-sandstorm.html"
-    }
-  },
-  "failures": {
+    },
     "mobile:chatgpt-image-jun-10-2026-07-16-39-pm-vli04l": {
-      "attempts": 1,
-      "last_error": "Pinterest API POST /pins failed: HTTP 500: {'code': 12, 'message': 'Something went wrong on our end. Sorry about that.', 'details': {'request_id': '1581454468240795'}}",
-      "last_attempt_at": "2026-10-23T15:15:28.696588+00:00",
+      "pin_id": "1143984742885981582",
+      "posted_at": "2026-10-24T07:28:47.093328+00:00",
+      "device": "mobile",
       "title": "Boy Steering A Ship Beneath A Sky Dragon",
+      "board": "Anime Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/anime/01/boy-steering-a-ship-beneath-a-sky-dragon.html"
+    },
+    "mobile:r-d-w-12-nfdwns": {
+      "pin_id": "1143984742885981903",
+      "posted_at": "2026-10-24T07:33:48.547585+00:00",
+      "device": "mobile",
+      "title": "Couple by a Moonlit Mountain Lake",
+      "board": "Romantic Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/romantic/01/couple-by-a-moonlit-mountain-lake.html"
+    },
+    "mobile:chatgpt-image-jun-4-2026-06-09-25-pm-ty0crm": {
+      "pin_id": "1143984742885982290",
+      "posted_at": "2026-10-24T07:38:50.169452+00:00",
+      "device": "mobile",
+      "title": "Floating Crystal Cubes in Nebula",
+      "board": "Space and Galaxy Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/space-and-galaxy/01/floating-crystal-cubes-in-nebula.html"
+    },
+    "mobile:chatgpt-image-jun-1-2026-03-39-45-pm-pr6qyo": {
+      "pin_id": "1143984742885982601",
+      "posted_at": "2026-10-24T07:43:51.934917+00:00",
+      "device": "mobile",
+      "title": "Blue Stag with Cosmic Antlers",
+      "board": "AMOLED Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/amoled/01/blue-stag-with-cosmic-antlers.html"
     }
   },
+  "failures": {},
   "daily_success": {
     "2026-10-12": 1,
     "2026-10-13": 12,
@@ -766,7 +790,8 @@
     "2026-10-19": 8,
     "2026-10-21": 8,
     "2026-10-22": 8,
-    "2026-10-23": 8
+    "2026-10-23": 8,
+    "2026-10-24": 4
   },
   "boards": {
     "AMOLED Wallpapers": "1143984811537518000",
@@ -779,5 +804,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-10-23T15:30:35.166587+00:00"
+  "updated_at": "2026-10-24T07:43:51.934952+00:00"
 }
