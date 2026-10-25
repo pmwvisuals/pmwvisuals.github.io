@@ -872,6 +872,38 @@
       "title": "Moonlit Dragon in Violet Mushrooms",
       "board": "Dark Fantasy Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/moonlit-dragon-in-violet-mushrooms.html"
+    },
+    "mobile:chatgpt-image-jun-2-2026-10-08-27-pm-mnj6qu": {
+      "pin_id": "1143984742886118190",
+      "posted_at": "2026-10-25T14:28:06.664588+00:00",
+      "device": "mobile",
+      "title": "Desert Cactus under Storm Clouds",
+      "board": "Nature Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/nature/01/desert-cactus-under-storm-clouds.html"
+    },
+    "mobile:r-d-w-14-mjfgly": {
+      "pin_id": "1143984742886118722",
+      "posted_at": "2026-10-25T14:33:08.288726+00:00",
+      "device": "mobile",
+      "title": "Milky Way Mountain Overlook with Lanterns",
+      "board": "Romantic Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/romantic/01/milky-way-mountain-overlook-with-lanterns.html"
+    },
+    "mobile:chatgpt-image-jun-4-2026-06-09-42-pm-bfboee": {
+      "pin_id": "1143984742886119186",
+      "posted_at": "2026-10-25T14:38:09.789892+00:00",
+      "device": "mobile",
+      "title": "Lighthouse Beaming into the Cosmos",
+      "board": "Space and Galaxy Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/space-and-galaxy/01/lighthouse-beaming-into-the-cosmos.html"
+    },
+    "mobile:chatgpt-image-jun-1-2026-03-39-50-pm-a6ldk9": {
+      "pin_id": "1143984742886119862",
+      "posted_at": "2026-10-25T14:43:11.067955+00:00",
+      "device": "mobile",
+      "title": "Blue Flame Crown with Reflection",
+      "board": "AMOLED Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/amoled/01/blue-flame-crown-with-reflection.html"
     }
   },
   "failures": {},
@@ -888,7 +920,7 @@
     "2026-10-22": 8,
     "2026-10-23": 8,
     "2026-10-24": 12,
-    "2026-10-25": 4
+    "2026-10-25": 8
   },
   "boards": {
     "AMOLED Wallpapers": "1143984811537518000",
@@ -901,5 +933,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-10-25T07:57:05.297434+00:00"
+  "updated_at": "2026-10-25T14:43:11.067998+00:00"
 }
