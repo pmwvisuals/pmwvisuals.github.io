@@ -840,6 +840,38 @@
       "title": "Blue Dragon Wrapped in a Galaxy",
       "board": "AMOLED Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/amoled/01/blue-dragon-wrapped-in-a-galaxy.html"
+    },
+    "mobile:chatgpt-image-jun-10-2026-07-16-41-pm-mgb9vl": {
+      "pin_id": "1143984742886090246",
+      "posted_at": "2026-10-25T07:42:01.247383+00:00",
+      "device": "mobile",
+      "title": "Boy in A Bright Floating Market City",
+      "board": "Anime Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/anime/01/boy-in-a-bright-floating-market-city.html"
+    },
+    "mobile:chatgpt-image-jun-6-2026-10-42-54-pm-r2diej": {
+      "pin_id": "1143984742886090478",
+      "posted_at": "2026-10-25T07:47:02.489320+00:00",
+      "device": "mobile",
+      "title": "Samurai Below Star Waterfall at Temple",
+      "board": "Celestial Samurai Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/celestial-samurai/01/samurai-below-star-waterfall-at-temple.html"
+    },
+    "mobile:d-f-w-3-p8j3p7": {
+      "pin_id": "1143984742886090731",
+      "posted_at": "2026-10-25T07:52:04.018688+00:00",
+      "device": "mobile",
+      "title": "Black Crown in Shadow",
+      "board": "Dark Aesthetic Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-aesthetic/01/black-crown-in-shadow.html"
+    },
+    "mobile:chatgpt-image-jun-1-2026-10-13-37-pm-nhzxlp": {
+      "pin_id": "1143984742886091027",
+      "posted_at": "2026-10-25T07:57:05.297394+00:00",
+      "device": "mobile",
+      "title": "Moonlit Dragon in Violet Mushrooms",
+      "board": "Dark Fantasy Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/moonlit-dragon-in-violet-mushrooms.html"
     }
   },
   "failures": {},
@@ -855,7 +887,8 @@
     "2026-10-21": 8,
     "2026-10-22": 8,
     "2026-10-23": 8,
-    "2026-10-24": 12
+    "2026-10-24": 12,
+    "2026-10-25": 4
   },
   "boards": {
     "AMOLED Wallpapers": "1143984811537518000",
@@ -868,5 +901,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-10-24T17:45:24.758938+00:00"
+  "updated_at": "2026-10-25T07:57:05.297434+00:00"
 }
