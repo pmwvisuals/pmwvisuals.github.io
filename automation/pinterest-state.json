@@ -1128,6 +1128,38 @@
       "title": "Stormy Gothic Cathedral Gateway",
       "board": "Dark Fantasy Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/stormy-gothic-cathedral-gateway.html"
+    },
+    "mobile:chatgpt-image-jun-2-2026-10-08-38-pm-ia6vbd": {
+      "pin_id": "1143984742886465851",
+      "posted_at": "2026-10-29T08:42:27.343829+00:00",
+      "device": "mobile",
+      "title": "Mountain Waterfall Valley with Wildflowers",
+      "board": "Nature Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/nature/01/mountain-waterfall-valley-with-wildflowers.html"
+    },
+    "mobile:r-d-w-18-qxd89z": {
+      "pin_id": "1143984742886466098",
+      "posted_at": "2026-10-29T08:47:28.603666+00:00",
+      "device": "mobile",
+      "title": "Crescent Moon Flower Path with Lights",
+      "board": "Romantic Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/romantic/01/crescent-moon-flower-path-with-lights.html"
+    },
+    "mobile:chatgpt-image-jun-4-2026-06-09-48-pm-rkltx1": {
+      "pin_id": "1143984742886466398",
+      "posted_at": "2026-10-29T08:52:30.327296+00:00",
+      "device": "mobile",
+      "title": "Black Pyramid over Cosmic Sea",
+      "board": "Space and Galaxy Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/space-and-galaxy/01/black-pyramid-over-cosmic-sea.html"
+    },
+    "mobile:chatgpt-image-jun-1-2026-03-39-59-pm-gkobrh": {
+      "pin_id": "1143984742886466603",
+      "posted_at": "2026-10-29T08:57:31.966076+00:00",
+      "device": "mobile",
+      "title": "Blue Dragon in a Dark Sky",
+      "board": "AMOLED Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/amoled/01/blue-dragon-in-a-dark-sky.html"
     }
   },
   "failures": {},
@@ -1147,7 +1179,8 @@
     "2026-10-25": 12,
     "2026-10-26": 8,
     "2026-10-27": 8,
-    "2026-10-28": 8
+    "2026-10-28": 8,
+    "2026-10-29": 4
   },
   "boards": {
     "AMOLED Wallpapers": "1143984811537518000",
@@ -1160,5 +1193,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-10-28T16:59:22.062611+00:00"
+  "updated_at": "2026-10-29T08:57:31.966133+00:00"
 }
