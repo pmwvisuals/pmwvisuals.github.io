@@ -1224,6 +1224,38 @@
       "title": "Blue Scorpion on Black",
       "board": "AMOLED Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/amoled/01/blue-scorpion-on-black.html"
+    },
+    "mobile:chatgpt-image-jun-10-2026-07-16-56-pm-f6hzrw": {
+      "pin_id": "1143984742886587160",
+      "posted_at": "2026-10-30T16:45:42.173977+00:00",
+      "device": "mobile",
+      "title": "Boy in An Airship Cockpit Above Cliffs",
+      "board": "Anime Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/anime/01/boy-in-an-airship-cockpit-above-cliffs.html"
+    },
+    "mobile:chatgpt-image-jun-6-2026-10-43-22-pm-p2zzjz": {
+      "pin_id": "1143984742886587561",
+      "posted_at": "2026-10-30T16:50:44.743582+00:00",
+      "device": "mobile",
+      "title": "Samurai Crossing Blue Glowing Flower Field",
+      "board": "Celestial Samurai Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/celestial-samurai/01/samurai-crossing-blue-glowing-flower-field.html"
+    },
+    "mobile:d-f-w-9-oeri0f": {
+      "pin_id": "1143984742886587857",
+      "posted_at": "2026-10-30T16:55:46.262209+00:00",
+      "device": "mobile",
+      "title": "Cave Entrance under Moonlight",
+      "board": "Dark Aesthetic Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-aesthetic/01/cave-entrance-under-moonlight.html"
+    },
+    "mobile:chatgpt-image-jun-1-2026-10-13-51-pm-ctqzaw": {
+      "pin_id": "1143984742886588154",
+      "posted_at": "2026-10-30T17:00:48.004902+00:00",
+      "device": "mobile",
+      "title": "Stormy Dark Castle Valley",
+      "board": "Dark Fantasy Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/stormy-dark-castle-valley.html"
     }
   },
   "failures": {},
@@ -1245,7 +1277,7 @@
     "2026-10-27": 8,
     "2026-10-28": 8,
     "2026-10-29": 8,
-    "2026-10-30": 4
+    "2026-10-30": 8
   },
   "boards": {
     "AMOLED Wallpapers": "1143984811537518000",
@@ -1258,5 +1290,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-10-30T09:03:52.449937+00:00"
+  "updated_at": "2026-10-30T17:00:48.004950+00:00"
 }
