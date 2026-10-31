@@ -196,7 +196,8 @@
   panel.setAttribute('aria-label', 'Wallpaper editing tools');
   panel.innerHTML = `
     <h2>Customize this wallpaper</h2>
-    <p>Open the preview in PMW Tools to try a crop, convert its format or compress it. For the full-size file, download the original first and load it into the tool. Upscaling does not add detail.</p>
+    <p>Open the original in PMW Editor to add text, arrange elements, or choose a new ratio. If the image host cannot open it directly, download the original and upload it in the editor. Existing wallpaper usage terms apply.</p>
+    <a class="wallpaper-tool-chip primary" data-open-creative-editor style="margin-bottom:16px">Open in PMW Editor ↗</a>
     <div class="wallpaper-tools-group">
       <div class="wallpaper-tools-row">
         <span class="wallpaper-tools-label">Format</span>
@@ -214,6 +215,15 @@
       </div>
     </div>
   `;
+
+  const original = window.wallpaperDownloadItem?.download
+    || document.querySelector('[data-download-url]')?.dataset.downloadUrl || '';
+  const editorParams = new URLSearchParams({
+    wallpaper: window.wallpaperDownloadItem?.id || 'wallpaper',
+    title,
+    ...(original ? { source: original } : {})
+  });
+  panel.querySelector('[data-open-creative-editor]').href = `${rootPrefix}editor/?${editorParams}`;
 
   actions.insertAdjacentElement('afterend', panel);
 })();

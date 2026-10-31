@@ -28,6 +28,9 @@
     {
       title: "Platform",
       links: [
+        ["Editable templates", "templates/"],
+        ["PMW Editor", "editor/"],
+        ["My designs", "my-designs/"],
         ["PMW Wallpapers", ""],
         ["PMW Converter", "tools/image-converter/"],
         ["PMW Tools", "tools/"]
@@ -81,7 +84,7 @@
             <img class="pmw-platform-footer__logo pmw-uploaded-logo" src="${siteUrl("assets/brand/pmw-visuals-logo.png")}" alt="PMW Visuals logo">
             <span class="pmw-platform-footer__brand-name">PMW Visuals</span>
           </a>
-          <p class="pmw-platform-footer__description">PMW Visuals brings together browser-based media tools and curated wallpaper collections for the screens you use.</p>
+          <p class="pmw-platform-footer__description">Discover editable designs, make something of your own, and explore artwork for the screens you use.</p>
           <div class="pmw-platform-footer__socials" aria-label="PMW Visuals social media">
             <a class="pmw-platform-footer__social" href="https://www.instagram.com/pmw_wallpapers/" target="_blank" rel="noopener noreferrer" aria-label="PMW Visuals on Instagram">${socialIcon.instagram}</a>
             <a class="pmw-platform-footer__social" href="https://uk.pinterest.com/pmw_wallpapers/" target="_blank" rel="noopener noreferrer" aria-label="PMW Visuals on Pinterest">${socialIcon.pinterest}</a>

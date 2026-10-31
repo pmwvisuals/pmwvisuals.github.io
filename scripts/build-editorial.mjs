@@ -5,6 +5,7 @@ import { siteRoot, origin, loadCatalog, categoryKey, decode, escapeHtml as e, js
 import { collections, collectionFor, reviewed, PILOT_PATHS } from './editorial/content.mjs';
 import { galleryLayout } from './editorial/gallery-layout.mjs';
 import { appearanceMarkup } from './theme/markup.mjs';
+import { creativeHome } from './build-creative-entry.mjs';
 
 const all = process.argv.includes('--all');
 if (!all && !process.argv.includes('--pilot')) throw new Error('Choose --pilot or --all. Pilot verification must precede scaling.');
@@ -208,7 +209,7 @@ function home() {
         }`);
   if(!html.includes('id="browseTitle"')) html=html.replace(/(<section class="wallpaper-section wallpaper-results-section"[^>]*>)/, `$1<header class="ed-gallery-heading"><h2 id="browseTitle">Browse wallpapers</h2><p>Use the filters above. More artwork loads as you scroll.</p></header><noscript><p>Browse the <a href="/wallpapers/">static collections</a> for all artwork, notes and downloads.</p></noscript>`);
   html=html.replace(/<script type="application\/ld\+json" data-seo-schema>[\s\S]*?<\/script>/, `<script type="application/ld+json" data-seo-schema>${json({'@context':'https://schema.org','@type':'CollectionPage',name:'PMW Wallpapers',description:homeDescription,url:origin+'/',isPartOf:{'@type':'WebSite',name:'PMW Visuals',url:origin+'/'},mainEntity:{'@type':'ItemList',itemListElement:collections.map((c,i)=>({'@type':'ListItem',position:i+1,name:c.name,url:`${origin}/wallpapers/${c.slug}/`}))}})}</script>`);
-  write(file,galleryLayout(html));
+  write(file,creativeHome(galleryLayout(html)));
 }
 
 function directory() {
