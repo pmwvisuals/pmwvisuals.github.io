@@ -1416,6 +1416,38 @@
       "title": "Astronaut Floating in Deep Space",
       "board": "AMOLED Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/amoled/01/astronaut-floating-in-deep-space.html"
+    },
+    "mobile:chatgpt-image-jun-10-2026-07-17-00-pm-otmzxk": {
+      "pin_id": "1143984742886864485",
+      "posted_at": "2026-11-02T20:25:56.398066+00:00",
+      "device": "mobile",
+      "title": "Rider Overlooking Floating Sky Islands",
+      "board": "Anime Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/anime/01/rider-overlooking-floating-sky-islands.html"
+    },
+    "mobile:chatgpt-image-jun-6-2026-10-43-26-pm-ba7ezm": {
+      "pin_id": "1143984742886864855",
+      "posted_at": "2026-11-02T20:30:58.384720+00:00",
+      "device": "mobile",
+      "title": "Samurai in Lantern Forest Overlooking Valley",
+      "board": "Celestial Samurai Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/celestial-samurai/01/samurai-in-lantern-forest-overlooking-valley.html"
+    },
+    "mobile:d-f-w-12-ji28kr": {
+      "pin_id": "1143984742886865161",
+      "posted_at": "2026-11-02T20:35:59.516998+00:00",
+      "device": "mobile",
+      "title": "Moonlit Cave Path",
+      "board": "Dark Aesthetic Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-aesthetic/01/moonlit-cave-path.html"
+    },
+    "mobile:chatgpt-image-jun-1-2026-10-13-16-pm-ri2kia": {
+      "pin_id": "1143984742886865593",
+      "posted_at": "2026-11-02T20:41:01.318050+00:00",
+      "device": "mobile",
+      "title": "Blue Ice Kingdom under Aurora",
+      "board": "Dark Fantasy Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/blue-ice-kingdom-under-aurora.html"
     }
   },
   "failures": {},
@@ -1440,7 +1472,8 @@
     "2026-10-30": 8,
     "2026-10-31": 8,
     "2026-11-01": 8,
-    "2026-11-02": 4
+    "2026-11-02": 4,
+    "2026-11-03": 4
   },
   "boards": {
     "AMOLED Wallpapers": "1143984811537518000",
@@ -1453,5 +1486,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-11-02T09:58:09.860977+00:00"
+  "updated_at": "2026-11-02T20:41:01.318092+00:00"
 }
