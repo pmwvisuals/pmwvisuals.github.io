@@ -38,7 +38,10 @@ function gradientPNG(width,height){
  await open(base+'/pmw-desktop-wallpapers.html');await page.waitForURL('**/browse/?device=desktop#latest-wallpapers',{waitUntil:'domcontentloaded'});await page.locator('.wa-card-actions').first().waitFor();checks.push('Legacy desktop entry reaches the enhanced desktop gallery');
  // A deterministic original with visible coordinates lets us verify the exported crop.
  let fixture=gradientPNG(300,600),failure=false;
- await context.route('https://drive.usercontent.google.com/download**',route=>route.fulfill({status:200,contentType:failure?'text/html':'image/png',body:failure?'<html>Unavailable</html>':fixture,headers:{'Access-Control-Allow-Origin':'*'}}));
+ const originalFixture=route=>route.fulfill({status:200,contentType:failure?'text/html':'image/png',body:failure?'<html>Unavailable</html>':fixture,headers:{'Access-Control-Allow-Origin':'*'}});
+ await context.route('https://drive.usercontent.google.com/download**',originalFixture);
+ const {IMAGE_BRIDGE_ORIGIN}=await import('../js/creative/image-config.js');
+ if(IMAGE_BRIDGE_ORIGIN)await context.route(IMAGE_BRIDGE_ORIGIN+'/images/**',originalFixture);
  await context.route('https://drive.google.com/uc**',route=>route.fulfill({status:403,body:'Unavailable',headers:{'Access-Control-Allow-Origin':'*'}}));
  const presets=await page.evaluate(async()=> (await import('/js/creative/presets.js')).PRESETS);
  for(const preset of presets){
