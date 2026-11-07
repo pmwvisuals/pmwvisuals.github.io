@@ -6,6 +6,7 @@ import { collections, collectionFor, reviewed, PILOT_PATHS } from './editorial/c
 import { galleryLayout } from './editorial/gallery-layout.mjs';
 import { appearanceMarkup } from './theme/markup.mjs';
 import { creativeHome } from './build-creative-entry.mjs';
+import { hubHome } from './hub-home.mjs';
 
 const all = process.argv.includes('--all');
 if (!all && !process.argv.includes('--pilot')) throw new Error('Choose --pilot or --all. Pilot verification must precede scaling.');
@@ -14,6 +15,10 @@ const analysis = JSON.parse(fs.readFileSync(path.join(siteRoot, 'scripts/editori
 const { pages } = loadCatalog();
 let changed = 0;
 const write = (file, html) => {
+  if(file.endsWith('.html')) {
+    html=html.replaceAll('href="/?','href="/browse/?').replaceAll('href="/#latest-wallpapers','href="/browse/#latest-wallpapers').replaceAll('href="/#screen-fit','href="/browse/#screen-fit');
+    if((file.startsWith('wallpapers/')||file==='browse/index.html')&&!html.includes('src="/js/wallpaper-actions.js"'))html=html.replace('</body>','<script type="module" src="/js/wallpaper-actions.js"></script>\n</body>');
+  }
   if(file.endsWith('.html')) html=html.replace(/(src="[^"]*js\/pmw-theme\.js)(?:\?[^"]*)?"/g,'$1?v=20261006"');
   html=appearanceMarkup(html,file);
   html=html.replace(/\r\n/g,'\n').replace(/[ \t]+\n/g,'\n');
@@ -179,6 +184,7 @@ function category(c) {
 
 function home() {
   const file='index.html'; let html=fs.readFileSync(path.join(siteRoot,file),'utf8');
+  if(html.includes('data-pmw-hub')) { write(file,hubHome()); return; }
   const featured=collections.filter(c=>['amoled','nature','dark-fantasy','romantic'].includes(c.slug));
   const selected=PILOT_PATHS.filter(p=>/blue-comet|sunlit-forest|gondola/.test(p)).map(itemFor);
   const section=`<!-- pmw-editorial:home:start -->

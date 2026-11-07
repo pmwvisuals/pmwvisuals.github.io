@@ -31,7 +31,8 @@
         ["Editable templates", "templates/"],
         ["PMW Editor", "editor/"],
         ["My designs", "my-designs/"],
-        ["PMW Wallpapers", ""],
+        ["PMW Home", ""],
+        ["PMW Wallpapers", "browse/"],
         ["PMW Converter", "tools/image-converter/"],
         ["PMW Tools", "tools/"]
       ]
@@ -48,9 +49,9 @@
     {
       title: "Wallpapers",
       links: [
-        ["PMW Wallpapers", "/"],
-        ["Mobile Wallpapers", "/?device=mobile#latest-wallpapers"],
-        ["Laptop & Desktop", "/?device=desktop#latest-wallpapers"],
+        ["PMW Wallpapers", "/browse/"],
+        ["Mobile Wallpapers", "/browse/?device=mobile#latest-wallpapers"],
+        ["Laptop & Desktop", "/browse/?device=desktop#latest-wallpapers"],
         ["AMOLED Wallpapers", "wallpapers/amoled/"],
         ["Anime Wallpapers", "wallpapers/anime/"],
         ["Nature Wallpapers", "wallpapers/nature/"],
@@ -80,7 +81,7 @@
     <div class="pmw-platform-footer__inner">
       <div class="pmw-platform-footer__grid">
         <div class="pmw-platform-footer__brand">
-          <a class="pmw-platform-footer__brand-link" href="${siteUrl("")}" aria-label="PMW Wallpapers">
+          <a class="pmw-platform-footer__brand-link" href="${siteUrl("")}" aria-label="PMW Visuals home">
             <img class="pmw-platform-footer__logo pmw-uploaded-logo" src="${siteUrl("assets/brand/pmw-visuals-logo.png")}" alt="PMW Visuals logo">
             <span class="pmw-platform-footer__brand-name">PMW Visuals</span>
           </a>
