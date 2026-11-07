@@ -102,7 +102,7 @@ const renderSavedWallpapers = (savedWallpapers) => {
 
   if (savedWallpaperPreviewStrip) {
     savedWallpaperPreviewStrip.innerHTML = previewItems.map((item) => `
-      <a href="${escapeHtml(item.url || "/")}" title="${escapeHtml(item.title || "Saved wallpaper")}">
+      <a data-wallpaper-id="${escapeHtml(item.id)}" href="${escapeHtml(item.url || "/browse/")}" title="${escapeHtml(item.title || "Saved wallpaper")}">
         <img src="${escapeHtml(item.image || "")}" alt="${escapeHtml(item.title || "Saved wallpaper")}">
       </a>
     `).join("");

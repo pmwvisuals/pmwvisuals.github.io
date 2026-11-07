@@ -7,7 +7,7 @@ import { collections, PILOT_PATHS } from './editorial/content.mjs';
 
 const pilot = process.argv.includes('--pilot');
 const { pages } = loadCatalog();
-const files = ['index.html', ...collections.filter(c=>!pilot||c.slug==='amoled').map(c=>`wallpapers/${c.slug}/index.html`), ...pages.filter(p=>!pilot||PILOT_PATHS.includes(p.file)).map(p=>p.file)];
+const files = ['index.html', 'browse/index.html', ...collections.filter(c=>!pilot||c.slug==='amoled').map(c=>`wallpapers/${c.slug}/index.html`), ...pages.filter(p=>!pilot||PILOT_PATHS.includes(p.file)).map(p=>p.file)];
 if (!pilot) files.push('wallpapers/index.html');
 const baselinePath = process.argv[process.argv.indexOf('--baseline')+1];
 let checks = 0;
@@ -38,8 +38,11 @@ for(const file of files) {
   const ids=new Set([...html.matchAll(/\s+id="([^"]+)"/g)].map(m=>m[1]));
   check(!/(?:href|onclick)="[^"]*pmw-studio\.html/.test(html),`${file}: Studio navigation returned`);
   if(file==='index.html') {
+    check(html.includes('data-pmw-hub')&&!html.includes('id="wallpapersGrid"'),'Homepage must be a separate hub');
+  }
+  if(file==='browse/index.html') {
     const hero=html.match(/<header class="wallpaper-hero"[\s\S]*?<\/header>/)?.[0];
-    check(hero.includes('ed-gallery-cta')&&!hero.includes('wallpaperSearch'),'Hero/gallery separation changed');
+    check(hero&&!hero.includes('wallpaperSearch')&&!html.includes('editorialHome'),'Browse page must open directly into the gallery');
     check(html.indexOf('id="latest-wallpapers"')<html.indexOf('id="wallpaperSearch"')&&html.indexOf('id="wallpaperSearch"')<html.indexOf('id="wallpapersGrid"'),'Filters are not above gallery cards');
     const idList=[...html.matchAll(/\s+id="([^"]+)"/g)].map(m=>m[1]);
     check(idList.length===ids.size,'Duplicate homepage control IDs');

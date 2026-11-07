@@ -30,7 +30,7 @@ function walk(dir) {
   }
 }
 walk('');
-const home=fs.readFileSync(path.join(siteRoot,'index.html'),'utf8');
+const home=fs.readFileSync(path.join(siteRoot,'browse/index.html'),'utf8');
 check(!/accessFilterSelect|activeAccess|mobileSiteMenuToggle/.test(home),'Removed filter or old menu references remain');
 check(home.includes('categoryFilterSelect')&&home.includes('styleFilterSelect')&&home.includes('deviceToggle'),'Remaining filter hooks missing');
 check(fs.existsSync(path.join(siteRoot,'assets/brand/pmw-visuals-logo.png')),'Uploaded logo missing');

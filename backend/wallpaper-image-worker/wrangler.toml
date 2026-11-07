@@ -1,0 +1,7 @@
+name = "pmw-wallpaper-images"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGINS = "https://pmwvisuals.com,https://www.pmwvisuals.com,http://127.0.0.1:8767,http://localhost:8767"
