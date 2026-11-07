@@ -60,6 +60,14 @@ not verify the operating system's download dialog or file-saving behavior.
 
 ## Separate image Worker
 
+The production bridge is deployed at
+`https://pmw-wallpaper-images.pmwvisuals.workers.dev` and configured in
+`js/creative/image-config.js`. Its health endpoint reports 1,692 public IDs.
+Release verification retrieved real Drive and Cloudinary PNG originals with
+their catalog dimensions and production CORS headers. CI additionally exercises
+live original imports and immediate 1080 × 1080 PNG downloads in the editor.
+These live checks depend on the deployed service and upstream availability.
+
 `backend/wallpaper-image-worker` is isolated from Paddle and needs no billing,
 Firebase, Google account, or private-image credentials. It serves only originals
 whose IDs occur in its generated public manifest. No arbitrary URL parameter is

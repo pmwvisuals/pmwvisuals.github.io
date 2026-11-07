@@ -38,6 +38,14 @@ jobs:
           export PMW_PNG_MODULE="$RUNNER_TEMP/pmw-qa/node_modules/pngjs"
           node scripts/verify-wallpaper-workflow.cjs
           node scripts/verify-creative-browser.cjs
+      - name: Deployed originals and live editor downloads
+        env:
+          PMW_INLINE_PREVIEW: '1'
+          PMW_PREVIEW_URL: https://pmwvisuals.com
+        run: |
+          export PMW_PLAYWRIGHT_MODULE="$RUNNER_TEMP/pmw-qa/node_modules/playwright"
+          node scripts/verify-wallpaper-originals.mjs --release
+          node scripts/verify-live-wallpaper-editor.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
