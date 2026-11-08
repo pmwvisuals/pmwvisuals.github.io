@@ -8,7 +8,3 @@ backend/paddle-worker/.env*
 backend/paddle-worker/.wrangler/
 backend/paddle-worker/node_modules/
 work/
-
-backend/wallpaper-image-worker/node_modules/
-backend/wallpaper-image-worker/.wrangler/
-backend/wallpaper-image-worker/.dev.vars*

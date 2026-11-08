@@ -1,5 +1,4 @@
 import { auth } from "./firebase.js";
-import './wallpaper-actions.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 import { isPremiumUser } from "./premium-access.js?v=20261001-spark";
 import { loadVisibleWallpapers } from "./wallpaper-source.js?v=20261001-spark";
@@ -42,8 +41,6 @@ function getItemTypes(item) {
 }
 
 function renderPremiumWallpapers(items) {
-  window.PMW_GALLERY_ITEMS=items;
-  window.PMW_CAN_EDIT_WALLPAPER=()=>document.body.classList.contains('is-premium-member');
   premiumWallpaperCount.textContent = String(items.length);
   premiumWallpapersGrid.hidden = !items.length;
 
@@ -55,7 +52,7 @@ function renderPremiumWallpapers(items) {
 
   premiumWallpaperState.hidden = true;
   premiumWallpapersGrid.innerHTML = items.map((item) => `
-    <article class="pmw-premium-card" data-id="${escapeHtml(item.id)}">
+    <article class="pmw-premium-card">
       <div class="pmw-premium-thumb">
         <img src="${escapeHtml(item.thumbnail)}" alt="${escapeHtml(item.title)}" loading="lazy">
       </div>
@@ -94,7 +91,6 @@ async function loadPremiumWallpapers() {
 }
 
 onAuthStateChanged(auth, async (user) => {
-  document.body.classList.remove('is-premium-member');
   if (!user) {
     badge.textContent = "Signed Out";
     title.textContent = "Sign in required";

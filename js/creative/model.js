@@ -1,4 +1,3 @@
-import { PRESETS, getPreset } from './presets.js';
 export const MAX_PIXELS = 16_777_216;
 export const RATIOS = [
   { id: 'wide', label: 'Landscape · 16:9', width: 1920, height: 1080 },
@@ -6,7 +5,6 @@ export const RATIOS = [
   { id: 'portrait', label: 'Portrait · 4:5', width: 1080, height: 1350 },
   { id: 'story', label: 'Story · 9:16', width: 1080, height: 1920 },
   { id: 'thumbnail', label: 'Video thumbnail · 16:9', width: 1280, height: 720 },
-  ...PRESETS,
 ];
 export const uid = () => crypto.randomUUID();
 export const escapeHTML = (text) => String(text ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -26,7 +24,6 @@ export function safeName(title) {
 // Project imports are data only: no remote URLs, scripts, SVG markup, or arbitrary Fabric classes.
 export function validateProject(project) {
   if (!project || project.format !== 'pmw-design' || project.version !== 1) throw new Error('This is not a supported PMW project file.');
-  if(project.wallpaperContext && (typeof project.wallpaperContext.wallpaperId!=='string'||project.wallpaperContext.wallpaperId.length>180||(project.wallpaperContext.presetId&&!getPreset(project.wallpaperContext.presetId))))throw new Error('The wallpaper format in this project is invalid.');
   validateSize(project.width, project.height);
   if (!project.bg || !['solid','gradient','orbits','waves','grid'].includes(project.bg.style) || !/^#[a-f\d]{6}$/i.test(project.bg.color1) || !/^#[a-f\d]{6}$/i.test(project.bg.color2) || (project.bg.grain !== undefined && (!Number.isFinite(project.bg.grain) || project.bg.grain < 0 || project.bg.grain > 25))) throw new Error('The project background is invalid.');
   if (typeof project.title !== 'string' || project.title.length > 160 || !Array.isArray(project.scene?.objects) || project.scene.objects.length > 250) throw new Error('The project contains invalid design data.');
