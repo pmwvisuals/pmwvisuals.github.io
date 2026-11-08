@@ -16,7 +16,7 @@ function gradientPNG(width,height){
  const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});
  // Exercise the public static fallback without waiting on account/analytics CDNs.
  await context.route(/^https:\/\/(?:www\.gstatic\.com|fonts\.googleapis\.com|fonts\.gstatic\.com|www\.googletagmanager\.com|www\.google-analytics\.com|firestore\.googleapis\.com)\//,route=>route.abort());
- await context.addInitScript(()=>localStorage.setItem('pmw_theme_preference','light'));
+ await context.addInitScript(()=>{localStorage.setItem('pmw_theme_preference','light');document.addEventListener('DOMContentLoaded',()=>{const style=document.createElement('style');style.textContent='html { scroll-behavior:auto!important; }';document.head.append(style);});});
  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
  const open=url=>page.goto(url,{waitUntil:'domcontentloaded'});
  const originalPush=checks.push.bind(checks);checks.push=(value)=>{console.log('PASS',value);return originalPush(value);};
@@ -38,15 +38,19 @@ function gradientPNG(width,height){
  assert.equal(homeBlob,'6d4c421833620dfa0b2b8d115575d271d622ded8','Homepage markup, styles, content, and routes must remain unchanged');
  await open(base+'/');assert.equal(await page.locator('#wallpapersGrid').count(),1);await noOverflow();await shot('home-desktop');checks.push('Original homepage preserved');
  await open(base+'/?device=desktop#latest-wallpapers');await page.locator('.wa-card-actions').first().waitFor();
- await page.locator('[data-wa-action="preview"]').first().click();await page.locator('.wa-desktop').waitFor();await shot('desktop-preview');await page.keyboard.press('Escape');assert.equal(await page.locator('dialog.wa-dialog[open]').count(),0);checks.push('Existing desktop gallery and screen preview');
+ await page.locator('[data-wa-action="preview"]').first().hover();await page.locator('.wa-mini-desktop').waitFor();await page.locator('[data-screen="clean"]').click();assert.equal(await page.locator('.wa-mini-device').getAttribute('data-screen'),'clean');await shot('desktop-preview');await page.keyboard.press('Escape');checks.push('Desktop hover dropdown with clean/desktop screen types');
  await open(base+'/#latest-wallpapers');await page.locator('.wa-card-actions').first().waitFor();await noOverflow();assert.equal(await page.locator('.wa-card-link button,.wa-card-link [role="button"],a a').count(),0);
  assert.equal(await page.locator('.wa-card-media > button[data-save-wallpaper]').count()>0,true,'Save controls stay independent');
  await page.locator('#wallpaperSearch').fill('pmw-test-no-artwork-has-this-name');await page.locator('#wallpapersGrid .empty-state').waitFor();await page.locator('#wallpaperSearch').fill('');await page.locator('.wa-card-actions').first().waitFor();checks.push('Existing gallery search and reset');
  await cardOverlays();await page.locator('#wallpapersGrid').scrollIntoViewIfNeeded();await shot('gallery-desktop');checks.push('Card names hidden; icon-only actions overlay artwork with 44px targets');
- const previewButton=page.locator('[data-wa-action="preview"]').first();await previewButton.click();await page.locator('.wa-phone').waitFor();
- assert.equal(await page.locator('#waTitle').innerText(),'Wallpaper preview');assert.ok((await page.locator('.wa-dialog').evaluate(node=>getComputedStyle(node).fontFamily)).includes('Inter'));
- const variation=await page.locator('.wa-stage').getAttribute('class');await page.locator('button[data-screen="home"]').click();assert.equal(await page.locator('.wa-device').getAttribute('data-screen'),'home');assert.equal(await page.locator('.wa-stage').getAttribute('class'),variation);await shot('phone-preview');await page.keyboard.press('Escape');assert.equal(await previewButton.evaluate(button=>button===document.activeElement),true);checks.push('Phone home/lock preview, stable layout, Escape, and focus restoration');
- await page.locator('[data-wa-action="formats"]').first().click();assert.equal(await page.locator('.wa-formats a').count(),14);assert.ok((await page.locator('.wa-formats a').filter({hasText:'Portrait post'}).first().getAttribute('href')).includes('preset=instagram-portrait'));await shot('formats');await page.keyboard.press('Escape');
+ const previewButton=page.locator('[data-wa-action="preview"]').first();await previewButton.hover();await page.locator('.wa-mini-phone').waitFor();
+ assert.equal(await page.locator('dialog.wa-dialog').count(),0);assert.ok((await page.locator('.wa-popover').evaluate(node=>getComputedStyle(node).fontFamily)).includes('Inter'));
+ const variation=await page.locator('.wa-mini-device').getAttribute('data-variation');await page.locator('button[data-screen="home"]').click();assert.equal(await page.locator('.wa-mini-device').getAttribute('data-screen'),'home');assert.equal(await page.locator('.wa-mini-device').getAttribute('data-variation'),variation);await shot('phone-preview');await page.keyboard.press('Escape');assert.equal(await previewButton.evaluate(button=>button===document.activeElement),true);assert.equal(await page.locator('.wa-popover:popover-open').count(),0);checks.push('Phone hover dropdown, stable screen layout, Escape and focus restoration');
+ const formatsButton=page.locator('[data-wa-action="formats"]').first();await formatsButton.hover();await page.locator('.wa-platforms').waitFor();
+ let total=0;for(const platform of ['Instagram','Facebook','TikTok','YouTube','Pinterest','Wallpaper']){await page.locator('[data-platform="'+platform+'"]').hover();await page.waitForFunction(platform=>document.querySelector('[data-platform="'+platform+'"]').getAttribute('aria-pressed')==='true',platform);total+=await page.locator('.wa-format-list a').count();}
+ assert.equal(total,14);await page.locator('[data-platform="Instagram"]').hover();assert.ok((await page.locator('.wa-format-list a').filter({hasText:'Portrait post'}).getAttribute('href')).includes('preset=instagram-portrait'));await shot('formats');
+ await page.keyboard.press('Escape');await formatsButton.focus();await page.keyboard.press('ArrowDown');assert.equal(await page.locator('[data-platform="Instagram"]').evaluate(node=>node===document.activeElement),true);await page.keyboard.press('Escape');
+ await page.mouse.move(1,1);await formatsButton.hover();await page.locator('.wa-popover:popover-open').waitFor();await page.mouse.move(1,1);await page.locator('.wa-popover:popover-open').waitFor({state:'hidden'});checks.push('All 14 sizes through platform icons, keyboard access, and hover dismissal');
  await page.evaluate(item=>{const strip=document.createElement('div');strip.id='savedWallpaperPreviewStrip';const link=document.createElement('a');link.href='/'+item.path;link.dataset.wallpaperId=item.id;link.textContent=item.title;strip.append(link);document.body.append(strip);},portrait);await page.locator('#savedWallpaperPreviewStrip .wa-card-actions').waitFor();checks.push('Saved wallpaper cards');
  await page.evaluate(()=>window.PMWTheme.set('dark'));await shot('gallery-desktop-dark');await page.evaluate(()=>window.PMWTheme.set('light'));
  await open(base+'/wallpapers/amoled/');await page.locator('.wa-card-actions').first().waitFor();checks.push('Collection cards');
@@ -88,6 +92,13 @@ function gradientPNG(width,height){
  await page.locator('[data-wa-action="formats"]').first().click();await noOverflow();await shot('formats-mobile');await page.keyboard.press('Escape');
  failure=false;await open(`${base}/editor/?wallpaper=${portrait.id}&preset=instagram-story`);await saved();await noOverflow();await shot('editor-mobile');
  await page.evaluate(()=>window.PMWTheme.set('dark'));await shot('editor-mobile-dark');checks.push('390px mobile layouts and dark editor');
+ const touchContext=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});
+ await touchContext.addInitScript(()=>localStorage.setItem('pmw_theme_preference','light'));
+ await touchContext.route(/^https:\/\/(?:www\.gstatic\.com|fonts\.googleapis\.com|fonts\.gstatic\.com|www\.googletagmanager\.com|www\.google-analytics\.com|firestore\.googleapis\.com)\//,route=>route.abort());
+ const touch=await touchContext.newPage();touch.on('pageerror',error=>errors.push(error.message));
+ await touch.goto(base+'/wallpapers/amoled/',{waitUntil:'domcontentloaded'});await touch.locator('[data-wa-action="formats"]').first().tap();await touch.locator('[data-platform="Pinterest"]').tap();assert.ok((await touch.locator('.wa-format-list a').getAttribute('href')).includes('pinterest-pin'));
+ const bounds=await touch.locator('.wa-popover').boundingBox();assert.ok(bounds.x>=0&&bounds.x+bounds.width<=390&&bounds.y>=0&&bounds.y+bounds.height<=844);
+ await touch.screenshot({path:path.join(output,'dropdown-touch.png')});await touch.locator('.wa-dismiss').tap();assert.equal(await touch.locator('.wa-popover:popover-open').count(),0);await touchContext.close();checks.push('Touch opening, platform switching, viewport bounds, and dismissal');
  assert.deepEqual(errors,[],'Browser runtime errors');
  await fs.writeFile(path.join(output,'results.json'),JSON.stringify({checks,errors},null,2));console.log(JSON.stringify({checks,errors},null,2));
  }finally{await browser.close();}
