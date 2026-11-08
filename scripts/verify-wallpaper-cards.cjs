@@ -33,7 +33,7 @@ function gradientPNG(width,height){
   });
   assert.deepEqual(style,{nameHidden:true,iconsOnly:true,onArtwork:true,touchTargets:true});
  };
- const currentHome=(await fs.readFile(path.join(__dirname,'../index.html'),'utf8')).replace(/\r\n/g,'\n').replaceAll('site-navigation.js?v=20261109-dropdowns-2','site-navigation.js?v=20261006-menu').replace('            window.PMW_GALLERY_ITEMS = wallpapers;\n            window.PMW_CAN_EDIT_WALLPAPER = canDownloadWallpaper;\n','');
+ const currentHome=(await fs.readFile(path.join(__dirname,'../index.html'),'utf8')).replace(/\r\n/g,'\n').replaceAll('site-navigation.js?v=20261109-dropdowns-3','site-navigation.js?v=20261006-menu').replace('            window.PMW_GALLERY_ITEMS = wallpapers;\n            window.PMW_CAN_EDIT_WALLPAPER = canDownloadWallpaper;\n','');
  const homeBlob=require('node:crypto').createHash('sha1').update('blob '+Buffer.byteLength(currentHome)+'\0').update(currentHome).digest('hex');
  assert.equal(homeBlob,'6d4c421833620dfa0b2b8d115575d271d622ded8','Homepage markup, styles, content, and routes must remain unchanged');
  await open(base+'/');assert.equal(await page.locator('#wallpapersGrid').count(),1);await noOverflow();await shot('home-desktop');checks.push('Original homepage preserved');
