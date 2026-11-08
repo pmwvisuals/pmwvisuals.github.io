@@ -2,6 +2,8 @@ import { TEMPLATES, CATEGORIES, previewURL, artworkSVG, backgroundElements } fro
 import { uid, RATIOS, validateSize, validateProject, fitTransform, safeName, escapeHTML } from './model.js';
 import { saveProject, getProject } from './storage.js';
 import { bootShell, toast, icon, downloadBlob } from './shell.js';
+import { getPreset, cropToFill } from './presets.js';
+import { resolveEditorWallpaper, originalURLs } from './wallpaper-catalog.js';
 
 bootShell();
 const $ = id => document.getElementById(id);
@@ -18,6 +20,7 @@ let doc = { id:uid(), title:'Untitled design', width:1600, height:900, bg:{style
 let assets = {}, history = [], historyIndex = -1, loading = true, ready = false, dirty = false, saveTimer, operation = false;
 let fitted = true, zoom = 1, replaceTarget = null, pendingSwitch = null, saveSequence = Promise.resolve(), revision = 0;
 const artworkCache = new Map();
+let wallpaperPending=false;
 const active = () => canvas.getActiveObject();
 const userObjects = () => canvas.getObjects().filter(o => o.role !== 'background');
 const isText = obj => ['textbox','i-text','text'].includes(obj?.type);
@@ -27,7 +30,7 @@ function setName(name) { doc.title=String(name||'Untitled design').slice(0,160);
 function snapshot() {
   const scene=canvas.toObject(CUSTOM);
   for(const o of scene.objects)if(o.assetId)o.src=`pmw-asset:${o.assetId}`;
-  return {width:doc.width,height:doc.height,title:doc.title,bg:structuredClone(doc.bg),scene};
+  return {width:doc.width,height:doc.height,title:doc.title,bg:structuredClone(doc.bg),scene,...(doc.wallpaperContext?{wallpaperContext:{...doc.wallpaperContext}}:{})};
 }
 function hydrate(scene) {
   const next=structuredClone(scene);
@@ -40,7 +43,7 @@ function projectData(withPreview=true) {
   return {format:'pmw-design',version:1,id:doc.id,...snap,assets:Object.fromEntries([...used].map(id=>[id,assets[id]])),updatedAt:Date.now(),preview:withPreview?preview():undefined};
 }
 async function persist() {
-  if(!ready||loading)return false;
+  if(!ready||loading||wallpaperPending)return false;
   clearTimeout(saveTimer);
   const data=projectData(), savedRevision=revision;
   $('saveState').textContent='Saving on this device…';
@@ -49,6 +52,7 @@ async function persist() {
   catch(e){$('saveState').textContent='Download a project to save';toast(e.message);return false;}
 }
 function checkpoint() {
+  syncExportButtons();
   if(loading||!ready)return;
   const state=JSON.stringify(snapshot());
   if(history[historyIndex]===state)return;
@@ -57,9 +61,10 @@ function checkpoint() {
 }
 function updateHistory(){$('undoButton').disabled=historyIndex<=0||operation;$('redoButton').disabled=historyIndex>=history.length-1||operation;}
 async function restoreState(state){
+  doc.wallpaperContext=state.wallpaperContext?{...state.wallpaperContext}:undefined;wallpaperPending=false;
   loading=true;canvas.discardActiveObject();doc.width=state.width;doc.height=state.height;doc.bg=structuredClone(state.bg);setName(state.title);
   await canvas.loadFromJSON(hydrate(state.scene));
-  canvas.getObjects().forEach(applyLock);loading=false;fitCanvas();syncBackground();selectionChanged();renderLayers();
+  canvas.getObjects().forEach(applyLock);loading=false;fitCanvas();syncBackground();selectionChanged();renderLayers();syncExportButtons();
 }
 async function undo(direction){
   if(operation||historyIndex+direction<0||historyIndex+direction>=history.length)return;
@@ -92,9 +97,8 @@ async function artworkData(kind){
 function fitPhoto(obj,mode='fill'){
   const img=obj.getElement(), iw=img.naturalWidth||img.width,ih=img.naturalHeight||img.height;
   const fw=obj.frameWidth||obj.getScaledWidth(),fh=obj.frameHeight||obj.getScaledHeight();
-  const scale=(mode==='fill'?Math.max:Math.min)(fw/iw,fh/ih);
-  const cw=mode==='fill'?fw/scale:iw,ch=mode==='fill'?fh/scale:ih;
-  obj.set({width:cw,height:ch,scaleX:scale,scaleY:scale,cropX:Math.max(0,(iw-cw)*(obj.focusX??.5)),cropY:Math.max(0,(ih-ch)*(obj.focusY??.5)),photoFit:mode});obj.setCoords();
+  const crop=mode==='fill'?cropToFill(iw,ih,fw,fh,obj.focusX??.5,obj.focusY??.5):{scale:Math.min(fw/iw,fh/ih),width:iw,height:ih,cropX:0,cropY:0};
+  obj.set({...crop,scaleX:crop.scale,scaleY:crop.scale,photoFit:mode});obj.setCoords();
 }
 async function addPhoto(source,frame=null,label='Your photo',assetId=null){
   const id=assetId||uid();
@@ -124,6 +128,7 @@ async function paintBackground(){
 }
 function syncBackground(){$('backgroundStyle').value=doc.bg.style;$('backgroundColor1').value=doc.bg.color1;$('backgroundColor2').value=doc.bg.color2;$('backgroundGrain').value=doc.bg.grain||0;$('grainValue').textContent=`${doc.bg.grain||0}%`;}
 async function loadTemplate(template){
+  wallpaperPending=false;
   loading=true;ready=false;$('saveState').textContent='Preparing your design…';clearTimeout(saveTimer);canvas.clear();assets={};history=[];historyIndex=-1;doc={id:uid(),title:template.name,width:template.width,height:template.height,bg:{seed:42,grain:0,...template.bg}};setName(doc.title);
   await paintBackground();
   for(const o of template.elements){if(o.kind==='photo')await addPhoto(await artworkData(o.art),o,o.label);else attach(solidObject(o),{label:o.label||(o.kind==='text'?o.text.split('\n')[0]:'Decorative shape')});}
@@ -212,9 +217,10 @@ async function importPhotos(files){
       if(file.size>25*1024*1024)throw new Error('Choose an image smaller than 25 MB.');
       if(userObjects().length>=200)throw new Error('This design already has 200 layers. Remove a layer before adding another.');
       const target=replaceTarget&&!replaceTarget.locked?replaceTarget:null;
-      const frame=target?{x:target.left,y:target.top,w:target.getScaledWidth(),h:target.getScaledHeight(),angle:target.angle}:null;
+      const frame=target?{x:target.left,y:target.top,w:target.getScaledWidth(),h:target.getScaledHeight(),angle:target.angle}:wallpaperPending?{x:0,y:0,w:doc.width,h:doc.height}:null;
       const position=target?canvas.getObjects().indexOf(target):-1;
       const obj=await addPhoto(await fileData(file),frame,file.name);
+      if(wallpaperPending){wallpaperPending=false;$('sourceBanner').textContent='Original uploaded and cropped. Ready to download. Personal, noncommercial use.';syncExportButtons();}
       if(target){obj.set({opacity:target.opacity,flipX:target.flipX});canvas.remove(target);canvas.moveObjectTo(obj,position);replaceTarget=null;}
       canvas.setActiveObject(obj);canvas.requestRenderAll();checkpoint();
     }
@@ -238,7 +244,7 @@ $('applyResize').onclick=async()=>{
   if(operation)return;
   try{const {width,height}=validateSize(Number($('resizeWidth').value),Number($('resizeHeight').value));operation=true;const t=fitTransform(doc.width,doc.height,width,height,$('resizeMode').value);canvas.discardActiveObject();
     for(const o of userObjects()){o.set({left:o.left*t.scale+t.x,top:o.top*t.scale+t.y,scaleX:o.scaleX*t.scale,scaleY:o.scaleY*t.scale});if(isImage(o)){o.frameWidth*=t.scale;o.frameHeight*=t.scale;}o.setCoords();}
-    doc.width=width;doc.height=height;await paintBackground();fitted=true;fitCanvas();checkpoint();selectionChanged();$('resizeDialog').close();toast('Canvas resized. Move any element to fine-tune the new composition.');
+    doc.width=width;doc.height=height;if(doc.wallpaperContext){const preset=getPreset($('resizePreset').value);doc.wallpaperContext={wallpaperId:doc.wallpaperContext.wallpaperId,...(preset?{presetId:preset.id}:{})};}await paintBackground();fitted=true;fitCanvas();checkpoint();selectionChanged();$('resizeDialog').close();toast('Canvas resized. Move any element to fine-tune the new composition.');
   }catch(e){$('resizeError').textContent=e.message;}finally{operation=false;}
 };
 for(const [id,delta] of [['zoomIn',.1],['zoomOut',-.1]])$(id).onclick=()=>{fitted=false;zoom+=delta;fitCanvas();};$('zoomFit').onclick=()=>{fitted=true;fitCanvas();};
@@ -249,9 +255,16 @@ function downloadProjectFile(){const project=projectData(false);downloadBlob(new
 $('downloadProject').onclick=downloadProjectFile;$('exportProject').onclick=downloadProjectFile;$('openProject').onclick=()=>$('projectInput').click();
 $('projectInput').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>80*1024*1024)throw new Error('Choose a project file under 80 MB.');const p=validateProject(JSON.parse(await file.text()));p.id=uid();$('projectDialog').close();await switchDesign(()=>loadProject(p));}catch(error){toast(error instanceof SyntaxError?'This project file could not be read.':error.message);}finally{e.target.value='';}};
 function exportSettings(){const format=$('exportFormat').value;$('exportQualityField').hidden=format==='png';$('transparentField').hidden=format==='jpeg';$('exportDimensions').textContent=`${doc.width} × ${doc.height} pixels · ${format==='jpeg'?'JPG':format.toUpperCase()} · ${format==='jpeg'?'Transparent areas use white.':'Exported at your canvas dimensions.'}`;}
-$('exportButton').onclick=()=>{if(!ready||operation)return;canvas.discardActiveObject();canvas.requestRenderAll();$('exportPreview').src=preview();$('exportError').textContent='';exportSettings();$('exportDialog').showModal();};$('exportFormat').onchange=exportSettings;$('exportQuality').oninput=()=>$('exportQualityValue').textContent=`${$('exportQuality').value}%`;
-$('downloadDesign').onclick=async()=>{
-  if(operation)return;operation=true;const button=$('downloadDesign');button.disabled=true;button.textContent='Preparing image…';let output;
+function openExportDialog(){if(!ready||operation||wallpaperPending)return;canvas.discardActiveObject();canvas.requestRenderAll();$('exportPreview').src=preview();$('exportError').textContent='';exportSettings();$('exportDialog').showModal();}
+function syncExportButtons(){
+  $('exportButton').disabled=!ready||loading||wallpaperPending;
+  $('moreExportButton').disabled=$('exportButton').disabled;
+  $('exportButton').innerHTML=`${icon('download')}${doc.wallpaperContext?'Download PNG':'Download'}`;
+}
+$('moreExportButton').onclick=openExportDialog;
+$('exportButton').onclick=()=>{if(doc.wallpaperContext){$('exportFormat').value='png';$('transparentExport').checked=false;downloadDesign(true);}else openExportDialog();};$('exportFormat').onchange=exportSettings;$('exportQuality').oninput=()=>$('exportQualityValue').textContent=`${$('exportQuality').value}%`;
+async function downloadDesign(quick=false){
+  if(operation||!ready||wallpaperPending)return;operation=true;const button=quick?$('exportButton'):$('downloadDesign');button.disabled=true;button.textContent='Preparing image…';let output;
   try{
     const format=$('exportFormat').value,transparent=format!=='jpeg'&&$('transparentExport').checked,scene=hydrate(snapshot().scene);
     if(transparent)scene.objects=scene.objects.filter(o=>o.role!=='background');
@@ -261,8 +274,9 @@ $('downloadDesign').onclick=async()=>{
     const blob=await new Promise((resolve,reject)=>element.toBlob(b=>b?resolve(b):reject(new Error('This browser could not create the image. Try a smaller canvas.')),mime,Number($('exportQuality').value)/100));
     if(blob.type!==mime)throw new Error('This browser cannot export that format. Please choose PNG.');
     downloadBlob(blob,`${safeName(doc.title)}-${doc.width}x${doc.height}.${format==='jpeg'?'jpg':format}`);toast('Your design is ready.');$('exportDialog').close();await persist();
-  }catch(e){$('exportError').textContent=e.message||'The image could not be exported. Try PNG or a smaller canvas.';}finally{if(output)await output.dispose();operation=false;button.disabled=false;button.textContent='Download image';}
-};
+  }catch(e){$('exportError').textContent=e.message||'The image could not be exported. Try PNG or a smaller canvas.';if(quick)toast($('exportError').textContent);}finally{if(output)await output.dispose();operation=false;button.disabled=false;button.textContent='Download image';syncExportButtons();}
+}
+$('downloadDesign').onclick=()=>downloadDesign();
 window.addEventListener('keydown',e=>{
   const typing=/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName)||document.activeElement?.isContentEditable||active()?.isEditing;
   if(typing||document.querySelector('dialog[open]'))return;
@@ -278,16 +292,42 @@ window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.return
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&dirty)persist();});
 
 async function importWallpaper(params){
-  const banner=$('sourceBanner');banner.hidden=false;banner.textContent='Opening the original wallpaper…';
+  const banner=$('sourceBanner');banner.hidden=false;banner.textContent='Opening the original wallpaper…';wallpaperPending=true;syncExportButtons();$('canvasLoading').hidden=false;
   try{
-    const raw=params.get('source');if(!raw)throw new Error('Upload the original wallpaper to customize it.');
-    const url=new URL(raw,location.origin);const allowed=url.origin===location.origin||['drive.google.com','lh3.googleusercontent.com','res.cloudinary.com'].includes(url.hostname);
-    if(!allowed||!['http:','https:'].includes(url.protocol)||url.pathname.includes('/thumbnail')||url.pathname.includes('/thumbnails/'))throw new Error('Download the original wallpaper, then upload it here for a full-resolution design.');
-    const response=await fetch(url,{mode:'cors',credentials:'omit',signal:AbortSignal.timeout(15000)});if(!response.ok)throw new Error('Original unavailable');
-    const blob=await response.blob();if(!['image/png','image/jpeg','image/webp'].includes(blob.type)||blob.size>25*1024*1024)throw new Error('Image requires manual upload');
-    const data=await fileData(blob),photo=await addPhoto(data,null,params.get('title')||'Wallpaper');
-    const el=photo.getElement();validateSize(el.naturalWidth,el.naturalHeight);doc.width=el.naturalWidth;doc.height=el.naturalHeight;photo.set({left:0,top:0,frameWidth:doc.width,frameHeight:doc.height});fitPhoto(photo,'fill');await paintBackground();setName(params.get('title')||'My wallpaper design');fitCanvas();canvas.setActiveObject(photo);canvas.requestRenderAll();checkpoint();banner.textContent='Original wallpaper loaded. Its existing usage terms apply to designs made with this artwork.';
-  }catch(e){banner.replaceChildren(document.createTextNode('Bring in the original wallpaper to edit at full quality. '));const upload=document.createElement('button');upload.className='cr-button';upload.textContent='Upload original';upload.onclick=()=>pickPhotos();banner.append(upload);const link=document.createElement('a');link.href='/license.html';link.textContent=' Wallpaper usage terms';banner.append(link);}
+    const presetId=params.get('preset'),preset=presetId?getPreset(presetId):null;
+    if(presetId&&!preset)throw new Error('This format is not available. Choose another format from the wallpaper gallery.');
+    if(preset){doc.width=preset.width;doc.height=preset.height;fitCanvas();}
+    let item;
+    if(params.has('wallpaper')&&!params.has('source')) item=await resolveEditorWallpaper(params.get('wallpaper'));
+    else {
+      const raw=params.get('source');if(!raw)throw new Error('Upload the original wallpaper to customize it.');
+      const url=new URL(raw,location.origin);const allowed=url.origin===location.origin||['drive.google.com','drive.usercontent.google.com','lh3.googleusercontent.com','res.cloudinary.com'].includes(url.hostname);
+      if(!allowed||!['http:','https:'].includes(url.protocol)||url.pathname.includes('/thumbnail')||url.pathname.includes('/thumbnails/'))throw new Error('Download the original wallpaper, then upload it here for a full-resolution design.');
+      item={id:params.get('wallpaper')||'wallpaper',title:params.get('title')||'My wallpaper design',download:url.href,driveFileId:url.hostname==='drive.google.com'?url.searchParams.get('id'):undefined};
+    }
+    doc.wallpaperContext={wallpaperId:item.id,...(preset?{presetId:preset.id}:{})};
+    let blob,lastError;
+    for(const source of originalURLs(item)){
+      try{const response=await fetch(source,{mode:'cors',credentials:'omit',signal:AbortSignal.timeout(15000)});if(!response.ok)throw new Error('Original unavailable');
+        if(!['image/png','image/jpeg','image/webp'].includes((response.headers.get('Content-Type')||'').split(';')[0])||Number(response.headers.get('Content-Length'))>25*1024*1024){await response.body?.cancel();throw new Error('Image requires manual upload');}
+        const reader=response.body.getReader(),chunks=[];let size=0;while(true){const {done,value}=await reader.read();if(done)break;size+=value.length;if(size>25*1024*1024){await reader.cancel();throw new Error('Choose an image smaller than 25 MB.');}chunks.push(value);}
+        blob=new Blob(chunks,{type:response.headers.get('Content-Type').split(';')[0]});break;
+      }catch(error){lastError=error;}
+    }
+    if(!blob)throw lastError||new Error('Original unavailable');
+    const data=await fileData(blob),photo=await addPhoto(data,preset?{x:0,y:0,w:preset.width,h:preset.height}:null,item.title);
+    if(!preset){const el=photo.getElement();validateSize(el.naturalWidth,el.naturalHeight);doc.width=el.naturalWidth;doc.height=el.naturalHeight;photo.set({left:0,top:0,frameWidth:doc.width,frameHeight:doc.height});fitPhoto(photo,'fill');}
+    await paintBackground();setName(`${item.title}${preset?' · '+preset.platform+' '+preset.purpose:''}`);fitCanvas();canvas.discardActiveObject();canvas.requestRenderAll();wallpaperPending=false;checkpoint();
+    banner.textContent=`${preset?preset.label+' · ':''}Ready to download. Reposition the crop or add text if you like. Personal, noncommercial use.`;
+    await persist();return true;
+  }catch(e){
+    dirty=false;clearTimeout(saveTimer);$('saveState').textContent='Original needed';
+    banner.replaceChildren(document.createTextNode(`${e.message||'The original could not load.'} `));
+    const retry=document.createElement('button');retry.className='cr-button';retry.textContent='Retry';retry.onclick=()=>guarded(()=>importWallpaper(params));banner.append(retry);
+    const upload=document.createElement('button');upload.className='cr-button';upload.textContent='Upload original';upload.onclick=()=>pickPhotos();banner.append(upload);
+    const link=document.createElement('a');link.href='/#latest-wallpapers';link.textContent=' Browse wallpapers';banner.append(link);
+    return false;
+  }finally{$('canvasLoading').hidden=true;syncExportButtons();}
 }
 async function start(){
   const params=new URLSearchParams(location.search);
@@ -297,6 +337,6 @@ async function start(){
     else if(params.has('blank')||params.has('import')){await loadTemplate(blank());if(params.has('import'))$('projectDialog').showModal();}
     else{const selected=TEMPLATES.find(t=>t.id===params.get('template'))||TEMPLATES[0];$('editorCategory').value=selected.category;renderTemplates();await loadTemplate(selected);}
   }catch(e){await loadTemplate(blank());toast(e.message);}
-  loading=false;ready=true;fitCanvas();await persist();
+  loading=false;ready=true;fitCanvas();syncExportButtons();await persist();
 }
 start();

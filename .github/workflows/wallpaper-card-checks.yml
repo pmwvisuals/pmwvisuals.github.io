@@ -1,0 +1,48 @@
+name: Wallpaper card checks
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Models, navigation, appearance, and catalog generation
+        run: |
+          node --test --test-isolation=none scripts/test-creative-model.mjs scripts/test-wallpaper-model.mjs
+          node scripts/verify-navigation.mjs
+          node scripts/verify-appearance.mjs
+          node scripts/build-wallpaper-catalog.mjs
+          git diff --exit-code
+      - name: Install browser test tools
+        run: |
+          npm install --prefix "$RUNNER_TEMP/pmw-qa" playwright@1.56.1 pngjs@7.0.0
+          node "$RUNNER_TEMP/pmw-qa/node_modules/playwright/cli.js" install --with-deps chromium
+      - name: Card controls, exports, and existing editor
+        env:
+          PMW_INLINE_PREVIEW: '1'
+          PMW_PREVIEW_URL: https://pmw.test
+        run: |
+          export PMW_PLAYWRIGHT_MODULE="$RUNNER_TEMP/pmw-qa/node_modules/playwright"
+          export PMW_PNG_MODULE="$RUNNER_TEMP/pmw-qa/node_modules/pngjs"
+          node scripts/verify-wallpaper-cards.cjs
+          node scripts/verify-creative-browser.cjs
+      - name: Real original imports and downloads
+        env:
+          PMW_INLINE_PREVIEW: '1'
+          PMW_PREVIEW_URL: https://pmwvisuals.com
+        run: |
+          export PMW_PLAYWRIGHT_MODULE="$RUNNER_TEMP/pmw-qa/node_modules/playwright"
+          node scripts/verify-live-wallpaper-editor.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wallpaper-card-review
+          path: |
+            work/wallpaper-qa/
+            work/creative-qa/

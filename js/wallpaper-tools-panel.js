@@ -1,4 +1,5 @@
 (function () {
+  import('/js/wallpaper-actions.js').catch(()=>{});
   const sourceScript = document.currentScript;
   if (sourceScript?.src && !document.querySelector('link[data-pmw-button-system]')) {
     const buttonStyles = document.createElement('link');
