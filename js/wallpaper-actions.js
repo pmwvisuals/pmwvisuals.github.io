@@ -2,7 +2,7 @@ import { PRESETS } from './creative/presets.js';
 import { loadWallpaperCatalog, editorURL } from './creative/wallpaper-catalog.js';
 import { icon } from './creative/shell.js';
 
-const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';stylesheet.href='/css/wallpaper-actions.css';document.head.append(stylesheet);
+const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';stylesheet.href='/css/wallpaper-actions.css?v=20261109-dropdowns-2';document.head.append(stylesheet);
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let catalog=[],byId=new Map(),byPath=new Map(),previewSequence=0,anchor=null,closeTimer,ignoreFocus=false,revealing=false;
 const known=new WeakMap();
