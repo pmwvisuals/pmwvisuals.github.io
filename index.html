@@ -2037,6 +2037,8 @@
         }
 
         function renderWallpapers() {
+            window.PMW_GALLERY_ITEMS = wallpapers;
+            window.PMW_CAN_EDIT_WALLPAPER = canDownloadWallpaper;
             stopWallpaperFeedObserver();
             wallpaperFeedNeedsScroll = false;
             filteredWallpaperItems = getFilteredWallpapers();
