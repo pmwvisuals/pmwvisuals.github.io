@@ -1,4 +1,4 @@
-import './wallpaper-actions.js';
+import './wallpaper-actions.js?v=20261109-dropdowns-2';
 import { auth } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 import { isPremiumUser } from "./premium-access.js?v=20261001-spark";

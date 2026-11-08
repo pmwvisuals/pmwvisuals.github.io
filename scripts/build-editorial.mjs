@@ -145,7 +145,7 @@ function detail(p) {
   html = html.replace(/<div class="related-grid"[^>]*>[\s\S]*?<\/div>/, `<div class="related-grid" data-editorial-related>${related.map(({item:q,shared}) => `<a class="related-card" href="/${e(q.file)}">${imageTag(q)}<span>${e(titleFor(q))}<small>${e(shared.length ? `Compare ${shared.slice(0,2).join(' / ')} themes` : `${q.category} · ${q.width}×${q.height}`)}</small></span></a>`).join('')}</div>`);
   html = html.replace(/(<a class="secondary-link"[^>]*href=")[^"]*("[^>]*>)[^<]*(<\/a>)/, `$1${e(collectionUrl(p))}$2Browse ${e(p.category)}$3`);
   if (p.html.includes('data-protected-wallpaper') && !html.includes('data-editorial-noscript')) html = html.replace(/(<button class="download-btn"[^>]*>[\s\S]*?<\/button>)/, `$1<noscript data-editorial-noscript><a class="ed-link" href="${e(p.download)}">Download original image</a></noscript>`);
-  html = html.replace(/js\/wallpaper-tools-panel\.js(?:\?[^"\s]*)?/, 'js/wallpaper-tools-panel.js?v=20261006');
+  html = html.replace(/js\/wallpaper-tools-panel\.js(?:\?[^"\s]*)?/, 'js/wallpaper-tools-panel.js?v=20261109-dropdowns-2');
   if (!html.includes('G-KWF3JNMHNW') || !html.includes(e(p.canonical)) || !html.includes(e(p.download))) throw new Error(`Preservation guard failed: ${p.file}`);
   write(p.file, html);
 }
