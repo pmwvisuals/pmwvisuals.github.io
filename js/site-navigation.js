@@ -1,6 +1,6 @@
 (() => {
   // Add wallpaper actions without changing the navigation or page layout.
-  if(document.querySelector('#wallpapersGrid,.ed-grid,.related-grid,#savedWallpaperPreviewStrip'))import('/js/wallpaper-actions.js?v=20261109-dropdowns-3').catch(()=>{});
+  if(document.querySelector('#wallpapersGrid,.ed-grid,.related-grid,#savedWallpaperPreviewStrip'))import('/js/wallpaper-actions.js?v=20261110-page-options').catch(()=>{});
   const drawer = document.getElementById('pmwSiteMenu');
   const trigger = document.querySelector('.pmw-site-menu-trigger');
   if (!drawer || !trigger) return;

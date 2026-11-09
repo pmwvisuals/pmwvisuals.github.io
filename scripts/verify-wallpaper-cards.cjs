@@ -33,7 +33,7 @@ function gradientPNG(width,height){
   });
   assert.deepEqual(style,{nameHidden:true,iconsOnly:true,onArtwork:true,touchTargets:true});
  };
- const currentHome=(await fs.readFile(path.join(__dirname,'../index.html'),'utf8')).replace(/\r\n/g,'\n').replaceAll('site-navigation.js?v=20261109-dropdowns-3','site-navigation.js?v=20261006-menu').replace('            window.PMW_GALLERY_ITEMS = wallpapers;\n            window.PMW_CAN_EDIT_WALLPAPER = canDownloadWallpaper;\n','');
+ const currentHome=(await fs.readFile(path.join(__dirname,'../index.html'),'utf8')).replace(/\r\n/g,'\n').replaceAll('site-navigation.js?v=20261110-page-options','site-navigation.js?v=20261006-menu').replace('            window.PMW_GALLERY_ITEMS = wallpapers;\n            window.PMW_CAN_EDIT_WALLPAPER = canDownloadWallpaper;\n','');
  const homeBlob=require('node:crypto').createHash('sha1').update('blob '+Buffer.byteLength(currentHome)+'\0').update(currentHome).digest('hex');
  assert.equal(homeBlob,'6d4c421833620dfa0b2b8d115575d271d622ded8','Homepage markup, styles, content, and routes must remain unchanged');
  await open(base+'/');assert.equal(await page.locator('#wallpapersGrid').count(),1);await noOverflow();await shot('home-desktop');checks.push('Original homepage preserved');
@@ -55,6 +55,9 @@ function gradientPNG(width,height){
  await page.evaluate(()=>window.PMWTheme.set('dark'));await shot('gallery-desktop-dark');await page.evaluate(()=>window.PMWTheme.set('light'));
  await open(base+'/wallpapers/amoled/');await page.locator('.wa-card-actions').first().waitFor();checks.push('Collection cards');
  await open(base+'/'+portrait.path);await page.locator('.related-grid .wa-card-actions').first().waitFor();checks.push('Related artwork cards');
+ await page.locator('.wa-detail-tools').waitFor();assert.equal(await page.locator('.wa-detail-tools button').count(),2);
+ await page.locator('.wa-detail-tools [data-wa-action="formats"]').click();assert.ok((await page.locator('.wa-format-list a').first().getAttribute('href')).includes('wallpaper='+portrait.id));await page.keyboard.press('Escape');
+ await page.locator('.wa-detail-tools [data-wa-action="preview"]').click();await page.locator('.wa-mini-phone').waitFor();await shot('detail-options');await page.keyboard.press('Escape');checks.push('Main artwork page controls resolve the correct image and size');
  await open(base+'/pmw-desktop-wallpapers.html');await page.waitForURL('**/?device=desktop#latest-wallpapers',{waitUntil:'domcontentloaded'});await page.locator('.wa-card-actions').first().waitFor();checks.push('Desktop entry keeps its existing destination');
  // A deterministic original with visible coordinates lets us verify the exported crop.
  let fixture=gradientPNG(300,600),failure=false;

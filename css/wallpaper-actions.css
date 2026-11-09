@@ -62,3 +62,12 @@
 html[data-theme=dark] .wa-popover { --wa-ink:#edf1e9; --wa-panel:#1e2721; --wa-muted:#a2afa4; --wa-line:#38453b; --wa-soft:#2b382e; }
 @media (pointer:coarse) { .wa-platforms button,.wa-screen-options button { min-height:44px; } }
 @media (prefers-reduced-motion:reduce) { .wa-card-actions button::before { transition:none; } }
+
+.wa-detail-tools{margin:18px 0;padding:16px;border:1px solid var(--ed-border,#d8dfd9);border-radius:14px;background:var(--ed-surface,#fff);color:var(--ed-text,#24382e);font-family:'Inter',sans-serif;overflow:visible}
+.wa-detail-tools strong{font-family:'Space Grotesk','Inter',sans-serif;font-size:15px;font-weight:600}
+.wa-detail-tools p{font-size:12px;line-height:1.6;color:var(--ed-muted,#718075);margin:5px 0 12px}
+.wa-detail-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.wa-detail-buttons button{display:inline-flex;align-items:center;gap:8px;min-height:44px;border:1px solid var(--ed-border,#d8dfd9);border-radius:9px;background:transparent;color:inherit;padding:8px 12px;font:500 12px 'Inter',sans-serif;cursor:pointer}
+.wa-detail-buttons button:hover,.wa-detail-buttons button[aria-expanded=true]{background:var(--wa-soft,#edf2e9)}
+.wa-detail-buttons svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+html[data-theme=dark] .wa-detail-tools{--wa-soft:#2b382e}
