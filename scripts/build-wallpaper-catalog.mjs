@@ -14,3 +14,4 @@ const content=json(items)+'\n';
 const changed=!fs.existsSync(file)||fs.readFileSync(file,'utf8')!==content;
 if(changed)fs.writeFileSync(file,content);
 console.log(`Wallpaper catalog: ${items.length} public originals; ${changed?1:0} files changed. Page layout unchanged.`);
+await import('./build-wallpaper-studio.mjs');

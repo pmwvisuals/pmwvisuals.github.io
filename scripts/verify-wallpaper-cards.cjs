@@ -33,10 +33,8 @@ function gradientPNG(width,height){
   });
   assert.deepEqual(style,{nameHidden:true,iconsOnly:true,onArtwork:true,touchTargets:true});
  };
- const currentHome=(await fs.readFile(path.join(__dirname,'../index.html'),'utf8')).replace(/\r\n/g,'\n').replaceAll('site-navigation.js?v=20261110-page-options','site-navigation.js?v=20261006-menu').replace('            window.PMW_GALLERY_ITEMS = wallpapers;\n            window.PMW_CAN_EDIT_WALLPAPER = canDownloadWallpaper;\n','');
- const homeBlob=require('node:crypto').createHash('sha1').update('blob '+Buffer.byteLength(currentHome)+'\0').update(currentHome).digest('hex');
- assert.equal(homeBlob,'6d4c421833620dfa0b2b8d115575d271d622ded8','Homepage markup, styles, content, and routes must remain unchanged');
- await open(base+'/');assert.equal(await page.locator('#wallpapersGrid').count(),1);await noOverflow();await shot('home-desktop');checks.push('Original homepage preserved');
+ const currentHome=await fs.readFile(path.join(__dirname,'../index.html'),'utf8');assert.ok(!currentHome.includes('id="editorialHome"')&&currentHome.includes('home-shortcuts'));const about=await fs.readFile(path.join(__dirname,'../about/index.html'),'utf8');assert.ok(about.includes('id="screen-fit"')&&about.includes('id="using-pmw"'));
+ await open(base+'/');assert.equal(await page.locator('#wallpapersGrid').count(),1);await noOverflow();await shot('home-desktop');checks.push('Compact homepage and detailed About page');
  await open(base+'/?device=desktop#latest-wallpapers');await page.locator('.wa-card-actions').first().waitFor();
  await page.locator('[data-wa-action="preview"]').first().hover();await page.locator('.wa-mini-desktop').waitFor();await page.locator('[data-screen="clean"]').click();assert.equal(await page.locator('.wa-mini-device').getAttribute('data-screen'),'clean');await shot('desktop-preview');await page.keyboard.press('Escape');checks.push('Desktop hover dropdown with clean/desktop screen types');
  await open(base+'/#latest-wallpapers');await page.locator('.wa-card-actions').first().waitFor();await noOverflow();assert.equal(await page.locator('.wa-card-link button,.wa-card-link [role="button"],a a').count(),0);

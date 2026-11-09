@@ -1,3 +1,4 @@
+import {compactHome} from './home-about.mjs';
 // Idempotent entry-point updates. Existing gallery markup and indexing are retained.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -24,7 +25,7 @@ export function creativeHome(html){
   html=html.replaceAll('PMW Wallpapers | Digital Art, Collections &amp; Screen-Fit Guides',title).replaceAll('PMW Wallpapers | Digital Art, Collections & Screen-Fit Guides',title);
   html=html.replaceAll('Explore PMW wallpaper collections, compare digital artwork and choose a readable mobile or desktop background with resolution, crop and color guidance.',description);
   if(!html.includes('/css/creative-entry.css'))html=html.replace('</head>','<link rel="stylesheet" href="/css/creative-entry.css?v=20261030">\n</head>');
-  return html;
+  return compactHome(html);
 }
 export function buildCreativeEntries(){
   fs.mkdirSync(path.join(root,'assets/creative/previews'),{recursive:true});

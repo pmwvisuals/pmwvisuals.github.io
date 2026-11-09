@@ -18,6 +18,7 @@ jobs:
           node scripts/verify-navigation.mjs
           node scripts/verify-appearance.mjs
           node scripts/build-wallpaper-catalog.mjs
+          node scripts/home-about.mjs
           git diff --exit-code
       - name: Install browser test tools
         run: |
@@ -32,6 +33,8 @@ jobs:
           export PMW_PNG_MODULE="$RUNNER_TEMP/pmw-qa/node_modules/pngjs"
           node scripts/verify-wallpaper-cards.cjs
           node scripts/verify-creative-browser.cjs
+          node scripts/verify-wallpaper-studio.cjs
+          node scripts/verify-home-about.cjs
       - name: Real original imports and downloads
         env:
           PMW_INLINE_PREVIEW: '1'
@@ -46,3 +49,5 @@ jobs:
           path: |
             work/wallpaper-qa/
             work/creative-qa/
+            work/studio-qa/
+            work/home-about-qa/

@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+import {loadCatalog} from './editorial/catalog.mjs';
+import {reviewed} from './editorial/content.mjs';
+const analysis=JSON.parse(fs.readFileSync(new URL('./editorial/preview-analysis.json',import.meta.url)));
+const publicIDs=new Set(JSON.parse(fs.readFileSync(new URL('../assets/wallpaper-catalog.json',import.meta.url))).map(item=>item.id));
+const {pages:allPages}=loadCatalog(),pages=allPages.filter(item=>publicIDs.has(item.id));
+const profiles=Object.fromEntries(pages.map(p=>[p.id,{category:p.category||p.file.split('/')[1],tags:(p.tags||[]).slice(0,12),palette:analysis[p.preview]?.palette||[],darkFraction:analysis[p.preview]?.darkFraction??null,note:reviewed[p.file]?.note||null,mood:reviewed[p.file]?.mood||null}]));
+const target=new URL('../assets/wallpaper-studio.json',import.meta.url),content=JSON.stringify(profiles)+'\n';
+if(!fs.existsSync(target)||fs.readFileSync(target,'utf8')!==content)fs.writeFileSync(target,content);
+console.log(`Studio profiles: ${pages.length} artwork pages; ${Object.values(profiles).filter(p=>p.palette.length).length} measured palettes. No original files or pages rewritten.`);
