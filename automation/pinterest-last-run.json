@@ -1,11 +1,11 @@
 {
   "dry_run": false,
   "catalog_total": 1692,
-  "posted_total": 261,
-  "posted_today": 4,
+  "posted_total": 265,
+  "posted_today": 8,
   "posted_this_run": 4,
   "attempted_this_run": 4,
-  "remaining": 1431,
+  "remaining": 1427,
   "failures_open": 0,
-  "timestamp": "2026-11-13T10:03:01.757580+00:00"
+  "timestamp": "2026-11-13T18:10:53.843033+00:00"
 }
