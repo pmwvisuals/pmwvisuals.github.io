@@ -2,7 +2,7 @@ import { PRESETS } from './creative/presets.js';
 import { loadWallpaperCatalog, editorURL } from './creative/wallpaper-catalog.js';
 import { icon } from './creative/shell.js';
 
-const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';stylesheet.href='/css/wallpaper-actions.css?v=20261109-dropdowns-3';document.head.append(stylesheet);
+const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';stylesheet.href='/css/wallpaper-actions.css?v=20261110-page-options';document.head.append(stylesheet);
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let catalog=[],byId=new Map(),byPath=new Map(),previewSequence=0,anchor=null,closeTimer,ignoreFocus=false,revealing=false;
 const known=new WeakMap();
@@ -80,6 +80,15 @@ function findItem(link){
   return item;
 }
 function enhance(){
+  const detailItem=byPath.get(location.pathname);
+  const actions=document.querySelector('body.editorial-detail .actions, .preview-card ~ article .actions');
+  if(detailItem&&actions&&!document.querySelector('.wa-detail-tools')){
+    const tools=document.createElement('section');tools.className='wa-detail-tools wa-card';tools.setAttribute('aria-label','Wallpaper design and screen options');
+    tools.innerHTML='<div><strong>Make it fit your next idea.</strong><p>Choose a platform size, or try this artwork on a screen.</p></div><div class="wa-detail-buttons"><button type="button" data-wa-action="formats" aria-controls="waDropdown" aria-expanded="false">'+icon('resize')+'<span>Formats & templates</span></button><button type="button" data-wa-action="preview" aria-controls="waDropdown" aria-expanded="false">'+icon('eye')+'<span>Screen preview</span></button></div>';
+    actions.after(tools);known.set(tools,detailItem);
+    tools.querySelectorAll('button').forEach(button=>{button.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch')show(button);});button.addEventListener('pointerleave',scheduleClose);});
+  }
+
   for(const link of document.querySelectorAll('a.wallpaper-card, a.related-card, #grid a.card, #savedWallpaperPreviewStrip > a, .pmw-premium-card:not(.wa-card)')){
     const item=findItem(link);if(!item)continue;
     const isLink=link.tagName==='A',card=isLink?document.createElement('article'):link;card.className=link.className||'wa-saved-card';card.classList.add('wa-card');card.style.cssText=link.style.cssText;
@@ -98,6 +107,6 @@ function enhance(){
 }
 let queued=false;
 function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;enhance();});}
-loadWallpaperCatalog().then(items=>{catalog=items;byId=new Map(catalog.map(item=>[item.id,item]));byPath=new Map(catalog.filter(item=>item.path).map(item=>['/'+item.path,item]));enhance();new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true});}).catch(()=>{
+loadWallpaperCatalog().then(items=>{catalog=items;byId=new Map(catalog.map(item=>[item.id,item]));byPath=new Map(catalog.filter(item=>item.path).map(item=>['/'+item.path,item]));enhance();new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true});const detail=byPath.get(location.pathname);if(detail)import('./wallpaper-studio.js').then(module=>module.mountWallpaperStudio(detail,catalog)).catch(()=>{});}).catch(()=>{
   const notice=document.createElement('p');notice.className='wa-description';notice.textContent='Wallpaper formats could not load. Refresh the page to retry.';document.querySelector('#wallpapersGrid,.ed-grid,#grid')?.before(notice);
 });

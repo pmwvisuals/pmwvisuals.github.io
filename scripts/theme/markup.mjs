@@ -1,5 +1,5 @@
 import {navigationMarkup} from './navigation.mjs';
-export const hasAppearance = file => file==='index.html'||file==='account.html'||file==='premium-wallpapers.html'||file.startsWith('wallpapers/')||file.startsWith('tools/');
+export const hasAppearance = file => file==='index.html'||file==='about/index.html'||file==='account.html'||file==='premium-wallpapers.html'||file.startsWith('wallpapers/')||file.startsWith('tools/');
 export function appearanceMarkup(html,file) {
   if(!file.endsWith('.html'))return html;
   html=navigationMarkup(html,file);

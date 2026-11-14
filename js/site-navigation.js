@@ -1,6 +1,6 @@
 (() => {
   // Add wallpaper actions without changing the navigation or page layout.
-  if(document.querySelector('#wallpapersGrid,.ed-grid,.related-grid,#savedWallpaperPreviewStrip'))import('/js/wallpaper-actions.js?v=20261109-dropdowns-3').catch(()=>{});
+  if(document.querySelector('#wallpapersGrid,.ed-grid,.related-grid,#savedWallpaperPreviewStrip'))import('/js/wallpaper-actions.js?v=20261110-page-options').catch(()=>{});
   const drawer = document.getElementById('pmwSiteMenu');
   const trigger = document.querySelector('.pmw-site-menu-trigger');
   if (!drawer || !trigger) return;
@@ -10,6 +10,7 @@
     destinations.insertAdjacentHTML('afterbegin', '<a class="pmw-site-menu-featured" href="/templates/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span><strong>Editable templates</strong><small>A starting point for your next idea.</small></span><b aria-hidden="true">→</b></a>');
   }
   const more = drawer.querySelector('.pmw-site-menu-links');
+  if(more&&!more.querySelector('a[href="/about/"]'))more.insertAdjacentHTML('beforeend','<a href="/about/">About us<span aria-hidden="true">↗</span></a>');
   if (more && !more.querySelector('a[href="/editor/"]')) {
     more.insertAdjacentHTML('afterbegin', '<a href="/editor/">PMW Editor<span aria-hidden="true">↗</span></a><a href="/my-designs/">My designs<span aria-hidden="true">↗</span></a>');
   }

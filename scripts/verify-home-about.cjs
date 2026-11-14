@@ -1,0 +1,16 @@
+const {chromium}=require(process.env.PMW_PLAYWRIGHT_MODULE||'playwright');
+const {launch}=require('./browser-preview.cjs'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path');
+const base=process.env.PMW_PREVIEW_URL||'http://127.0.0.1:8767';
+(async()=>{const out=path.resolve('work/home-about-qa');await fs.mkdir(out,{recursive:true});const browser=await launch(chromium);try{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});await context.addInitScript(()=>{localStorage.setItem('pmw_theme_preference','light');document.addEventListener('DOMContentLoaded',()=>{const style=document.createElement('style');style.textContent='html{scroll-behavior:auto!important}';document.head.append(style);});});
+ await context.route(/^https:\/\/(?:www\.gstatic\.com|fonts\.googleapis\.com|fonts\.gstatic\.com|www\.googletagmanager\.com|www\.google-analytics\.com|firestore\.googleapis\.com)\//,route=>route.abort());
+ const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));const open=url=>page.goto(base+url,{waitUntil:'domcontentloaded'});
+ await open('/');await page.locator('.wa-card-actions').first().waitFor();assert.equal(await page.locator('#editorialHome').count(),0);assert.equal(await page.locator('h1').count(),1);assert.ok((await page.locator('#wallpapersGrid .wa-card').first().boundingBox()).y<850,'Desktop cards should be in the first viewport');await page.screenshot({path:path.join(out,'home-desktop.png')});
+ await page.locator('#wallpaperSearch').fill('pmw-no-matching-artwork');await page.locator('#wallpapersGrid .empty-state').waitFor();await page.locator('#wallpaperSearch').fill('');await page.locator('.wa-card-actions').first().waitFor();
+ await page.locator('.home-shortcuts a[href="/about/"]').click();await page.waitForURL('**/about/');assert.equal(await page.locator('h1').count(),1);assert.equal(await page.locator('#screen-fit').count(),1);assert.equal(await page.locator('#using-pmw').count(),1);await page.screenshot({path:path.join(out,'about-desktop.png')});
+ await page.locator('.pmw-site-menu-trigger').click();await page.locator('#pmwSiteMenu[open]').waitFor();assert.ok(await page.locator('#pmwSiteMenu a[href="/about/"]').count());await page.keyboard.press('Escape');
+ await open('/#screen-fit');await page.waitForURL('**/about/#screen-fit');
+ await page.setViewportSize({width:390,height:844});await open('/');await page.locator('.wa-card-actions').first().waitFor();assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);assert.ok((await page.locator('#wallpapersGrid .wa-card').first().boundingBox()).y<780,'Mobile cards should be in the first viewport');await page.screenshot({path:path.join(out,'home-mobile.png')});
+ await open('/about/');assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);await page.screenshot({path:path.join(out,'about-mobile.png')});await page.evaluate(()=>window.PMWTheme.set('dark'));await page.screenshot({path:path.join(out,'about-dark.png')});
+ assert.deepEqual(errors,[]);console.log('Homepage/About checks passed: first-viewport cards, search, navigation, legacy guide redirect, mobile, dark and zero runtime errors.');
+}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

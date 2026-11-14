@@ -28,6 +28,7 @@
     {
       title: "Platform",
       links: [
+        ["About us", "about/"],
         ["Editable templates", "templates/"],
         ["PMW Editor", "editor/"],
         ["My designs", "my-designs/"],

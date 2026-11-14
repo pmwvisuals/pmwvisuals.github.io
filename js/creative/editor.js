@@ -316,6 +316,7 @@ async function importWallpaper(params){
     }
     if(!blob)throw lastError||new Error('Original unavailable');
     const data=await fileData(blob),photo=await addPhoto(data,preset?{x:0,y:0,w:preset.width,h:preset.height}:null,item.title);
+    if(preset){const focus=key=>{const raw=params.get(key),value=Number(raw);return raw!==null&&raw.trim()!==''&&Number.isFinite(value)?Math.max(0,Math.min(1,value)):.5;};photo.set({focusX:focus('focusX'),focusY:focus('focusY')});fitPhoto(photo,'fill');}
     if(!preset){const el=photo.getElement();validateSize(el.naturalWidth,el.naturalHeight);doc.width=el.naturalWidth;doc.height=el.naturalHeight;photo.set({left:0,top:0,frameWidth:doc.width,frameHeight:doc.height});fitPhoto(photo,'fill');}
     await paintBackground();setName(`${item.title}${preset?' · '+preset.platform+' '+preset.purpose:''}`);fitCanvas();canvas.discardActiveObject();canvas.requestRenderAll();wallpaperPending=false;checkpoint();
     banner.textContent=`${preset?preset.label+' · ':''}Ready to download. Reposition the crop or add text if you like. Personal, noncommercial use.`;
