@@ -21,7 +21,7 @@ const base=process.env.PMW_PREVIEW_URL||'http://127.0.0.1:8767';
  assert.notEqual(await page.evaluate(() => document.body.style.overflow), 'hidden');
 };
  await open();assert.equal(await page.locator('h1').count(),1);assert.equal(await page.locator('[data-creative-hub]').count(),1);assert.equal(await page.locator('.hub-directory>a').count(),3);assert.equal(await page.locator('#home-workspace').count(),0);
- const hero=await page.locator('.hub-hero').boundingBox(),gallery=await page.locator('#latest-wallpapers').boundingBox();assert.ok(gallery.y-hero.y-hero.height<130,'Only the gallery heading may follow the hero');assert.ok(gallery.y<900,'Desktop gallery must follow compact hero');
+ const hero=await page.locator('.hub-hero').boundingBox(),gallery=await page.locator('#latest-wallpapers').boundingBox();assert.ok(gallery.y-hero.y-hero.height<130,'Only the gallery heading may follow the hero');assert.ok(hero.height>=1100,'Hero must fill the first viewport');assert.ok(gallery.y>=1100,'Gallery must start below the first viewport');
  await page.setViewportSize({width:870,height:667});
  const copy=await page.locator('.hub-copy').boundingBox(), deck=await page.locator('.studio-deck').boundingBox();
  assert.ok(deck.x>=copy.x+copy.width,'Destination links must sit to the right of the hero copy at the review width');
@@ -49,6 +49,7 @@ const base=process.env.PMW_PREVIEW_URL||'http://127.0.0.1:8767';
  assert.equal(navigation.y, 0, 'Header must touch the top viewport edge');
  assert.ok(Math.abs(account.y + account.height / 2 - (navigation.y + navigation.height / 2)) < 2, 'Profile must align vertically with the header');
  assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(255, 255, 255)', 'Light homepage must have a white background');
+ assert.ok((await page.locator('.studio-stage').boundingBox()).height>=844,'Hero must fill the screen at width '+width);
 const fit=await page.evaluate(()=>{
  const stage=document.querySelector('.studio-stage').getBoundingClientRect();
  const links=[...document.querySelectorAll('.studio-deck>a')];
@@ -57,6 +58,13 @@ const fit=await page.evaluate(()=>{
    return box.left>=stage.left && box.right<=stage.right && box.top>=stage.top && box.bottom<=stage.bottom;
  });
 });assert.ok(fit,'Hero destination panels clipped at '+width);for(const target of ['.hub-primary','.hub-template-link','.hub-directory-wallpapers','.hub-directory-tools'])assert.ok(await page.locator(target).isVisible());}
+ for(const [width,height] of [[1535,696],[1920,1080],[870,667],[844,390]]){
+  await page.setViewportSize({width,height});await open();
+  const stage=await page.locator('.studio-stage').boundingBox(),heading=await page.locator('.hub-gallery-heading').boundingBox();
+  assert.ok(stage.height>=height,'Hero must cover '+width+'x'+height);
+  assert.ok(heading.y>=height,'Gallery must remain below '+width+'x'+height);
+  if(width===1535)await page.screenshot({animations:'disabled',path:output+'/full-screen-desktop.png'});
+ }
  await page.setViewportSize({width:390,height:1050});await open();await page.screenshot({animations:"disabled",path:output+'/home-mobile.png'});
  await page.locator('.pmw-account-trigger').click();
  await page.locator('.pmw-account-trigger[aria-expanded=true]').waitFor();

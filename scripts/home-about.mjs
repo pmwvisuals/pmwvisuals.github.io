@@ -9,7 +9,7 @@ export function compactHome(html){
  html=html.replace(/<header class="wallpaper-hero gallery-hero"[\s\S]*?<\/header>/,'').replace(/<header class="ed-gallery-heading">[\s\S]*?<\/header>/,'');
  html=html.replaceAll('href="#screen-fit"','href="/about/#screen-fit"');
  if(!html.includes('/css/home-hub.css'))html=html.replace('</head>','<link rel="stylesheet" href="/css/home-hub.css">\n</head>');
- html=html.replace(/href="\/css\/home-hub\.css[^"]*"/,'href="/css/home-hub.css?v=20261116-sage-chrome"');
+ html=html.replace(/href="\/css\/home-hub\.css[^"]*"/,'href="/css/home-hub.css?v=20261117-full-screen"');
  html=html.replace(/src="\/js\/site-navigation\.js[^\"]*"/,'src="/js/site-navigation.js?v=20261116-menu-open"');
  html=html.replace(/<script type="module" src="\/js\/home-hub.js"><\/script>\s*/,'');
  if(!html.includes('/css/home-about.css'))html=html.replace('</head>','<link rel="stylesheet" href="/css/home-about.css">\n</head>');

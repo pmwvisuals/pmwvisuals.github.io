@@ -318,14 +318,15 @@ body.pmw-wallpaper-page .hub-hero {
 }
 .studio-stage {
   border-radius: 0;
-  min-height: clamp(500px, calc(100svh - 130px), 620px);
+  min-height: 100vh;
+  min-height: 100dvh;
   padding-top: 116px;
   padding-bottom: 36px;
   padding-inline: max(30px, calc((100vw - 1180px) / 2));
 }
 @media (max-width: 620px) {
   .studio-stage {
-    min-height: 0;
+    align-content: center;
     padding: 105px 23px 26px;
   }
 }
