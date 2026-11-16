@@ -38,7 +38,7 @@ for(const file of files) {
   const ids=new Set([...html.matchAll(/\s+id="([^"]+)"/g)].map(m=>m[1]));
   check(!/(?:href|onclick)="[^"]*pmw-studio\.html/.test(html),`${file}: Studio navigation returned`);
   if(file==='index.html') {
-    const hero=html.match(/<header class="wallpaper-hero"[\s\S]*?<\/header>/)?.[0];
+    const hero=html.match(/<header class="wallpaper-hero(?: [^"]*)?"[\s\S]*?<\/header>/)?.[0];
     check(hero.includes('home-shortcuts')&&!hero.includes('wallpaperSearch'),'Hero/gallery separation changed');
     check(html.indexOf('id="latest-wallpapers"')<html.indexOf('id="wallpaperSearch"')&&html.indexOf('id="wallpaperSearch"')<html.indexOf('id="wallpapersGrid"'),'Filters are not above gallery cards');
     const idList=[...html.matchAll(/\s+id="([^"]+)"/g)].map(m=>m[1]);

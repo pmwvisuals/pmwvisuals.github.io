@@ -993,6 +993,7 @@
 <link rel="stylesheet" href="/css/creative-entry.css?v=20261030">
 <link rel="stylesheet" href="/css/home-about.css">
 <script data-pmw-guide-redirect>if(location.hash==='#screen-fit')location.replace('/about/#screen-fit');</script>
+<link rel="stylesheet" href="/css/home-hub.css?v=20261116-sage-chrome">
 </head>
 <body class="pmw-wallpaper-page">
     <canvas id="canvas-bg"></canvas>
@@ -1010,7 +1011,40 @@
 
     <main class="page">
         <div class="page-inner">
-            <header class="wallpaper-hero" id="wallpaperHero"><div class="wallpaper-hero-content"><span class="wallpaper-kicker">PMW VISUALS</span><h1 class="section-title">Find your next wallpaper.</h1><p class="section-subtitle">Browse artwork. Preview the fit. Make it yours.</p><nav class="home-shortcuts" aria-label="Creative shortcuts"><a href="/templates/">Templates ↗</a><a href="/editor/?blank=1">Open editor ↗</a><a href="/tools/">Tools ↗</a><a href="/about/">About us ↗</a></nav></div></header>
+            <!-- pmw-hub:start --><header class="wallpaper-hero hub-hero" id="wallpaperHero" data-creative-hub>
+    <div class="hub-main studio-stage">
+      <div class="hub-copy">
+        <span class="hub-label">PMW Creative</span>
+        <h1>Make something <em>yours.</em></h1>
+        <p>Start with a wallpaper. Crop it for your screen or turn it into a post.</p>
+        <div class="hub-actions">
+          <a class="hub-primary" href="/editor/?blank=1">Open Creative <span aria-hidden="true">↗</span></a>
+          <a class="hub-template-link" href="/templates/">Browse templates</a>
+        </div>
+      </div>
+      <nav class="hub-directory studio-deck home-shortcuts" aria-label="Explore PMW">
+        <a class="hub-directory-creative" href="/editor/?blank=1">
+          <span class="deck-glyph glyph-creative" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="deck-caption"><strong>PMW Creative</strong><small>Design &amp; edit</small></span>
+          <span class="deck-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="hub-directory-wallpapers" href="#latest-wallpapers">
+          <span class="deck-glyph glyph-wallpapers" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="deck-caption"><strong>PMW Wallpapers</strong><small>Phone &amp; desktop</small></span>
+          <span class="deck-arrow" aria-hidden="true">↓</span>
+        </a>
+        <a class="hub-directory-tools" href="/tools/">
+          <span class="deck-glyph glyph-tools" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="deck-caption"><strong>PMW Tools</strong><small>Resize, convert &amp; compress</small></span>
+          <span class="deck-arrow" aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+  <div class="hub-gallery-heading">
+    <h2>Explore wallpapers</h2>
+    <div><a href="/?device=mobile#latest-wallpapers">Phone</a><a href="/?device=desktop#latest-wallpapers">Desktop</a><a href="/wallpapers/">All collections ↗</a></div>
+  </div><!-- pmw-hub:end -->
 
             <section class="wallpaper-section wallpaper-results-section" id="latest-wallpapers" aria-label="Wallpaper results">
 <!-- pmw-gallery-controls:start --><div class="ed-gallery-controls" id="galleryFilters" aria-label="Search and filter the wallpaper gallery"><label class="search-box" for="wallpaperSearch">
@@ -2372,6 +2406,6 @@
   <script src="./js/platform-footer.js?v=20261006-gallery" defer></script>
 <script src="/js/theme-chooser.js?v=20261006-light-v1" defer></script>
 <!-- pmw-site-menu:start --><dialog class="pmw-site-drawer" id="pmwSiteMenu" aria-labelledby="pmwSiteMenuTitle"><div class="pmw-site-drawer-head"><a href="/" class="pmw-site-drawer-brand"><img class="pmw-uploaded-logo" src="/assets/brand/pmw-visuals-logo.png" width="64" height="64" alt="PMW Visuals logo"><span>PMW Visuals</span></a><button class="pmw-site-menu-close" type="button" aria-label="Close navigation menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div class="pmw-site-drawer-content"><span class="pmw-menu-eyebrow">Your creative corner</span><h2 id="pmwSiteMenuTitle">Explore PMW.</h2><nav aria-label="Main destinations" class="pmw-site-menu-main"><a class="pmw-site-menu-featured is-current" href="/" aria-current="location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m5 17 5-6 4 3 3-5 3 8"/></svg><span><strong>PMW Wallpapers</strong><small>Find your next screen.</small></span><b aria-hidden="true">→</b></a><a class="pmw-site-menu-featured" href="/tools/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14 6 4 4m-8 3-6 6 1 2 2-1 6-6m1-8 3-3 4 4-3 3Z"/></svg><span><strong>PMW Tools</strong><small>Convert. Resize. Compress.</small></span><b aria-hidden="true">→</b></a></nav><h3>Browse & create</h3><nav aria-label="More pages" class="pmw-site-menu-links"><a href="/wallpapers/">Wallpaper collections<span aria-hidden="true">↗</span></a><a href="/tools/image-converter/">Media Converter<span aria-hidden="true">↗</span></a><a href="/tools/image-resizer/">Image Resizer<span aria-hidden="true">↗</span></a><a href="/tools/image-compressor/">Image Compressor<span aria-hidden="true">↗</span></a><a href="/premium.html">Premium plans<span aria-hidden="true">↗</span></a><a href="/account.html">Your account<span aria-hidden="true">↗</span></a><a href="/login.html">Sign in / create an account<span aria-hidden="true">↗</span></a></nav><h3>Good to know</h3><nav aria-label="Policies and license" class="pmw-site-menu-links pmw-site-menu-legal"><a href="/license.html">Wallpaper license<span aria-hidden="true">↗</span></a><a href="/privacy-policy.html">Privacy policy<span aria-hidden="true">↗</span></a><a href="/terms.html">Terms of use<span aria-hidden="true">↗</span></a><a href="/cookie-policy.html">Cookie policy<span aria-hidden="true">↗</span></a><a href="/returnmoney-policy.html">Refund policy<span aria-hidden="true">↗</span></a></nav></div><p class="pmw-site-drawer-note">Wallpapers and useful tools. One place to explore.</p></dialog><!-- pmw-site-menu:end -->
-<script src="/js/site-navigation.js?v=20261110-page-options" defer></script>
+<script src="/js/site-navigation.js?v=20261116-menu-open" defer></script>
 </body>
 </html>

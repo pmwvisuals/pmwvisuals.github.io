@@ -1,0 +1,82 @@
+const {chromium}=require(process.env.PMW_PLAYWRIGHT_MODULE||'playwright');
+const {launch}=require('./browser-preview.cjs'),fs=require('node:fs/promises'),assert=require('node:assert/strict');
+const base=process.env.PMW_PREVIEW_URL||'http://127.0.0.1:8767';
+(async()=>{const output='work/hub-qa';await fs.mkdir(output,{recursive:true});const browser=await launch(chromium);try{
+ const context=await browser.newContext({viewport:{width:1440,height:1100}});await context.addInitScript(()=>{localStorage.setItem('pmw_theme_preference','light');document.addEventListener('DOMContentLoaded',()=>{const style=document.createElement('style');style.textContent='html{scroll-behavior:auto!important}';document.head.append(style);});});
+ await context.route(/^https:\/\/(?:www\.gstatic\.com|fonts\.googleapis\.com|fonts\.gstatic\.com|www\.googletagmanager\.com|www\.google-analytics\.com|firestore\.googleapis\.com)\//,route=>route.abort());
+ const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ const fixedPalette=()=>page.evaluate(()=>{
+   // Compare authored styles; popover compositing can change Chromium's text antialiasing.
+   const properties=['color','backgroundColor','backgroundImage','borderTopColor','borderRightColor','borderBottomColor','borderLeftColor','boxShadow','filter','colorScheme','fontFamily','fontSize','fontWeight','textShadow'];
+   return [...document.querySelectorAll('#navbar, #navbar *, .studio-stage, .studio-stage *, .pmw-account-menu-root, .pmw-account-menu-root *, #pmwSiteMenu, #pmwSiteMenu *')]
+     .filter(node=>node.getClientRects().length && getComputedStyle(node).visibility!=='hidden')
+     .map(node=>({node:node.tagName+'.'+node.getAttribute('class'),palette:Object.fromEntries(properties.map(key=>[key,getComputedStyle(node)[key]]))}));
+ });
+ const open=async()=>{await page.goto(base+'/',{waitUntil:'domcontentloaded'});await page.locator('.wa-card-actions').first().waitFor();
+ await page.locator('#pmwSiteMenu[open]').waitFor();
+ assert.equal(await page.locator('.pmw-site-menu-trigger').getAttribute('aria-expanded'), 'true');
+ await page.keyboard.press('Escape');
+ await page.locator('#pmwSiteMenu:not([open])').waitFor({state:'attached'}); await page.locator('.pmw-site-menu-trigger[aria-expanded=false]').waitFor();
+ assert.equal(await page.locator('.pmw-site-menu-trigger').getAttribute('aria-expanded'), 'false');
+ assert.notEqual(await page.evaluate(() => document.body.style.overflow), 'hidden');
+};
+ await open();assert.equal(await page.locator('h1').count(),1);assert.equal(await page.locator('[data-creative-hub]').count(),1);assert.equal(await page.locator('.hub-directory>a').count(),3);assert.equal(await page.locator('#home-workspace').count(),0);
+ const hero=await page.locator('.hub-hero').boundingBox(),gallery=await page.locator('#latest-wallpapers').boundingBox();assert.ok(gallery.y-hero.y-hero.height<130,'Only the gallery heading may follow the hero');assert.ok(gallery.y<900,'Desktop gallery must follow compact hero');
+ await page.setViewportSize({width:870,height:667});
+ const copy=await page.locator('.hub-copy').boundingBox(), deck=await page.locator('.studio-deck').boundingBox();
+ assert.ok(deck.x>=copy.x+copy.width,'Destination links must sit to the right of the hero copy at the review width');
+ await page.screenshot({animations:'disabled',path:output+'/review-870.png'});
+ await page.reload({waitUntil:'domcontentloaded'});
+ await page.locator('#pmwSiteMenu[open]').waitFor();
+ await page.screenshot({animations:'disabled',path:output+'/menu-default.png'});
+ const menuLight=await fixedPalette();
+ await page.evaluate(()=>window.PMWTheme.set('dark'));
+ const menuDark=await fixedPalette();
+ assert.deepEqual(menuDark,menuLight,'Hero, navigation and open drawer must keep the same palette in dark mode');
+ await page.screenshot({animations:'disabled',path:output+'/menu-dark.png'});
+ await page.evaluate(()=>window.PMWTheme.set('light'));
+ await page.locator('.pmw-site-menu-close').click();
+ await page.locator('#pmwSiteMenu:not([open])').waitFor({state:'attached'}); await page.locator('.pmw-site-menu-trigger[aria-expanded=false]').waitFor();
+ await page.setViewportSize({width:1440,height:1100});
+ await page.screenshot({animations:"disabled",path:output+'/home-desktop.png'});
+ await page.locator('.hub-template-link').focus();await page.keyboard.press('Enter');await page.waitForURL('**/templates/');await open();await page.locator('.hub-directory-tools').click();await page.waitForURL('**/tools/');await open();
+ await page.locator('.hub-directory-wallpapers').click();await page.locator('#wallpaperSearch').fill('pmw-nothing-matches-this');await page.locator('#wallpapersGrid .empty-state').waitFor();await page.locator('#wallpaperSearch').fill('');await page.locator('.wa-card-actions').first().waitFor();
+ await page.locator('.hub-gallery-heading a[href="/?device=desktop#latest-wallpapers"]').click();await page.locator('.device-toggle-btn[data-device-value=desktop][aria-pressed=true]').waitFor();
+ for(const width of [320,390,620,621,768,870,1024,1366,1920]){await page.setViewportSize({width,height:844});await open();assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true,'Overflow at '+width);await page.locator('.pmw-account-trigger').waitFor();const brand=await page.locator('#navbar .nav-logo').boundingBox(),menu=await page.locator('.pmw-site-menu-trigger').boundingBox(),account=await page.locator('.pmw-account-trigger').boundingBox();assert.ok(brand.x+brand.width<=menu.x);assert.ok(menu.x+menu.width<=account.x);
+ const navigation = await page.locator('#navbar .nav-inner').boundingBox();
+ assert.equal(navigation.x, 0, 'Header must touch the left viewport edge');
+ assert.ok(Math.abs(navigation.width - width) <= 1, 'Header must reach the right viewport edge');
+ assert.equal(navigation.y, 0, 'Header must touch the top viewport edge');
+ assert.ok(Math.abs(account.y + account.height / 2 - (navigation.y + navigation.height / 2)) < 2, 'Profile must align vertically with the header');
+ assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(255, 255, 255)', 'Light homepage must have a white background');
+const fit=await page.evaluate(()=>{
+ const stage=document.querySelector('.studio-stage').getBoundingClientRect();
+ const links=[...document.querySelectorAll('.studio-deck>a')];
+ return links.every(link=>{
+   const box=link.getBoundingClientRect();
+   return box.left>=stage.left && box.right<=stage.right && box.top>=stage.top && box.bottom<=stage.bottom;
+ });
+});assert.ok(fit,'Hero destination panels clipped at '+width);for(const target of ['.hub-primary','.hub-template-link','.hub-directory-wallpapers','.hub-directory-tools'])assert.ok(await page.locator(target).isVisible());}
+ await page.setViewportSize({width:390,height:1050});await open();await page.screenshot({animations:"disabled",path:output+'/home-mobile.png'});
+ await page.locator('.pmw-account-trigger').click();
+ await page.locator('.pmw-account-trigger[aria-expanded=true]').waitFor();
+ await page.locator('.pmw-account-panel').waitFor({state:'visible'});
+ await page.locator('.pmw-account-menu-root').evaluate(node=>Promise.all(node.getAnimations({subtree:true}).map(animation=>animation.finished.catch(()=>{}))));
+ const accountLight=await fixedPalette();
+ await page.evaluate(()=>window.PMWTheme.set('dark'));
+ await page.locator('.pmw-account-menu-root').evaluate(node=>Promise.all(node.getAnimations({subtree:true}).map(animation=>animation.finished.catch(()=>{}))));
+ assert.deepEqual(await fixedPalette(),accountLight,'Hero, navigation and open account menu must keep the same palette in dark mode');
+ await page.screenshot({animations:'disabled',path:output+'/account-dark.png'});
+ await page.keyboard.press('Escape');
+ await page.locator('.pmw-account-trigger[aria-expanded=false]').waitFor();
+ await page.locator('.pmw-account-panel').waitFor({state:'hidden'});
+ await page.evaluate(()=>window.PMWTheme.set('light'));
+ await page.locator('.pmw-site-menu-trigger').click();
+ await page.locator('#pmwSiteMenu[open]').waitFor();
+ await page.keyboard.press('Escape');
+ await page.evaluate(()=>window.PMWTheme.set('dark'));await page.screenshot({animations:"disabled",path:output+'/home-dark.png'});
+ assert.notEqual(await page.evaluate(()=>getComputedStyle(document.body).backgroundColor),'rgb(255, 255, 255)','Gallery still follows the selected theme');
+ await page.emulateMedia({reducedMotion:'reduce'});assert.equal(await page.locator('.hub-directory-creative').evaluate(n=>getComputedStyle(n).transitionDuration),'0s');assert.deepEqual(errors,[]);
+ const html=await fs.readFile('index.html','utf8');for(const [,href]of html.matchAll(/href="([^"]+)"/g)){if(!href.startsWith('/')||href.startsWith('//'))continue;const url=new URL(href,base),file='.'+url.pathname+(url.pathname.endsWith('/')?'index.html':'');assert.ok(require('node:fs').existsSync(file),'Missing destination '+href);}
+ await fs.writeFile(output+'/results.json',JSON.stringify({checks:['Three named destinations, Creative dominant','Gallery directly after hero','Right-side destination links at review width','Keyboard templates navigation and Tools link','Gallery search and desktop filter','320–1920px full-width header, aligned controls, white page background', 'Homepage menu opens on arrival and reload, closes with Escape or close button', 'Menu and profile open and close','Dark theme and reduced motion','Internal destinations'],errors},null,2));console.log('Homepage checks passed: three destinations, Creative priority, immediate gallery, navigation, filters, responsive layout and reduced motion.');
+}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});
