@@ -35,6 +35,7 @@ jobs:
           node scripts/verify-creative-browser.cjs
           node scripts/verify-wallpaper-studio.cjs
           node scripts/verify-home-about.cjs
+          node scripts/verify-home-hub.cjs
       - name: Real original imports and downloads
         env:
           PMW_INLINE_PREVIEW: '1'
@@ -51,3 +52,4 @@ jobs:
             work/creative-qa/
             work/studio-qa/
             work/home-about-qa/
+            work/hub-qa/

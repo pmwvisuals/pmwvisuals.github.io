@@ -1,11 +1,17 @@
+import {creativeHubHome} from './creative-hub-home.mjs';
 import fs from 'node:fs';import path from 'node:path';import {fileURLToPath} from 'node:url';
 import {appearanceMarkup} from './theme/markup.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 export function compactHome(html){
  html=html.replace(/<!-- pmw-creative:home:start -->[\s\S]*?<!-- pmw-creative:home:end -->\s*/,'').replace(/<!-- pmw-editorial:home:start -->[\s\S]*?<!-- pmw-editorial:home:end -->\s*/,'');
- html=html.replace(/<header class="wallpaper-hero"[\s\S]*?<\/header>/,`<header class="wallpaper-hero" id="wallpaperHero"><div class="wallpaper-hero-content"><span class="wallpaper-kicker">PMW VISUALS</span><h1 class="section-title">Find your next wallpaper.</h1><p class="section-subtitle">Browse artwork. Preview the fit. Make it yours.</p><nav class="home-shortcuts" aria-label="Creative shortcuts"><a href="/templates/">Templates ↗</a><a href="/editor/?blank=1">Open editor ↗</a><a href="/tools/">Tools ↗</a><a href="/about/">About us ↗</a></nav></div></header>`);
+ html=html.replace(/<!-- pmw-hub:start -->[\s\S]*?<!-- pmw-hub:end -->/, '<header class="wallpaper-hero"></header>');
+ html=html.replace(/<header class="wallpaper-hero"[\s\S]*?<\/header>/,'<!-- pmw-hub:start -->'+creativeHubHome()+'<!-- pmw-hub:end -->');
  html=html.replace(/<header class="wallpaper-hero gallery-hero"[\s\S]*?<\/header>/,'').replace(/<header class="ed-gallery-heading">[\s\S]*?<\/header>/,'');
  html=html.replaceAll('href="#screen-fit"','href="/about/#screen-fit"');
+ if(!html.includes('/css/home-hub.css'))html=html.replace('</head>','<link rel="stylesheet" href="/css/home-hub.css">\n</head>');
+ html=html.replace(/href="\/css\/home-hub\.css[^"]*"/,'href="/css/home-hub.css?v=20261116-sage-chrome"');
+ html=html.replace(/src="\/js\/site-navigation\.js[^\"]*"/,'src="/js/site-navigation.js?v=20261116-menu-open"');
+ html=html.replace(/<script type="module" src="\/js\/home-hub.js"><\/script>\s*/,'');
  if(!html.includes('/css/home-about.css'))html=html.replace('</head>','<link rel="stylesheet" href="/css/home-about.css">\n</head>');
  if(!html.includes('data-pmw-guide-redirect'))html=html.replace('</head>',`<script data-pmw-guide-redirect>if(location.hash==='#screen-fit')location.replace('/about/#screen-fit');</script>\n</head>`);
  return html;

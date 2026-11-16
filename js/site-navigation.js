@@ -16,13 +16,15 @@
   }
 
   let previousOverflow = '';
-  trigger.addEventListener('click', () => {
+  function openMenu() {
+    if (drawer.open) return;
     previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     trigger.setAttribute('aria-expanded', 'true');
     drawer.showModal();
     drawer.querySelector('.pmw-site-menu-close')?.focus();
-  });
+  }
+  trigger.addEventListener('click', openMenu);
 
   drawer.querySelector('.pmw-site-menu-close')?.addEventListener('click', () => drawer.close());
   drawer.addEventListener('click', (event) => {
@@ -39,4 +41,6 @@
     trigger.setAttribute('aria-expanded', 'false');
     trigger.focus();
   });
+
+  if (document.querySelector('[data-creative-hub]')) openMenu();
 })();

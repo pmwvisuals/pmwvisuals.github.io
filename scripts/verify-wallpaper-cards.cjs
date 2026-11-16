@@ -18,7 +18,17 @@ function gradientPNG(width,height){
  await context.route(/^https:\/\/(?:www\.gstatic\.com|fonts\.googleapis\.com|fonts\.gstatic\.com|www\.googletagmanager\.com|www\.google-analytics\.com|firestore\.googleapis\.com)\//,route=>route.abort());
  await context.addInitScript(()=>{localStorage.setItem('pmw_theme_preference','light');document.addEventListener('DOMContentLoaded',()=>{const style=document.createElement('style');style.textContent='html { scroll-behavior:auto!important; }';document.head.append(style);});});
  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
- const open=url=>page.goto(url,{waitUntil:'domcontentloaded'});
+ const open=async url=>{
+  await page.goto(url,{waitUntil:'domcontentloaded'});
+  if(new URL(url).pathname==='/pmw-desktop-wallpapers.html')await page.waitForURL('**/?device=desktop#latest-wallpapers');
+  if(new URL(page.url()).pathname==='/'){
+   await page.locator('.wa-card-actions').first().waitFor();
+   if(await page.locator('#pmwSiteMenu').getAttribute('open')!==null){
+    await page.keyboard.press('Escape');
+    await page.locator('.pmw-site-menu-trigger[aria-expanded=false]').waitFor();
+   }
+  }
+ };
  const originalPush=checks.push.bind(checks);checks.push=(value)=>{console.log('PASS',value);return originalPush(value);};
  const catalog=JSON.parse(await fs.readFile(path.join(__dirname,'../assets/wallpaper-catalog.json'),'utf8'));
  const portrait=catalog.find(p=>p.driveFileId),landscape=catalog.find(p=>p.width>p.height);
