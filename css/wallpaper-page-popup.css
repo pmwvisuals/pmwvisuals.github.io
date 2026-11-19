@@ -1,0 +1,34 @@
+.wallpaper-page-popup {
+  width: min(1280px, calc(100% - 48px));
+  height: calc(100dvh - 48px);
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #a991594d;
+  border-radius: 16px;
+  background: #fff;
+  color: #25211b;
+  box-shadow: 0 24px 100px #0006;
+  overflow: hidden;
+  font-family: inherit;
+}
+.wallpaper-page-popup[open] { display: flex; flex-direction: column; }
+.wallpaper-page-popup::backdrop { background: #080808b8; backdrop-filter: blur(6px); }
+.wallpaper-popup-bar { display: flex; align-items: center; gap: 16px; padding: 10px 16px 10px 22px; border-bottom: 1px solid #a9915938; flex-shrink: 0; }
+.wallpaper-popup-bar strong { font-size: 15px; line-height: 1.4; }
+.wallpaper-popup-close { margin-left: auto; flex-shrink: 0; width: 44px; height: 44px; border: 1px solid #a9915955; border-radius: 50%; background: transparent; color: inherit; font-size: 20px; cursor: pointer; }
+.wallpaper-popup-close:hover { background: #b7964620; }
+.wallpaper-page-popup :is(button,a):focus-visible { outline: 3px solid #c19235; outline-offset: 2px; }
+.wallpaper-popup-content { position: relative; flex: 1; min-height: 0; }
+.wallpaper-popup-content iframe { width: 100%; height: 100%; border: 0; display: block; visibility: hidden; }
+.wallpaper-popup-content iframe.is-ready { visibility: visible; }
+.wallpaper-popup-status, .wallpaper-popup-error { position: absolute; inset: 0; margin: 0; padding: 32px; display: flex; align-items: center; justify-content: center; text-align: center; }
+.wallpaper-popup-error { flex-direction: column; gap: 16px; }
+.wallpaper-popup-error button, .wallpaper-popup-error a { font: inherit; color: inherit; padding: 12px 20px; border: 1px solid #a9915966; background: transparent; border-radius: 8px; cursor: pointer; }
+.wallpaper-page-popup [hidden] { display: none; }
+html[data-theme="dark"] .wallpaper-page-popup { background: #151515; color: #f5eddc; }
+@media (max-width: 640px) {
+  .wallpaper-page-popup { width: 100%; height: 100dvh; border: 0; border-radius: 0; }
+  .wallpaper-popup-bar { padding: 8px 12px 8px 16px; }
+}
