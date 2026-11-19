@@ -42,5 +42,5 @@
     trigger.focus();
   });
 
-  if (document.querySelector('[data-creative-hub]')) openMenu();
+  if (document.querySelector('[data-creative-hub]') && !document.querySelector('.hub-inline-nav')) openMenu();
 })();
