@@ -1,6 +1,7 @@
 import { PRESETS } from './creative/presets.js';
 import { loadWallpaperCatalog, editorURL } from './creative/wallpaper-catalog.js';
 import { icon } from './creative/shell.js';
+import { enableWallpaperPagePopups } from './wallpaper-page-popup.js';
 
 const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';stylesheet.href='/css/wallpaper-actions.css?v=20261110-page-options';document.head.append(stylesheet);
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -107,6 +108,6 @@ function enhance(){
 }
 let queued=false;
 function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;enhance();});}
-loadWallpaperCatalog().then(items=>{catalog=items;byId=new Map(catalog.map(item=>[item.id,item]));byPath=new Map(catalog.filter(item=>item.path).map(item=>['/'+item.path,item]));enhance();new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true});const detail=byPath.get(location.pathname);if(detail)import('./wallpaper-studio.js').then(module=>module.mountWallpaperStudio(detail,catalog)).catch(()=>{});}).catch(()=>{
+loadWallpaperCatalog().then(items=>{catalog=items;byId=new Map(catalog.map(item=>[item.id,item]));byPath=new Map(catalog.filter(item=>item.path).map(item=>['/'+item.path,item]));enhance();enableWallpaperPagePopups(catalog);new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true});const detail=byPath.get(location.pathname);if(detail)import('./wallpaper-studio.js').then(module=>module.mountWallpaperStudio(detail,catalog)).catch(()=>{});}).catch(()=>{
   const notice=document.createElement('p');notice.className='wa-description';notice.textContent='Wallpaper formats could not load. Refresh the page to retry.';document.querySelector('#wallpapersGrid,.ed-grid,#grid')?.before(notice);
 });

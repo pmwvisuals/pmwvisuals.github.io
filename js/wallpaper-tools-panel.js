@@ -1,5 +1,5 @@
 (function () {
-  import('/js/wallpaper-actions.js?v=20261110-page-options').catch(()=>{});
+  import('/js/wallpaper-actions.js?v=20261119-popup-test').catch(()=>{});
   const sourceScript = document.currentScript;
   if (sourceScript?.src && !document.querySelector('link[data-pmw-button-system]')) {
     const buttonStyles = document.createElement('link');

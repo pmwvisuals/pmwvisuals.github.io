@@ -32,6 +32,7 @@ jobs:
           export PMW_PLAYWRIGHT_MODULE="$RUNNER_TEMP/pmw-qa/node_modules/playwright"
           export PMW_PNG_MODULE="$RUNNER_TEMP/pmw-qa/node_modules/pngjs"
           node scripts/verify-wallpaper-cards.cjs
+          node scripts/verify-wallpaper-popup.cjs
           node scripts/verify-creative-browser.cjs
           node scripts/verify-wallpaper-studio.cjs
           node scripts/verify-home-about.cjs
@@ -49,6 +50,7 @@ jobs:
           name: wallpaper-card-review
           path: |
             work/wallpaper-qa/
+            work/popup-qa/
             work/creative-qa/
             work/studio-qa/
             work/home-about-qa/
