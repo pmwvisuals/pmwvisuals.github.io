@@ -2,8 +2,8 @@
 <!-- Focused on collection hubs and visually reviewed artwork. See docs/editorial-refactor-plan.md. Other detail pages remain indexable and internally linked. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://pmwvisuals.com/templates/</loc><lastmod>2026-10-30</lastmod></url>
-  <url><loc>https://pmwvisuals.com/editor/</loc><lastmod>2026-10-30</lastmod></url>
-  <url><loc>https://pmwvisuals.com/</loc><lastmod>2026-10-06</lastmod></url>
+  <url><loc>https://pmwvisuals.com/editor/</loc><lastmod>2026-11-19</lastmod></url>
+  <url><loc>https://pmwvisuals.com/</loc><lastmod>2026-11-19</lastmod></url>
   <url><loc>https://pmwvisuals.com/wallpapers/</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://pmwvisuals.com/wallpapers/amoled/</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://pmwvisuals.com/wallpapers/dark-fantasy/</loc><lastmod>2026-10-06</lastmod></url>
@@ -13,16 +13,16 @@
   <url><loc>https://pmwvisuals.com/wallpapers/anime/</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://pmwvisuals.com/wallpapers/dark-aesthetic/</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://pmwvisuals.com/wallpapers/celestial-samurai/</loc><lastmod>2026-10-06</lastmod></url>
-  <url><loc>https://pmwvisuals.com/wallpapers/amoled/01/blue-comet-streaking-through-darkness.html</loc><lastmod>2026-10-06</lastmod></url>
-  <url><loc>https://pmwvisuals.com/wallpapers/amoled/02/black-marble-with-gold-cracks.html</loc><lastmod>2026-10-06</lastmod></url>
-  <url><loc>https://pmwvisuals.com/wallpapers/dark-fantasy/01/blue-mushroom-forest-under-the-moon.html</loc><lastmod>2026-10-06</lastmod></url>
-  <url><loc>https://pmwvisuals.com/wallpapers/nature/01/sunlit-forest-creek.html</loc><lastmod>2026-10-06</lastmod></url>
-  <url><loc>https://pmwvisuals.com/wallpapers/romantic/01/gondola-in-a-moonlit-canal.html</loc><lastmod>2026-10-06</lastmod></url>
-  <url><loc>https://pmwvisuals.com/wallpapers/space-and-galaxy/01/red-sun-and-orbiting-planets.html</loc><lastmod>2026-10-06</lastmod></url>
-  <url><loc>https://pmwvisuals.com/wallpapers/anime/01/boy-in-a-blue-crystal-cave-city.html</loc><lastmod>2026-10-06</lastmod></url>
-  <url><loc>https://pmwvisuals.com/wallpapers/dark-aesthetic/01/candlelit-library-shelves.html</loc><lastmod>2026-10-06</lastmod></url>
-  <url><loc>https://pmwvisuals.com/wallpapers/celestial-samurai/01/samurai-entering-lantern-village-at-night.html</loc><lastmod>2026-10-06</lastmod></url>
-  <url><loc>https://pmwvisuals.com/wallpapers/desktop/abstract/velvet-waves-in-jewel-tones.html</loc><lastmod>2026-10-06</lastmod></url>
+  <url><loc>https://pmwvisuals.com/wallpapers/amoled/01/blue-comet-streaking-through-darkness.html</loc><lastmod>2026-11-10</lastmod></url>
+  <url><loc>https://pmwvisuals.com/wallpapers/amoled/02/black-marble-with-gold-cracks.html</loc><lastmod>2026-11-10</lastmod></url>
+  <url><loc>https://pmwvisuals.com/wallpapers/dark-fantasy/01/blue-mushroom-forest-under-the-moon.html</loc><lastmod>2026-11-10</lastmod></url>
+  <url><loc>https://pmwvisuals.com/wallpapers/nature/01/sunlit-forest-creek.html</loc><lastmod>2026-11-10</lastmod></url>
+  <url><loc>https://pmwvisuals.com/wallpapers/romantic/01/gondola-in-a-moonlit-canal.html</loc><lastmod>2026-11-10</lastmod></url>
+  <url><loc>https://pmwvisuals.com/wallpapers/space-and-galaxy/01/red-sun-and-orbiting-planets.html</loc><lastmod>2026-11-10</lastmod></url>
+  <url><loc>https://pmwvisuals.com/wallpapers/anime/01/boy-in-a-blue-crystal-cave-city.html</loc><lastmod>2026-11-10</lastmod></url>
+  <url><loc>https://pmwvisuals.com/wallpapers/dark-aesthetic/01/candlelit-library-shelves.html</loc><lastmod>2026-11-10</lastmod></url>
+  <url><loc>https://pmwvisuals.com/wallpapers/celestial-samurai/01/samurai-entering-lantern-village-at-night.html</loc><lastmod>2026-11-10</lastmod></url>
+  <url><loc>https://pmwvisuals.com/wallpapers/desktop/abstract/velvet-waves-in-jewel-tones.html</loc><lastmod>2026-11-10</lastmod></url>
   <url><loc>https://pmwvisuals.com/cookie-policy.html</loc><lastmod>2026-06-26</lastmod></url>
   <url><loc>https://pmwvisuals.com/license.html</loc><lastmod>2026-06-26</lastmod></url>
   <url><loc>https://pmwvisuals.com/privacy-policy.html</loc><lastmod>2026-06-26</lastmod></url>
@@ -32,5 +32,5 @@
   <url><loc>https://pmwvisuals.com/tools/image-converter/</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://pmwvisuals.com/tools/image-resizer/</loc><lastmod>2026-10-06</lastmod></url>
   <url><loc>https://pmwvisuals.com/tools/image-compressor/</loc><lastmod>2026-10-06</lastmod></url>
-  <url><loc>https://pmwvisuals.com/about/</loc></url>
+  <url><loc>https://pmwvisuals.com/about/</loc><lastmod>2026-11-10</lastmod></url>
 </urlset>

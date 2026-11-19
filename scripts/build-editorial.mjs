@@ -229,9 +229,12 @@ function directory() {
 function sitemap() {
   // Reviewed pages are prioritized; nonlisted pages remain linked and indexable.
   const old=fs.readFileSync(path.join(siteRoot,'sitemap.xml'),'utf8');
-  const platform=[...old.matchAll(/<url>\s*<loc>(.*?)<\/loc>([\s\S]*?)<\/url>/g)].filter(([,url])=>!url.includes('/wallpapers/')&&url!==origin+'/'&&url!==origin+'/pmw-studio.html');
+  const entries=[...old.matchAll(/<url>\s*<loc>(.*?)<\/loc>([\s\S]*?)<\/url>/g)];
+  const metadataByUrl=new Map(entries.map(([,url,metadata])=>[decode(url),metadata.trim()]));
+  const platform=entries.filter(([,url])=>!url.includes('/wallpapers/')&&url!==origin+'/'&&url!==origin+'/pmw-studio.html');
   const roots=[origin+'/',origin+'/wallpapers/',...collections.map(c=>`${origin}/wallpapers/${c.slug}/`),...PILOT_PATHS.map(file=>itemFor(file).canonical)];
-  const urls=roots.map(url=>`  <url><loc>${e(url)}</loc><lastmod>2026-10-06</lastmod></url>`).concat(platform.map(([,url,rest])=>`  <url><loc>${e(decode(url))}</loc>${rest.trim()}</url>`));
+  const urls=roots.map(url=>`  <url><loc>${e(url)}</loc>${metadataByUrl.get(url)??'<lastmod>2026-10-06</lastmod>'}</url>`)
+    .concat(platform.map(([,url,rest])=>`  <url><loc>${e(decode(url))}</loc>${rest.trim()}</url>`));
   write('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?>\n<!-- Focused on collection hubs and visually reviewed artwork. See docs/editorial-refactor-plan.md. Other detail pages remain indexable and internally linked. -->\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`);
 }
 
