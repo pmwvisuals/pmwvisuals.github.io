@@ -7,9 +7,7 @@ const base=process.env.PMW_PREVIEW_URL||'http://127.0.0.1:8767';
  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));const open=async url=>{
  await page.goto(base+url,{waitUntil:'domcontentloaded'});
  if(new URL(page.url()).pathname==='/'){
-   await page.locator('#pmwSiteMenu[open]').waitFor();
-   await page.keyboard.press('Escape');
-   await page.locator('#pmwSiteMenu:not([open])').waitFor({state:'attached'}); await page.locator('.pmw-site-menu-trigger[aria-expanded=false]').waitFor();
+   await page.locator('.hub-inline-nav').waitFor();
  }
 };
  await open('/');await page.locator('.wa-card-actions').first().waitFor();assert.equal(await page.locator('#editorialHome').count(),0);assert.equal(await page.locator('h1').count(),1);assert.ok((await page.locator('.hub-main').boundingBox()).y<700,'Hero should visibly showcase PMW artwork');await page.screenshot({path:path.join(out,'home-desktop.png')});

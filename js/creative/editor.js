@@ -1,4 +1,5 @@
 import { TEMPLATES, CATEGORIES, previewURL, artworkSVG, backgroundElements } from './templates.js';
+import { getShowcaseDesign } from './showcase-designs.js';
 import { uid, RATIOS, validateSize, validateProject, fitTransform, safeName, escapeHTML } from './model.js';
 import { saveProject, getProject } from './storage.js';
 import { bootShell, toast, icon, downloadBlob } from './shell.js';
@@ -84,7 +85,7 @@ new ResizeObserver(()=>requestAnimationFrame(()=>{if(ready)fitCanvas();})).obser
 function attach(obj,options={}){obj.set({pmwId:uid(),label:options.label||obj.label||'Shape',...options});applyLock(obj);canvas.add(obj);return obj;}
 function solidObject(o){
   const opts={left:o.x||0,top:o.y||0,fill:o.color||'#78916c',opacity:o.alpha??1,angle:o.angle||0,strokeWidth:0,label:o.label||'Shape',originX:'left',originY:'top'};
-  if(o.kind==='text')return new f.Textbox(o.text,{...opts,width:o.w,fontSize:o.size,fontFamily:o.font||'Arial',fontWeight:o.weight||700,lineHeight:o.lineHeight||1.16,label:o.label||o.text.split('\n')[0]});
+  if(o.kind==='text')return new f.Textbox(o.text,{...opts,width:o.w,fontSize:o.size,fontFamily:o.font||'Arial',fontWeight:o.weight||700,lineHeight:o.lineHeight||1.16,textAlign:o.align||'left',label:o.label||o.text.split('\n')[0]});
   if(o.kind==='circle')return new f.Circle({...opts,radius:o.w/2});
   if(o.kind==='path')return new f.Path(o.path,{...opts,left:undefined,top:undefined});
   if(o.kind==='triangle')return new f.Triangle({...opts,width:o.w,height:o.h});
@@ -318,7 +319,10 @@ async function importWallpaper(params){
     const data=await fileData(blob),photo=await addPhoto(data,preset?{x:0,y:0,w:preset.width,h:preset.height}:null,item.title);
     if(preset){const focus=key=>{const raw=params.get(key),value=Number(raw);return raw!==null&&raw.trim()!==''&&Number.isFinite(value)?Math.max(0,Math.min(1,value)):.5;};photo.set({focusX:focus('focusX'),focusY:focus('focusY')});fitPhoto(photo,'fill');}
     if(!preset){const el=photo.getElement();validateSize(el.naturalWidth,el.naturalHeight);doc.width=el.naturalWidth;doc.height=el.naturalHeight;photo.set({left:0,top:0,frameWidth:doc.width,frameHeight:doc.height});fitPhoto(photo,'fill');}
-    await paintBackground();setName(`${item.title}${preset?' · '+preset.platform+' '+preset.purpose:''}`);fitCanvas();canvas.discardActiveObject();canvas.requestRenderAll();wallpaperPending=false;checkpoint();
+    await paintBackground();
+    const showcase=getShowcaseDesign(params.get('showcase'));
+    if(showcase&&params.get('source')===showcase.source)showcase.elements.forEach(element=>attach(solidObject(element)));
+    setName(`${item.title}${preset?' · '+preset.platform+' '+preset.purpose:''}`);fitCanvas();canvas.discardActiveObject();canvas.requestRenderAll();wallpaperPending=false;checkpoint();
     banner.textContent=`${preset?preset.label+' · ':''}Ready to download. Reposition the crop or add text if you like. Personal, noncommercial use.`;
     await persist();return true;
   }catch(e){
@@ -334,10 +338,24 @@ async function start(){
   const params=new URLSearchParams(location.search);
   try{
     if(params.has('project')){const project=await getProject(params.get('project'));if(!project)throw new Error('This project is not saved in this browser. Open its downloaded .pmw file to continue.');await loadProject(project);}
+    else if(params.has('showcase')){
+      const design=getShowcaseDesign(params.get('showcase'));
+      if(!design)throw new Error('This showcase design is unavailable. Choose a design from the homepage.');
+      await loadTemplate(blank());
+      const imported=await importWallpaper(new URLSearchParams({showcase:design.id,source:design.source,wallpaper:'showcase-'+design.id,preset:design.preset,title:'Somewhere New',focusX:String(design.focusX)}));
+      if(!imported)return;
+    }
     else if(params.has('source')||params.has('wallpaper')){await loadTemplate(blank());await importWallpaper(params);}
     else if(params.has('blank')||params.has('import')){await loadTemplate(blank());if(params.has('import'))$('projectDialog').showModal();}
     else{const selected=TEMPLATES.find(t=>t.id===params.get('template'))||TEMPLATES[0];$('editorCategory').value=selected.category;renderTemplates();await loadTemplate(selected);}
-  }catch(e){await loadTemplate(blank());toast(e.message);}
+  }catch(e){
+    await loadTemplate(blank());toast(e.message);
+    if(params.has('showcase')){
+      wallpaperPending=true;dirty=false;clearTimeout(saveTimer);
+      $('sourceBanner').hidden=false;$('sourceBanner').textContent=e.message;
+      loading=false;ready=true;fitCanvas();syncExportButtons();return;
+    }
+  }
   loading=false;ready=true;fitCanvas();syncExportButtons();await persist();
 }
 start();

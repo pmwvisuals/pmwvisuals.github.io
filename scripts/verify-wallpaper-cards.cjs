@@ -43,7 +43,7 @@ function gradientPNG(width,height){
   });
   assert.deepEqual(style,{nameHidden:true,iconsOnly:true,onArtwork:true,touchTargets:true});
  };
- const currentHome=await fs.readFile(path.join(__dirname,'../index.html'),'utf8');assert.ok(!currentHome.includes('id="editorialHome"')&&currentHome.includes('home-shortcuts'));const about=await fs.readFile(path.join(__dirname,'../about/index.html'),'utf8');assert.ok(about.includes('id="screen-fit"')&&about.includes('id="using-pmw"'));
+ const currentHome=await fs.readFile(path.join(__dirname,'../index.html'),'utf8');assert.ok(!currentHome.includes('id="editorialHome"')&&currentHome.includes('showcase-gallery'));const about=await fs.readFile(path.join(__dirname,'../about/index.html'),'utf8');assert.ok(about.includes('id="screen-fit"')&&about.includes('id="using-pmw"'));
  await open(base+'/');assert.equal(await page.locator('#wallpapersGrid').count(),1);await noOverflow();await shot('home-desktop');checks.push('Compact homepage and detailed About page');
  await open(base+'/?device=desktop#latest-wallpapers');await page.locator('.wa-card-actions').first().waitFor();
  await page.locator('[data-wa-action="preview"]').first().hover();await page.locator('.wa-mini-desktop').waitFor();await page.locator('[data-screen="clean"]').click();assert.equal(await page.locator('.wa-mini-device').getAttribute('data-screen'),'clean');await shot('desktop-preview');await page.keyboard.press('Escape');checks.push('Desktop hover dropdown with clean/desktop screen types');

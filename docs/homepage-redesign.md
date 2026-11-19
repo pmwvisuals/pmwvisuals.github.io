@@ -19,14 +19,22 @@ WallpaperAccess, Coolors and VistaCreate were also attempted but blocked during 
 
 ## Current implementation
 
-The approved homepage has a full-width cinematic forest-green hero. Creative copy and editor/template links sit on the left; three staggered perspective panels on the right lead to PMW Creative, PMW Wallpapers and PMW Tools. The wallpaper gallery follows directly. Mobile stacks the copy and compact panels without horizontal overflow.
+The selected Showcase layout uses a centered headline, black-and-gold palette and a full-screen hero. Three cards have distinct roles: Wallpapers on the left, the largest Creative editing example in the middle, and Tools on the right. The existing searchable wallpaper gallery starts below the hero.
 
-Creative links to the existing editor. Wallpapers jumps to the gallery, and Tools opens the tools directory. Phone and desktop shortcuts retain the existing gallery filters. The hero uses CSS lighting, contour lines and small dimensional glyphs instead of a background photograph.
+The sidebar trigger is at the top-left before the brand, the hero label reads PMW Visuals, and the Creative action buttons have larger text and touch targets. The two side cards are enlarged and share equal widths and heights at every breakpoint. The headline button row and bottom product strip are removed. Open Creative and Browse templates overlay the editor image; the Wallpaper browsing action and Tools links stay inside their respective cards. Image links and overlay buttons are separate interactive elements, with no nested links.
 
-The full-width navigation uses a sage gradient, emerald menu button and matching profile control. The hero, navigation, drawer and account popover retain their authored colors and typography in both themes; the gallery still follows the selected theme. Existing fonts and native links are retained. Reduced-motion preferences disable panel transitions.
+The Wallpaper card uses a generated collage background with layered wallpaper cards and a live “Choose your wallpaper” heading; it leads to the gallery. The Creative card shows a polished full editor interface image derived from the actual editor screenshot, including its template library, text selection, typography controls and layers. It opens the demonstrated editable design at 1280 × 720. The Tools card adds a gold file illustration and individual action rows linking directly to the resizer, converter and compressor. The three product links remain visible in the top navigation; the compact menu button opens the full navigation on demand.
 
-The navigation drawer opens on every homepage arrival and reload, with close-button, Escape, backdrop and link dismissal. Closing restores scrolling and focus. Other pages retain their normal closed-by-default navigation. Existing artwork URLs, original download destinations, premium access, gallery actions and About content are retained. No new raster assets are required.
+The hero, navigation, full menu and account controls retain their black-and-gold palette in both themes. The gallery follows the selected light/dark theme. Existing branding and fonts are retained. Narrow layouts preserve all three products, keyboard access and usable tool links. Short windows allow the hero to grow rather than clip content.
 
-Browser validation covers keyboard navigation, destination links, gallery search and device filtering, 320–1920px layouts, header alignment, automatic menu opening and dismissal, fixed palettes across themes, account popover and reduced motion. Generation remains repeatable.
+The editable example retains its text, decoration, source and size definitions in js/creative/showcase-designs.js. The editor embeds the original source in saved projects, preserves editable text, and reuses the existing crop/import/export flow. Failed imports disable downloading and preserve Retry and Upload original. Retry also restores the template text. Invalid showcase links cannot export an empty design. The homepage interface image is a marketing illustration; the editor retains its existing theme controls.
 
-Approved for publication after local visual review on design/creative-hub-home.
+The original travel artwork is assets/home/somewhere-new.webp, generated with the built-in image tool and saved as WebP for delivery. It is separate from the public wallpaper catalog and image bridge. Existing artwork URLs, original downloads and premium access are unchanged.
+
+Additional homepage artwork, created with the built-in image tool and saved as WebP: assets/home/wallpaper-mosaic.webp (a layered collection of varied wallpaper cards on black, with room for the live heading) and assets/home/creative-interface.webp (the actual editor screenshot reinterpreted in black and gold, preserving its supported editing features). The mosaic and interface total about 446 KB; the interface is preloaded and both are checked for successful decoding in browser verification.
+
+Artwork prompt: A cinematic travel photograph of an ochre Moroccan adobe kasbah inspired by Ait Ben Haddou at golden hour, palm fronds and stone arches framing the edges, an unobstructed central village panorama and quiet peach sky, warm honey/bronze colors, natural editorial photographic detail. No text, logos, UI or people.
+
+Verification covers responsive layouts from 320 to 1920px, full-screen hero coverage, product ordering and links, keyboard navigation, filtering, menu/profile controls, fixed theme palettes, reduced motion, editable Creative example, PNG dimensions, saved-project reopening, failed import recovery and repeatable generation.
+
+Approved by the owner for publication after local visual review.
