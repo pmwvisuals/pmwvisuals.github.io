@@ -59,6 +59,15 @@ const base=process.env.PMW_PREVIEW_URL||'http://127.0.0.1:8774';
   await page.keyboard.press('Escape');
   assert.equal(await popup().isVisible(),true,'Escape from a format menu should only close that menu');
   await page.keyboard.press('Escape');await popup().waitFor({state:'hidden'});
+  // A close event queued by the previous dialog must not clear a newly opened page.
+  await card.click();await frame().locator('.ws-studio').waitFor();
+  await page.evaluate(()=>{
+   document.querySelector('.wallpaper-popup-close').click();
+   document.querySelector('#wallpapersGrid .wa-card-link').click();
+  });
+  await frame().locator('.ws-studio').waitFor();
+  await page.locator('.wallpaper-popup-close').click();
+  assert.equal(await page.evaluate(()=>document.body.style.overflow),'');
   // Opening editor from inside the popup must use the full browser viewport.
   await card.click();await frame().locator('.ws-editor').waitFor();
   await frame().locator('.ws-editor').click();

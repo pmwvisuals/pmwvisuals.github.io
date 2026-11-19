@@ -22,7 +22,7 @@ export function enableWallpaperPagePopups(catalog) {
   const status = dialog.querySelector('[role="status"]');
   const error = dialog.querySelector('.wallpaper-popup-error');
   const closeButton = dialog.querySelector('.wallpaper-popup-close');
-  let frame, opener, pageURL, previousOverflow, timer, poll, sequence = 0;
+  let frame, opener, pageURL, previousOverflow, timer, poll, sequence = 0, active = false;
 
   const stopWaiting = () => { clearTimeout(timer); clearInterval(poll); };
   function failed(token) {
@@ -69,7 +69,7 @@ export function enableWallpaperPagePopups(catalog) {
         doc.addEventListener('keydown', event => {
           if (event.key === 'Escape' && !event.defaultPrevented && !doc.querySelector('dialog[open]')) {
             event.preventDefault();
-            dialog.close();
+            dismiss();
           }
         });
         doc.addEventListener('click', event => {
@@ -111,22 +111,36 @@ export function enableWallpaperPagePopups(catalog) {
     opener = link;
     previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    active = true;
     dialog.showModal();
     load(url, item);
     closeButton.focus();
   });
-  closeButton.addEventListener('click', () => dialog.close());
-  dialog.addEventListener('click', event => {
-    if (event.target !== dialog) return;
-    const box = dialog.getBoundingClientRect();
-    if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dialog.close();
-  });
-  dialog.addEventListener('close', () => {
+  function cleanup() {
+    if (!active) return;
+    active = false;
     ++sequence;
     stopWaiting();
     frame?.remove();
     document.body.style.overflow = previousOverflow;
     if (opener?.isConnected) opener.focus({preventScroll: true});
+  }
+  function dismiss() {
+    if (!dialog.open) return;
+    dialog.close();
+    // Native close events are queued. Clean up now so a quick reopening cannot
+    // inherit a scroll lock or have its new frame removed by the old close event.
+    cleanup();
+  }
+  closeButton.addEventListener('click', dismiss);
+  dialog.addEventListener('cancel', event => { event.preventDefault(); dismiss(); });
+  dialog.addEventListener('click', event => {
+    if (event.target !== dialog) return;
+    const box = dialog.getBoundingClientRect();
+    if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dismiss();
+  });
+  dialog.addEventListener('close', () => {
+    if (!dialog.open) cleanup();
   });
   error.querySelector('button').addEventListener('click', () => load(pageURL, byPath.get(pageURL.pathname)));
 }
