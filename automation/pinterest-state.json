@@ -2536,6 +2536,38 @@
       "title": "Green Spectral Castle Cliffs",
       "board": "Dark Fantasy Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/green-spectral-castle-cliffs.html"
+    },
+    "mobile:chatgpt-image-jun-2-2026-10-09-47-pm-p10vvi": {
+      "pin_id": "1143984742888338478",
+      "posted_at": "2026-11-20T18:40:48.874146+00:00",
+      "device": "mobile",
+      "title": "River Canyon with Emerald Water",
+      "board": "Nature Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/nature/01/river-canyon-with-emerald-water.html"
+    },
+    "mobile:r-d-w-40-xivfke": {
+      "pin_id": "1143984742888339057",
+      "posted_at": "2026-11-20T18:45:50.231542+00:00",
+      "device": "mobile",
+      "title": "Couple Beneath a White Moonlit Flower",
+      "board": "Romantic Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/romantic/01/couple-beneath-a-white-moonlit-flower.html"
+    },
+    "mobile:chatgpt-image-jun-4-2026-06-11-06-pm-tazwq1": {
+      "pin_id": "1143984742888339498",
+      "posted_at": "2026-11-20T18:50:51.927584+00:00",
+      "device": "mobile",
+      "title": "Gold Crown Floating in Nebula",
+      "board": "Space and Galaxy Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/space-and-galaxy/01/gold-crown-floating-in-nebula.html"
+    },
+    "mobile:chatgpt-image-jun-1-2026-03-41-28-pm-k5dm7s": {
+      "pin_id": "1143984742888339801",
+      "posted_at": "2026-11-20T18:55:53.509875+00:00",
+      "device": "mobile",
+      "title": "Crystal Butterfly with Blue Light",
+      "board": "AMOLED Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/amoled/01/crystal-butterfly-with-blue-light.html"
     }
   },
   "failures": {},
@@ -2578,7 +2610,8 @@
     "2026-11-17": 8,
     "2026-11-18": 8,
     "2026-11-19": 8,
-    "2026-11-20": 8
+    "2026-11-20": 8,
+    "2026-11-21": 4
   },
   "boards": {
     "AMOLED Wallpapers": "1143984811537518000",
@@ -2591,5 +2624,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-11-20T10:28:57.462850+00:00"
+  "updated_at": "2026-11-20T18:55:53.509925+00:00"
 }
