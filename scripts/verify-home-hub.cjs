@@ -20,7 +20,40 @@ const base=process.env.PMW_PREVIEW_URL||'http://127.0.0.1:8767';
  assert.notEqual(await page.evaluate(()=>document.body.style.overflow),'hidden');
 };
  await open();assert.equal(await page.locator('h1').count(),1);assert.equal(await page.locator('.hub-label').innerText(),'PMW VISUALS');assert.equal(await page.locator('[data-creative-hub]').count(),1);assert.equal(await page.locator('.hub-directory').count(),0);assert.equal(await page.locator('.hub-copy .hub-actions').count(),0);assert.equal(await page.locator('.creative-card-overlay .hub-actions a').count(),2);assert.equal(await page.locator('#home-workspace').count(),0);
- const hero=await page.locator('.hub-hero').boundingBox(),gallery=await page.locator('#latest-wallpapers').boundingBox();assert.ok(gallery.y-hero.y-hero.height<130,'Only the gallery heading may follow the hero');assert.ok(hero.height>=1100,'Hero must fill the first viewport');assert.ok(gallery.y>=1100,'Gallery must start below the first viewport');
+ const hero=await page.locator('.hub-hero').boundingBox();
+ const strip=page.locator('.home-wallpaper-strip');
+ const desktopRow=strip.getByRole('list',{name:'Laptop & desktop'});
+ const phoneRow=strip.getByRole('list',{name:'Mobile'});
+ const creative=page.locator('#pmw-creative'),stripBox=await strip.boundingBox(),creativeBox=await creative.boundingBox();
+ assert.ok(hero.height>=1100,'Hero must fill the first viewport');
+ assert.ok(Math.abs(stripBox.y-hero.y-hero.height)<2,'Wallpaper row must immediately follow the hero');
+ assert.ok(creativeBox.y>=stripBox.y+stripBox.height && creativeBox.y-stripBox.y-stripBox.height<24,'PMW Creative must follow the wallpaper row');
+ assert.ok((await page.locator('#latest-wallpapers').boundingBox()).y>=creativeBox.y+creativeBox.height);
+ assert.equal(await strip.getByRole('list').count(),2);
+ for(const [row,desktop] of [[desktopRow,true],[phoneRow,false]]){
+  const metrics=await row.locator('li').evaluateAll(items=>items.map(item=>{
+   const link=item.querySelector('a'),image=link.querySelector('img'),box=link.getBoundingClientRect();
+   return {top:item.offsetTop,path:link.pathname,landscape:box.width>box.height,sourceLandscape:Number(image.getAttribute('width'))>Number(image.getAttribute('height'))};
+  }));
+  assert.equal(new Set(metrics.map(item=>item.top)).size,1,'Each wallpaper lane must stay in a single row');
+  assert.ok(metrics.every(item=>item.path.endsWith('.html')&&item.path.startsWith('/wallpapers/')&&item.landscape===desktop&&item.sourceLandscape===desktop));
+ }
+ await strip.evaluate(node=>node.scrollIntoView({block:'start'}));
+ await page.mouse.move(0,0);
+ await page.waitForFunction(()=>[...document.querySelectorAll('.home-wallpaper-row')].every(row=>{
+  const box=row.getBoundingClientRect();
+  const visibleImages=[...row.querySelectorAll('img')].filter(image=>{
+   const imageBox=image.getBoundingClientRect();
+   return imageBox.right>box.left && imageBox.left<box.right;
+  });
+  return visibleImages.length>0 && visibleImages.every(image=>image.complete && image.naturalWidth>0);
+ }));
+ await page.waitForFunction(()=>[...document.querySelectorAll('.home-wallpaper-row')].every(row=>row.scrollLeft>0),{},{timeout:9000});
+ await strip.getByRole('button',{name:'Pause desktop wallpaper rotation'}).click();
+ await strip.getByRole('button',{name:'Resume desktop wallpaper rotation'}).waitFor();
+ await strip.evaluate(node=>node.scrollIntoView({block:'start'}));
+ await page.screenshot({animations:'disabled',path:output+'/creative-entrance.png'});
+ await page.evaluate(()=>scrollTo(0,0));
  await page.setViewportSize({width:870,height:667});
  const copy=await page.locator('.hub-copy').boundingBox(), deck=await page.locator('.showcase-gallery').boundingBox();
  assert.ok(deck.y>=copy.y+copy.height,'Product showcase must sit below the centered headline');
@@ -94,9 +127,30 @@ const fit=await page.evaluate(()=>{
  await page.evaluate(()=>window.PMWTheme.set('dark'));await page.screenshot({animations:"disabled",path:output+'/home-dark.png'});
  assert.notEqual(await page.evaluate(()=>getComputedStyle(document.body).backgroundColor),'rgb(255, 255, 255)','Gallery still follows the selected theme');
  await page.emulateMedia({reducedMotion:'reduce'});assert.equal(await page.locator('.showcase-art').first().evaluate(n=>getComputedStyle(n).transitionDuration),'0s');assert.deepEqual(errors,[]);
+ await strip.scrollIntoViewIfNeeded();
+ for(const [row,device] of [[desktopRow,'desktop'],[phoneRow,'phone']]){
+  await strip.getByRole('button',{name:`Pause ${device} wallpaper rotation`,includeHidden:true}).waitFor({state:'hidden'});
+  assert.equal(await row.locator('li').evaluateAll(items=>new Set(items.map(item=>item.offsetTop)).size),1);
+  await strip.getByRole('button',{name:`Next ${device} wallpapers`}).click();
+  assert.ok(await row.evaluate(node=>node.scrollLeft>0),'Manual scrolling stays available with reduced motion');
+ }
+ await strip.evaluate(node=>node.scrollIntoView({block:'start'}));
+ await page.screenshot({animations:'disabled',path:output+'/creative-entrance-mobile.png'});
+ for(const row of [desktopRow,phoneRow]){
+  const featuredWallpaper=row.locator('a').first();
+  const path=await featuredWallpaper.getAttribute('href');
+  await featuredWallpaper.click();
+  await page.frameLocator('#wallpaperPagePopup iframe').locator('.ws-studio').waitFor();
+  assert.equal(await page.locator('#wallpaperPagePopup iframe').getAttribute('src'),base+path);
+  await page.getByRole('button',{name:'Close wallpaper'}).click();
+  await page.locator('#wallpaperPagePopup').waitFor({state:'hidden'});
+ }
+ await creative.getByRole('link',{name:'Make something great YouTube thumbnail'}).click();
+ await page.waitForURL('**/editor/**');
+ await page.waitForFunction(()=>document.getElementById('saveState')?.textContent==='Saved on this device');
  await page.setViewportSize({width:1440,height:900});await open();
  assert.deepEqual(await page.locator('.showcase-gallery>figure').evaluateAll(nodes=>nodes.map(node=>node.className)),['showcase-piece showcase-portrait','showcase-piece showcase-youtube','showcase-piece showcase-tools']);
- assert.equal(await page.locator('.wallpaper-showcase').getAttribute('href'),'#latest-wallpapers');
+ assert.equal(await page.locator('.wallpaper-showcase').getAttribute('href'),'#browse-wallpapers');
  assert.ok((await page.locator('.wallpaper-card-copy').innerText()).includes('Choose your'));
  assert.ok(await page.locator('.wallpaper-showcase').evaluate(node=>getComputedStyle(node).backgroundImage.includes('wallpaper-mosaic.webp')));
  assert.equal(await page.locator('.showcase-tool').count(),3);
