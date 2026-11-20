@@ -9,12 +9,16 @@ export function compactHome(html){
  html=html.replace(/<header class="wallpaper-hero gallery-hero"[\s\S]*?<\/header>/,'').replace(/<header class="ed-gallery-heading">[\s\S]*?<\/header>/,'');
  html=html.replaceAll('href="#screen-fit"','href="/about/#screen-fit"');
  if(!html.includes('/css/home-hub.css'))html=html.replace('</head>','<link rel="stylesheet" href="/css/home-hub.css">\n</head>');
- html=html.replace(/href="\/css\/home-hub\.css[^"]*"/,'href="/css/home-hub.css?v=20261119-header-actions"');
+ html=html.replace(/href="\/css\/home-hub\.css[^"]*"/,'href="/css/home-hub.css?v=20261120-wallpaper-rows"');
  html=html.replace(/src="\/js\/site-navigation\.js[^\"]*"/,'src="/js/site-navigation.js?v=20261117-showcase"');
- if(!html.includes('class="hub-inline-nav"'))html=html.replace('<div class="nav-actions"', '<div class="hub-inline-nav" role="navigation" aria-label="PMW sections"><a class="hub-toplink is-current" href="/editor/?blank=1">PMW Creative</a><a class="hub-toplink" href="#latest-wallpapers">PMW Wallpapers</a><a class="hub-toplink" href="/tools/">PMW Tools</a></div><div class="nav-actions"');
+ if(!html.includes('class="hub-inline-nav"'))html=html.replace('<div class="nav-actions"', '<div class="hub-inline-nav" role="navigation" aria-label="PMW sections"><a class="hub-toplink is-current" href="#pmw-creative">PMW Creative</a><a class="hub-toplink" href="#browse-wallpapers">PMW Wallpapers</a><a class="hub-toplink" href="/tools/">PMW Tools</a></div><div class="nav-actions"');
+ html=html.replace(/(class="hub-toplink is-current" href=")[^"]*(")/,'$1#pmw-creative$2');
+ html=html.replace('class="hub-toplink" href="#latest-wallpapers">PMW Wallpapers','class="hub-toplink" href="#browse-wallpapers">PMW Wallpapers');
  html=html.replace(/<link data-showcase-preload[^>]*>\s*/,'');
  html=html.replace('</head>','<link data-showcase-preload rel="preload" as="image" href="/assets/home/creative-interface.webp">\n</head>');
  html=html.replace(/<script type="module" src="\/js\/home-hub.js"><\/script>\s*/,'');
+ if(!html.includes('/js/home-wallpaper-strip.js'))html=html.replace('</body>','<script type="module" src="/js/home-wallpaper-strip.js"></script>\n</body>');
+ html=html.replace(/src="\/js\/home-wallpaper-strip\.js[^"]*"/,'src="/js/home-wallpaper-strip.js?v=20261120-two-rows"');
  if(!html.includes('/css/home-about.css'))html=html.replace('</head>','<link rel="stylesheet" href="/css/home-about.css">\n</head>');
  if(!html.includes('data-pmw-guide-redirect'))html=html.replace('</head>',`<script data-pmw-guide-redirect>if(location.hash==='#screen-fit')location.replace('/about/#screen-fit');</script>\n</head>`);
  return html;
