@@ -2696,6 +2696,38 @@
       "title": "Blue Galaxy Cube on Black",
       "board": "AMOLED Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/amoled/01/blue-galaxy-cube-on-black.html"
+    },
+    "mobile:chatgpt-image-jun-10-2026-07-18-36-pm-g9huln": {
+      "pin_id": "1143984742888558808",
+      "posted_at": "2026-11-23T10:58:13.528423+00:00",
+      "device": "mobile",
+      "title": "Boy with Sword Above Golden Fantasy Plains",
+      "board": "Anime Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/anime/01/boy-with-sword-above-golden-fantasy-plains.html"
+    },
+    "mobile:chatgpt-image-jun-6-2026-10-48-02-pm-oewfgw": {
+      "pin_id": "1143984742888559032",
+      "posted_at": "2026-11-23T11:03:15.015961+00:00",
+      "device": "mobile",
+      "title": "Samurai in Field of Floating Sky Lanterns",
+      "board": "Celestial Samurai Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/celestial-samurai/01/samurai-in-field-of-floating-sky-lanterns.html"
+    },
+    "mobile:d-f-w-32-ajpa95": {
+      "pin_id": "1143984742888559315",
+      "posted_at": "2026-11-23T11:08:16.146383+00:00",
+      "device": "mobile",
+      "title": "Single Candle in Darkness",
+      "board": "Dark Aesthetic Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-aesthetic/01/single-candle-in-darkness.html"
+    },
+    "mobile:chatgpt-image-jun-1-2026-10-14-59-pm-osyk6j": {
+      "pin_id": "1143984742888559593",
+      "posted_at": "2026-11-23T11:13:17.880292+00:00",
+      "device": "mobile",
+      "title": "Serpent-Shaped Forest River and Ruins",
+      "board": "Dark Fantasy Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/serpent-shaped-forest-river-and-ruins.html"
     }
   },
   "failures": {},
@@ -2740,7 +2772,8 @@
     "2026-11-19": 8,
     "2026-11-20": 8,
     "2026-11-21": 12,
-    "2026-11-22": 8
+    "2026-11-22": 8,
+    "2026-11-23": 4
   },
   "boards": {
     "AMOLED Wallpapers": "1143984811537518000",
@@ -2753,5 +2786,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-11-22T18:11:27.617677+00:00"
+  "updated_at": "2026-11-23T11:13:17.880334+00:00"
 }
