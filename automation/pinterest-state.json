@@ -2792,6 +2792,38 @@
       "title": "Purple Throne among Glowing Roses",
       "board": "Dark Fantasy Wallpapers",
       "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/purple-throne-among-glowing-roses.html"
+    },
+    "mobile:chatgpt-image-jun-2-2026-10-09-57-pm-nfih5z": {
+      "pin_id": "1143984742888688267",
+      "posted_at": "2026-11-24T23:33:59.421822+00:00",
+      "device": "mobile",
+      "title": "Orange Desert Dune Sunrise",
+      "board": "Nature Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/nature/01/orange-desert-dune-sunrise.html"
+    },
+    "mobile:r-d-w-44-rhnfca": {
+      "pin_id": "1143984742888688547",
+      "posted_at": "2026-11-24T23:39:00.758686+00:00",
+      "device": "mobile",
+      "title": "Moonlit Rose Garden Path",
+      "board": "Romantic Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/romantic/01/moonlit-rose-garden-path.html"
+    },
+    "mobile:chatgpt-image-jun-4-2026-06-11-14-pm-d7imhw": {
+      "pin_id": "1143984742888688811",
+      "posted_at": "2026-11-24T23:44:02.139341+00:00",
+      "device": "mobile",
+      "title": "Orange Black Hole Ring",
+      "board": "Space and Galaxy Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/space-and-galaxy/01/orange-black-hole-ring.html"
+    },
+    "mobile:chatgpt-image-jun-1-2026-03-41-42-pm-pn6al0": {
+      "pin_id": "1143984742888689027",
+      "posted_at": "2026-11-24T23:49:03.696069+00:00",
+      "device": "mobile",
+      "title": "Blue Compass in a Star Field",
+      "board": "AMOLED Wallpapers",
+      "link": "https://pmwvisuals.com/wallpapers/amoled/01/blue-compass-in-a-star-field.html"
     }
   },
   "failures": {},
@@ -2838,7 +2870,8 @@
     "2026-11-21": 12,
     "2026-11-22": 8,
     "2026-11-23": 4,
-    "2026-11-24": 8
+    "2026-11-24": 8,
+    "2026-11-25": 4
   },
   "boards": {
     "AMOLED Wallpapers": "1143984811537518000",
@@ -2851,5 +2884,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-11-24T12:59:34.639078+00:00"
+  "updated_at": "2026-11-24T23:49:03.696109+00:00"
 }
