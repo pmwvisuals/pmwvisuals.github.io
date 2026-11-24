@@ -46,7 +46,7 @@ node scripts/verify-navigation.mjs
 node scripts/verify-appearance.mjs
 ```
 
-The [wallpaper card checks workflow](.github/workflows/wallpaper-card-checks.yml) also runs Playwright tests for the gallery and editor. Updates to `main` trigger the [GitHub Pages deployment](.github/workflows/static.yml).
+The [wallpaper card checks workflow](.github/workflows/wallpaper-card-checks.yml) also runs Playwright tests for the gallery and editor. GitHub Pages publishes the repository root from `main` using GitHub's automatic `pages build and deployment` workflow. Deployment results appear in the repository's [Actions tab](https://github.com/pmwvisuals/pmwvisuals.github.io/actions).
 
 ## License
 
