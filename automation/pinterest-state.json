@@ -2922,7 +2922,15 @@
       "link": "https://pmwvisuals.com/wallpapers/dark-fantasy/01/blue-phoenix-over-stormy-ocean.html"
     }
   },
-  "failures": {},
+  "failures": {
+    "mobile:chatgpt-image-jun-2-2026-10-10-02-pm-a7a3yb": {
+      "attempts": 1,
+      "last_error": "Pinterest API POST /pins failed: HTTP 429: {'code': 9, 'message': 'Sorry! We blocked this link because it may lead to spam.', 'details': {'source_field': None}}",
+      "last_attempt_at": "2026-11-26T23:08:00.694439+00:00",
+      "title": "Desert Flowers at Sunrise",
+      "link": "https://pmwvisuals.com/wallpapers/nature/01/desert-flowers-at-sunrise.html"
+    }
+  },
   "daily_success": {
     "2026-10-12": 1,
     "2026-10-13": 12,
@@ -2981,5 +2989,5 @@
     "Space and Galaxy Wallpapers": "1143984811538017098"
   },
   "created_at": "2026-10-06T00:00:00Z",
-  "updated_at": "2026-11-26T11:27:45.109750+00:00"
+  "updated_at": "2026-11-26T23:08:00.694477+00:00"
 }
